@@ -1,0 +1,259 @@
+{
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@id": "https://oerworldmap.org/assets/json/organizations.json",
+  "@type": "ConceptScheme",
+  "hasTopConcept": [
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#school",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "School"
+        },
+        {
+          "@language": "pt",
+          "@value": "School"
+        },
+        {
+          "@language": "de",
+          "@value": "Schule"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#higherEducationInstitution",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Higher education institution"
+        },
+        {
+          "@language": "pt",
+          "@value": "Higher education institution"
+        },
+        {
+          "@language": "de",
+          "@value": "Hochschulbildungseinrichtung"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#trainingProvider",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Training provider"
+        },
+        {
+          "@language": "pt",
+          "@value": "Training provider"
+        },
+        {
+          "@language": "de",
+          "@value": "Schulungsanbieter"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#fundingBody",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Funding body"
+        },
+        {
+          "@language": "pt",
+          "@value": "Funding body"
+        },
+        {
+          "@language": "de",
+          "@value": "Förderinstitution"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#researchInstitute",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Research institute"
+        },
+        {
+          "@language": "pt",
+          "@value": "Research institute"
+        },
+        {
+          "@language": "de",
+          "@value": "Forschungsinstitut"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#infrastructureProvider",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Infrastructure provider"
+        },
+        {
+          "@language": "pt",
+          "@value": "Infrastructure provider"
+        },
+        {
+          "@language": "de",
+          "@value": "Infrastrukturanbieter"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#governmentAgency",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Government agency"
+        },
+        {
+          "@language": "pt",
+          "@value": "Government agency"
+        },
+        {
+          "@language": "de",
+          "@value": "Behörde"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#privateAgency",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Private agency"
+        },
+        {
+          "@language": "pt",
+          "@value": "Private agency"
+        },
+        {
+          "@language": "de",
+          "@value": "Private Einrichtung"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#commercialEnterprise",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Commercial Enterprise"
+        },
+        {
+          "@language": "pt",
+          "@value": "Commercial Enterprise"
+        },
+        {
+          "@language": "de",
+          "@value": "Wirtschaftsunternehmen"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#socialEnterprise",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Social Enterprise or NGO"
+        },
+        {
+          "@language": "pt",
+          "@value": "Social Enterprise or NGO"
+        },
+        {
+          "@language": "de",
+          "@value": "Sozialunternehmen oder NGO"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#grassrootsInitiative",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Grassroots initiative"
+        },
+        {
+          "@language": "pt",
+          "@value": "Grassroots initiative"
+        },
+        {
+          "@language": "de",
+          "@value": "Graswurzelinitiative"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#specialInterestGroup",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Special Interest Group"
+        },
+        {
+          "@language": "pt",
+          "@value": "Special Interest Group"
+        },
+        {
+          "@language": "de",
+          "@value": "Special Interest Group"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#communityOfPractice",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Community of practice"
+        },
+        {
+          "@language": "pt",
+          "@value": "Community of practice"
+        },
+        {
+          "@language": "de",
+          "@value": "Community of Practice"
+        }
+      ]
+    },
+    {
+      "@id": "https://oerworldmap.org/assets/json/organizations.json#other",
+      "@type": "Concept",
+      "name": [
+        {
+          "@language": "en",
+          "@value": "Other"
+        },
+        {
+          "@language": "pt",
+          "@value": "Other"
+        },
+        {
+          "@language": "de",
+          "@value": "Sonstige"
+        }
+      ]
+    }
+  ]
+}
