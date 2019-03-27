@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../components/layout"
 import { graphql } from "gatsby"
 
-export default ({ data }) => {
+const blogPost = ({ data }) => {
 
   const post = data.dataJson
 
@@ -30,3 +30,5 @@ export const query = graphql`
       }
   }
 }`
+
+export default blogPost
