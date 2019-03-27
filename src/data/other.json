@@ -1,10 +1,10 @@
 {
   "@context": "https://example.org/assets/json/context.json",
-  "@id": "https://example.org/assets/json/organizations.json",
+  "@id": "https://example.org/assets/json/other.json",
   "@type": "ConceptScheme",
   "hasTopConcept": [
     {
-      "@id": "https://example.org/assets/json/organizations.json#school",
+      "@id": "https://example.org/assets/json/other.json#school",
       "@type": "Concept",
       "name": [
         {
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#higherEducationInstitution",
+      "@id": "https://example.org/assets/json/other.json#higherEducationInstitution",
       "@type": "Concept",
       "name": [
         {
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#trainingProvider",
+      "@id": "https://example.org/assets/json/other.json#trainingProvider",
       "@type": "Concept",
       "name": [
         {
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#fundingBody",
+      "@id": "https://example.org/assets/json/other.json#fundingBody",
       "@type": "Concept",
       "name": [
         {
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#researchInstitute",
+      "@id": "https://example.org/assets/json/other.json#researchInstitute",
       "@type": "Concept",
       "name": [
         {
@@ -94,7 +94,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#infrastructureProvider",
+      "@id": "https://example.org/assets/json/other.json#infrastructureProvider",
       "@type": "Concept",
       "name": [
         {
@@ -112,7 +112,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#governmentAgency",
+      "@id": "https://example.org/assets/json/other.json#governmentAgency",
       "@type": "Concept",
       "name": [
         {
@@ -130,7 +130,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#privateAgency",
+      "@id": "https://example.org/assets/json/other.json#privateAgency",
       "@type": "Concept",
       "name": [
         {
@@ -148,7 +148,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#commercialEnterprise",
+      "@id": "https://example.org/assets/json/other.json#commercialEnterprise",
       "@type": "Concept",
       "name": [
         {
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#socialEnterprise",
+      "@id": "https://example.org/assets/json/other.json#socialEnterprise",
       "@type": "Concept",
       "name": [
         {
@@ -184,7 +184,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#grassrootsInitiative",
+      "@id": "https://example.org/assets/json/other.json#grassrootsInitiative",
       "@type": "Concept",
       "name": [
         {
@@ -202,7 +202,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#specialInterestGroup",
+      "@id": "https://example.org/assets/json/other.json#specialInterestGroup",
       "@type": "Concept",
       "name": [
         {
@@ -220,7 +220,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#communityOfPractice",
+      "@id": "https://example.org/assets/json/other.json#communityOfPractice",
       "@type": "Concept",
       "name": [
         {
@@ -238,7 +238,7 @@
       ]
     },
     {
-      "@id": "https://example.org/assets/json/organizations.json#other",
+      "@id": "https://example.org/assets/json/other.json#other",
       "@type": "Concept",
       "name": [
         {
