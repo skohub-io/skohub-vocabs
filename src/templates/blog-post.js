@@ -29,7 +29,7 @@ const blogPost = ({ data }) => {
 
   return (
     <Layout>
-      <div css={style}>
+      <div css={style} className="BlogPost">
       {hasTopConcept.map(concept => (
         <div id={concept._id.split('#').slice(-1)} key={concept._id}>
           <a href={`#${concept._id.split('#').slice(-1)}`}>
