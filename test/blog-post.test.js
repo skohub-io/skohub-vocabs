@@ -52,8 +52,6 @@ describe('Layout', () => {
   )
 
   test('Renders', () => {
-    const html = wrapper.html()
-    console.log(html)
     expect(wrapper.exists()).toBe(true)
     expect(wrapper.find('.BlogPost').children().length).toBe(14)
   })
