@@ -1,0 +1,24 @@
+{
+  "name": "skohub-ssg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hbz/skohub-ssg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hbz/skohub-ssg/issues"
+  },
+  "homepage": "https://github.com/hbz/skohub-ssg#readme",
+  "dependencies": {
+    "xml2js": "^0.4.19",
+    "xmldom": "^0.1.27",
+    "xpath": "0.0.27"
+  }
+}
