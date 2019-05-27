@@ -31,35 +31,34 @@ nodes.forEach(node => {
 })
 
 console.log(`
-@base <http://foo> .
-@prefix : <#> .
+@base <http://w3id.org/class/hochschulkompass/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 
-:scheme a skos:ConceptScheme ;
+<scheme#> a skos:ConceptScheme ;
   dct:title "Klassifikation des Hochschulkompass" ;
-  skos:hasTopConcept ${topConcepts.map(concept => ':' + concept.id).join(', ')} .
+  skos:hasTopConcept ${topConcepts.map(concept => '<' + concept.id + '#>').join(', ')} .
 `)
 
 topConcepts.forEach(concept => console.log(`
-:${concept.id} a skos:Concept ;
+<${concept.id}#> a skos:Concept ;
   skos:prefLabel "${concept.label}"@de ;
   ${
     childConcepts.some(child => child.parent === concept.id) &&
-    'skos:narrower ' + childConcepts.filter(child => child.parent === concept.id).map(child => ':' + child.id).join(', ') + ';'
+    'skos:narrower ' + childConcepts.filter(child => child.parent === concept.id).map(child => '<' + child.id + '#>').join(', ') + ';'
     || ''
   }
-  skos:inScheme :scheme .
+  skos:topConceptOf <scheme#> .
 `))
 
 childConcepts.forEach(concept => console.log(`
-:${concept.id} a skos:Concept ;
+<${concept.id}#> a skos:Concept ;
   skos:prefLabel "${concept.label}"@de ;
   ${
     childConcepts.some(child => child.parent === concept.id) &&
-    'skos:narrower ' + childConcepts.filter(child => child.parent === concept.id).map(child => ':' + child.id).join(', ') + ';'
+    'skos:narrower ' + childConcepts.filter(child => child.parent === concept.id).map(child => '<' + child.id + '#>').join(', ') + ';'
     || ''
   }
-  skos:broader :${concept.parent} ;
-  skos:inScheme :scheme .
+  skos:broader <${concept.parent}#> ;
+  skos:inScheme <scheme#> .
 `))
