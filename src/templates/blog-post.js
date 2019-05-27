@@ -1,19 +1,46 @@
 import React from "react"
 import Layout from "../components/layout"
 import { graphql } from "gatsby"
+import { css } from "@emotion/core"
 
 const blogPost = ({ data }) => {
 
-  const post = data.dataJson
+  const { hasTopConcept } = data.dataJson
+
+  const style = css`
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    pre {
+      display: none;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    > div:target {
+
+      pre {
+        display: block;
+      }
+    }
+  `
 
   return (
     <Layout>
-     <pre style={{
-         whiteSpace: 'pre-wrap',
-         wordWrap: 'break-word'
-     }}>
-       {JSON.stringify(post, null, 2)}
-    </pre>
+      <div css={style} className="BlogPost">
+      {hasTopConcept.map(concept => (
+        <div id={concept._id.split('#').slice(-1)} key={concept._id}>
+          <a href={`#${concept._id.split('#').slice(-1)}`}>
+            <h2>{concept.name.filter(name => name._language === 'en').shift()._value}</h2>
+          </a>
+          <pre>
+            {JSON.stringify(concept, null, 2)}
+          </pre>
+        </div>
+      ))}
+      </div>
     </Layout>
   )
 }
@@ -27,6 +54,10 @@ export const query = graphql`
       hasTopConcept {
         _id
         _type
+        name {
+          _language
+          _value
+        }
       }
   }
 }`
