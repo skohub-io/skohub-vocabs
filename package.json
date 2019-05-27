@@ -20,6 +20,8 @@
     "react-helmet": "^5.2.0"
   },
   "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-config-gatsby-standard": "^2.1.1",
     "prettier": "^1.16.4"
   },
   "keywords": [
@@ -32,7 +34,8 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
+    "lint:js": "eslint src --ext .jsx,.js --quiet"
   },
   "repository": {
     "type": "git",
