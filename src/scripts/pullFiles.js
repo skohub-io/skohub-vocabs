@@ -3,9 +3,8 @@ const fs = require("fs")
 const { promisify } = require('util')
 
 const writeFile = promisify(fs.writeFile)
+console.log("ENVIROMENT", process.env)
 const repository = process.env.INCOMING_HOOK_BODY.repository.full_name
-
-console.log(process.env)
 
 const pullFiles = async () => {
   const response = await fetch(`https://api.github.com/repositorys/${repository}/contents/data`)
