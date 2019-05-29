@@ -10,7 +10,6 @@ const pullFiles = async () => {
   const response = await fetch(`https://api.github.com/repos/${repository}/contents/data`)
   const json = await response.json()
 
-  console.log(json)
   const files = json.map(file => {
     return {url: file.download_url, name: file.name}
   })
