@@ -25,7 +25,7 @@ const getFile = async (file) => {
   try {
     const response = await fetch(file.url)
     const data = await response.text()
-    await writeFile(`test/data/${file.name}`, data)
+    await writeFile(`/tmp/ttl/${file.name}`, data)
     console.log("Created file:", file.name)
   } catch (error) {
     console.log(error)
