@@ -38,6 +38,8 @@ exports.sourceNodes = ({ actions }) => {
       prefLabel: [Label]!
       id: String!
       narrower: [Concept]
+      inScheme: ConceptScheme
+      topConceptOf: ConceptScheme
     }
 
     """
@@ -80,7 +82,7 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDig
                 jsonld.compact(doc, context, (err, compacted) => {
                   if (err) throw err;
                   compacted['@graph'].forEach((obj, i) => transformObject(
-                    Object.assign(obj, {tree: framed['@graph'][0]})
+                    Object.assign(obj, {tree: JSON.stringify(framed['@graph'][0])})
                   ))
                 })
               })
@@ -126,6 +128,13 @@ exports.createPages = ({ graphql, actions }) => {
             narrower {
               id
             }
+            inScheme {
+              id
+            }
+            topConceptOf {
+              id
+            }
+            tree
           }
         }
       }
@@ -136,6 +145,7 @@ exports.createPages = ({ graphql, actions }) => {
             hasTopConcept {
               id
             }
+            tree
           }
         }
       }
