@@ -1,35 +1,36 @@
-// const fetch = require("node-fetch")
-// const fs = require("fs")
-// const { promisify } = require('util')
+const fetch = require("node-fetch")
+const fs = require("fs")
+const { promisify } = require('util')
 
-// const writeFile = promisify(fs.writeFile)
-console.log("ENVIROMENT", process.env)
-// const repository = process.env.INCOMING_HOOK_BODY.repository.full_name
+const writeFile = promisify(fs.writeFile)
+console.log("ENVIROMENT", process.env && process.env.INCOMING_HOOK_BODY)
 
-// const pullFiles = async () => {
-//   const response = await fetch(`https://api.github.com/repositorys/${repository}/contents/data`)
-//   const json = await response.json()
+const repository = process.env.INCOMING_HOOK_BODY ? JSON.parse(decodeURI(process.env.INCOMING_HOOK_BODY)).repository.full_name : "dobladov/TT"
 
-//   const files = json.map(file => {
-//     return {url: file.download_url, name: file.name}
-//   })
+const pullFiles = async () => {
+  const response = await fetch(`https://api.github.com/repositorys/${repository}/contents/data`)
+  const json = await response.json()
 
-//   for (const file of files) {
-//     getFile(file)
-//   }
-// }
+  const files = json.map(file => {
+    return {url: file.download_url, name: file.name}
+  })
 
-// const getFile = async (file) => {
-//   try {
-//     const response = await fetch(file.url)
-//     const data = await response.text()
-//     await writeFile(`test/data/${file.name}`, data)
-//     console.log("Created file:", file.name)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+  for (const file of files) {
+    getFile(file)
+  }
+}
 
-// if (repository) {
-//   pullFiles()
-// }
+const getFile = async (file) => {
+  try {
+    const response = await fetch(file.url)
+    const data = await response.text()
+    await writeFile(`test/data/${file.name}`, data)
+    console.log("Created file:", file.name)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+if (repository) {
+  pullFiles()
+}
