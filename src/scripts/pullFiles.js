@@ -5,12 +5,13 @@ const { promisify } = require('util')
 const writeFile = promisify(fs.writeFile)
 console.log("ENVIROMENT", process.env && process.env.INCOMING_HOOK_BODY)
 
-const repository = process.env.INCOMING_HOOK_BODY ? JSON.parse(decodeURI(process.env.INCOMING_HOOK_BODY)).repository.full_name : "dobladov/TT"
+const repository = process.env.INCOMING_HOOK_BODY ? JSON.parse(decodeURI(process.env.INCOMING_HOOK_BODY)).repository.full_name : "dobladov/testTTTL"
 
 const pullFiles = async () => {
-  const response = await fetch(`https://api.github.com/repositorys/${repository}/contents/data`)
+  const response = await fetch(`https://api.github.com/repos/${repository}/contents/data`)
   const json = await response.json()
 
+  console.log(json)
   const files = json.map(file => {
     return {url: file.download_url, name: file.name}
   })
