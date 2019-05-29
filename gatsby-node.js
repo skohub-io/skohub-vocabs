@@ -37,6 +37,7 @@ exports.sourceNodes = ({ actions }) => {
     type Concept implements Node @infer {
       prefLabel: [Label]!
       id: String!
+      tree: String!
       narrower: [Concept]
       inScheme: ConceptScheme
       topConceptOf: ConceptScheme
@@ -48,6 +49,7 @@ exports.sourceNodes = ({ actions }) => {
     type ConceptScheme implements Node @infer {
       prefLabel: [Label]
       id: String!
+      tree: String!
       hasTopConcept: [Concept]
     }
 
@@ -151,6 +153,7 @@ exports.createPages = ({ graphql, actions }) => {
       }
     }
 `).then(result => {
+  console.log(result)
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
       path: node.id.replace("http:/", "").replace("#", "") + '.html',
