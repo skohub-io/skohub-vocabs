@@ -21,6 +21,7 @@
     "gatsby-transformer-sharp": "^2.1.17",
     "jsonld": "^1.6.2",
     "n3": "^1.1.1",
+    "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -40,7 +41,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
+    "build": "npm run pullFiles && gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
@@ -49,7 +50,8 @@
     "test": "jest --verbose",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
-    "test:coverage": "jest --verbose --coverage"
+    "test:coverage": "jest --verbose --coverage",
+    "pullFiles": "REPO=dobladov/testTTTL node src/scripts/pullFiles.js"
   },
   "repository": {
     "type": "git",
