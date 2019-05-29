@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { graphql } from 'gatsby'
 import { css, jsx } from '@emotion/core'
+import { useEffect } from 'react'
 
 const NestedList = ({items, current}) => (
   <ul>
@@ -18,9 +19,15 @@ const NestedList = ({items, current}) => (
   </ul>
 )
 
-const Concept = ({pageContext, data}) => (
-  <div className="Concept">
+const Concept = ({pageContext, data}) => {
 
+  useEffect(() => {
+    document.querySelector(".current")
+      .scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+  })
+
+  return (
+  <div className="Concept">
 
     <div className="layout"
      css={css`
@@ -52,7 +59,7 @@ const Concept = ({pageContext, data}) => (
     </div>
     </div>
   </div>
-)
+)}
 
 export default Concept
 
