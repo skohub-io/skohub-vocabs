@@ -1,25 +1,9 @@
 /** @jsx jsx */
-import { graphql } from 'gatsby'
 import { css, jsx } from '@emotion/core'
 import { useEffect } from 'react'
+import NestedList from '../components/nestedList'
 
-const NestedList = ({items, current}) => (
-  <ul>
-    {items.map(item => (
-      <li key={item.id}>
-        <a
-          className={item.id === current ? 'current' : ''}
-          href={`${item.id.replace('http:/', '').replace('#', '')}.html`}
-        >
-          {item.prefLabel[0].value}
-        </a>
-        {item.narrower && <NestedList items={item.narrower} current={current} />}
-      </li>
-    ))}
-  </ul>
-)
-
-const Concept = ({pageContext, data}) => {
+const Concept = ({pageContext}) => {
 
   useEffect(() => {
     document.querySelector(".current")
@@ -62,19 +46,3 @@ const Concept = ({pageContext, data}) => {
 )}
 
 export default Concept
-
-export const query = graphql`
-  query($narrower: [String]!) {
-    narrower: allConcept(filter: {id: {in: $narrower}}) {
-      edges {
-        node {
-          id,
-          prefLabel {
-            value
-            language
-          }
-        }
-      }
-    }
-  }
-`

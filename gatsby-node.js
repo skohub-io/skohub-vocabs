@@ -17,6 +17,9 @@ const context = {
     "language": "@language",
     "value": "@value",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
+    "title": {
+      "@id": "http://purl.org/dc/terms/title"
+    },
     "prefLabel": {
       "@container": "@set"
     },
@@ -47,7 +50,7 @@ exports.sourceNodes = ({ actions }) => {
     ConceptScheme Node
     """
     type ConceptScheme implements Node @infer {
-      prefLabel: [Label]
+      title: String!
       id: String!
       tree: String!
       hasTopConcept: [Concept]
@@ -143,6 +146,7 @@ exports.createPages = ({ graphql, actions }) => {
       allConceptScheme {
         edges {
           node {
+            title
             id
             hasTopConcept {
               id
