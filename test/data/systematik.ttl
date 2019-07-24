@@ -4,7 +4,8 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 
 <scheme#> a skos:ConceptScheme ;
-  dct:title "Klassifikation des Hochschulkompass" ;
+dct:title "Fächersystematik Hochschulbildung in Deutschland"@de ;
+  dct:description """Diese Systematik basiert auf der Klassifikation von Studiengängen in Deutschland des [Hochschulkompass](https://www.hochschulkompass.de/studienbereiche-kennenlernen.html). Sie umfasst drei Ebenen, die im Hochschulkompass "Fächergruppen", "studienbereiche" und "Studienfelder" genannt werden."""@de;
   skos:hasTopConcept <F1#>, <F17#>, <F56#>, <F146#>, <F381#>, <F193#>, <F255#>, <F382#>, <F273#>, <F380#> .
 
 
@@ -28,7 +29,7 @@
   skos:prefLabel "Ingenieurwissenschaften"@de ;
   skos:definition """Die Studiengänge der Fächergruppe Ingenieurwissenschaften verbinden Technologie mit Mathematik und den Naturwissenschaften. Die Ingenieurwissenschaften beschäftigen sich vor allem mit der Lösung von technischen Problemen und der Entwicklung zukunftsträchtiger Technologien. Geprägt sind die Ingenieurwissenschaften durch die Naturwissenschaften, die Mathematik und natürlich die Technik, wobei auch die jeweiligen wirtschaftlichen Rahmenbedingungen sowie die Auswirkung von Technik auf Umwelt und Gesellschaft berücksichtigt werden.
 
-  In der Fächergruppe Ingenieurwissenschaften gibt es eine große Auswahl an Studienbereichen und Studiengängen. Neben \"klassischen\" Ingenieurdisziplinen wie Maschinenbau, Elektrotechnik oder Bauingenieurwesen, gibt es auch neuere Studienbereiche wie z.B. das Bioingenieurwesen, die Mechatronik, das Technische Gesundheitswesen, die Umweltschutz- und Entsorgungstechnik oder das Wirtschaftsingenieurwesen. ([Quelle](https://www.hochschulkompass.de/ingenieurwissenschaften.html))"""@de;
+  In der Fächergruppe Ingenieurwissenschaften gibt es eine große Auswahl an Studienbereichen und Studiengängen. Neben "klassischen" Ingenieurdisziplinen wie Maschinenbau, Elektrotechnik oder Bauingenieurwesen, gibt es auch neuere Studienbereiche wie z.B. das Bioingenieurwesen, die Mechatronik, das Technische Gesundheitswesen, die Umweltschutz- und Entsorgungstechnik oder das Wirtschaftsingenieurwesen. ([Quelle](https://www.hochschulkompass.de/ingenieurwissenschaften.html))"""@de;
   skos:scopeNote """Studiengänge der Ingenieurwissenschaften sind vor allem durch naturwissenschaftliche und technikwissenschaftliche Inhalte gekennzeichnet, vermitteln aber auch Kenntnisse aus der Rechtswissenschaft und der Betriebswirtschaftslehre. Kreativität, schöpferisches Vorstellungsvermögen, Phantasie und eine gute Beobachtungsgabe sind weitere Voraussetzungen für ein erfolgreiches Ingenieurstudium. ([Quelle](https://www.hochschulkompass.de/ingenieurwissenschaften.html))"""@de;
   skos:narrower <B56#>, <B59#>, <B63#>, <B66#>, <B69#>, <B71#>, <B74#>, <B400#>, <B84#>, <B87#>, <B91#>, <B94#>, <B96#>, <B102#>, <B104#>, <B108#>, <B109#>, <B116#>, <B401#>, <B120#>, <B126#>, <B132#>, <B134#>, <B145#>;
   skos:topConceptOf <scheme#> .
@@ -79,7 +80,7 @@
   skos:definition """Die Fächergruppe Sprach- und Kulturwissenschaften beschäftigt sich im weitesten Sinne mit den Sprachen und Kulturen der Erde. Studiengänge in dieser Gruppe befassen sich mit den Kulturleistungen des Menschen wie z.B. Sprache, Religion, Literatur und Philosophie sowie deren Auslegung und Deutung.
 
   Die Fächergruppe der Sprach- und Kulturwissenschaften umfasst eine große Anzahl Studiengänge aus so unterschiedlichen Bereichen wie etwa Anglistik, Bibliothekswissenschaft, Ethnologie, Germanistik, Geschichtswissenschaft, Journalistik, Medienwissenschaften, Philosophie, Regionalstudien oder Sprach- und Literaturwissenschaften. Einige Sprachwissenschaften wie z.B. Linguistik oder Rhetorik beschäftigen sich darüber hinaus mit den pädagogischen und kommunikationstheoretischen Aspekten des Sprechens. ([Quelle](https://www.hochschulkompass.de/sprach-und-kulturwissenschaften.html))"""@de;
-  skos:scopeNote """Lehramtsstudiengänge fallen nicht unter die Sprach- und Kulturwissenschaften, sondern haben ihren eigenen Studienbereich \"Lehramt\". Studiengänge, in denen man gestalterisch, künstlerisch oder musisch tätig ist, finden sich in der Fächergruppe \"Kunst, Musik, Design\". ([Quelle](https://www.hochschulkompass.de/sprach-und-kulturwissenschaften.html))"""@de;
+  skos:scopeNote """Lehramtsstudiengänge fallen nicht unter die Sprach- und Kulturwissenschaften, sondern haben ihren eigenen Studienbereich "Lehramt\. Studiengänge, in denen man gestalterisch, künstlerisch oder musisch tätig ist, finden sich in der Fächergruppe "Kunst, Musik, Design". ([Quelle](https://www.hochschulkompass.de/sprach-und-kulturwissenschaften.html))"""@de;
   skos:narrower <B273#>, <B277#>, <B279#>, <B282#>, <B288#>, <B293#>, <B302#>, <B404#>, <B316#>, <B320#>, <B325#>, <B328#>, <B334#>, <B342#>, <B348#>, <B351#>, <B357#>, <B363#>, <B369#>;
   skos:topConceptOf <scheme#> .
 
