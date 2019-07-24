@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useEffect } from 'react'
+import Markdown from 'markdown-to-jsx'
+import { t } from '../common'
 import NestedList from '../components/nestedList'
 
 const Concept = ({pageContext}) => {
@@ -26,11 +28,17 @@ const Concept = ({pageContext}) => {
 
       nav {
         overflow: auto;
+        flex: 1;
         border-right: 1px solid black;
       }
 
       .content {
         padding: 0 20px;
+        flex: 2;
+      }
+
+      .markdown {
+        padding-top: 10px;
       }
 
     `}>
@@ -38,8 +46,28 @@ const Concept = ({pageContext}) => {
       <NestedList items={JSON.parse(pageContext.node.tree).hasTopConcept} current={pageContext.node.id} />
     </nav>
     <div className="content">
-      <h1>{pageContext.node.prefLabel[Object.keys(pageContext.node.prefLabel)[0]]}</h1>
-      <span>{pageContext.node.id}</span>
+      <h1>{t(pageContext.node.prefLabel)}</h1>
+      <h2>{pageContext.node.id}</h2>
+      {pageContext.node.definition
+        && (
+          <div className="markdown">
+            <h3>Definition</h3>
+            <Markdown>
+              {t(pageContext.node.definition)}
+            </Markdown>
+          </div>
+        )
+      }
+      {pageContext.node.scopeNote
+        && (
+          <div className="markdown">
+            <h3>Scope Note</h3>
+            <Markdown>
+              {t(pageContext.node.scopeNote)}
+            </Markdown>
+          </div>
+        )
+      }
     </div>
     </div>
   </div>
