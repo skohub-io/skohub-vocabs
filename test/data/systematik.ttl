@@ -1,0 +1,4297 @@
+
+@base <http://w3id.org/class/hochschulkompass/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<scheme#> a skos:ConceptScheme ;
+  dct:title "Klassifikation des Hochschulkompass" ;
+  skos:hasTopConcept <F1#>, <F17#>, <F56#>, <F146#>, <F381#>, <F193#>, <F255#>, <F382#>, <F273#>, <F380#> .
+
+
+<F1#> a skos:Concept ;
+  skos:prefLabel "Agrar- und Forstwissenschaften"@de ;
+  skos:narrower <B1#>, <B8#>, <B12#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F17#> a skos:Concept ;
+  skos:prefLabel "Gesellschafts- und Sozialwissenschaften"@de ;
+  skos:narrower <B399#>, <B17#>, <B26#>, <B29#>, <B37#>, <B40#>, <B42#>, <B46#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F56#> a skos:Concept ;
+  skos:prefLabel "Ingenieurwissenschaften"@de ;
+  skos:narrower <B56#>, <B59#>, <B63#>, <B66#>, <B69#>, <B71#>, <B74#>, <B400#>, <B84#>, <B87#>, <B91#>, <B94#>, <B96#>, <B102#>, <B104#>, <B108#>, <B109#>, <B116#>, <B401#>, <B120#>, <B126#>, <B132#>, <B134#>, <B145#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F146#> a skos:Concept ;
+  skos:prefLabel "Kunst, Musik, Design"@de ;
+  skos:narrower <B146#>, <B156#>, <B165#>, <B173#>, <B179#>, <B176#>, <B405#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F381#> a skos:Concept ;
+  skos:prefLabel "Lehramt"@de ;
+  skos:narrower <B396#>, <B398#>, <B397#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F193#> a skos:Concept ;
+  skos:prefLabel "Mathematik, Naturwissenschaften"@de ;
+  skos:narrower <B193#>, <B204#>, <B212#>, <B214#>, <B217#>, <B226#>, <B237#>, <B242#>, <B402#>, <B248#>, <B250#>, <B403#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F255#> a skos:Concept ;
+  skos:prefLabel "Medizin, Gesundheitswissenschaften"@de ;
+  skos:narrower <B255#>, <B270#>, <B263#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F382#> a skos:Concept ;
+  skos:prefLabel "Öffentliche Verwaltung"@de ;
+  skos:narrower <B406#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F273#> a skos:Concept ;
+  skos:prefLabel "Sprach- und Kulturwissenschaften"@de ;
+  skos:narrower <B273#>, <B277#>, <B279#>, <B282#>, <B288#>, <B293#>, <B302#>, <B404#>, <B316#>, <B320#>, <B325#>, <B328#>, <B334#>, <B342#>, <B348#>, <B351#>, <B357#>, <B363#>, <B369#>;
+  skos:topConceptOf <scheme#> .
+
+
+<F380#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftswissenschaften, Rechtswissenschaften"@de ;
+  skos:narrower <B395#>, <B380#>;
+  skos:topConceptOf <scheme#> .
+
+
+<B273#> a skos:Concept ;
+  skos:prefLabel "Afrikanistik, Altamerikanistik"@de ;
+  skos:narrower <S275#>, <S273#>, <S274#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B1#> a skos:Concept ;
+  skos:prefLabel "Agrarwissenschaften"@de ;
+  skos:narrower <S1#>, <S2#>, <S3#>, <S475#>, <S4#>, <S5#>, <S6#>, <S7#>;
+  skos:broader <F1#> ;
+  skos:inScheme <scheme#> .
+
+
+<B277#> a skos:Concept ;
+  skos:prefLabel "Alte Sprachen"@de ;
+  skos:narrower <S277#>, <S405#>, <S278#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B279#> a skos:Concept ;
+  skos:prefLabel "Anglistik, Amerikanistik"@de ;
+  skos:narrower <S280#>, <S279#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B56#> a skos:Concept ;
+  skos:prefLabel "Architektur"@de ;
+  skos:narrower <S56#>, <S57#>, <S58#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B59#> a skos:Concept ;
+  skos:prefLabel "Bauingenieurwesen"@de ;
+  skos:narrower <S59#>, <S60#>, <S61#>, <S62#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B399#> a skos:Concept ;
+  skos:prefLabel "Beratung"@de ;
+  skos:narrower <S476#>, <S477#>, <S514#>, <S478#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B63#> a skos:Concept ;
+  skos:prefLabel "Bergbau"@de ;
+  skos:narrower <S63#>, <S64#>, <S65#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B396#> a skos:Concept ;
+  skos:prefLabel "Berufliche Fachrichtungen"@de ;
+  skos:narrower <S406#>, <S407#>, <S504#>, <S505#>, <S408#>, <S409#>, <S410#>, <S411#>, <S412#>, <S413#>, <S414#>, <S415#>, <S416#>, <S417#>, <S418#>, <S419#>, <S420#>, <S421#>;
+  skos:broader <F381#> ;
+  skos:inScheme <scheme#> .
+
+
+<B282#> a skos:Concept ;
+  skos:prefLabel "Bibliothekswissenschaft, Dokumentation"@de ;
+  skos:narrower <S282#>, <S283#>, <S284#>, <S285#>, <S286#>, <S287#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B146#> a skos:Concept ;
+  skos:prefLabel "Bildende Künste"@de ;
+  skos:narrower <S147#>, <S146#>, <S539#>, <S149#>, <S150#>, <S151#>, <S152#>, <S521#>, <S153#>, <S522#>, <S170#>, <S154#>, <S155#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B66#> a skos:Concept ;
+  skos:prefLabel "Bioingenieurwesen"@de ;
+  skos:narrower <S66#>, <S67#>, <S68#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B193#> a skos:Concept ;
+  skos:prefLabel "Biologie"@de ;
+  skos:narrower <S193#>, <S194#>, <S195#>, <S196#>, <S197#>, <S198#>, <S199#>, <S200#>, <S201#>, <S202#>, <S203#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B204#> a skos:Concept ;
+  skos:prefLabel "Chemie"@de ;
+  skos:narrower <S209#>, <S204#>, <S205#>, <S211#>, <S206#>, <S207#>, <S208#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B69#> a skos:Concept ;
+  skos:prefLabel "Chemieingenieurwesen, Verfahrenstechnik"@de ;
+  skos:narrower <S69#>, <S70#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B156#> a skos:Concept ;
+  skos:prefLabel "Darstellende Kunst, Tanz, Theater"@de ;
+  skos:narrower <S156#>, <S523#>, <S160#>, <S188#>, <S162#>, <S163#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B165#> a skos:Concept ;
+  skos:prefLabel "Design, Gestaltung"@de ;
+  skos:narrower <S402#>, <S165#>, <S166#>, <S167#>, <S168#>, <S543#>, <S169#>, <S171#>, <S172#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B71#> a skos:Concept ;
+  skos:prefLabel "Drucktechnik, Medientechnik"@de ;
+  skos:narrower <S71#>, <S72#>, <S73#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B74#> a skos:Concept ;
+  skos:prefLabel "Elektrotechnik"@de ;
+  skos:narrower <S74#>, <S75#>, <S76#>, <S77#>, <S78#>, <S79#>, <S80#>, <S81#>, <S82#>, <S83#>, <S482#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B400#> a skos:Concept ;
+  skos:prefLabel "Energietechnik"@de ;
+  skos:narrower <S483#>, <S128#>, <S98#>, <S486#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B212#> a skos:Concept ;
+  skos:prefLabel "Ernährungswissenschaften"@de ;
+  skos:narrower <S212#>, <S213#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B288#> a skos:Concept ;
+  skos:prefLabel "Ethnologie, Anthropologie"@de ;
+  skos:narrower <S495#>, <S288#>, <S289#>, <S290#>, <S291#>, <S292#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B84#> a skos:Concept ;
+  skos:prefLabel "Fahrzeug- und Verkehrstechnik"@de ;
+  skos:narrower <S84#>, <S85#>, <S86#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B8#> a skos:Concept ;
+  skos:prefLabel "Forst- und Holzwirtschaft"@de ;
+  skos:narrower <S8#>, <S9#>, <S11#>, <S10#>;
+  skos:broader <F1#> ;
+  skos:inScheme <scheme#> .
+
+
+<B87#> a skos:Concept ;
+  skos:prefLabel "Gebäudeausrüstung und Versorgungstechnik"@de ;
+  skos:narrower <S87#>, <S88#>, <S89#>, <S90#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B214#> a skos:Concept ;
+  skos:prefLabel "Geografie"@de ;
+  skos:narrower <S214#>, <S215#>, <S216#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B217#> a skos:Concept ;
+  skos:prefLabel "Geowissenschaften"@de ;
+  skos:narrower <S217#>, <S218#>, <S219#>, <S220#>, <S221#>, <S222#>, <S223#>, <S224#>, <S225#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B293#> a skos:Concept ;
+  skos:prefLabel "Germanistik und germanische Gegenwartssprachen"@de ;
+  skos:narrower <S294#>, <S496#>, <S295#>, <S297#>, <S299#>, <S298#>, <S300#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B302#> a skos:Concept ;
+  skos:prefLabel "Geschichtswissenschaft, Altertumswissenschaften"@de ;
+  skos:narrower <S302#>, <S303#>, <S304#>, <S305#>, <S306#>, <S307#>, <S308#>, <S309#>, <S310#>, <S311#>, <S312#>, <S313#>, <S314#>, <S315#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B255#> a skos:Concept ;
+  skos:prefLabel "Gesundheits- und Pflegewissenschaften"@de ;
+  skos:narrower <S255#>, <S256#>, <S257#>, <S258#>, <S259#>, <S260#>, <S261#>, <S262#>;
+  skos:broader <F255#> ;
+  skos:inScheme <scheme#> .
+
+
+<B404#> a skos:Concept ;
+  skos:prefLabel "Indogermanistik"@de ;
+  skos:narrower <S497#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B226#> a skos:Concept ;
+  skos:prefLabel "Informatik"@de ;
+  skos:narrower <S226#>, <S227#>, <S548#>, <S228#>, <S229#>, <S404#>, <S547#>, <S230#>, <S231#>, <S232#>, <S233#>, <S234#>, <S235#>, <S236#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B316#> a skos:Concept ;
+  skos:prefLabel "Journalistik, Publizistik"@de ;
+  skos:narrower <S316#>, <S317#>, <S318#>, <S319#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B320#> a skos:Concept ;
+  skos:prefLabel "Kulturwissenschaften"@de ;
+  skos:narrower <S320#>, <S322#>, <S321#>, <S323#>, <S324#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B173#> a skos:Concept ;
+  skos:prefLabel "Kunst- und Designwissenschaften, Kunstpädagogik"@de ;
+  skos:narrower <S544#>, <S173#>, <S403#>, <S174#>, <S175#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B91#> a skos:Concept ;
+  skos:prefLabel "Lebensmitteltechnologie"@de ;
+  skos:narrower <S91#>, <S92#>, <S93#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B94#> a skos:Concept ;
+  skos:prefLabel "Luft- und Raumfahrttechnik"@de ;
+  skos:narrower <S94#>, <S95#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B96#> a skos:Concept ;
+  skos:prefLabel "Maschinenbau"@de ;
+  skos:narrower <S96#>, <S97#>, <S99#>, <S100#>, <S101#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B237#> a skos:Concept ;
+  skos:prefLabel "Mathematik"@de ;
+  skos:narrower <S237#>, <S238#>, <S239#>, <S240#>, <S241#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B102#> a skos:Concept ;
+  skos:prefLabel "Mechatronik, Systemtechnik"@de ;
+  skos:narrower <S102#>, <S546#>, <S103#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B325#> a skos:Concept ;
+  skos:prefLabel "Medienwissenschaften"@de ;
+  skos:narrower <S325#>, <S326#>, <S327#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B270#> a skos:Concept ;
+  skos:prefLabel "Medizin"@de ;
+  skos:narrower <S270#>, <S271#>, <S272#>;
+  skos:broader <F255#> ;
+  skos:inScheme <scheme#> .
+
+
+<B179#> a skos:Concept ;
+  skos:prefLabel "Musik"@de ;
+  skos:narrower <S491#>, <S179#>, <S180#>, <S181#>, <S182#>, <S183#>, <S184#>, <S185#>, <S186#>, <S189#>, <S190#>, <S191#>, <S545#>, <S192#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B176#> a skos:Concept ;
+  skos:prefLabel "Musikwissenschaften, Musikpädagogik"@de ;
+  skos:narrower <S176#>, <S177#>, <S187#>, <S490#>, <S178#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B242#> a skos:Concept ;
+  skos:prefLabel "Nanowissenschaften"@de ;
+  skos:narrower <S242#>, <S243#>, <S244#>, <S245#>, <S246#>, <S247#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B328#> a skos:Concept ;
+  skos:prefLabel "Neuere europäische Philologien, sonstige"@de ;
+  skos:narrower <S329#>, <S330#>, <S331#>, <S332#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B402#> a skos:Concept ;
+  skos:prefLabel "Neurowissenschaften"@de ;
+  skos:narrower <S492#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B104#> a skos:Concept ;
+  skos:prefLabel "Optische Technologien"@de ;
+  skos:narrower <S104#>, <S105#>, <S106#>, <S107#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B334#> a skos:Concept ;
+  skos:prefLabel "Orientalistik"@de ;
+  skos:narrower <S334#>, <S335#>, <S336#>, <S337#>, <S338#>, <S339#>, <S474#>, <S340#>, <S341#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B342#> a skos:Concept ;
+  skos:prefLabel "Ostasienwissenschaften"@de ;
+  skos:narrower <S344#>, <S343#>, <S345#>, <S346#>, <S342#>, <S347#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B17#> a skos:Concept ;
+  skos:prefLabel "Pädagogik, Erziehungswissenschaften"@de ;
+  skos:narrower <S17#>, <S18#>, <S19#>, <S479#>, <S20#>, <S21#>, <S22#>, <S23#>, <S24#>, <S25#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B248#> a skos:Concept ;
+  skos:prefLabel "Pharmazie, Pharmatechnik"@de ;
+  skos:narrower <S249#>, <S248#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B348#> a skos:Concept ;
+  skos:prefLabel "Philosophie"@de ;
+  skos:narrower <S348#>, <S349#>, <S350#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B250#> a skos:Concept ;
+  skos:prefLabel "Physik, Astronomie"@de ;
+  skos:narrower <S250#>, <S251#>, <S252#>, <S253#>, <S254#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B108#> a skos:Concept ;
+  skos:prefLabel "Physikalische Technik"@de ;
+  skos:narrower <S108#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B26#> a skos:Concept ;
+  skos:prefLabel "Politikwissenschaften"@de ;
+  skos:narrower <S480#>, <S26#>, <S27#>, <S28#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B29#> a skos:Concept ;
+  skos:prefLabel "Psychologie"@de ;
+  skos:narrower <S30#>, <S31#>, <S32#>, <S33#>, <S34#>, <S29#>, <S35#>, <S36#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B109#> a skos:Concept ;
+  skos:prefLabel "Raumplanung"@de ;
+  skos:narrower <S109#>, <S110#>, <S111#>, <S112#>, <S113#>, <S115#>, <S114#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B395#> a skos:Concept ;
+  skos:prefLabel "Rechtswissenschaften"@de ;
+  skos:narrower <S395#>, <S520#>, <S396#>, <S397#>, <S398#>, <S399#>, <S400#>, <S401#>;
+  skos:broader <F380#> ;
+  skos:inScheme <scheme#> .
+
+
+<B351#> a skos:Concept ;
+  skos:prefLabel "Regionalstudien"@de ;
+  skos:narrower <S351#>, <S353#>, <S354#>, <S355#>, <S356#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B357#> a skos:Concept ;
+  skos:prefLabel "Romanistik"@de ;
+  skos:narrower <S357#>, <S358#>, <S359#>, <S360#>, <S361#>, <S362#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B116#> a skos:Concept ;
+  skos:prefLabel "Schiffstechnik, Nautik"@de ;
+  skos:narrower <S116#>, <S117#>, <S118#>, <S119#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B398#> a skos:Concept ;
+  skos:prefLabel "Schulische Fächer"@de ;
+  skos:narrower <S519#>, <S423#>, <S507#>, <S508#>, <S424#>, <S425#>, <S426#>, <S428#>, <S427#>, <S293#>, <S429#>, <S281#>, <S430#>, <S431#>, <S432#>, <S433#>, <S434#>, <S436#>, <S437#>, <S509#>, <S438#>, <S439#>, <S440#>, <S441#>, <S442#>, <S443#>, <S444#>, <S445#>, <S446#>, <S447#>, <S448#>, <S449#>, <S450#>, <S472#>, <S511#>, <S473#>, <S451#>, <S452#>, <S453#>, <S454#>, <S455#>, <S456#>, <S457#>, <S458#>, <S459#>, <S460#>, <S461#>, <S462#>, <S463#>, <S464#>, <S465#>, <S466#>, <S467#>, <S468#>, <S469#>, <S470#>, <S471#>;
+  skos:broader <F381#> ;
+  skos:inScheme <scheme#> .
+
+
+<B401#> a skos:Concept ;
+  skos:prefLabel "Sicherheitswesen, Katastrophenschutz und -hilfe"@de ;
+  skos:narrower <S484#>, <S485#>, <S487#>, <S488#>, <S489#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B363#> a skos:Concept ;
+  skos:prefLabel "Slavistik"@de ;
+  skos:narrower <S364#>, <S363#>, <S366#>, <S367#>, <S368#>, <S365#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B397#> a skos:Concept ;
+  skos:prefLabel "Sonderpädagogik, inklusive Pädagogik"@de ;
+  skos:narrower <S422#>;
+  skos:broader <F381#> ;
+  skos:inScheme <scheme#> .
+
+
+<B37#> a skos:Concept ;
+  skos:prefLabel "Soziale Arbeit, Heilpädagogik"@de ;
+  skos:narrower <S37#>, <S38#>, <S39#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B40#> a skos:Concept ;
+  skos:prefLabel "Sozialwissenschaften"@de ;
+  skos:narrower <S40#>, <S516#>, <S481#>, <S41#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B42#> a skos:Concept ;
+  skos:prefLabel "Sport"@de ;
+  skos:narrower <S42#>, <S43#>, <S44#>, <S45#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B369#> a skos:Concept ;
+  skos:prefLabel "Sprach- und Literaturwissenschaften"@de ;
+  skos:narrower <S369#>, <S370#>, <S371#>, <S372#>, <S373#>, <S513#>, <S374#>, <S375#>, <S376#>, <S377#>, <S378#>, <S379#>;
+  skos:broader <F273#> ;
+  skos:inScheme <scheme#> .
+
+
+<B406#> a skos:Concept ;
+  skos:prefLabel "Studien- und Ausbildungswege"@de ;
+  skos:narrower <S524#>, <S527#>, <S529#>, <S531#>, <S538#>;
+  skos:broader <F382#> ;
+  skos:inScheme <scheme#> .
+
+
+<B120#> a skos:Concept ;
+  skos:prefLabel "Technisches Gesundheitswesen"@de ;
+  skos:narrower <S120#>, <S121#>, <S122#>, <S123#>, <S124#>, <S125#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B405#> a skos:Concept ;
+  skos:prefLabel "Theater, Dramaturgie, Regie"@de ;
+  skos:narrower <S148#>, <S157#>, <S541#>, <S161#>, <S542#>, <S164#>;
+  skos:broader <F146#> ;
+  skos:inScheme <scheme#> .
+
+
+<B46#> a skos:Concept ;
+  skos:prefLabel "Theologie, Religion"@de ;
+  skos:narrower <S46#>, <S47#>, <S48#>, <S49#>, <S50#>, <S51#>, <S52#>, <S53#>, <S55#>;
+  skos:broader <F17#> ;
+  skos:inScheme <scheme#> .
+
+
+<B263#> a skos:Concept ;
+  skos:prefLabel "Therapien"@de ;
+  skos:narrower <S263#>, <S264#>, <S265#>, <S266#>, <S267#>, <S268#>, <S269#>;
+  skos:broader <F255#> ;
+  skos:inScheme <scheme#> .
+
+
+<B12#> a skos:Concept ;
+  skos:prefLabel "Umwelt- und Landschaftsgestaltung"@de ;
+  skos:narrower <S12#>, <S13#>, <S14#>, <S15#>, <S16#>;
+  skos:broader <F1#> ;
+  skos:inScheme <scheme#> .
+
+
+<B126#> a skos:Concept ;
+  skos:prefLabel "Umweltschutz- und Entsorgungstechnik"@de ;
+  skos:narrower <S126#>, <S127#>, <S129#>, <S131#>, <S130#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B403#> a skos:Concept ;
+  skos:prefLabel "Umweltwissenschaften"@de ;
+  skos:narrower <S515#>, <S493#>, <S494#>;
+  skos:broader <F193#> ;
+  skos:inScheme <scheme#> .
+
+
+<B132#> a skos:Concept ;
+  skos:prefLabel "Vermessungswesen, Geodäsie"@de ;
+  skos:narrower <S132#>, <S133#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B134#> a skos:Concept ;
+  skos:prefLabel "Werkstoff- und Materialwissenschaften"@de ;
+  skos:narrower <S134#>, <S136#>, <S135#>, <S137#>, <S138#>, <S139#>, <S140#>, <S141#>, <S142#>, <S143#>, <S144#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B145#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftsingenieurwesen"@de ;
+  skos:narrower <S145#>;
+  skos:broader <F56#> ;
+  skos:inScheme <scheme#> .
+
+
+<B380#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftswissenschaften"@de ;
+  skos:narrower <S380#>, <S498#>, <S381#>, <S392#>, <S382#>, <S383#>, <S393#>, <S384#>, <S385#>, <S517#>, <S386#>, <S387#>, <S499#>, <S388#>, <S389#>, <S500#>, <S501#>, <S502#>, <S503#>, <S390#>, <S391#>, <S394#>;
+  skos:broader <F380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S126#> a skos:Concept ;
+  skos:prefLabel "Abfallwirtschaft"@de ;
+  
+  skos:broader <B126#> ;
+  skos:inScheme <scheme#> .
+
+
+<S275#> a skos:Concept ;
+  skos:prefLabel "Afrikanische Philologien"@de ;
+  
+  skos:broader <B273#> ;
+  skos:inScheme <scheme#> .
+
+
+<S273#> a skos:Concept ;
+  skos:prefLabel "Afrikanistik"@de ;
+  
+  skos:broader <B273#> ;
+  skos:inScheme <scheme#> .
+
+
+<S1#> a skos:Concept ;
+  skos:prefLabel "Agrarbiologie"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S2#> a skos:Concept ;
+  skos:prefLabel "Agrarwirtschaft"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S406#> a skos:Concept ;
+  skos:prefLabel "Agrarwirtschaft (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S3#> a skos:Concept ;
+  skos:prefLabel "Agrarwissenschaft"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S302#> a skos:Concept ;
+  skos:prefLabel "Ägyptologie, alte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S334#> a skos:Concept ;
+  skos:prefLabel "Ägyptologie, neuere"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S519#> a skos:Concept ;
+  skos:prefLabel "Alevitische Religion (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S369#> a skos:Concept ;
+  skos:prefLabel "Allgemeine Literaturwissenschaft"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S370#> a skos:Concept ;
+  skos:prefLabel "Allgemeine Sprachwissenschaft"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S524#> a skos:Concept ;
+  skos:prefLabel "Allgemeiner Innerer Verwaltungsdienst"@de ;
+  
+  skos:broader <B406#> ;
+  skos:inScheme <scheme#> .
+
+
+<S274#> a skos:Concept ;
+  skos:prefLabel "Altamerikanistik"@de ;
+  
+  skos:broader <B273#> ;
+  skos:inScheme <scheme#> .
+
+
+<S303#> a skos:Concept ;
+  skos:prefLabel "Alte Geschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S304#> a skos:Concept ;
+  skos:prefLabel "Altertumswissenschaft"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S305#> a skos:Concept ;
+  skos:prefLabel "Altorientalisitik"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S280#> a skos:Concept ;
+  skos:prefLabel "Amerikanistik"@de ;
+  
+  skos:broader <B279#> ;
+  skos:inScheme <scheme#> .
+
+
+<S209#> a skos:Concept ;
+  skos:prefLabel "analytische Chemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S226#> a skos:Concept ;
+  skos:prefLabel "Angewandte Informatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S237#> a skos:Concept ;
+  skos:prefLabel "Angewandte Mathematik"@de ;
+  
+  skos:broader <B237#> ;
+  skos:inScheme <scheme#> .
+
+
+<S279#> a skos:Concept ;
+  skos:prefLabel "Anglistik"@de ;
+  
+  skos:broader <B279#> ;
+  skos:inScheme <scheme#> .
+
+
+<S96#> a skos:Concept ;
+  skos:prefLabel "Anlagenbau"@de ;
+  
+  skos:broader <B96#> ;
+  skos:inScheme <scheme#> .
+
+
+<S204#> a skos:Concept ;
+  skos:prefLabel "anorganische Chemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S193#> a skos:Concept ;
+  skos:prefLabel "Anthropobiologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S214#> a skos:Concept ;
+  skos:prefLabel "Anthropogeographie"@de ;
+  
+  skos:broader <B214#> ;
+  skos:inScheme <scheme#> .
+
+
+<S495#> a skos:Concept ;
+  skos:prefLabel "Anthropologie"@de ;
+  
+  skos:broader <B288#> ;
+  skos:inScheme <scheme#> .
+
+
+<S475#> a skos:Concept ;
+  skos:prefLabel "Aquakultur, Fischereiwesen"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S335#> a skos:Concept ;
+  skos:prefLabel "Arabistik"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S423#> a skos:Concept ;
+  skos:prefLabel "Arbeitslehre (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S484#> a skos:Concept ;
+  skos:prefLabel "Arbeitsschutz"@de ;
+  
+  skos:broader <B401#> ;
+  skos:inScheme <scheme#> .
+
+
+<S12#> a skos:Concept ;
+  skos:prefLabel "Arboristik"@de ;
+  
+  skos:broader <B12#> ;
+  skos:inScheme <scheme#> .
+
+
+<S306#> a skos:Concept ;
+  skos:prefLabel "Archäologie"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S507#> a skos:Concept ;
+  skos:prefLabel "Archäologie, klassische (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S56#> a skos:Concept ;
+  skos:prefLabel "Architektur"@de ;
+  
+  skos:broader <B56#> ;
+  skos:inScheme <scheme#> .
+
+
+<S282#> a skos:Concept ;
+  skos:prefLabel "Archivwesen"@de ;
+  
+  skos:broader <B282#> ;
+  skos:inScheme <scheme#> .
+
+
+<S351#> a skos:Concept ;
+  skos:prefLabel "Asienstudien"@de ;
+  
+  skos:broader <B351#> ;
+  skos:inScheme <scheme#> .
+
+
+<S250#> a skos:Concept ;
+  skos:prefLabel "Astronomie"@de ;
+  
+  skos:broader <B250#> ;
+  skos:inScheme <scheme#> .
+
+
+<S251#> a skos:Concept ;
+  skos:prefLabel "Astrophysik"@de ;
+  
+  skos:broader <B250#> ;
+  skos:inScheme <scheme#> .
+
+
+<S120#> a skos:Concept ;
+  skos:prefLabel "Augenoptik"@de ;
+  
+  skos:broader <B120#> ;
+  skos:inScheme <scheme#> .
+
+
+<S17#> a skos:Concept ;
+  skos:prefLabel "Ausländerpädagogik"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S74#> a skos:Concept ;
+  skos:prefLabel "Automatisierungstechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S84#> a skos:Concept ;
+  skos:prefLabel "Automobiltechnik"@de ;
+  
+  skos:broader <B84#> ;
+  skos:inScheme <scheme#> .
+
+
+<S329#> a skos:Concept ;
+  skos:prefLabel "Baltistik"@de ;
+  
+  skos:broader <B328#> ;
+  skos:inScheme <scheme#> .
+
+
+<S59#> a skos:Concept ;
+  skos:prefLabel "Bauingenieurwesen"@de ;
+  
+  skos:broader <B59#> ;
+  skos:inScheme <scheme#> .
+
+
+<S407#> a skos:Concept ;
+  skos:prefLabel "Bautechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S134#> a skos:Concept ;
+  skos:prefLabel "Bekleidungstechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S476#> a skos:Concept ;
+  skos:prefLabel "Beratung"@de ;
+  
+  skos:broader <B399#> ;
+  skos:inScheme <scheme#> .
+
+
+<S508#> a skos:Concept ;
+  skos:prefLabel "Beratungslehrkraft (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S63#> a skos:Concept ;
+  skos:prefLabel "Bergbau"@de ;
+  
+  skos:broader <B63#> ;
+  skos:inScheme <scheme#> .
+
+
+<S504#> a skos:Concept ;
+  skos:prefLabel "Berufsbildung, Berufspädagogik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S18#> a skos:Concept ;
+  skos:prefLabel "Berufspädagogik"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S380#> a skos:Concept ;
+  skos:prefLabel "Betriebswirtschaftslehre"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S283#> a skos:Concept ;
+  skos:prefLabel "Bibliothekswissenschaft"@de ;
+  
+  skos:broader <B282#> ;
+  skos:inScheme <scheme#> .
+
+
+<S147#> a skos:Concept ;
+  skos:prefLabel "Bildende Kunst, Freie Kunst"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S146#> a skos:Concept ;
+  skos:prefLabel "Bildhauerei, Plastik"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S19#> a skos:Concept ;
+  skos:prefLabel "Bildungsforschung"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S498#> a skos:Concept ;
+  skos:prefLabel "Bildungsmanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S479#> a skos:Concept ;
+  skos:prefLabel "Bildungswissenschaften"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S194#> a skos:Concept ;
+  skos:prefLabel "Biochemie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S227#> a skos:Concept ;
+  skos:prefLabel "Bioinformatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S66#> a skos:Concept ;
+  skos:prefLabel "Bioingenieurwesen"@de ;
+  
+  skos:broader <B66#> ;
+  skos:inScheme <scheme#> .
+
+
+<S195#> a skos:Concept ;
+  skos:prefLabel "Biologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S424#> a skos:Concept ;
+  skos:prefLabel "Biologie (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S30#> a skos:Concept ;
+  skos:prefLabel "Biologische Psychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S121#> a skos:Concept ;
+  skos:prefLabel "Biomedizintechnik"@de ;
+  
+  skos:broader <B120#> ;
+  skos:inScheme <scheme#> .
+
+
+<S67#> a skos:Concept ;
+  skos:prefLabel "Bionik"@de ;
+  
+  skos:broader <B66#> ;
+  skos:inScheme <scheme#> .
+
+
+<S196#> a skos:Concept ;
+  skos:prefLabel "Biophysik"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S505#> a skos:Concept ;
+  skos:prefLabel "Biotechnik, Chemietechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S68#> a skos:Concept ;
+  skos:prefLabel "Biotechnologie"@de ;
+  
+  skos:broader <B66#> ;
+  skos:inScheme <scheme#> .
+
+
+<S197#> a skos:Concept ;
+  skos:prefLabel "Botanik"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S91#> a skos:Concept ;
+  skos:prefLabel "Brauwesen"@de ;
+  
+  skos:broader <B91#> ;
+  skos:inScheme <scheme#> .
+
+
+<S284#> a skos:Concept ;
+  skos:prefLabel "Buchwissenschaft"@de ;
+  
+  skos:broader <B282#> ;
+  skos:inScheme <scheme#> .
+
+
+<S148#> a skos:Concept ;
+  skos:prefLabel "Bühnenbild, Setdesign"@de ;
+  
+  skos:broader <B405#> ;
+  skos:inScheme <scheme#> .
+
+
+<S527#> a skos:Concept ;
+  skos:prefLabel "Bundesagentur für Arbeit"@de ;
+  
+  skos:broader <B406#> ;
+  skos:inScheme <scheme#> .
+
+
+<S307#> a skos:Concept ;
+  skos:prefLabel "Byzantinistik"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S205#> a skos:Concept ;
+  skos:prefLabel "Chemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S425#> a skos:Concept ;
+  skos:prefLabel "Chemie (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S69#> a skos:Concept ;
+  skos:prefLabel "Chemieingenieurwesen"@de ;
+  
+  skos:broader <B69#> ;
+  skos:inScheme <scheme#> .
+
+
+<S426#> a skos:Concept ;
+  skos:prefLabel "Chinesisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S491#> a skos:Concept ;
+  skos:prefLabel "Chor, Chorleitung"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S477#> a skos:Concept ;
+  skos:prefLabel "Coaching"@de ;
+  
+  skos:broader <B399#> ;
+  skos:inScheme <scheme#> .
+
+
+<S371#> a skos:Concept ;
+  skos:prefLabel "Computerlinguistik"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S428#> a skos:Concept ;
+  skos:prefLabel "Dänisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S156#> a skos:Concept ;
+  skos:prefLabel "Darstellende Kunst"@de ;
+  
+  skos:broader <B156#> ;
+  skos:inScheme <scheme#> .
+
+
+<S427#> a skos:Concept ;
+  skos:prefLabel "Darstellendes Spiel (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S548#> a skos:Concept ;
+  skos:prefLabel "Data Science"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S57#> a skos:Concept ;
+  skos:prefLabel "Denkmalpflege"@de ;
+  
+  skos:broader <B56#> ;
+  skos:inScheme <scheme#> .
+
+
+<S402#> a skos:Concept ;
+  skos:prefLabel "Design, Gestaltung"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S544#> a skos:Concept ;
+  skos:prefLabel "Designwissenschaft"@de ;
+  
+  skos:broader <B173#> ;
+  skos:inScheme <scheme#> .
+
+
+<S293#> a skos:Concept ;
+  skos:prefLabel "Deutsch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S294#> a skos:Concept ;
+  skos:prefLabel "Deutsch als Fremdsprache"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S429#> a skos:Concept ;
+  skos:prefLabel "Deutsch als Zweitsprache (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S529#> a skos:Concept ;
+  skos:prefLabel "Deutsche Bundesbank"@de ;
+  
+  skos:broader <B406#> ;
+  skos:inScheme <scheme#> .
+
+
+<S325#> a skos:Concept ;
+  skos:prefLabel "Digitale Medien"@de ;
+  
+  skos:broader <B325#> ;
+  skos:inScheme <scheme#> .
+
+
+<S179#> a skos:Concept ;
+  skos:prefLabel "Dirigieren"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S285#> a skos:Concept ;
+  skos:prefLabel "Dokumentationswissenschaft"@de ;
+  
+  skos:broader <B282#> ;
+  skos:inScheme <scheme#> .
+
+
+<S372#> a skos:Concept ;
+  skos:prefLabel "Dolmetschen"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S157#> a skos:Concept ;
+  skos:prefLabel "Dramaturgie, Drehbuch"@de ;
+  
+  skos:broader <B405#> ;
+  skos:inScheme <scheme#> .
+
+
+<S71#> a skos:Concept ;
+  skos:prefLabel "Drucktechnik"@de ;
+  
+  skos:broader <B71#> ;
+  skos:inScheme <scheme#> .
+
+
+<S75#> a skos:Concept ;
+  skos:prefLabel "Elektrische Energietechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S76#> a skos:Concept ;
+  skos:prefLabel "Elektronik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S77#> a skos:Concept ;
+  skos:prefLabel "Elektrotechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S408#> a skos:Concept ;
+  skos:prefLabel "Elektrotechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S483#> a skos:Concept ;
+  skos:prefLabel "Energietechnik"@de ;
+  
+  skos:broader <B400#> ;
+  skos:inScheme <scheme#> .
+
+
+<S281#> a skos:Concept ;
+  skos:prefLabel "Englisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S127#> a skos:Concept ;
+  skos:prefLabel "Entsorgungstechnik"@de ;
+  
+  skos:broader <B126#> ;
+  skos:inScheme <scheme#> .
+
+
+<S31#> a skos:Concept ;
+  skos:prefLabel "Entwicklungspsychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S480#> a skos:Concept ;
+  skos:prefLabel "Entwicklungszusammenarbeit"@de ;
+  
+  skos:broader <B26#> ;
+  skos:inScheme <scheme#> .
+
+
+<S430#> a skos:Concept ;
+  skos:prefLabel "Erdkunde, Geografie (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S263#> a skos:Concept ;
+  skos:prefLabel "Ergotherapie"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S409#> a skos:Concept ;
+  skos:prefLabel "Ernährung, Hauswirtschaft (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S212#> a skos:Concept ;
+  skos:prefLabel "Ernährungswissenschaft"@de ;
+  
+  skos:broader <B212#> ;
+  skos:inScheme <scheme#> .
+
+
+<S128#> a skos:Concept ;
+  skos:prefLabel "Erneuerbare Energien"@de ;
+  
+  skos:broader <B400#> ;
+  skos:inScheme <scheme#> .
+
+
+<S20#> a skos:Concept ;
+  skos:prefLabel "Erwachsenenbildung"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S431#> a skos:Concept ;
+  skos:prefLabel "Erziehungswissenschaft (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S348#> a skos:Concept ;
+  skos:prefLabel "Ethik"@de ;
+  
+  skos:broader <B348#> ;
+  skos:inScheme <scheme#> .
+
+
+<S432#> a skos:Concept ;
+  skos:prefLabel "Ethik, Philosophie, Werte und Normen (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S288#> a skos:Concept ;
+  skos:prefLabel "Ethnologie"@de ;
+  
+  skos:broader <B288#> ;
+  skos:inScheme <scheme#> .
+
+
+<S289#> a skos:Concept ;
+  skos:prefLabel "Europäische Ethnologie"@de ;
+  
+  skos:broader <B288#> ;
+  skos:inScheme <scheme#> .
+
+
+<S353#> a skos:Concept ;
+  skos:prefLabel "Europäische Studien"@de ;
+  
+  skos:broader <B351#> ;
+  skos:inScheme <scheme#> .
+
+
+<S395#> a skos:Concept ;
+  skos:prefLabel "Europarecht"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S433#> a skos:Concept ;
+  skos:prefLabel "Evangelische Religion (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S46#> a skos:Concept ;
+  skos:prefLabel "Evangelische Religionspädagogik"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S47#> a skos:Concept ;
+  skos:prefLabel "Evangelische Theologie"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S539#> a skos:Concept ;
+  skos:prefLabel "Experimentalfilm"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S252#> a skos:Concept ;
+  skos:prefLabel "Experimentalphysik"@de ;
+  
+  skos:broader <B250#> ;
+  skos:inScheme <scheme#> .
+
+
+<S87#> a skos:Concept ;
+  skos:prefLabel "Facility Management"@de ;
+  
+  skos:broader <B87#> ;
+  skos:inScheme <scheme#> .
+
+
+<S85#> a skos:Concept ;
+  skos:prefLabel "Fahrzeugtechnik"@de ;
+  
+  skos:broader <B84#> ;
+  skos:inScheme <scheme#> .
+
+
+<S410#> a skos:Concept ;
+  skos:prefLabel "Fahrzeugtechnik, Mechatronik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S411#> a skos:Concept ;
+  skos:prefLabel "Farbtechnik, Raumgestaltung, Oberflächentechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S78#> a skos:Concept ;
+  skos:prefLabel "Feinwerktechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S330#> a skos:Concept ;
+  skos:prefLabel "Fennistik, Hungarologie"@de ;
+  
+  skos:broader <B328#> ;
+  skos:inScheme <scheme#> .
+
+
+<S97#> a skos:Concept ;
+  skos:prefLabel "Fertigungstechnik"@de ;
+  
+  skos:broader <B96#> ;
+  skos:inScheme <scheme#> .
+
+
+<S523#> a skos:Concept ;
+  skos:prefLabel "Film, Fernsehen"@de ;
+  
+  skos:broader <B156#> ;
+  skos:inScheme <scheme#> .
+
+
+<S531#> a skos:Concept ;
+  skos:prefLabel "Finanzverwaltung"@de ;
+  
+  skos:broader <B406#> ;
+  skos:inScheme <scheme#> .
+
+
+<S381#> a skos:Concept ;
+  skos:prefLabel "Finanzwirtschaft, Versicherungswirtschaft"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S8#> a skos:Concept ;
+  skos:prefLabel "Forstwirtschaft"@de ;
+  
+  skos:broader <B8#> ;
+  skos:inScheme <scheme#> .
+
+
+<S9#> a skos:Concept ;
+  skos:prefLabel "Forstwissenschaft"@de ;
+  
+  skos:broader <B8#> ;
+  skos:inScheme <scheme#> .
+
+
+<S149#> a skos:Concept ;
+  skos:prefLabel "Fotografie"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S357#> a skos:Concept ;
+  skos:prefLabel "Französisch"@de ;
+  
+  skos:broader <B357#> ;
+  skos:inScheme <scheme#> .
+
+
+<S434#> a skos:Concept ;
+  skos:prefLabel "Französisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S496#> a skos:Concept ;
+  skos:prefLabel "Friesisch"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S436#> a skos:Concept ;
+  skos:prefLabel "Friesisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S308#> a skos:Concept ;
+  skos:prefLabel "Frühgeschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S4#> a skos:Concept ;
+  skos:prefLabel "Gartenbau"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S88#> a skos:Concept ;
+  skos:prefLabel "Gebäudeausrüstung"@de ;
+  
+  skos:broader <B87#> ;
+  skos:inScheme <scheme#> .
+
+
+<S437#> a skos:Concept ;
+  skos:prefLabel "Gemeinschaftskunde (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S40#> a skos:Concept ;
+  skos:prefLabel "Gender Studies, Geschlechterstudien"@de ;
+  
+  skos:broader <B40#> ;
+  skos:inScheme <scheme#> .
+
+
+<S132#> a skos:Concept ;
+  skos:prefLabel "Geodäsie"@de ;
+  
+  skos:broader <B132#> ;
+  skos:inScheme <scheme#> .
+
+
+<S215#> a skos:Concept ;
+  skos:prefLabel "Geographie"@de ;
+  
+  skos:broader <B214#> ;
+  skos:inScheme <scheme#> .
+
+
+<S228#> a skos:Concept ;
+  skos:prefLabel "Geoinformatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S217#> a skos:Concept ;
+  skos:prefLabel "Geologie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S509#> a skos:Concept ;
+  skos:prefLabel "Geologie (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S218#> a skos:Concept ;
+  skos:prefLabel "Geoökologie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S219#> a skos:Concept ;
+  skos:prefLabel "Geophysik"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S64#> a skos:Concept ;
+  skos:prefLabel "Geotechnik"@de ;
+  
+  skos:broader <B63#> ;
+  skos:inScheme <scheme#> .
+
+
+<S220#> a skos:Concept ;
+  skos:prefLabel "Geowissenschaften"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S295#> a skos:Concept ;
+  skos:prefLabel "Germanistik"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S180#> a skos:Concept ;
+  skos:prefLabel "Gesang, Sprechen"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S309#> a skos:Concept ;
+  skos:prefLabel "Geschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S438#> a skos:Concept ;
+  skos:prefLabel "Geschichte (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S439#> a skos:Concept ;
+  skos:prefLabel "Gesundheit, Ernährung (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S412#> a skos:Concept ;
+  skos:prefLabel "Gesundheit, Körperpflege (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S255#> a skos:Concept ;
+  skos:prefLabel "Gesundheitsmanagement"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S256#> a skos:Concept ;
+  skos:prefLabel "Gesundheitsökonomie"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S257#> a skos:Concept ;
+  skos:prefLabel "Gesundheitspädagogik"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S122#> a skos:Concept ;
+  skos:prefLabel "Gesundheitstechnik"@de ;
+  
+  skos:broader <B120#> ;
+  skos:inScheme <scheme#> .
+
+
+<S258#> a skos:Concept ;
+  skos:prefLabel "Gesundheitswissenschaft"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S92#> a skos:Concept ;
+  skos:prefLabel "Getränketechnologie"@de ;
+  
+  skos:broader <B91#> ;
+  skos:inScheme <scheme#> .
+
+
+<S520#> a skos:Concept ;
+  skos:prefLabel "Gewerblicher Rechtsschutz, Patentingenieurwesen"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S136#> a skos:Concept ;
+  skos:prefLabel "Gießereitechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S150#> a skos:Concept ;
+  skos:prefLabel "Glas"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S135#> a skos:Concept ;
+  skos:prefLabel "Glastechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S151#> a skos:Concept ;
+  skos:prefLabel "Grafik"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S165#> a skos:Concept ;
+  skos:prefLabel "Grafikdesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S277#> a skos:Concept ;
+  skos:prefLabel "Gräzistik"@de ;
+  
+  skos:broader <B277#> ;
+  skos:inScheme <scheme#> .
+
+
+<S440#> a skos:Concept ;
+  skos:prefLabel "Griechisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S441#> a skos:Concept ;
+  skos:prefLabel "Grundschulbildung, Grundschulpädagogik"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S213#> a skos:Concept ;
+  skos:prefLabel "Haushaltswissenschaft"@de ;
+  
+  skos:broader <B212#> ;
+  skos:inScheme <scheme#> .
+
+
+<S442#> a skos:Concept ;
+  skos:prefLabel "Hauswirtschaft (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S37#> a skos:Concept ;
+  skos:prefLabel "Heilpädagogik"@de ;
+  
+  skos:broader <B37#> ;
+  skos:inScheme <scheme#> .
+
+
+<S60#> a skos:Concept ;
+  skos:prefLabel "Holzbau"@de ;
+  
+  skos:broader <B59#> ;
+  skos:inScheme <scheme#> .
+
+
+<S11#> a skos:Concept ;
+  skos:prefLabel "Holztechnik"@de ;
+  
+  skos:broader <B8#> ;
+  skos:inScheme <scheme#> .
+
+
+<S413#> a skos:Concept ;
+  skos:prefLabel "Holztechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S10#> a skos:Concept ;
+  skos:prefLabel "Holzwirtschaft"@de ;
+  
+  skos:broader <B8#> ;
+  skos:inScheme <scheme#> .
+
+
+<S123#> a skos:Concept ;
+  skos:prefLabel "Hörtechnik"@de ;
+  
+  skos:broader <B120#> ;
+  skos:inScheme <scheme#> .
+
+
+<S392#> a skos:Concept ;
+  skos:prefLabel "Hotel, Gastronomie, Tourismus"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S198#> a skos:Concept ;
+  skos:prefLabel "Humanbiologie, Biomedizin"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S485#> a skos:Concept ;
+  skos:prefLabel "Humanitäre Hilfe, Katastrophenhilfe"@de ;
+  
+  skos:broader <B401#> ;
+  skos:inScheme <scheme#> .
+
+
+<S270#> a skos:Concept ;
+  skos:prefLabel "Humanmedizin"@de ;
+  
+  skos:broader <B270#> ;
+  skos:inScheme <scheme#> .
+
+
+<S221#> a skos:Concept ;
+  skos:prefLabel "Hydrologie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S497#> a skos:Concept ;
+  skos:prefLabel "Indogermanistik"@de ;
+  
+  skos:broader <B404#> ;
+  skos:inScheme <scheme#> .
+
+
+<S336#> a skos:Concept ;
+  skos:prefLabel "Indologie"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S382#> a skos:Concept ;
+  skos:prefLabel "Industrie und Handel"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S166#> a skos:Concept ;
+  skos:prefLabel "Industriedesign, Produktdesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S229#> a skos:Concept ;
+  skos:prefLabel "Informatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S443#> a skos:Concept ;
+  skos:prefLabel "Informatik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S79#> a skos:Concept ;
+  skos:prefLabel "Informationstechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S414#> a skos:Concept ;
+  skos:prefLabel "Informationstechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S286#> a skos:Concept ;
+  skos:prefLabel "Informationswissenschaft"@de ;
+  
+  skos:broader <B282#> ;
+  skos:inScheme <scheme#> .
+
+
+<S404#> a skos:Concept ;
+  skos:prefLabel "Ingenieurinformatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S58#> a skos:Concept ;
+  skos:prefLabel "Innenarchitektur"@de ;
+  
+  skos:broader <B56#> ;
+  skos:inScheme <scheme#> .
+
+
+<S181#> a skos:Concept ;
+  skos:prefLabel "Instrumentalmusik"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S320#> a skos:Concept ;
+  skos:prefLabel "Interkulturelle Studien"@de ;
+  
+  skos:broader <B320#> ;
+  skos:inScheme <scheme#> .
+
+
+<S383#> a skos:Concept ;
+  skos:prefLabel "Internationale Betriebswirtschaftslehre"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S26#> a skos:Concept ;
+  skos:prefLabel "Internationale Beziehungen"@de ;
+  
+  skos:broader <B26#> ;
+  skos:inScheme <scheme#> .
+
+
+<S396#> a skos:Concept ;
+  skos:prefLabel "Internationales Recht"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S337#> a skos:Concept ;
+  skos:prefLabel "Iranistik, Persisch"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S48#> a skos:Concept ;
+  skos:prefLabel "Islamische Religionslehre"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S444#> a skos:Concept ;
+  skos:prefLabel "Islamische Religionslehre (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S354#> a skos:Concept ;
+  skos:prefLabel "Islamische Studien"@de ;
+  
+  skos:broader <B351#> ;
+  skos:inScheme <scheme#> .
+
+
+<S49#> a skos:Concept ;
+  skos:prefLabel "Islamische Theologie"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S338#> a skos:Concept ;
+  skos:prefLabel "Islamwissenschaft"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S358#> a skos:Concept ;
+  skos:prefLabel "Italienisch"@de ;
+  
+  skos:broader <B357#> ;
+  skos:inScheme <scheme#> .
+
+
+<S445#> a skos:Concept ;
+  skos:prefLabel "Italienisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S446#> a skos:Concept ;
+  skos:prefLabel "Japanisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S344#> a skos:Concept ;
+  skos:prefLabel "Japanologie"@de ;
+  
+  skos:broader <B342#> ;
+  skos:inScheme <scheme#> .
+
+
+<S182#> a skos:Concept ;
+  skos:prefLabel "Jazz"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S316#> a skos:Concept ;
+  skos:prefLabel "Journalistik"@de ;
+  
+  skos:broader <B316#> ;
+  skos:inScheme <scheme#> .
+
+
+<S339#> a skos:Concept ;
+  skos:prefLabel "Judaistik"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S447#> a skos:Concept ;
+  skos:prefLabel "Jüdische Religionslehre (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S50#> a skos:Concept ;
+  skos:prefLabel "Jüdische Studien"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S487#> a skos:Concept ;
+  skos:prefLabel "Katastrophenschutz"@de ;
+  
+  skos:broader <B401#> ;
+  skos:inScheme <scheme#> .
+
+
+<S448#> a skos:Concept ;
+  skos:prefLabel "Katholische Religion (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S51#> a skos:Concept ;
+  skos:prefLabel "Katholische Religionspädagogik"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S52#> a skos:Concept ;
+  skos:prefLabel "Katholische Theologie"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S331#> a skos:Concept ;
+  skos:prefLabel "Kaukasiologie"@de ;
+  
+  skos:broader <B328#> ;
+  skos:inScheme <scheme#> .
+
+
+<S405#> a skos:Concept ;
+  skos:prefLabel "Keltologie"@de ;
+  
+  skos:broader <B277#> ;
+  skos:inScheme <scheme#> .
+
+
+<S152#> a skos:Concept ;
+  skos:prefLabel "Keramik"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S137#> a skos:Concept ;
+  skos:prefLabel "Keramik (Werkstofftechnik)"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S98#> a skos:Concept ;
+  skos:prefLabel "Kerntechnik"@de ;
+  
+  skos:broader <B400#> ;
+  skos:inScheme <scheme#> .
+
+
+<S21#> a skos:Concept ;
+  skos:prefLabel "Kindheitspädagogik"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S183#> a skos:Concept ;
+  skos:prefLabel "Kirchenmusik"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S521#> a skos:Concept ;
+  skos:prefLabel "Klangkunst"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S32#> a skos:Concept ;
+  skos:prefLabel "Klinische Psychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S167#> a skos:Concept ;
+  skos:prefLabel "Kommunikationsdesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S80#> a skos:Concept ;
+  skos:prefLabel "Kommunikationstechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S317#> a skos:Concept ;
+  skos:prefLabel "Kommunikationswissenschaft"@de ;
+  
+  skos:broader <B316#> ;
+  skos:inScheme <scheme#> .
+
+
+<S184#> a skos:Concept ;
+  skos:prefLabel "Komposition"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S99#> a skos:Concept ;
+  skos:prefLabel "Konstruktionstechnik"@de ;
+  
+  skos:broader <B96#> ;
+  skos:inScheme <scheme#> .
+
+
+<S343#> a skos:Concept ;
+  skos:prefLabel "Koreanistik"@de ;
+  
+  skos:broader <B342#> ;
+  skos:inScheme <scheme#> .
+
+
+<S185#> a skos:Concept ;
+  skos:prefLabel "Korrepetition"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S541#> a skos:Concept ;
+  skos:prefLabel "Kostümbild"@de ;
+  
+  skos:broader <B405#> ;
+  skos:inScheme <scheme#> .
+
+
+<S486#> a skos:Concept ;
+  skos:prefLabel "Kraftwerkstechnik"@de ;
+  
+  skos:broader <B400#> ;
+  skos:inScheme <scheme#> .
+
+
+<S322#> a skos:Concept ;
+  skos:prefLabel "Kultur und Technik"@de ;
+  
+  skos:broader <B320#> ;
+  skos:inScheme <scheme#> .
+
+
+<S22#> a skos:Concept ;
+  skos:prefLabel "Kultur-, Theaterpädagogik, Medienpädagogik"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S290#> a skos:Concept ;
+  skos:prefLabel "Kulturanthropologie"@de ;
+  
+  skos:broader <B288#> ;
+  skos:inScheme <scheme#> .
+
+
+<S321#> a skos:Concept ;
+  skos:prefLabel "Kulturgeschichte"@de ;
+  
+  skos:broader <B320#> ;
+  skos:inScheme <scheme#> .
+
+
+<S323#> a skos:Concept ;
+  skos:prefLabel "Kulturwissenschaft"@de ;
+  
+  skos:broader <B320#> ;
+  skos:inScheme <scheme#> .
+
+
+<S449#> a skos:Concept ;
+  skos:prefLabel "Kunst (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S173#> a skos:Concept ;
+  skos:prefLabel "Kunstgeschichte"@de ;
+  
+  skos:broader <B173#> ;
+  skos:inScheme <scheme#> .
+
+
+<S547#> a skos:Concept ;
+  skos:prefLabel "Künstliche Intelligenz"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S403#> a skos:Concept ;
+  skos:prefLabel "Kunstpädagogik"@de ;
+  
+  skos:broader <B173#> ;
+  skos:inScheme <scheme#> .
+
+
+<S138#> a skos:Concept ;
+  skos:prefLabel "Kunststofftechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S174#> a skos:Concept ;
+  skos:prefLabel "Kunsttheorie"@de ;
+  
+  skos:broader <B173#> ;
+  skos:inScheme <scheme#> .
+
+
+<S264#> a skos:Concept ;
+  skos:prefLabel "Kunsttherapie"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S175#> a skos:Concept ;
+  skos:prefLabel "Kunstwissenschaft"@de ;
+  
+  skos:broader <B173#> ;
+  skos:inScheme <scheme#> .
+
+
+<S415#> a skos:Concept ;
+  skos:prefLabel "Labortechnik, Prozesstechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S5#> a skos:Concept ;
+  skos:prefLabel "Landbau"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S13#> a skos:Concept ;
+  skos:prefLabel "Landespflege"@de ;
+  
+  skos:broader <B12#> ;
+  skos:inScheme <scheme#> .
+
+
+<S109#> a skos:Concept ;
+  skos:prefLabel "Landesplanung"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S14#> a skos:Concept ;
+  skos:prefLabel "Landschaftsarchitektur"@de ;
+  
+  skos:broader <B12#> ;
+  skos:inScheme <scheme#> .
+
+
+<S15#> a skos:Concept ;
+  skos:prefLabel "Landschaftsgestaltung"@de ;
+  
+  skos:broader <B12#> ;
+  skos:inScheme <scheme#> .
+
+
+<S110#> a skos:Concept ;
+  skos:prefLabel "Landschaftsplanung"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S6#> a skos:Concept ;
+  skos:prefLabel "Landwirtschaft"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S104#> a skos:Concept ;
+  skos:prefLabel "Lasertechnik"@de ;
+  
+  skos:broader <B104#> ;
+  skos:inScheme <scheme#> .
+
+
+<S450#> a skos:Concept ;
+  skos:prefLabel "Latein (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S355#> a skos:Concept ;
+  skos:prefLabel "Lateinamerikanische Studien"@de ;
+  
+  skos:broader <B351#> ;
+  skos:inScheme <scheme#> .
+
+
+<S278#> a skos:Concept ;
+  skos:prefLabel "Latinistik"@de ;
+  
+  skos:broader <B277#> ;
+  skos:inScheme <scheme#> .
+
+
+<S211#> a skos:Concept ;
+  skos:prefLabel "Lebensmittelchemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S93#> a skos:Concept ;
+  skos:prefLabel "Lebensmitteltechnologie"@de ;
+  
+  skos:broader <B91#> ;
+  skos:inScheme <scheme#> .
+
+
+<S373#> a skos:Concept ;
+  skos:prefLabel "Linguistik"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S513#> a skos:Concept ;
+  skos:prefLabel "Literarisches Schreiben"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S349#> a skos:Concept ;
+  skos:prefLabel "Logik"@de ;
+  
+  skos:broader <B348#> ;
+  skos:inScheme <scheme#> .
+
+
+<S393#> a skos:Concept ;
+  skos:prefLabel "Logistik, Transport, Verkehrswirtschaft"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S265#> a skos:Concept ;
+  skos:prefLabel "Logopädie"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S94#> a skos:Concept ;
+  skos:prefLabel "Luftfahrttechnik"@de ;
+  
+  skos:broader <B94#> ;
+  skos:inScheme <scheme#> .
+
+
+<S153#> a skos:Concept ;
+  skos:prefLabel "Malerei"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S384#> a skos:Concept ;
+  skos:prefLabel "Marketing, Vertrieb"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S65#> a skos:Concept ;
+  skos:prefLabel "Markscheidewesen"@de ;
+  
+  skos:broader <B63#> ;
+  skos:inScheme <scheme#> .
+
+
+<S100#> a skos:Concept ;
+  skos:prefLabel "Maschinenbau"@de ;
+  
+  skos:broader <B96#> ;
+  skos:inScheme <scheme#> .
+
+
+<S139#> a skos:Concept ;
+  skos:prefLabel "Materialwissenschaften"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S238#> a skos:Concept ;
+  skos:prefLabel "Mathematik"@de ;
+  
+  skos:broader <B237#> ;
+  skos:inScheme <scheme#> .
+
+
+<S472#> a skos:Concept ;
+  skos:prefLabel "Mathematik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S102#> a skos:Concept ;
+  skos:prefLabel "Mechatronik"@de ;
+  
+  skos:broader <B102#> ;
+  skos:inScheme <scheme#> .
+
+
+<S514#> a skos:Concept ;
+  skos:prefLabel "Mediation"@de ;
+  
+  skos:broader <B399#> ;
+  skos:inScheme <scheme#> .
+
+
+<S168#> a skos:Concept ;
+  skos:prefLabel "Mediendesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S230#> a skos:Concept ;
+  skos:prefLabel "Medieninformatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S324#> a skos:Concept ;
+  skos:prefLabel "Medienkultur"@de ;
+  
+  skos:broader <B320#> ;
+  skos:inScheme <scheme#> .
+
+
+<S511#> a skos:Concept ;
+  skos:prefLabel "Medienpädagogik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S72#> a skos:Concept ;
+  skos:prefLabel "Medientechnik"@de ;
+  
+  skos:broader <B71#> ;
+  skos:inScheme <scheme#> .
+
+
+<S416#> a skos:Concept ;
+  skos:prefLabel "Medientechnik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S385#> a skos:Concept ;
+  skos:prefLabel "Medienwirtschaft, Medienmanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S326#> a skos:Concept ;
+  skos:prefLabel "Medienwissenschaft"@de ;
+  
+  skos:broader <B325#> ;
+  skos:inScheme <scheme#> .
+
+
+<S231#> a skos:Concept ;
+  skos:prefLabel "Medizinische Informatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S124#> a skos:Concept ;
+  skos:prefLabel "Medizinische Physik"@de ;
+  
+  skos:broader <B120#> ;
+  skos:inScheme <scheme#> .
+
+
+<S125#> a skos:Concept ;
+  skos:prefLabel "Medizintechnik"@de ;
+  
+  skos:broader <B120#> ;
+  skos:inScheme <scheme#> .
+
+
+<S199#> a skos:Concept ;
+  skos:prefLabel "Meeresbiologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S116#> a skos:Concept ;
+  skos:prefLabel "Meerestechnik"@de ;
+  
+  skos:broader <B116#> ;
+  skos:inScheme <scheme#> .
+
+
+<S140#> a skos:Concept ;
+  skos:prefLabel "Metalltechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S417#> a skos:Concept ;
+  skos:prefLabel "Metalltechnik, Maschinenbau (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S222#> a skos:Concept ;
+  skos:prefLabel "Meteorologie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S200#> a skos:Concept ;
+  skos:prefLabel "Mikrobiologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S81#> a skos:Concept ;
+  skos:prefLabel "Mikroelektronik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S82#> a skos:Concept ;
+  skos:prefLabel "Mikrosystemtechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S223#> a skos:Concept ;
+  skos:prefLabel "Mineralogie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S310#> a skos:Concept ;
+  skos:prefLabel "Mittelalterliche Geschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S543#> a skos:Concept ;
+  skos:prefLabel "Modedesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S201#> a skos:Concept ;
+  skos:prefLabel "Molekularbiologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S327#> a skos:Concept ;
+  skos:prefLabel "Multimedia"@de ;
+  
+  skos:broader <B325#> ;
+  skos:inScheme <scheme#> .
+
+
+<S169#> a skos:Concept ;
+  skos:prefLabel "Multimediadesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S287#> a skos:Concept ;
+  skos:prefLabel "Museumswissenschaft"@de ;
+  
+  skos:broader <B282#> ;
+  skos:inScheme <scheme#> .
+
+
+<S160#> a skos:Concept ;
+  skos:prefLabel "Musical"@de ;
+  
+  skos:broader <B156#> ;
+  skos:inScheme <scheme#> .
+
+
+<S186#> a skos:Concept ;
+  skos:prefLabel "Musik"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S473#> a skos:Concept ;
+  skos:prefLabel "Musik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S176#> a skos:Concept ;
+  skos:prefLabel "Musikethnologie"@de ;
+  
+  skos:broader <B176#> ;
+  skos:inScheme <scheme#> .
+
+
+<S177#> a skos:Concept ;
+  skos:prefLabel "Musikgeschichte"@de ;
+  
+  skos:broader <B176#> ;
+  skos:inScheme <scheme#> .
+
+
+<S187#> a skos:Concept ;
+  skos:prefLabel "Musikpädagogik"@de ;
+  
+  skos:broader <B176#> ;
+  skos:inScheme <scheme#> .
+
+
+<S490#> a skos:Concept ;
+  skos:prefLabel "Musiktheorie"@de ;
+  
+  skos:broader <B176#> ;
+  skos:inScheme <scheme#> .
+
+
+<S266#> a skos:Concept ;
+  skos:prefLabel "Musiktherapie"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S178#> a skos:Concept ;
+  skos:prefLabel "Musikwissenschaft"@de ;
+  
+  skos:broader <B176#> ;
+  skos:inScheme <scheme#> .
+
+
+<S516#> a skos:Concept ;
+  skos:prefLabel "Nachhaltigkeitswissenschaften (gesellschaftlich)"@de ;
+  
+  skos:broader <B40#> ;
+  skos:inScheme <scheme#> .
+
+
+<S515#> a skos:Concept ;
+  skos:prefLabel "Nachhaltigkeitswissenschaften (ökologisch)"@de ;
+  
+  skos:broader <B403#> ;
+  skos:inScheme <scheme#> .
+
+
+<S517#> a skos:Concept ;
+  skos:prefLabel "Nachhaltigkeitswissenschaften (ökonomisch)"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S83#> a skos:Concept ;
+  skos:prefLabel "Nachrichtentechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S129#> a skos:Concept ;
+  skos:prefLabel "Nachwachsende Rohstoffe"@de ;
+  
+  skos:broader <B126#> ;
+  skos:inScheme <scheme#> .
+
+
+<S242#> a skos:Concept ;
+  skos:prefLabel "Nanoanalytik"@de ;
+  
+  skos:broader <B242#> ;
+  skos:inScheme <scheme#> .
+
+
+<S243#> a skos:Concept ;
+  skos:prefLabel "Nanochemie"@de ;
+  
+  skos:broader <B242#> ;
+  skos:inScheme <scheme#> .
+
+
+<S244#> a skos:Concept ;
+  skos:prefLabel "Nanoelektronik"@de ;
+  
+  skos:broader <B242#> ;
+  skos:inScheme <scheme#> .
+
+
+<S245#> a skos:Concept ;
+  skos:prefLabel "Nanomaterialien"@de ;
+  
+  skos:broader <B242#> ;
+  skos:inScheme <scheme#> .
+
+
+<S246#> a skos:Concept ;
+  skos:prefLabel "Nanotechnologie"@de ;
+  
+  skos:broader <B242#> ;
+  skos:inScheme <scheme#> .
+
+
+<S247#> a skos:Concept ;
+  skos:prefLabel "Nanowissenschaften"@de ;
+  
+  skos:broader <B242#> ;
+  skos:inScheme <scheme#> .
+
+
+<S493#> a skos:Concept ;
+  skos:prefLabel "Naturschutz, Umweltschutz"@de ;
+  
+  skos:broader <B403#> ;
+  skos:inScheme <scheme#> .
+
+
+<S111#> a skos:Concept ;
+  skos:prefLabel "Naturschutzplanung"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S117#> a skos:Concept ;
+  skos:prefLabel "Nautik"@de ;
+  
+  skos:broader <B116#> ;
+  skos:inScheme <scheme#> .
+
+
+<S332#> a skos:Concept ;
+  skos:prefLabel "Neogräzistik"@de ;
+  
+  skos:broader <B328#> ;
+  skos:inScheme <scheme#> .
+
+
+<S522#> a skos:Concept ;
+  skos:prefLabel "Neue Medien, Medienkunst"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S311#> a skos:Concept ;
+  skos:prefLabel "Neuere Geschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S312#> a skos:Concept ;
+  skos:prefLabel "Neueste Geschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S33#> a skos:Concept ;
+  skos:prefLabel "Neuropsychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S492#> a skos:Concept ;
+  skos:prefLabel "Neurowissenschaft"@de ;
+  
+  skos:broader <B402#> ;
+  skos:inScheme <scheme#> .
+
+
+<S451#> a skos:Concept ;
+  skos:prefLabel "Niederdeutsch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S452#> a skos:Concept ;
+  skos:prefLabel "Niederländisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S297#> a skos:Concept ;
+  skos:prefLabel "Niederlandistik"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S356#> a skos:Concept ;
+  skos:prefLabel "Nordamerikanische Studien"@de ;
+  
+  skos:broader <B351#> ;
+  skos:inScheme <scheme#> .
+
+
+<S299#> a skos:Concept ;
+  skos:prefLabel "Nordische Philologie, sonstige"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S298#> a skos:Concept ;
+  skos:prefLabel "Nordistik"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S453#> a skos:Concept ;
+  skos:prefLabel "Norwegisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S397#> a skos:Concept ;
+  skos:prefLabel "Öffentliches Recht"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S202#> a skos:Concept ;
+  skos:prefLabel "Ökologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
+
+<S318#> a skos:Concept ;
+  skos:prefLabel "Online-Medien"@de ;
+  
+  skos:broader <B316#> ;
+  skos:inScheme <scheme#> .
+
+
+<S188#> a skos:Concept ;
+  skos:prefLabel "Oper, Musiktheater"@de ;
+  
+  skos:broader <B156#> ;
+  skos:inScheme <scheme#> .
+
+
+<S105#> a skos:Concept ;
+  skos:prefLabel "Optoelektronik"@de ;
+  
+  skos:broader <B104#> ;
+  skos:inScheme <scheme#> .
+
+
+<S106#> a skos:Concept ;
+  skos:prefLabel "Optotechnik"@de ;
+  
+  skos:broader <B104#> ;
+  skos:inScheme <scheme#> .
+
+
+<S189#> a skos:Concept ;
+  skos:prefLabel "Orchester"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S206#> a skos:Concept ;
+  skos:prefLabel "organische Chemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S474#> a skos:Concept ;
+  skos:prefLabel "Orientalistik"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S345#> a skos:Concept ;
+  skos:prefLabel "Ostasienwissenschaft"@de ;
+  
+  skos:broader <B342#> ;
+  skos:inScheme <scheme#> .
+
+
+<S364#> a skos:Concept ;
+  skos:prefLabel "Ostslavistik"@de ;
+  
+  skos:broader <B363#> ;
+  skos:inScheme <scheme#> .
+
+
+<S224#> a skos:Concept ;
+  skos:prefLabel "Ozeanographie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S454#> a skos:Concept ;
+  skos:prefLabel "Pädagogik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S23#> a skos:Concept ;
+  skos:prefLabel "Pädagogik, Erziehungswissenschaft"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S225#> a skos:Concept ;
+  skos:prefLabel "Paläontologie"@de ;
+  
+  skos:broader <B217#> ;
+  skos:inScheme <scheme#> .
+
+
+<S141#> a skos:Concept ;
+  skos:prefLabel "Papiertechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S170#> a skos:Concept ;
+  skos:prefLabel "Performance"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S386#> a skos:Concept ;
+  skos:prefLabel "Personalmanagement, Personalwesen"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S34#> a skos:Concept ;
+  skos:prefLabel "Persönlichkeitspsychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S418#> a skos:Concept ;
+  skos:prefLabel "Pflege (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S259#> a skos:Concept ;
+  skos:prefLabel "Pflegemanagement"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S260#> a skos:Concept ;
+  skos:prefLabel "Pflegepädagogik"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S261#> a skos:Concept ;
+  skos:prefLabel "Pflegewissenschaft"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S249#> a skos:Concept ;
+  skos:prefLabel "Pharmatechnik"@de ;
+  
+  skos:broader <B248#> ;
+  skos:inScheme <scheme#> .
+
+
+<S248#> a skos:Concept ;
+  skos:prefLabel "Pharmazie, Pharmakologie"@de ;
+  
+  skos:broader <B248#> ;
+  skos:inScheme <scheme#> .
+
+
+<S346#> a skos:Concept ;
+  skos:prefLabel "Philologien Südostasiens"@de ;
+  
+  skos:broader <B342#> ;
+  skos:inScheme <scheme#> .
+
+
+<S350#> a skos:Concept ;
+  skos:prefLabel "Philosophie"@de ;
+  
+  skos:broader <B348#> ;
+  skos:inScheme <scheme#> .
+
+
+<S374#> a skos:Concept ;
+  skos:prefLabel "Phonetik"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S107#> a skos:Concept ;
+  skos:prefLabel "Photonik"@de ;
+  
+  skos:broader <B104#> ;
+  skos:inScheme <scheme#> .
+
+
+<S253#> a skos:Concept ;
+  skos:prefLabel "Physik"@de ;
+  
+  skos:broader <B250#> ;
+  skos:inScheme <scheme#> .
+
+
+<S455#> a skos:Concept ;
+  skos:prefLabel "Physik, Astronomie (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S207#> a skos:Concept ;
+  skos:prefLabel "physikalische Chemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S108#> a skos:Concept ;
+  skos:prefLabel "Physikalische Technik"@de ;
+  
+  skos:broader <B108#> ;
+  skos:inScheme <scheme#> .
+
+
+<S267#> a skos:Concept ;
+  skos:prefLabel "Physiotherapie"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S216#> a skos:Concept ;
+  skos:prefLabel "Physische Geographie"@de ;
+  
+  skos:broader <B214#> ;
+  skos:inScheme <scheme#> .
+
+
+<S456#> a skos:Concept ;
+  skos:prefLabel "Politik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S27#> a skos:Concept ;
+  skos:prefLabel "Politikwissenschaft"@de ;
+  
+  skos:broader <B26#> ;
+  skos:inScheme <scheme#> .
+
+
+<S538#> a skos:Concept ;
+  skos:prefLabel "Polizeiberufe"@de ;
+  
+  skos:broader <B406#> ;
+  skos:inScheme <scheme#> .
+
+
+<S363#> a skos:Concept ;
+  skos:prefLabel "Polnisch"@de ;
+  
+  skos:broader <B363#> ;
+  skos:inScheme <scheme#> .
+
+
+<S457#> a skos:Concept ;
+  skos:prefLabel "Polnisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S190#> a skos:Concept ;
+  skos:prefLabel "Popularmusik"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S359#> a skos:Concept ;
+  skos:prefLabel "Portugiesisch"@de ;
+  
+  skos:broader <B357#> ;
+  skos:inScheme <scheme#> .
+
+
+<S232#> a skos:Concept ;
+  skos:prefLabel "Praktische Informatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S398#> a skos:Concept ;
+  skos:prefLabel "Privatrecht, Zivilrecht"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S101#> a skos:Concept ;
+  skos:prefLabel "Produktionstechnik"@de ;
+  
+  skos:broader <B96#> ;
+  skos:inScheme <scheme#> .
+
+
+<S29#> a skos:Concept ;
+  skos:prefLabel "Psychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S458#> a skos:Concept ;
+  skos:prefLabel "Psychologie (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S387#> a skos:Concept ;
+  skos:prefLabel "Public Management, Sozialmanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S319#> a skos:Concept ;
+  skos:prefLabel "Publizistik"@de ;
+  
+  skos:broader <B316#> ;
+  skos:inScheme <scheme#> .
+
+
+<S499#> a skos:Concept ;
+  skos:prefLabel "Qualitätsmanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S95#> a skos:Concept ;
+  skos:prefLabel "Raumfahrttechnik"@de ;
+  
+  skos:broader <B94#> ;
+  skos:inScheme <scheme#> .
+
+
+<S112#> a skos:Concept ;
+  skos:prefLabel "Raumplanung"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S388#> a skos:Concept ;
+  skos:prefLabel "Rechnungswesen, Steuerwesen, Controlling"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S399#> a skos:Concept ;
+  skos:prefLabel "Rechtswissenschaft, Jura"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S161#> a skos:Concept ;
+  skos:prefLabel "Regie"@de ;
+  
+  skos:broader <B405#> ;
+  skos:inScheme <scheme#> .
+
+
+<S113#> a skos:Concept ;
+  skos:prefLabel "Regionalplanung"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S262#> a skos:Concept ;
+  skos:prefLabel "Rehabilitationswissenschaften"@de ;
+  
+  skos:broader <B255#> ;
+  skos:inScheme <scheme#> .
+
+
+<S53#> a skos:Concept ;
+  skos:prefLabel "Religionswissenschaft"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S154#> a skos:Concept ;
+  skos:prefLabel "Restaurierung"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S375#> a skos:Concept ;
+  skos:prefLabel "Rhetorik"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S191#> a skos:Concept ;
+  skos:prefLabel "Rhythmik"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S546#> a skos:Concept ;
+  skos:prefLabel "Robotik"@de ;
+  
+  skos:broader <B102#> ;
+  skos:inScheme <scheme#> .
+
+
+<S360#> a skos:Concept ;
+  skos:prefLabel "Romanische Philologie, sonstige"@de ;
+  
+  skos:broader <B357#> ;
+  skos:inScheme <scheme#> .
+
+
+<S361#> a skos:Concept ;
+  skos:prefLabel "Romanistik"@de ;
+  
+  skos:broader <B357#> ;
+  skos:inScheme <scheme#> .
+
+
+<S366#> a skos:Concept ;
+  skos:prefLabel "Russisch"@de ;
+  
+  skos:broader <B363#> ;
+  skos:inScheme <scheme#> .
+
+
+<S459#> a skos:Concept ;
+  skos:prefLabel "Russisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S460#> a skos:Concept ;
+  skos:prefLabel "Sachunterricht (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S162#> a skos:Concept ;
+  skos:prefLabel "Schauspiel"@de ;
+  
+  skos:broader <B156#> ;
+  skos:inScheme <scheme#> .
+
+
+<S118#> a skos:Concept ;
+  skos:prefLabel "Schiffsbetriebstechnik"@de ;
+  
+  skos:broader <B116#> ;
+  skos:inScheme <scheme#> .
+
+
+<S119#> a skos:Concept ;
+  skos:prefLabel "Schiffstechnik"@de ;
+  
+  skos:broader <B116#> ;
+  skos:inScheme <scheme#> .
+
+
+<S171#> a skos:Concept ;
+  skos:prefLabel "Schmuckdesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S24#> a skos:Concept ;
+  skos:prefLabel "Schulpädagogik"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S461#> a skos:Concept ;
+  skos:prefLabel "Schwedisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S340#> a skos:Concept ;
+  skos:prefLabel "Semitistik"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S482#> a skos:Concept ;
+  skos:prefLabel "Sensorik, Messtechnik"@de ;
+  
+  skos:broader <B74#> ;
+  skos:inScheme <scheme#> .
+
+
+<S89#> a skos:Concept ;
+  skos:prefLabel "Sicherheitstechnik"@de ;
+  
+  skos:broader <B87#> ;
+  skos:inScheme <scheme#> .
+
+
+<S488#> a skos:Concept ;
+  skos:prefLabel "Sicherheitswesen"@de ;
+  
+  skos:broader <B401#> ;
+  skos:inScheme <scheme#> .
+
+
+<S342#> a skos:Concept ;
+  skos:prefLabel "Sinologie"@de ;
+  
+  skos:broader <B342#> ;
+  skos:inScheme <scheme#> .
+
+
+<S300#> a skos:Concept ;
+  skos:prefLabel "Skandinavistik"@de ;
+  
+  skos:broader <B293#> ;
+  skos:inScheme <scheme#> .
+
+
+<S367#> a skos:Concept ;
+  skos:prefLabel "Slavistik"@de ;
+  
+  skos:broader <B363#> ;
+  skos:inScheme <scheme#> .
+
+
+<S233#> a skos:Concept ;
+  skos:prefLabel "Softwaretechnik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S25#> a skos:Concept ;
+  skos:prefLabel "Sonderpädagogik, inklusive Pädagogik"@de ;
+  
+  skos:broader <B17#> ;
+  skos:inScheme <scheme#> .
+
+
+<S422#> a skos:Concept ;
+  skos:prefLabel "Sonderpädagogik, inklusive Pädagogik (Lehramt)"@de ;
+  
+  skos:broader <B397#> ;
+  skos:inScheme <scheme#> .
+
+
+<S462#> a skos:Concept ;
+  skos:prefLabel "Sorbisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S545#> a skos:Concept ;
+  skos:prefLabel "Sound"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S291#> a skos:Concept ;
+  skos:prefLabel "Sozialanthropologie"@de ;
+  
+  skos:broader <B288#> ;
+  skos:inScheme <scheme#> .
+
+
+<S38#> a skos:Concept ;
+  skos:prefLabel "Soziale Arbeit"@de ;
+  
+  skos:broader <B37#> ;
+  skos:inScheme <scheme#> .
+
+
+<S463#> a skos:Concept ;
+  skos:prefLabel "Sozialkunde (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S481#> a skos:Concept ;
+  skos:prefLabel "Sozialökonomie"@de ;
+  
+  skos:broader <B40#> ;
+  skos:inScheme <scheme#> .
+
+
+<S39#> a skos:Concept ;
+  skos:prefLabel "Sozialpädagogik"@de ;
+  
+  skos:broader <B37#> ;
+  skos:inScheme <scheme#> .
+
+
+<S419#> a skos:Concept ;
+  skos:prefLabel "Sozialpädagogik (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S35#> a skos:Concept ;
+  skos:prefLabel "Sozialpsychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S41#> a skos:Concept ;
+  skos:prefLabel "Soziologie, Sozialwissenschaft"@de ;
+  
+  skos:broader <B40#> ;
+  skos:inScheme <scheme#> .
+
+
+<S362#> a skos:Concept ;
+  skos:prefLabel "Spanisch"@de ;
+  
+  skos:broader <B357#> ;
+  skos:inScheme <scheme#> .
+
+
+<S464#> a skos:Concept ;
+  skos:prefLabel "Spanisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S42#> a skos:Concept ;
+  skos:prefLabel "Sport"@de ;
+  
+  skos:broader <B42#> ;
+  skos:inScheme <scheme#> .
+
+
+<S465#> a skos:Concept ;
+  skos:prefLabel "Sport (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S389#> a skos:Concept ;
+  skos:prefLabel "Sport-, Event- und Kulturmanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S43#> a skos:Concept ;
+  skos:prefLabel "Sportpädagogik"@de ;
+  
+  skos:broader <B42#> ;
+  skos:inScheme <scheme#> .
+
+
+<S44#> a skos:Concept ;
+  skos:prefLabel "Sportpsychologie"@de ;
+  
+  skos:broader <B42#> ;
+  skos:inScheme <scheme#> .
+
+
+<S268#> a skos:Concept ;
+  skos:prefLabel "Sporttherapie"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S45#> a skos:Concept ;
+  skos:prefLabel "Sportwissenschaft"@de ;
+  
+  skos:broader <B42#> ;
+  skos:inScheme <scheme#> .
+
+
+<S376#> a skos:Concept ;
+  skos:prefLabel "Sprechwissenschaft"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S115#> a skos:Concept ;
+  skos:prefLabel "Städtebau"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S114#> a skos:Concept ;
+  skos:prefLabel "Stadtplanung"@de ;
+  
+  skos:broader <B109#> ;
+  skos:inScheme <scheme#> .
+
+
+<S61#> a skos:Concept ;
+  skos:prefLabel "Stahlbau"@de ;
+  
+  skos:broader <B59#> ;
+  skos:inScheme <scheme#> .
+
+
+<S239#> a skos:Concept ;
+  skos:prefLabel "Statistik"@de ;
+  
+  skos:broader <B237#> ;
+  skos:inScheme <scheme#> .
+
+
+<S400#> a skos:Concept ;
+  skos:prefLabel "Steuerrecht"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S489#> a skos:Concept ;
+  skos:prefLabel "Strahlenschutz"@de ;
+  
+  skos:broader <B401#> ;
+  skos:inScheme <scheme#> .
+
+
+<S368#> a skos:Concept ;
+  skos:prefLabel "Südslavistik"@de ;
+  
+  skos:broader <B363#> ;
+  skos:inScheme <scheme#> .
+
+
+<S478#> a skos:Concept ;
+  skos:prefLabel "Supervision"@de ;
+  
+  skos:broader <B399#> ;
+  skos:inScheme <scheme#> .
+
+
+<S103#> a skos:Concept ;
+  skos:prefLabel "Systemtechnik"@de ;
+  
+  skos:broader <B102#> ;
+  skos:inScheme <scheme#> .
+
+
+<S542#> a skos:Concept ;
+  skos:prefLabel "Szenisches Schreiben"@de ;
+  
+  skos:broader <B405#> ;
+  skos:inScheme <scheme#> .
+
+
+<S163#> a skos:Concept ;
+  skos:prefLabel "Tanz"@de ;
+  
+  skos:broader <B156#> ;
+  skos:inScheme <scheme#> .
+
+
+<S466#> a skos:Concept ;
+  skos:prefLabel "Technik (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S234#> a skos:Concept ;
+  skos:prefLabel "Technische Informatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S500#> a skos:Concept ;
+  skos:prefLabel "Technologiemanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S240#> a skos:Concept ;
+  skos:prefLabel "Technomathematik"@de ;
+  
+  skos:broader <B237#> ;
+  skos:inScheme <scheme#> .
+
+
+<S172#> a skos:Concept ;
+  skos:prefLabel "Textildesign"@de ;
+  
+  skos:broader <B165#> ;
+  skos:inScheme <scheme#> .
+
+
+<S467#> a skos:Concept ;
+  skos:prefLabel "Textiles Gestalten (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S155#> a skos:Concept ;
+  skos:prefLabel "Textilkunst"@de ;
+  
+  skos:broader <B146#> ;
+  skos:inScheme <scheme#> .
+
+
+<S142#> a skos:Concept ;
+  skos:prefLabel "Textiltechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S420#> a skos:Concept ;
+  skos:prefLabel "Textiltechnik und -gestaltung (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S164#> a skos:Concept ;
+  skos:prefLabel "Theaterwissenschaft"@de ;
+  
+  skos:broader <B405#> ;
+  skos:inScheme <scheme#> .
+
+
+<S55#> a skos:Concept ;
+  skos:prefLabel "Theologie"@de ;
+  
+  skos:broader <B46#> ;
+  skos:inScheme <scheme#> .
+
+
+<S208#> a skos:Concept ;
+  skos:prefLabel "theoretische Chemie"@de ;
+  
+  skos:broader <B204#> ;
+  skos:inScheme <scheme#> .
+
+
+<S235#> a skos:Concept ;
+  skos:prefLabel "Theoretische Informatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S254#> a skos:Concept ;
+  skos:prefLabel "Theoretische Physik"@de ;
+  
+  skos:broader <B250#> ;
+  skos:inScheme <scheme#> .
+
+
+<S269#> a skos:Concept ;
+  skos:prefLabel "Therapien, andere"@de ;
+  
+  skos:broader <B263#> ;
+  skos:inScheme <scheme#> .
+
+
+<S271#> a skos:Concept ;
+  skos:prefLabel "Tiermedizin"@de ;
+  
+  skos:broader <B270#> ;
+  skos:inScheme <scheme#> .
+
+
+<S192#> a skos:Concept ;
+  skos:prefLabel "Tonmeister, Musikproduktion"@de ;
+  
+  skos:broader <B179#> ;
+  skos:inScheme <scheme#> .
+
+
+<S468#> a skos:Concept ;
+  skos:prefLabel "Tschechisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S469#> a skos:Concept ;
+  skos:prefLabel "Türkisch (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S341#> a skos:Concept ;
+  skos:prefLabel "Turkologie, Türkisch"@de ;
+  
+  skos:broader <B334#> ;
+  skos:inScheme <scheme#> .
+
+
+<S377#> a skos:Concept ;
+  skos:prefLabel "Übersetzen"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S16#> a skos:Concept ;
+  skos:prefLabel "Umweltgestaltung"@de ;
+  
+  skos:broader <B12#> ;
+  skos:inScheme <scheme#> .
+
+
+<S131#> a skos:Concept ;
+  skos:prefLabel "Umweltingenieurwesen"@de ;
+  
+  skos:broader <B126#> ;
+  skos:inScheme <scheme#> .
+
+
+<S501#> a skos:Concept ;
+  skos:prefLabel "Umweltmanagement, Energiemanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S130#> a skos:Concept ;
+  skos:prefLabel "Umweltschutztechnik"@de ;
+  
+  skos:broader <B126#> ;
+  skos:inScheme <scheme#> .
+
+
+<S494#> a skos:Concept ;
+  skos:prefLabel "Umweltwissenschaft"@de ;
+  
+  skos:broader <B403#> ;
+  skos:inScheme <scheme#> .
+
+
+<S502#> a skos:Concept ;
+  skos:prefLabel "Unternehmensberatung"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S503#> a skos:Concept ;
+  skos:prefLabel "Unternehmensmanagement, Organisationsmanagement"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S313#> a skos:Concept ;
+  skos:prefLabel "Urgeschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S70#> a skos:Concept ;
+  skos:prefLabel "Verfahrenstechnik"@de ;
+  
+  skos:broader <B69#> ;
+  skos:inScheme <scheme#> .
+
+
+<S378#> a skos:Concept ;
+  skos:prefLabel "Vergleichende Literaturwissenschaft"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S379#> a skos:Concept ;
+  skos:prefLabel "Vergleichende Sprachwissenschaft"@de ;
+  
+  skos:broader <B369#> ;
+  skos:inScheme <scheme#> .
+
+
+<S86#> a skos:Concept ;
+  skos:prefLabel "Verkehrstechnik"@de ;
+  
+  skos:broader <B84#> ;
+  skos:inScheme <scheme#> .
+
+
+<S133#> a skos:Concept ;
+  skos:prefLabel "Vermessungswesen"@de ;
+  
+  skos:broader <B132#> ;
+  skos:inScheme <scheme#> .
+
+
+<S73#> a skos:Concept ;
+  skos:prefLabel "Verpackungstechnik"@de ;
+  
+  skos:broader <B71#> ;
+  skos:inScheme <scheme#> .
+
+
+<S90#> a skos:Concept ;
+  skos:prefLabel "Versorgungstechnik"@de ;
+  
+  skos:broader <B87#> ;
+  skos:inScheme <scheme#> .
+
+
+<S28#> a skos:Concept ;
+  skos:prefLabel "Verwaltungswissenschaft"@de ;
+  
+  skos:broader <B26#> ;
+  skos:inScheme <scheme#> .
+
+
+<S292#> a skos:Concept ;
+  skos:prefLabel "Volkskunde"@de ;
+  
+  skos:broader <B288#> ;
+  skos:inScheme <scheme#> .
+
+
+<S390#> a skos:Concept ;
+  skos:prefLabel "Volkswirtschaftslehre"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S62#> a skos:Concept ;
+  skos:prefLabel "Wasserbau"@de ;
+  
+  skos:broader <B59#> ;
+  skos:inScheme <scheme#> .
+
+
+<S7#> a skos:Concept ;
+  skos:prefLabel "Weinbau"@de ;
+  
+  skos:broader <B1#> ;
+  skos:inScheme <scheme#> .
+
+
+<S470#> a skos:Concept ;
+  skos:prefLabel "Werken, Gestalten (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S143#> a skos:Concept ;
+  skos:prefLabel "Werkstofftechnik"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S144#> a skos:Concept ;
+  skos:prefLabel "Werkstoffwissenschaften"@de ;
+  
+  skos:broader <B134#> ;
+  skos:inScheme <scheme#> .
+
+
+<S365#> a skos:Concept ;
+  skos:prefLabel "Westslavistik"@de ;
+  
+  skos:broader <B363#> ;
+  skos:inScheme <scheme#> .
+
+
+<S471#> a skos:Concept ;
+  skos:prefLabel "Wirtschaft (Lehramt)"@de ;
+  
+  skos:broader <B398#> ;
+  skos:inScheme <scheme#> .
+
+
+<S421#> a skos:Concept ;
+  skos:prefLabel "Wirtschaft und Verwaltung (Lehramt)"@de ;
+  
+  skos:broader <B396#> ;
+  skos:inScheme <scheme#> .
+
+
+<S36#> a skos:Concept ;
+  skos:prefLabel "Wirtschafts-, Arbeits- und Organisationspsychologie"@de ;
+  
+  skos:broader <B29#> ;
+  skos:inScheme <scheme#> .
+
+
+<S314#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftsgeschichte, Sozialgeschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S236#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftsinformatik"@de ;
+  
+  skos:broader <B226#> ;
+  skos:inScheme <scheme#> .
+
+
+<S145#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftsingenieurwesen"@de ;
+  
+  skos:broader <B145#> ;
+  skos:inScheme <scheme#> .
+
+
+<S241#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftsmathematik"@de ;
+  
+  skos:broader <B237#> ;
+  skos:inScheme <scheme#> .
+
+
+<S391#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftspädagogik"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S401#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftsrecht"@de ;
+  
+  skos:broader <B395#> ;
+  skos:inScheme <scheme#> .
+
+
+<S394#> a skos:Concept ;
+  skos:prefLabel "Wirtschaftswissenschaften, Ökonomie"@de ;
+  
+  skos:broader <B380#> ;
+  skos:inScheme <scheme#> .
+
+
+<S315#> a skos:Concept ;
+  skos:prefLabel "Wissenschaftsgeschichte"@de ;
+  
+  skos:broader <B302#> ;
+  skos:inScheme <scheme#> .
+
+
+<S272#> a skos:Concept ;
+  skos:prefLabel "Zahnmedizin"@de ;
+  
+  skos:broader <B270#> ;
+  skos:inScheme <scheme#> .
+
+
+<S347#> a skos:Concept ;
+  skos:prefLabel "Zentralasiatische Philologien"@de ;
+  
+  skos:broader <B342#> ;
+  skos:inScheme <scheme#> .
+
+
+<S203#> a skos:Concept ;
+  skos:prefLabel "Zoologie"@de ;
+  
+  skos:broader <B193#> ;
+  skos:inScheme <scheme#> .
+
