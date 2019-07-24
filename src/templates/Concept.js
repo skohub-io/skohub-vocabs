@@ -49,10 +49,24 @@ const Concept = ({pageContext}) => {
       <h1>{t(pageContext.node.prefLabel)}</h1>
       <h2>{pageContext.node.id}</h2>
       {pageContext.node.definition
-        && <div className="markdown"><Markdown>{t(pageContext.node.definition)}</Markdown></div>
+        && (
+          <div className="markdown">
+            <h3>Definition</h3>
+            <Markdown>
+              {t(pageContext.node.definition)}
+            </Markdown>
+          </div>
+        )
       }
       {pageContext.node.scopeNote
-        && <div className="markdown"><Markdown>{t(pageContext.node.scopeNote)}</Markdown></div>
+        && (
+          <div className="markdown">
+            <h3>Scope Note</h3>
+            <Markdown>
+              {t(pageContext.node.scopeNote)}
+            </Markdown>
+          </div>
+        )
       }
     </div>
     </div>

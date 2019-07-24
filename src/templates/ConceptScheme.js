@@ -43,7 +43,13 @@ const ConceptScheme = ({pageContext}) => {
       <h1>{pageContext.node.title[Object.keys(pageContext.node.title)[0]]}</h1>
       <h2>{pageContext.node.id}</h2>
       {pageContext.node.description
-        && <div className="markdown"><Markdown>{t(pageContext.node.description)}</Markdown></div>
+        && (
+          <div className="markdown">
+            <Markdown>
+              {t(pageContext.node.description)}
+            </Markdown>
+          </div>
+        )
       }
     </div>
     </div>
