@@ -5,7 +5,8 @@
  */
 const jsonld = require('jsonld')
 const n3 = require('n3')
-const path = require(`path`)
+const path = require('path')
+const fs = require('fs')
 
 const parser = new n3.Parser()
 const writer = new n3.Writer({ format: 'N-Quads' })
@@ -41,6 +42,7 @@ exports.sourceNodes = ({ actions }) => {
       prefLabel: [Label]!
       id: String!
       tree: String!
+      json: String!
       narrower: [Concept]
       inScheme: ConceptScheme
       topConceptOf: ConceptScheme
@@ -53,6 +55,7 @@ exports.sourceNodes = ({ actions }) => {
       title: String!
       id: String!
       tree: String!
+      json: String!
       hasTopConcept: [Concept]
     }
 
@@ -87,7 +90,10 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDig
                 jsonld.compact(doc, context, (err, compacted) => {
                   if (err) throw err;
                   compacted['@graph'].forEach((obj, i) => transformObject(
-                    Object.assign(obj, {tree: JSON.stringify(framed['@graph'][0])})
+                    Object.assign(obj, {
+                      tree: JSON.stringify(framed['@graph'][0]),
+                      json: JSON.stringify(Object.assign({}, context, obj), null, 2)
+                    })
                   ))
                 })
               })
@@ -140,6 +146,7 @@ exports.createPages = ({ graphql, actions }) => {
               id
             }
             tree
+            json
           }
         }
       }
@@ -152,12 +159,12 @@ exports.createPages = ({ graphql, actions }) => {
               id
             }
             tree
+            json
           }
         }
       }
     }
 `).then(result => {
-  console.log(result)
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
       path: node.id.replace("http:/", "").replace("#", "") + '.html',
@@ -167,6 +174,7 @@ exports.createPages = ({ graphql, actions }) => {
         narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : []
       }
     })
+    createJson(node)
   })
   result.data.allConceptScheme.edges.forEach(({ node }) => {
     createPage({
@@ -177,5 +185,11 @@ exports.createPages = ({ graphql, actions }) => {
         hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : []
       }
     })
+    createJson(node)
   })
 })}
+
+const createJson = (node) => {
+  const path = 'public' + node.id.replace("http:/", "").replace("#", "") + '.json'
+  fs.writeFile(path, node.json, err => err && console.error(err))
+}
