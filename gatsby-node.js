@@ -6,7 +6,7 @@
 const jsonld = require('jsonld')
 const n3 = require('n3')
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 
 const parser = new n3.Parser()
 const writer = new n3.Writer({ format: 'N-Quads' })
@@ -218,5 +218,5 @@ exports.createPages = ({ graphql, actions }) => {
 
 const createJson = (node) => {
   const path = 'public' + node.id.replace("http:/", "").replace("#", "") + '.json'
-  fs.writeFile(path, node.json, err => err && console.error(err))
+  fs.outputFile(path, node.json, err => err && console.error(err))
 }
