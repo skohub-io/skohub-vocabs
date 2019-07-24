@@ -17,9 +17,20 @@ const context = {
     "type": "@type",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
     "title": {
-      "@id": "http://purl.org/dc/terms/title"
+      "@id": "http://purl.org/dc/terms/title",
+      "@container": "@language"
+    },
+    "description": {
+      "@id": "http://purl.org/dc/terms/description",
+      "@container": "@language"
     },
     "prefLabel": {
+      "@container": "@language"
+    },
+    "definition": {
+      "@container": "@language"
+    },
+    "scopeNote": {
       "@container": "@language"
     },
     "narrower": {
@@ -38,6 +49,8 @@ exports.sourceNodes = ({ actions }) => {
     """
     type Concept implements Node @infer {
       prefLabel: Label!
+      definition: Label
+      scopeNote: Label
       id: String!
       tree: String!
       json: String!
@@ -50,7 +63,8 @@ exports.sourceNodes = ({ actions }) => {
     ConceptScheme Node
     """
     type ConceptScheme implements Node @infer {
-      title: String!
+      title: Label!
+      description: Label
       id: String!
       tree: String!
       json: String!
@@ -134,6 +148,14 @@ exports.createPages = ({ graphql, actions }) => {
               de
               en
             }
+            definition {
+              de
+              en
+            }
+            scopeNote {
+              de
+              en
+            }
             narrower {
               id
             }
@@ -151,7 +173,14 @@ exports.createPages = ({ graphql, actions }) => {
       allConceptScheme {
         edges {
           node {
-            title
+            title {
+              de
+              en
+            }
+            description {
+              de
+              en
+            }
             id
             hasTopConcept {
               id
