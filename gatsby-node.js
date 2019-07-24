@@ -10,19 +10,26 @@ const path = require(`path`)
 const parser = new n3.Parser()
 const writer = new n3.Writer({ format: 'N-Quads' })
 
-const frame = {
+const context = {
   "@context": {
     "id": "@id",
     "type": "@type",
     "language": "@language",
     "value": "@value",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
-    "name": {
-      "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "title": {
+      "@id": "http://purl.org/dc/terms/title"
+    },
+    "prefLabel": {
+      "@container": "@set"
+    },
+    "narrower": {
       "@container": "@set"
     }
   }
 }
+
+const frame = Object.assign({'@type': 'ConceptScheme'}, context)
 
 exports.sourceNodes = ({ actions }) => {
   const { createTypes } = actions
@@ -31,20 +38,28 @@ exports.sourceNodes = ({ actions }) => {
     Concept Node
     """
     type Concept implements Node @infer {
-      name: [Name!]!
+      prefLabel: [Label]!
+      id: String!
+      tree: String!
+      narrower: [Concept]
+      inScheme: ConceptScheme
+      topConceptOf: ConceptScheme
     }
 
     """
     ConceptScheme Node
     """
     type ConceptScheme implements Node @infer {
-      name: [Name!]!
+      title: String!
+      id: String!
+      tree: String!
+      hasTopConcept: [Concept]
     }
 
     """
-    Multilingual Name
+    Multilingual Label
     """
-    type Name @infer {
+    type Label @infer {
       language: String!
       value: String!
     }
@@ -67,17 +82,13 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDig
           if (!error) {
             jsonld.fromRDF(nquads, {format: 'application/n-quads'}, (err, doc) => {
               if (err) throw err;
-              jsonld.compact(doc, frame, (err, framed) => {
+              jsonld.frame(doc, frame, (err, framed) => {
                 if (err) throw err;
-
-                const parsedContent = framed['@graph']
-
-                parsedContent.forEach((obj, i) => {
-                  transformObject(
-                    obj,
-                    obj.id,
-                    obj.type
-                  )
+                jsonld.compact(doc, context, (err, compacted) => {
+                  if (err) throw err;
+                  compacted['@graph'].forEach((obj, i) => transformObject(
+                    Object.assign(obj, {tree: JSON.stringify(framed['@graph'][0])})
+                  ))
                 })
               })
             })
@@ -91,16 +102,15 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDig
     })
   }
 
-  function transformObject(obj, id, type) {
-
+  function transformObject(obj) {
     const ttlNode = {
       ...obj,
-      id,
+      id: obj.id,
       children: [],
       parent: node.id,
       internal: {
         contentDigest: createContentDigest(obj),
-        type,
+        type: obj.type,
       },
     }
     createNode(ttlNode)
@@ -112,21 +122,60 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   return graphql(`
     {
-	  allConcept {
-    edges {
-      node {
-        id
+      allConcept {
+        edges {
+          node {
+            id
+            prefLabel {
+              value
+              language
+            }
+            narrower {
+              id
+            }
+            inScheme {
+              id
+            }
+            topConceptOf {
+              id
+            }
+            tree
+          }
+        }
+      }
+      allConceptScheme {
+        edges {
+          node {
+            title
+            id
+            hasTopConcept {
+              id
+            }
+            tree
+          }
+        }
       }
     }
-  }
-}
 `).then(result => {
+  console.log(result)
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
-      path: node.id.replace("http:/", "").replace("#", ""),
-      component: path.resolve(`./src/templates/concept.js`),
+      path: node.id.replace("http:/", "").replace("#", "") + '.html',
+      component: path.resolve(`./src/templates/Concept.js`),
       context: {
-      },
+        node,
+        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : []
+      }
+    })
+  })
+  result.data.allConceptScheme.edges.forEach(({ node }) => {
+    createPage({
+      path: node.id.replace("http:/", "").replace("#", "") + '.html',
+      component: path.resolve(`./src/templates/ConceptScheme.js`),
+      context: {
+        node,
+        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : []
+      }
     })
   })
 })}
