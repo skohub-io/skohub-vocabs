@@ -15,14 +15,12 @@ const context = {
   "@context": {
     "id": "@id",
     "type": "@type",
-    "language": "@language",
-    "value": "@value",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
     "title": {
       "@id": "http://purl.org/dc/terms/title"
     },
     "prefLabel": {
-      "@container": "@set"
+      "@container": "@language"
     },
     "narrower": {
       "@container": "@set"
@@ -39,7 +37,7 @@ exports.sourceNodes = ({ actions }) => {
     Concept Node
     """
     type Concept implements Node @infer {
-      prefLabel: [Label]!
+      prefLabel: Label!
       id: String!
       tree: String!
       json: String!
@@ -62,9 +60,9 @@ exports.sourceNodes = ({ actions }) => {
     """
     Multilingual Label
     """
-    type Label @infer {
-      language: String!
-      value: String!
+    type Label implements Node @infer {
+      de: String
+      en: String
     }
   `
   createTypes(typeDefs)
@@ -133,8 +131,8 @@ exports.createPages = ({ graphql, actions }) => {
           node {
             id
             prefLabel {
-              value
-              language
+              de
+              en
             }
             narrower {
               id
