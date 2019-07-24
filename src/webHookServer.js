@@ -22,8 +22,8 @@ const getFile = async (file, repository) => {
     const response = await fetch(file.url)
     const data = await response.text()
     const path = `data/${repository}/`
-    await fs.outputFile(`${path}${file.name}`, data)
-    console.info("Created file:".green, file.name)
+    await fs.outputFile(`${path}${file.path}`, data)
+    console.info("Created file:".green, file.path)
   } catch (error) {
     console.error(error)
   }
@@ -65,16 +65,9 @@ router.post('/build', async (ctx) => {
 
 const processWebhook = async (webhook) => {
   const response = await fetch(`https://api.github.com/repos/${webhook.repository}/contents/data`)
-  const json = await response.json()
-
-  const files = json.map(file => {
-    return {
-      url: file.download_url, name: file.name
-    }
-  })
-
+  const files = await response.json()
   for (const file of files) {
-    await getFile(file, webhook.repository)
+    await getFile({url: file.download_url, path: file.path}, webhook.repository)
   }
 }
 

@@ -58,7 +58,7 @@
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --verbose --coverage",
-    "listenHook": "node scripts/listenHook.js"
+    "listen": "node src/webHookServer.js"
   },
   "repository": {
     "type": "git",
