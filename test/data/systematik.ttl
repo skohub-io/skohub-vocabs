@@ -10,42 +10,60 @@
 
 <F1#> a skos:Concept ;
   skos:prefLabel "Agrar- und Forstwissenschaften"@de ;
+  skos:definition """Die Agrar- und Forstwissenschaften beschäftigen sich vor allem mit Ackerbau, Viehzucht und der Nutzung bzw. Gestaltung von Wald, Natur und Landschaft. Inhaltlich prägen diese Fächergruppe ökologische, wirtschaftliche, sozial- und ingenieurwissenschaftliche Fragestellungen, die im Zusammenhang mit der Natur gestellt und beantwortet werden. Neben dem Studienbereich Agrarwissenschaften sind auch Studiengänge der Forst- und Holzwirtschaften, sowie der Umwelt- und Landschaftsgestaltung Teil der Fächergruppe. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften.html))"@de;
+  skos:scopeNote "Die Studiengänge der Agrar- und Forstwissenschaften sind stark durch naturwissenschaftliche Studienfächer wie Zoologie, Botanik, Physik und Chemie geprägt. Je nach Studienrichtung werden im Studium auch wirtschafts- und sozialwissenschaftliche Grundlagen vermittelt. Bei den Studiengängen der Forst- und Holzwirtschaften sowie der Umweltgestaltung stehen eher ingenieurwissenschaftlich-technische Inhalte im Fokus. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften.html))"""@de;
   skos:narrower <B1#>, <B8#>, <B12#>;
   skos:topConceptOf <scheme#> .
 
 
 <F17#> a skos:Concept ;
   skos:prefLabel "Gesellschafts- und Sozialwissenschaften"@de ;
+  skos:definition """Studiengänge der Gesellschafts- und Sozialwissenschaften beschäftigen sich vor allem mit dem gesellschaftlichen Zusammenleben und der politischen, sozialen und kulturellen Organisation von menschlichen Gesellschaften sowie mit dem Verhalten des einzelnen Menschen. Zur Fächergruppe Gesellschafts- und Sozialwissenschaften zählen eine Vielzahl unterschiedlicher Studiengänge aus den Bereichen Beratung, Pädagogik/Erziehungswissenschaften, Politikwissenschaften, Psychologie, Soziale Arbeit/Heilpädagogik, Sozialwissenschaften, Sport sowie Theologie/Religion. ([Quelle](https://www.hochschulkompass.de/studienbereiche-kennenlernen/gesellschafts-und-sozialwissenschaften.html))"@de;
+  skos:scopeNote "Studiengänge der Gesellschafts- und Sozialwissenschaften sind durch sozial-, erziehungs- und politikwissenschaftliche Inhalte gekennzeichnet und bearbeiten Aspekte, die die individuellen, sozialen und wirtschaftlichen Lebensbedingungen der Menschen betreffen. Häufig beschäftigen sich Studierende mit Fragestellungen, die eine intensive Auseinandersetzung mit Theorien und einen dementsprechend guten Umgang mit Texten voraussetzen. Studienfächer wie Statistik und empirische Sozialforschung sind fester Bestandteil vieler Studiengänge der Gesellschafts- und Sozialwissenschaften. Neben den eher als theoretisch zu bezeichnenden Studiengängen gibt es natürlich auch Studiengänge, die ihren Fokus auf praktische bzw. pädagogisch-anleitende Inhalte legen. Beispiele hierfür sind Studiengänge aus den Studienbereichen Soziale Arbeit/Heilpädagogik, Pädagogik/Erziehungswissenschaften und Sport. ([Quelle](https://www.hochschulkompass.de/studienbereiche-kennenlernen/gesellschafts-und-sozialwissenschaften.html))"""@de;
   skos:narrower <B399#>, <B17#>, <B26#>, <B29#>, <B37#>, <B40#>, <B42#>, <B46#>;
   skos:topConceptOf <scheme#> .
 
 
 <F56#> a skos:Concept ;
   skos:prefLabel "Ingenieurwissenschaften"@de ;
+  skos:definition """Die Studiengänge der Fächergruppe Ingenieurwissenschaften verbinden Technologie mit Mathematik und den Naturwissenschaften. Die Ingenieurwissenschaften beschäftigen sich vor allem mit der Lösung von technischen Problemen und der Entwicklung zukunftsträchtiger Technologien. Geprägt sind die Ingenieurwissenschaften durch die Naturwissenschaften, die Mathematik und natürlich die Technik, wobei auch die jeweiligen wirtschaftlichen Rahmenbedingungen sowie die Auswirkung von Technik auf Umwelt und Gesellschaft berücksichtigt werden.
+
+  In der Fächergruppe Ingenieurwissenschaften gibt es eine große Auswahl an Studienbereichen und Studiengängen. Neben \"klassischen\" Ingenieurdisziplinen wie Maschinenbau, Elektrotechnik oder Bauingenieurwesen, gibt es auch neuere Studienbereiche wie z.B. das Bioingenieurwesen, die Mechatronik, das Technische Gesundheitswesen, die Umweltschutz- und Entsorgungstechnik oder das Wirtschaftsingenieurwesen. ([Quelle](https://www.hochschulkompass.de/ingenieurwissenschaften.html))"""@de;
+  skos:scopeNote """Studiengänge der Ingenieurwissenschaften sind vor allem durch naturwissenschaftliche und technikwissenschaftliche Inhalte gekennzeichnet, vermitteln aber auch Kenntnisse aus der Rechtswissenschaft und der Betriebswirtschaftslehre. Kreativität, schöpferisches Vorstellungsvermögen, Phantasie und eine gute Beobachtungsgabe sind weitere Voraussetzungen für ein erfolgreiches Ingenieurstudium. ([Quelle](https://www.hochschulkompass.de/ingenieurwissenschaften.html))"""@de;
   skos:narrower <B56#>, <B59#>, <B63#>, <B66#>, <B69#>, <B71#>, <B74#>, <B400#>, <B84#>, <B87#>, <B91#>, <B94#>, <B96#>, <B102#>, <B104#>, <B108#>, <B109#>, <B116#>, <B401#>, <B120#>, <B126#>, <B132#>, <B134#>, <B145#>;
   skos:topConceptOf <scheme#> .
 
 
 <F146#> a skos:Concept ;
   skos:prefLabel "Kunst, Musik, Design"@de ;
+  skos:definition """Bei den Studiengängen der Fächergruppe Kunst, Musik, Design steht meist das eigene gestalterische und künstlerische Schaffen im Mittelpunkt, wie z.B. bei der Bildhauerei, Malerei, dem Tanz oder dem Schauspiel. Es gibt aber natürlich auch Studiengänge, die sich mit Kunst, Musik, Theater oder Film eher wissenschaftlich-theoretisch auseinandersetzen und bei denen die eigene künstlerische Tätigkeit nicht im Mittelpunkt steht. Neben den Studienbereichen Bildende Künste, Darstellende Künste, Design/Gestaltung und Musik gehören zu dieser Fächergruppe auch die Kunstwissenschaften/Kunstpädagogik und die Musikwissenschaften/Musikpädagogik.  ([Quelle](https://www.hochschulkompass.de/kunst-musik-und-design.html))"""@de;
+  skos:scopeNote """Die Fächergruppe Kunst, Musik, Design umfasst ausschließlich Studiengänge des künstlerischen Fachstudiums und nicht diejenigen, die im Rahmen eines Lehramtsstudiums studiert werden können. Die letztgenannten Studiengänge finden Sie in der Fächergruppe Lehramt. ([Quelle](https://www.hochschulkompass.de/kunst-musik-und-design.html))"""@de;
   skos:narrower <B146#>, <B156#>, <B165#>, <B173#>, <B179#>, <B176#>, <B405#>;
   skos:topConceptOf <scheme#> .
 
 
 <F381#> a skos:Concept ;
   skos:prefLabel "Lehramt"@de ;
+  skos:definition """Die Fächergruppe Lehramt ist in drei Studienbereiche unterteilt: die Beruflichen Fachrichtungen, die Schulischen Fächer und die Sonderpädagogik, inklusive Pädagogik. Diesen Studienbereichen sind wiederum mehrere Studienfelder zugeordnet, die miteinander kombiniert werden können.
+
+  Bildung ist Ländersache und daraus resultieren unterschiedliche Regelungen und Ausbildungskonzepte in den 16 Bundesländern, beispielsweise die Fächerwahl und -kombinationen betreffend. Allen gemeinsam ist, dass das Lehramtsstudium von der jeweils gewählten Schulform abhängig ist und in der Regel mindestens zwei Fächer studiert werden müssen. ([Quelle](https://www.hochschulkompass.de/lehramt.html))"""@de;
   skos:narrower <B396#>, <B398#>, <B397#>;
   skos:topConceptOf <scheme#> .
 
 
 <F193#> a skos:Concept ;
   skos:prefLabel "Mathematik, Naturwissenschaften"@de ;
+  skos:definition """Die Fächergruppe Mathematik, Naturwissenschaften beschäftigt sich mit der unbelebten und belebten Natur, beobachtet und beschreibt Naturerscheinungen und versucht, diese zu erklären. Es geht vor allem darum, anhand von Experimenten - die im Labor oder in der Natur durchgeführt werden - Zusammenhänge und Gesetzmäßigkeiten zu erkennen und diese mit Hilfe von Modellen und Theorien verständlich zu machen. Die wichtigste Hilfswissenschaft hierfür ist die Mathematik. Das Wissen über die Beschaffenheit von Lebewesen und Stoffen ist die Grundlage für neue Technologien und Innovationen. Die Erkenntnisse aus der Fächergruppe Mathematik, Naturwissenschaften dienen eher praxisorientierten Studienbereichen und den Ingenieurwissenschaften als wichtige Grundlage und sind zum Teil sogar deren Voraussetzung. ([Quelle](https://www.hochschulkompass.de/mathematik-naturwissenschaften.html))"""@de;
+  skos:scopeNote """Zur Fächergruppe Mathematik, Naturwissenschaften gehören neben dem Studienbereich Mathematik und den klassischen Naturwissenschaften wie z.B. Biologie, Chemie oder Physik u.a. auch die Studienbereiche Neurowissenschaften, Nanowissenschaften oder Umweltwissenschaften. Studienmöglichkeiten, die für eine Tätigkeit als Lehrer qualifizieren, finden Sie in der Fächergruppe Lehramt. ([Quelle](https://www.hochschulkompass.de/mathematik-naturwissenschaften.html))"""@de;
   skos:narrower <B193#>, <B204#>, <B212#>, <B214#>, <B217#>, <B226#>, <B237#>, <B242#>, <B402#>, <B248#>, <B250#>, <B403#>;
   skos:topConceptOf <scheme#> .
 
 
 <F255#> a skos:Concept ;
   skos:prefLabel "Medizin, Gesundheitswissenschaften"@de ;
+  skos:definition """Die Fächergruppe Medizin, Gesundheitswissenschaften beschäftigt sich vor allem mit dem Erkennen von Krankheiten bei Mensch und Tier, deren Heilung bzw. Linderung und mit der Krankheitsprävention. Darüber hinaus geht es um die Erforschung von Krankheiten und deren Ursachen sowie der Entwicklung neuer Diagnose- und Behandlungsmethoden. Der Studienbereich Gesundheits- und Pflegewissenschaften beschäftigt sich v.a. mit der Kranken- und Altenpflege sowie gesundheitspädagogischen und -ökonomischen Fragestellungen. Der Studienbereich Therapien umfasst die nichtärztlichen Therapien wie z.B. Logopädie oder Physiotherapie.
+
+  Ein Medizinstudium bereitet auf die Tätigkeit als Arzt vor und ist bundeseinheitlich durch sogenannte Approbationsordnungen für Humanmediziner, Zahnärzte bzw. Tierärzte geregelt. Das Medizinstudium ist bundesweit zulassungsbeschränkt und die Vergabe der Studienplätze zentral geregelt. Studiengänge der Humanmedizin, Zahnmedizin und Tiermedizin werden ausschließlich von Universitäten angebote ([Quelle](https://www.hochschulkompass.de/medizin-gesundheitswissenschaften.html))"""@de;
   skos:narrower <B255#>, <B270#>, <B263#>;
   skos:topConceptOf <scheme#> .
 
@@ -58,12 +76,19 @@
 
 <F273#> a skos:Concept ;
   skos:prefLabel "Sprach- und Kulturwissenschaften"@de ;
+  skos:definition """Die Fächergruppe Sprach- und Kulturwissenschaften beschäftigt sich im weitesten Sinne mit den Sprachen und Kulturen der Erde. Studiengänge in dieser Gruppe befassen sich mit den Kulturleistungen des Menschen wie z.B. Sprache, Religion, Literatur und Philosophie sowie deren Auslegung und Deutung.
+
+  Die Fächergruppe der Sprach- und Kulturwissenschaften umfasst eine große Anzahl Studiengänge aus so unterschiedlichen Bereichen wie etwa Anglistik, Bibliothekswissenschaft, Ethnologie, Germanistik, Geschichtswissenschaft, Journalistik, Medienwissenschaften, Philosophie, Regionalstudien oder Sprach- und Literaturwissenschaften. Einige Sprachwissenschaften wie z.B. Linguistik oder Rhetorik beschäftigen sich darüber hinaus mit den pädagogischen und kommunikationstheoretischen Aspekten des Sprechens. ([Quelle](https://www.hochschulkompass.de/sprach-und-kulturwissenschaften.html))"""@de;
+  skos:scopeNote """Lehramtsstudiengänge fallen nicht unter die Sprach- und Kulturwissenschaften, sondern haben ihren eigenen Studienbereich \"Lehramt\". Studiengänge, in denen man gestalterisch, künstlerisch oder musisch tätig ist, finden sich in der Fächergruppe \"Kunst, Musik, Design\". ([Quelle](https://www.hochschulkompass.de/sprach-und-kulturwissenschaften.html))"""@de;
   skos:narrower <B273#>, <B277#>, <B279#>, <B282#>, <B288#>, <B293#>, <B302#>, <B404#>, <B316#>, <B320#>, <B325#>, <B328#>, <B334#>, <B342#>, <B348#>, <B351#>, <B357#>, <B363#>, <B369#>;
   skos:topConceptOf <scheme#> .
 
 
 <F380#> a skos:Concept ;
   skos:prefLabel "Wirtschaftswissenschaften, Rechtswissenschaften"@de ;
+  skos:definition """Die Wirtschaftswissenschaften beschäftigen sich mit der Analyse von ökonomischen Handlungen von Konsumenten, Unternehmen und öffentlichen Institutionen und bestehen im engeren Sinne aus den beiden klassischen Disziplinen Betriebswirtschaftslehre und Volkswirtschaftslehre. Während sich die Betriebswirtschaftslehre vor allem mit betrieblichen Prozessen und den wirtschaftlichen Zusammenhängen einzelner Unternehmen befasst, widmet sich die Volkswirtschaftslehre vor allem den ökonomischen Zusammenhängen innerhalb einer Gesellschaft. Neben klassischen wirtschaftswissenschaftlichen Studiengängen bieten Hochschulen immer häufiger Programme an, die interdisziplinär, europäisch oder international ausgerichtet sind.
+
+  Die Rechtswissenschaften, auch Jura genannt, beschäftigen sich mit dem Recht und seinen Erscheinungsformen, also der Ordnung, die ein gesellschaftliches Zusammenleben regelt. Es geht dabei wesentlich um die systematische und begriffliche Erfassung historischer und gegenwärtiger juristischer Texte sowie anderer rechtlicher Quellen. ([Quelle](https://www.hochschulkompass.de/rechtswissenschaften-wirtschaftswissenschaften.html))"""@de;
   skos:narrower <B395#>, <B380#>;
   skos:topConceptOf <scheme#> .
 
@@ -77,6 +102,7 @@
 
 <B1#> a skos:Concept ;
   skos:prefLabel "Agrarwissenschaften"@de ;
+  skos:definition """Die Agrarwissenschaften beschäftigen sich mit der Produktion von Nahrungs- und Futtermitteln durch die wirtschaftliche Nutzung und Pflege des Bodens sowie den ökonomischen und ökologischen Rahmenbedingungen des landwirtschaftlichen Produktionsprozesses. Zu den Agrarwissenschaften zählen u.a. die Agrarwirtschaft, die Landwirtschaft, der Gartenbau, der Landbau und der Weinbau. Dieser Studienbereich steht in enger Beziehung zu den Forstwissenschaften. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften/agrarwissenschaften.html))"""@de ;
   skos:narrower <S1#>, <S2#>, <S3#>, <S475#>, <S4#>, <S5#>, <S6#>, <S7#>;
   skos:broader <F1#> ;
   skos:inScheme <scheme#> .
@@ -231,6 +257,7 @@
 
 <B8#> a skos:Concept ;
   skos:prefLabel "Forst- und Holzwirtschaft"@de ;
+  skos:definition "Die Forstwirtschaft befasst sich mit der nachhaltigen Bewirtschaftung und Nutzbarmachung von Wäldern, deren Bedeutung für ihre Umwelt sowie mit dem gesamten Ökosystem Wald. Es geht dabei nicht nur um den wirtschaftlichen Nutzen des Waldes, sondern auch um dessen Beitrag zur Reinhaltung der Luft, zur Bodenfruchtbarkeit, zum Landschaftsbild, zur Erholung der Bevölkerung etc. Die Holzwirtschaft ist eng mit der Forstwirtschaft verknüpft, beschäftigt sich aber vor allem mit der Verarbeitung und der wirtschaftlichen Nutzung des Holzes. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften/forst-und-holzwirtschaft.html))"@de;
   skos:narrower <S8#>, <S9#>, <S11#>, <S10#>;
   skos:broader <F1#> ;
   skos:inScheme <scheme#> .
@@ -595,6 +622,7 @@
 
 <B12#> a skos:Concept ;
   skos:prefLabel "Umwelt- und Landschaftsgestaltung"@de ;
+  skos:definition "Der Studienbereich Umwelt- und Landschaftsgestaltung befasst sich mit der Freiraumplanung sowie dem Entwerfen, Erhalten, Entwickeln, Rekultivieren und dem Aufbauen von Freiräumen. Je nach Studiengang werden auch die Entwicklung, Pflege und der Schutz von städtischem Grün behandelt. Zum Studienbereich Umwelt- und Landschaftsgestaltung zählen die Arboristik, die Landespflege, die Landschaftsarchitektur, die Landschaftsgestaltung und die Umweltgestaltung. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften/umwelt-und-landschaftsgestaltung.html))"@de;
   skos:narrower <S12#>, <S13#>, <S14#>, <S15#>, <S16#>;
   skos:broader <F1#> ;
   skos:inScheme <scheme#> .
