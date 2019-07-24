@@ -9,7 +9,7 @@ const NestedList = ({items, current}) => (
           className={item.id === current ? 'current' : ''}
           href={`${item.id.replace('http:/', '').replace('#', '')}.html`}
         >
-          {item.prefLabel[0].value}
+          {item.prefLabel[Object.keys(item.prefLabel)[0]]}
         </a>
         {item.narrower && <NestedList items={item.narrower} current={current} />}
       </li>

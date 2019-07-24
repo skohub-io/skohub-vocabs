@@ -38,7 +38,7 @@ const Concept = ({pageContext}) => {
       <NestedList items={JSON.parse(pageContext.node.tree).hasTopConcept} current={pageContext.node.id} />
     </nav>
     <div className="content">
-      <h1>{pageContext.node.prefLabel[0].value}</h1>
+      <h1>{pageContext.node.prefLabel[Object.keys(pageContext.node.prefLabel)[0]]}</h1>
       <span>{pageContext.node.id}</span>
     </div>
     </div>
