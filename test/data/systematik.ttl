@@ -1,11 +1,15 @@
 
-@base <http://w3id.org/class/hochschulkompass/> .
+@base <http://w3id.org/class/hochschulfaecher/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix vann: <> .
 
 <scheme#> a skos:ConceptScheme ;
 dct:title "Fächersystematik Hochschulbildung in Deutschland"@de ;
   dct:description """Diese Systematik basiert auf der Klassifikation von Studiengängen in Deutschland des [Hochschulkompass](https://www.hochschulkompass.de/studienbereiche-kennenlernen.html). Sie umfasst drei Ebenen, die im Hochschulkompass "Fächergruppen", "studienbereiche" und "Studienfelder" genannt werden."""@de;
+  dct:issued "2019-05-27";
+  vann:preferredNamespaceUri "http://w3id.org/class/hochschulfaecher/";
+  vann:preferredNamespacePrefix "fshd";
   skos:hasTopConcept <F1#>, <F17#>, <F56#>, <F146#>, <F381#>, <F193#>, <F255#>, <F382#>, <F273#>, <F380#> .
 
 
