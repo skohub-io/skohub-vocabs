@@ -1,1 +1,1 @@
-export const t = localized => localized[Object.keys(localized)[0]]
+module.exports.t = localized => localized[Object.keys(localized)[0]]

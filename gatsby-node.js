@@ -7,6 +7,8 @@ const jsonld = require('jsonld')
 const n3 = require('n3')
 const path = require('path')
 const fs = require('fs-extra')
+const flexsearch = require('flexsearch')
+const t = require('./src/common').t
 
 const parser = new n3.Parser()
 const writer = new n3.Writer({ format: 'N-Quads' })
@@ -192,6 +194,7 @@ exports.createPages = ({ graphql, actions }) => {
       }
     }
 `).then(result => {
+  const index = flexsearch.create('speed')
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
       path: node.id.replace("http:/", "").replace("#", "") + '.html',
@@ -201,7 +204,11 @@ exports.createPages = ({ graphql, actions }) => {
         narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : []
       }
     })
-    createJson(node)
+    createJson({
+      path: node.id.replace("http:/", "").replace("#", "") + '.json',
+      data: node.json
+    })
+    index.add(node.id, t(node.prefLabel))
   })
   result.data.allConceptScheme.edges.forEach(({ node }) => {
     createPage({
@@ -212,11 +219,16 @@ exports.createPages = ({ graphql, actions }) => {
         hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : []
       }
     })
-    createJson(node)
+    createJson({
+      path: node.id.replace("http:/", "").replace("#", "") + '.json',
+      data: node.json
+    })
+    createJson({
+      path: node.id.replace("http:/", "").replace("#", "") + '.index.json',
+      data: JSON.stringify(index.export())
+    })
   })
 })}
 
-const createJson = (node) => {
-  const path = 'public' + node.id.replace("http:/", "").replace("#", "") + '.json'
-  fs.outputFile(path, node.json, err => err && console.error(err))
-}
+const createJson = ({path, data}) =>
+  fs.outputFile(`public${path}`, data, err => err && console.error(err))
