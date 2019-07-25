@@ -6,8 +6,7 @@ const fetch = require("node-fetch")
 const crypto = require('crypto')
 const uuidv4 = require('uuid/v4')
 const fs = require('fs-extra')
-const { promisify } = require('util')
-const exec = promisify(require('child_process').exec)
+const exec = require('child_process').exec
 require('dotenv').config()
 require('colors')
 
@@ -93,15 +92,14 @@ const processWebhooks = async () => {
       build.stdout.on('data', (data) => console.log('gatsbyLog: ' + data.toString()))
       build.stderr.on('data', (data) => console.log('gatsbyError: ' + data.toString()))
       build.on('exit', async () => {
-        try {
-          await exec(`rm -r ${__dirname}/../.cache`)
-          await exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`)
-          await exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`)
-          console.info("Build Finish".yellow)
-        } catch (e) {
-          console.error(e)
-        }
-        processingWebhooks = false
+        exec(`rm -r ${__dirname}/../.cache`).on('exit', () => {
+          exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
+            exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
+              console.info("Build Finish".yellow)
+              processingWebhooks = false
+            })
+          })
+        })
       })
     }
   }
