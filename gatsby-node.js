@@ -5,7 +5,8 @@
  */
 const jsonld = require('jsonld')
 const n3 = require('n3')
-const path = require(`path`)
+const path = require('path')
+const fs = require('fs-extra')
 
 const parser = new n3.Parser()
 const writer = new n3.Writer({ format: 'N-Quads' })
@@ -14,11 +15,23 @@ const context = {
   "@context": {
     "id": "@id",
     "type": "@type",
-    "language": "@language",
-    "value": "@value",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
+    "title": {
+      "@id": "http://purl.org/dc/terms/title",
+      "@container": "@language"
+    },
+    "description": {
+      "@id": "http://purl.org/dc/terms/description",
+      "@container": "@language"
+    },
     "prefLabel": {
-      "@container": "@set"
+      "@container": "@language"
+    },
+    "definition": {
+      "@container": "@language"
+    },
+    "scopeNote": {
+      "@container": "@language"
     },
     "narrower": {
       "@container": "@set"
@@ -35,9 +48,12 @@ exports.sourceNodes = ({ actions }) => {
     Concept Node
     """
     type Concept implements Node @infer {
-      prefLabel: [Label]!
+      prefLabel: Label!
+      definition: Label
+      scopeNote: Label
       id: String!
       tree: String!
+      json: String!
       narrower: [Concept]
       inScheme: ConceptScheme
       topConceptOf: ConceptScheme
@@ -47,18 +63,20 @@ exports.sourceNodes = ({ actions }) => {
     ConceptScheme Node
     """
     type ConceptScheme implements Node @infer {
-      prefLabel: [Label]
+      title: Label!
+      description: Label
       id: String!
       tree: String!
+      json: String!
       hasTopConcept: [Concept]
     }
 
     """
     Multilingual Label
     """
-    type Label @infer {
-      language: String!
-      value: String!
+    type Label implements Node @infer {
+      de: String
+      en: String
     }
   `
   createTypes(typeDefs)
@@ -84,7 +102,10 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDig
                 jsonld.compact(doc, context, (err, compacted) => {
                   if (err) throw err;
                   compacted['@graph'].forEach((obj, i) => transformObject(
-                    Object.assign(obj, {tree: JSON.stringify(framed['@graph'][0])})
+                    Object.assign(obj, {
+                      tree: JSON.stringify(framed['@graph'][0]),
+                      json: JSON.stringify(Object.assign({}, context, obj), null, 2)
+                    })
                   ))
                 })
               })
@@ -124,8 +145,16 @@ exports.createPages = ({ graphql, actions }) => {
           node {
             id
             prefLabel {
-              value
-              language
+              de
+              en
+            }
+            definition {
+              de
+              en
+            }
+            scopeNote {
+              de
+              en
             }
             narrower {
               id
@@ -137,23 +166,32 @@ exports.createPages = ({ graphql, actions }) => {
               id
             }
             tree
+            json
           }
         }
       }
       allConceptScheme {
         edges {
           node {
+            title {
+              de
+              en
+            }
+            description {
+              de
+              en
+            }
             id
             hasTopConcept {
               id
             }
             tree
+            json
           }
         }
       }
     }
 `).then(result => {
-  console.log(result)
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
       path: node.id.replace("http:/", "").replace("#", "") + '.html',
@@ -163,6 +201,7 @@ exports.createPages = ({ graphql, actions }) => {
         narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : []
       }
     })
+    createJson(node)
   })
   result.data.allConceptScheme.edges.forEach(({ node }) => {
     createPage({
@@ -173,5 +212,11 @@ exports.createPages = ({ graphql, actions }) => {
         hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : []
       }
     })
+    createJson(node)
   })
 })}
+
+const createJson = (node) => {
+  const path = 'public' + node.id.replace("http:/", "").replace("#", "") + '.json'
+  fs.outputFile(path, node.json, err => err && console.error(err))
+}
