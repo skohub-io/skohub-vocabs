@@ -8,9 +8,6 @@ const n3 = require('n3')
 const path = require('path')
 const fs = require('fs-extra')
 
-const parser = new n3.Parser()
-const writer = new n3.Writer({ format: 'N-Quads' })
-
 const context = {
   "@context": {
     "id": "@id",
@@ -85,6 +82,8 @@ exports.sourceNodes = ({ actions }) => {
 exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDigest}, pluginOptions) => {
 
   const { createNode, createParentChildLink } = actions
+  const writer = new n3.Writer({ format: 'N-Quads' })
+  const parser = new n3.Parser()
 
   if (node.internal.mediaType === 'text/turtle') {
     const content = await loadNodeContent(node)
@@ -194,7 +193,7 @@ exports.createPages = ({ graphql, actions }) => {
 `).then(result => {
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
-      path: getPath(process.env.GITHUB_REPOSITORY, node, 'html'),
+      path: getPath(node, 'html'),
       component: path.resolve(`./src/templates/Concept.js`),
       context: {
         node,
@@ -205,7 +204,7 @@ exports.createPages = ({ graphql, actions }) => {
   })
   result.data.allConceptScheme.edges.forEach(({ node }) => {
     createPage({
-      path: getPath(process.env.GITHUB_REPOSITORY, node, 'html'),
+      path: getPath(node, 'html'),
       component: path.resolve(`./src/templates/ConceptScheme.js`),
       context: {
         node,
@@ -216,12 +215,6 @@ exports.createPages = ({ graphql, actions }) => {
   })
 })}
 
-const getPath = (base, node, extension) => {
-  const path = node.id.replace("http:/", "").replace("#", "") + '.' + extension
-  return base ? `/${base}${path}` : path
-}
+const getPath = (node, extension) => node.id.replace("http:/", "").replace("#", "") + '.' + extension
 
-const createJson = (node) => {
-  const path = 'public' + getPath(process.env.GITHUB_REPOSITORY, node, 'json')
-  fs.outputFile(path, node.json, err => err && console.error(err))
-}
+const createJson = (node) => fs.outputFile('public' + getPath(node, 'json'), node.json, err => err && console.error(err))
