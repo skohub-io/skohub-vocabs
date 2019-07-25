@@ -36,35 +36,44 @@ const isSecured = (signature, payload) => {
   return signature === digest
 }
 
+const isCorrectEvent = (headers, payload) => {
+  return (headers['x-github-event'] === 'push')
+    && payload
+    && payload.repository
+    && payload.repository.full_name
+    && (payload.ref === `refs/heads/${payload.repository.master_branch}`)
+}
+
 router.post('/build', async (ctx) => {
   const { body } = ctx.request
   const signature = ctx.request.headers['x-hub-signature']
-  const repository = (body && body.repository && body.repository.full_name ) || null
 
   // Check if the given signature is valid
-  if (isSecured(signature, body)) {
-    if (repository) {
-
-      webhooks.push({
-        id: uuidv4(),
-        signature,
-        body,
-        repository,
-        date: new Date().toISOString()
-      })
-
-      ctx.body = 'Files Created'
-    } else {
-      ctx.status = 400
-      ctx.message = 'Error creating the files'
-    }
-  } else {
-    console.warn("The signature does not match")
+  if (!isSecured(signature, body)) {
+    ctx.status = 400
+    ctx.body = 'Bad request'
+    return
   }
+
+  // Check if the given event is valid
+  if (isCorrectEvent(ctx.request.headers, body)) {
+    const repository = body.repository.full_name
+    webhooks.push({
+      id: uuidv4(),
+      signature,
+      body,
+      repository,
+      date: new Date().toISOString()
+    })
+    ctx.body = 'Build triggered'
+  } else {
+    ctx.body = 'Payload was not for master, build not triggered'
+  }
+  ctx.status = 202
 })
 
 const processWebhook = async (webhook) => {
-  const response = await fetch(`https://api.github.com/repos/${webhook.repository}/contents/data`)
+  const response = await fetch(`https://api.github.com/repos/${webhook.repository}/contents/`)
   const files = await response.json()
   for (const file of files) {
     await getFile({url: file.download_url, path: file.path}, webhook.repository)
