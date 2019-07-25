@@ -19,7 +19,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: 'data',
-        path: `${__dirname}/data`,
+        path: `${__dirname}/data/${process.env.GITHUB_REPOSITORY || ''}`,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
