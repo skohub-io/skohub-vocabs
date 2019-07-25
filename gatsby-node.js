@@ -194,7 +194,7 @@ exports.createPages = ({ graphql, actions }) => {
 `).then(result => {
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
-      path: node.id.replace("http:/", "").replace("#", "") + '.html',
+      path: getPath(process.env.GITHUB_REPOSITORY, node, 'html'),
       component: path.resolve(`./src/templates/Concept.js`),
       context: {
         node,
@@ -205,7 +205,7 @@ exports.createPages = ({ graphql, actions }) => {
   })
   result.data.allConceptScheme.edges.forEach(({ node }) => {
     createPage({
-      path: node.id.replace("http:/", "").replace("#", "") + '.html',
+      path: getPath(process.env.GITHUB_REPOSITORY, node, 'html'),
       component: path.resolve(`./src/templates/ConceptScheme.js`),
       context: {
         node,
@@ -216,7 +216,12 @@ exports.createPages = ({ graphql, actions }) => {
   })
 })}
 
+const getPath = (base, node, extension) => {
+  const path = node.id.replace("http:/", "").replace("#", "") + '.' + extension
+  return base ? `/${base}${path}` : path
+}
+
 const createJson = (node) => {
-  const path = 'public' + node.id.replace("http:/", "").replace("#", "") + '.json'
+  const path = 'public' + getPath(process.env.GITHUB_REPOSITORY, node, 'json')
   fs.outputFile(path, node.json, err => err && console.error(err))
 }

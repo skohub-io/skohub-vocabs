@@ -88,7 +88,7 @@ const processWebhooks = async () => {
       const webhook = webhooks.shift()
       await processWebhook(webhook)
 
-      const build = exec('npm run build')
+      const build = exec(`GITHUB_REPOSITORY=${webhook.repository} npm run build`)
       build.stdout.on('data', (data) => console.log('gatsbyLog: ' + data.toString()))
       build.stderr.on('data', (data) => console.log('gatsbyError: ' + data.toString()))
       build.on('exit', (code) => {
