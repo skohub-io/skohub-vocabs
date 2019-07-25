@@ -94,9 +94,11 @@ const processWebhooks = async () => {
       build.on('exit', async () => {
         exec(`rm -r ${__dirname}/../.cache`).on('exit', () => {
           exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-            exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-              console.info("Build Finish".yellow)
-              processingWebhooks = false
+            exec(`rm -r ${__dirname}/../dist/${webhook.repository}/*`).on('exit', () => {
+              exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
+                console.info("Build Finish".yellow)
+                processingWebhooks = false
+              })
             })
           })
         })
