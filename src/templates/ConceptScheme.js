@@ -37,7 +37,10 @@ const ConceptScheme = ({pageContext}) => {
 
     `}>
     <nav>
-      <NestedList items={JSON.parse(pageContext.node.tree).hasTopConcept} />
+      <NestedList
+        items={JSON.parse(pageContext.node.tree).hasTopConcept}
+        baseURL={pageContext.baseURL}
+      />
     </nav>
     <div className="content">
       <h1>{pageContext.node.title[Object.keys(pageContext.node.title)[0]]}</h1>

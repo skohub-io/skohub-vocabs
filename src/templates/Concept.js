@@ -43,7 +43,11 @@ const Concept = ({pageContext}) => {
 
     `}>
     <nav>
-      <NestedList items={JSON.parse(pageContext.node.tree).hasTopConcept} current={pageContext.node.id} />
+      <NestedList
+        items={JSON.parse(pageContext.node.tree).hasTopConcept}
+        current={pageContext.node.id}
+        baseURL={pageContext.baseURL}
+      />
     </nav>
     <div className="content">
       <h1>{t(pageContext.node.prefLabel)}</h1>

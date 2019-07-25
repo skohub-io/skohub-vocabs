@@ -191,13 +191,17 @@ exports.createPages = ({ graphql, actions }) => {
       }
     }
 `).then(result => {
+  const baseURL = process.env.GITHUB_REPOSITORY
+    ? process.env.GITHUB_REPOSITORY + '/'
+    : ''
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
       path: getPath(node, 'html'),
       component: path.resolve(`./src/templates/Concept.js`),
       context: {
         node,
-        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : []
+        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
+        baseURL
       }
     })
     createJson(node)
@@ -208,7 +212,8 @@ exports.createPages = ({ graphql, actions }) => {
       component: path.resolve(`./src/templates/ConceptScheme.js`),
       context: {
         node,
-        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : []
+        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
+        baseURL
       }
     })
     createJson(node)
