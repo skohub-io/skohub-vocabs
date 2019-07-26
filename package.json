@@ -7,6 +7,8 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
+    "colors": "^1.3.3",
+    "dotenv": "^8.0.0",
     "fs-extra": "^8.1.0",
     "gatsby": "^2.3.3",
     "gatsby-image": "^2.0.35",
@@ -21,12 +23,17 @@
     "gatsby-transformer-json": "^2.1.11",
     "gatsby-transformer-sharp": "^2.1.17",
     "jsonld": "^1.6.2",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
     "markdown-to-jsx": "^6.10.2",
     "n3": "^1.1.1",
+    "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.0"
+    "react-helmet": "^5.2.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-jest": "^24.5.0",
@@ -51,7 +58,8 @@
     "test": "jest --verbose",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
-    "test:coverage": "jest --verbose --coverage"
+    "test:coverage": "jest --verbose --coverage",
+    "listen": "node src/webHookServer.js"
   },
   "repository": {
     "type": "git",
