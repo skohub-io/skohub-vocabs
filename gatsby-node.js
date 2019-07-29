@@ -10,9 +10,6 @@ const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const t = require('./src/common').t
 
-const parser = new n3.Parser()
-const writer = new n3.Writer({ format: 'N-Quads' })
-
 const context = {
   "@context": {
     "id": "@id",
@@ -87,6 +84,8 @@ exports.sourceNodes = ({ actions }) => {
 exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDigest}, pluginOptions) => {
 
   const { createNode, createParentChildLink } = actions
+  const writer = new n3.Writer({ format: 'N-Quads' })
+  const parser = new n3.Parser()
 
   if (node.internal.mediaType === 'text/turtle') {
     const content = await loadNodeContent(node)
@@ -195,40 +194,48 @@ exports.createPages = ({ graphql, actions }) => {
     }
 `).then(result => {
   const index = flexsearch.create('speed')
+  const baseURL = process.env.GITHUB_REPOSITORY
+    ? process.env.GITHUB_REPOSITORY + '/'
+    : ''
+
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
-      path: node.id.replace("http:/", "").replace("#", "") + '.html',
+      path: getPath(node, 'html'),
       component: path.resolve(`./src/templates/Concept.js`),
       context: {
         node,
-        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : []
+        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
+        baseURL
       }
     })
     createJson({
-      path: node.id.replace("http:/", "").replace("#", "") + '.json',
+      path: getPath(node, 'json'),
       data: node.json
     })
     index.add(node.id, t(node.prefLabel))
   })
   result.data.allConceptScheme.edges.forEach(({ node }) => {
     createPage({
-      path: node.id.replace("http:/", "").replace("#", "") + '.html',
+      path: getPath(node, 'html'),
       component: path.resolve(`./src/templates/ConceptScheme.js`),
       context: {
         node,
-        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : []
+        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
+        baseURL
       }
     })
     createJson({
-      path: node.id.replace("http:/", "").replace("#", "") + '.json',
+      path: getPath(node, 'json'),
       data: node.json
     })
     createJson({
-      path: node.id.replace("http:/", "").replace("#", "") + '.index.json',
+      path: getPath(node, 'index.json'),
       data: JSON.stringify(index.export())
     })
   })
 })}
+
+const getPath = (node, extension) => node.id.replace("http:/", "").replace("#", "") + '.' + extension
 
 const createJson = ({path, data}) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))

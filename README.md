@@ -1,3 +1,12 @@
 # Static site generator for Simple Knowledge Management Systems (SKOS)
 
 This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view including links to an inbox for each subject.
+
+## Running
+
+Create `.env` file:
+
+    PORT = 3000
+    SECRET = YOUR_GITHUB_WEBHOOK_SECRET
+
+Then `npm run listen`
