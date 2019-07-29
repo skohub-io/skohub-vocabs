@@ -194,9 +194,6 @@ exports.createPages = ({ graphql, actions }) => {
     }
 `).then(result => {
   const index = flexsearch.create('speed')
-  const baseURL = process.env.GITHUB_REPOSITORY
-    ? process.env.GITHUB_REPOSITORY + '/'
-    : ''
 
   result.data.allConcept.edges.forEach(({ node }) => {
     createPage({
@@ -205,7 +202,7 @@ exports.createPages = ({ graphql, actions }) => {
       context: {
         node,
         narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
-        baseURL
+        baseURL: process.env.BASEURL || ''
       }
     })
     createJson({
@@ -221,7 +218,7 @@ exports.createPages = ({ graphql, actions }) => {
       context: {
         node,
         hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
-        baseURL
+        baseURL: process.env.BASEURL || ''
       }
     })
     createJson({
