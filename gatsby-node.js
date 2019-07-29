@@ -40,7 +40,7 @@ const context = {
 
 const frame = Object.assign({'@type': 'ConceptScheme'}, context)
 
-exports.sourceNodes = ({ actions }) => {
+exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
   const typeDefs = `
     """
