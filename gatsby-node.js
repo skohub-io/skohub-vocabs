@@ -8,6 +8,7 @@ const n3 = require('n3')
 const path = require('path')
 const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
+const omitEmpty = require('omit-empty')
 const t = require('./src/common').t
 const context = require('./src/context')
 const queries = require('./src/queries')
@@ -68,7 +69,7 @@ exports.createPages = async ({ graphql, actions }) => {
       })
       createJson({
         path: getPath(node, 'json'),
-        data: Object.assign({}, node, context)
+        data: omitEmpty(Object.assign({}, node, context))
       })
       index.add(node.id, t(node.prefLabel))
     })
@@ -84,7 +85,7 @@ exports.createPages = async ({ graphql, actions }) => {
     })
     createJson({
       path: getPath(node, 'json'),
-      data: Object.assign({}, node, context)
+      data: omitEmpty(Object.assign({}, node, context))
     })
     createJson({
       path: getPath(node, 'index.json'),
