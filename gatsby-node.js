@@ -40,49 +40,6 @@ const context = {
 
 const frame = Object.assign({'@type': 'ConceptScheme'}, context)
 
-exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions
-  const typeDefs = `
-    """
-    Concept Node
-    """
-    type Concept implements Node @infer {
-      prefLabel: Label!
-      definition: Label
-      scopeNote: Label
-      id: String!
-      tree: String!
-      json: String!
-      narrower: [Concept]
-      inScheme: ConceptScheme
-      topConceptOf: ConceptScheme
-    }
-
-    """
-    ConceptScheme Node
-    """
-    type ConceptScheme implements Node @infer {
-      title: Label!
-      description: Label
-      id: String!
-      tree: String!
-      json: String!
-      hasTopConcept: [Concept]
-    }
-
-    """
-    Multilingual Label
-    """
-    type Label implements Node @infer {
-      de: String
-      en: String
-    }
-  `
-  createTypes(typeDefs)
-}
-
-const ids = []
-
 exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
   const writer = new n3.Writer({ format: 'N-Quads' })
   const parser = new n3.Parser()
@@ -92,27 +49,33 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
 
   nodes.forEach(node => parser.parse(node).forEach(quad => writer.addQuad(quad)))
   writer.end(async (error, nquads) => {
-    if (!error) {
-      const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
-      const framed = await jsonld.frame(doc, frame)
-      const compacted = await jsonld.compact(doc, context)
-      compacted['@graph'].forEach((graph, i) => {
-        const obj = Object.assign(graph, {
-          tree: JSON.stringify(framed['@graph'][0]),
-          json: JSON.stringify(Object.assign({}, context, graph), null, 2)
-        })
-        actions.createNode({
-          ...obj,
-          id: obj.id,
-          //children: [],
-          //parent: node.id,
-          internal: {
-            contentDigest: createContentDigest(obj),
-            type: obj.type,
-          },
-        })
-      })
+    if (error) {
+      console.error(error)
+      return
     }
+    const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
+    const framed = await jsonld.frame(doc, frame)
+    const compacted = await jsonld.compact(doc, context)
+    compacted['@graph'].forEach((graph, i) => {
+      const obj = Object.assign(graph, {
+        tree: JSON.stringify(framed['@graph'][0]),
+        json: JSON.stringify(Object.assign({}, context, graph), null, 2)
+      })
+      actions.createNode({
+        ...obj,
+        id: obj.id,
+        children: (obj.narrower || obj.hasTopConcept || []).map(narrower => narrower.id),
+        parent: (obj.broader && obj.broader.id) || null,
+        inScheme___NODE: (obj.inScheme && obj.inScheme.id) || null,
+        narrower___NODE: (obj.narrower || []).map(narrower => narrower.id),
+        hasTopConcept___NODE: (obj.hasTopConcept || []).map(topConcept => topConcept.id),
+        broader___NODE: (obj.broader && obj.broader.id) || null,
+        internal: {
+          contentDigest: createContentDigest(obj),
+          type: obj.type,
+        },
+      })
+    })
   })
 }
 
@@ -126,15 +89,12 @@ exports.createPages = ({ graphql, actions }) => {
             id
             prefLabel {
               de
-              en
             }
             definition {
               de
-              en
             }
             scopeNote {
               de
-              en
             }
             narrower {
               id
@@ -155,11 +115,9 @@ exports.createPages = ({ graphql, actions }) => {
           node {
             title {
               de
-              en
             }
             description {
               de
-              en
             }
             id
             hasTopConcept {
