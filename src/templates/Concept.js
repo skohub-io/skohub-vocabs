@@ -44,7 +44,7 @@ const Concept = ({pageContext}) => {
     `}>
     <nav>
       <NestedList
-        items={JSON.parse(pageContext.node.tree).hasTopConcept}
+        items={JSON.parse(pageContext.tree).hasTopConcept}
         current={pageContext.node.id}
         baseURL={pageContext.baseURL}
       />

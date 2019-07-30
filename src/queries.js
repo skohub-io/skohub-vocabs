@@ -1,9 +1,18 @@
-module.exports = `
+module.exports.allConcept = inScheme => `
   {
-    allConcept {
+    allConcept(
+      filter: {
+        inScheme: {
+          id: {
+            eq: "${inScheme}"
+          }
+        }
+      }
+    ) {
       edges {
         node {
           id
+          type
           prefLabel {
             de
           }
@@ -15,35 +24,67 @@ module.exports = `
           }
           narrower {
             id
+            prefLabel {
+              de
+            }
+          }
+          broader {
+            id
+            prefLabel {
+              de
+            }
           }
           inScheme {
             id
+            title {
+              de
+            }
           }
           topConceptOf {
             id
           }
-          tree
-          json
         }
       }
     }
+  }
+`
+
+module.exports.allConceptScheme = `
+  {
     allConceptScheme {
       edges {
         node {
+          id
+          type
           title {
             de
           }
           description {
             de
           }
-          id
           hasTopConcept {
-            id
+            ...ConceptFields
+            narrower {
+              ...ConceptFields
+              narrower {
+                ...ConceptFields
+                narrower {
+                  ...ConceptFields
+                  narrower {
+                    ...ConceptFields
+                  }
+                }
+              }
+            }
           }
-          tree
-          json
         }
       }
+    }
+  }
+  fragment ConceptFields on Concept {
+    id
+    prefLabel {
+      de
     }
   }
 `

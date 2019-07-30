@@ -30,17 +30,14 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const framed = await jsonld.frame(doc, frame)
     const compacted = await jsonld.compact(doc, context)
-    compacted['@graph'].forEach((graph, i) => {
-      const obj = Object.assign(graph, {
-        tree: JSON.stringify(framed['@graph'][0]),
-        json: JSON.stringify(Object.assign({}, context, graph), null, 2)
-      })
+    compacted['@graph'].forEach((obj, i) => {
       actions.createNode({
         ...obj,
         id: obj.id,
         children: (obj.narrower || obj.hasTopConcept || []).map(narrower => narrower.id),
         parent: (obj.broader && obj.broader.id) || null,
-        inScheme___NODE: (obj.inScheme && obj.inScheme.id) || null,
+        inScheme___NODE: (obj.inScheme && obj.inScheme.id) || (obj.topConceptOf && obj.topConceptOf.id) || null,
+        topConceptOf___NODE: (obj.topConceptOf && obj.topConceptOf.id) || null,
         narrower___NODE: (obj.narrower || []).map(narrower => narrower.id),
         hasTopConcept___NODE: (obj.hasTopConcept || []).map(topConcept => topConcept.id),
         broader___NODE: (obj.broader && obj.broader.id) || null,
@@ -53,50 +50,54 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
   })
 }
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  return graphql(queries).then(result => {
-    const index = flexsearch.create('speed')
+  const conceptSchemes = await graphql(queries.allConceptScheme)
 
-    result.data.allConcept.edges.forEach(({ node }) => {
+  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
+    const index = flexsearch.create('speed')
+    const tree = JSON.stringify(node)
+
+    const conceptsInScheme = await graphql(queries.allConcept(node.id))
+    conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
       createPage({
         path: getPath(node, 'html'),
         component: path.resolve(`./src/templates/Concept.js`),
         context: {
           node,
-          narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
+          tree,
           baseURL: process.env.BASEURL || ''
         }
       })
       createJson({
         path: getPath(node, 'json'),
-        data: node.json
+        data: Object.assign({}, node, context)
       })
       index.add(node.id, t(node.prefLabel))
     })
-    result.data.allConceptScheme.edges.forEach(({ node }) => {
-      createPage({
-        path: getPath(node, 'html'),
-        component: path.resolve(`./src/templates/ConceptScheme.js`),
-        context: {
-          node,
-          hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
-          baseURL: process.env.BASEURL || ''
-        }
-      })
-      createJson({
-        path: getPath(node, 'json'),
-        data: node.json
-      })
-      createJson({
-        path: getPath(node, 'index.json'),
-        data: JSON.stringify(index.export())
-      })
+
+    createPage({
+      path: getPath(node, 'html'),
+      component: path.resolve(`./src/templates/ConceptScheme.js`),
+      context: {
+        node,
+        tree,
+        baseURL: process.env.BASEURL || ''
+      }
     })
+    createJson({
+      path: getPath(node, 'json'),
+      data: Object.assign({}, node, context)
+    })
+    createJson({
+      path: getPath(node, 'index.json'),
+      data: index.export()
+    })
+
   })
 }
 
 const getPath = (node, extension) => node.id.replace("http:/", "").replace("#", "") + '.' + extension
 
 const createJson = ({path, data}) =>
-  fs.outputFile(`public${path}`, data, err => err && console.error(err))
+  fs.outputFile(`public${path}`, JSON.stringify(data, null, 2), err => err && console.error(err))

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 import React from "react"
+import { t } from '../common'
 
 const NestedList = ({items, current, baseURL}) => (
   <ul>
@@ -9,7 +10,7 @@ const NestedList = ({items, current, baseURL}) => (
           className={item.id === current ? 'current' : ''}
           href={`${item.id.replace('http://', `/${baseURL}`).replace('#', '')}.html`}
         >
-          {item.prefLabel[Object.keys(item.prefLabel)[0]]}
+          {t(item.prefLabel)}
         </a>
         {item.narrower && <NestedList items={item.narrower} current={current} baseURL={baseURL} />}
       </li>
