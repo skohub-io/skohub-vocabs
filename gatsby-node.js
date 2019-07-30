@@ -12,8 +12,6 @@ const t = require('./src/common').t
 const context = require('./src/context')
 const queries = require('./src/queries')
 
-const frame = Object.assign({'@type': 'ConceptScheme'}, context)
-
 exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
   const writer = new n3.Writer({ format: 'N-Quads' })
   const parser = new n3.Parser()
@@ -28,7 +26,6 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
       return
     }
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
-    const framed = await jsonld.frame(doc, frame)
     const compacted = await jsonld.compact(doc, context)
     compacted['@graph'].forEach((obj, i) => {
       actions.createNode({
