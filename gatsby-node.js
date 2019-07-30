@@ -10,6 +10,8 @@ const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const t = require('./src/common').t
 const context = require('./src/context')
+const queries = require('./src/queries')
+
 const frame = Object.assign({'@type': 'ConceptScheme'}, context)
 
 exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
@@ -53,93 +55,46 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
-  return graphql(`
-    {
-      allConcept {
-        edges {
-          node {
-            id
-            prefLabel {
-              de
-            }
-            definition {
-              de
-            }
-            scopeNote {
-              de
-            }
-            narrower {
-              id
-            }
-            inScheme {
-              id
-            }
-            topConceptOf {
-              id
-            }
-            tree
-            json
-          }
-        }
-      }
-      allConceptScheme {
-        edges {
-          node {
-            title {
-              de
-            }
-            description {
-              de
-            }
-            id
-            hasTopConcept {
-              id
-            }
-            tree
-            json
-          }
-        }
-      }
-    }
-`).then(result => {
-  const index = flexsearch.create('speed')
+  return graphql(queries).then(result => {
+    const index = flexsearch.create('speed')
 
-  result.data.allConcept.edges.forEach(({ node }) => {
-    createPage({
-      path: getPath(node, 'html'),
-      component: path.resolve(`./src/templates/Concept.js`),
-      context: {
-        node,
-        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
-        baseURL: process.env.BASEURL || ''
-      }
+    result.data.allConcept.edges.forEach(({ node }) => {
+      createPage({
+        path: getPath(node, 'html'),
+        component: path.resolve(`./src/templates/Concept.js`),
+        context: {
+          node,
+          narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
+          baseURL: process.env.BASEURL || ''
+        }
+      })
+      createJson({
+        path: getPath(node, 'json'),
+        data: node.json
+      })
+      index.add(node.id, t(node.prefLabel))
     })
-    createJson({
-      path: getPath(node, 'json'),
-      data: node.json
+    result.data.allConceptScheme.edges.forEach(({ node }) => {
+      createPage({
+        path: getPath(node, 'html'),
+        component: path.resolve(`./src/templates/ConceptScheme.js`),
+        context: {
+          node,
+          hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
+          baseURL: process.env.BASEURL || ''
+        }
+      })
+      createJson({
+        path: getPath(node, 'json'),
+        data: node.json
+      })
+      createJson({
+        path: getPath(node, 'index.json'),
+        data: JSON.stringify(index.export())
+      })
     })
-    index.add(node.id, t(node.prefLabel))
   })
-  result.data.allConceptScheme.edges.forEach(({ node }) => {
-    createPage({
-      path: getPath(node, 'html'),
-      component: path.resolve(`./src/templates/ConceptScheme.js`),
-      context: {
-        node,
-        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
-        baseURL: process.env.BASEURL || ''
-      }
-    })
-    createJson({
-      path: getPath(node, 'json'),
-      data: node.json
-    })
-    createJson({
-      path: getPath(node, 'index.json'),
-      data: JSON.stringify(index.export())
-    })
-  })
-})}
+}
 
 const getPath = (node, extension) => node.id.replace("http:/", "").replace("#", "") + '.' + extension
 
