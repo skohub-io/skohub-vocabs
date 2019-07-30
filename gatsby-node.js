@@ -9,35 +9,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const t = require('./src/common').t
-
-const context = {
-  "@context": {
-    "id": "@id",
-    "type": "@type",
-    "@vocab": "http://www.w3.org/2004/02/skos/core#",
-    "title": {
-      "@id": "http://purl.org/dc/terms/title",
-      "@container": "@language"
-    },
-    "description": {
-      "@id": "http://purl.org/dc/terms/description",
-      "@container": "@language"
-    },
-    "prefLabel": {
-      "@container": "@language"
-    },
-    "definition": {
-      "@container": "@language"
-    },
-    "scopeNote": {
-      "@container": "@language"
-    },
-    "narrower": {
-      "@container": "@set"
-    }
-  }
-}
-
+const context = require('./src/context')
 const frame = Object.assign({'@type': 'ConceptScheme'}, context)
 
 exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
