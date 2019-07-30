@@ -81,60 +81,39 @@ exports.createSchemaCustomization = ({ actions }) => {
   createTypes(typeDefs)
 }
 
-exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDigest}, pluginOptions) => {
+const ids = []
 
-  const { createNode, createParentChildLink } = actions
+exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
   const writer = new n3.Writer({ format: 'N-Quads' })
   const parser = new n3.Parser()
+  const nodes = await Promise.all(getNodes()
+    .filter(node => node.internal.mediaType === 'text/turtle')
+    .map(async node => loadNodeContent(node)))
 
-  if (node.internal.mediaType === 'text/turtle') {
-    const content = await loadNodeContent(node)
-
-    parser.parse(content, (error, quad, prefixes) => {
-      if (quad) {
-        writer.addQuad(quad)
-      } else if (prefixes) {
-        writer.end((error, nquads) => {
-          if (!error) {
-            jsonld.fromRDF(nquads, {format: 'application/n-quads'}, (err, doc) => {
-              if (err) throw err;
-              jsonld.frame(doc, frame, (err, framed) => {
-                if (err) throw err;
-                jsonld.compact(doc, context, (err, compacted) => {
-                  if (err) throw err;
-                  compacted['@graph'].forEach((obj, i) => transformObject(
-                    Object.assign(obj, {
-                      tree: JSON.stringify(framed['@graph'][0]),
-                      json: JSON.stringify(Object.assign({}, context, obj), null, 2)
-                    })
-                  ))
-                })
-              })
-            })
-          } else {
-            console.error(error)
-          }
+  nodes.forEach(node => parser.parse(node).forEach(quad => writer.addQuad(quad)))
+  writer.end(async (error, nquads) => {
+    if (!error) {
+      const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
+      const framed = await jsonld.frame(doc, frame)
+      const compacted = await jsonld.compact(doc, context)
+      compacted['@graph'].forEach((graph, i) => {
+        const obj = Object.assign(graph, {
+          tree: JSON.stringify(framed['@graph'][0]),
+          json: JSON.stringify(Object.assign({}, context, graph), null, 2)
         })
-      } else if (error) {
-        console.error(error)
-      }
-    })
-  }
-
-  function transformObject(obj) {
-    const ttlNode = {
-      ...obj,
-      id: obj.id,
-      children: [],
-      parent: node.id,
-      internal: {
-        contentDigest: createContentDigest(obj),
-        type: obj.type,
-      },
+        actions.createNode({
+          ...obj,
+          id: obj.id,
+          //children: [],
+          //parent: node.id,
+          internal: {
+            contentDigest: createContentDigest(obj),
+            type: obj.type,
+          },
+        })
+      })
     }
-    createNode(ttlNode)
-    createParentChildLink({ parent: node, child: ttlNode })
-  }
+  })
 }
 
 exports.createPages = ({ graphql, actions }) => {
