@@ -9,7 +9,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
-const t = require('./src/common').t
+const { t, getPath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
 
@@ -53,13 +53,13 @@ exports.createPages = async ({ graphql, actions }) => {
   const conceptSchemes = await graphql(queries.allConceptScheme)
 
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
-    const index = flexsearch.create('speed')
+    const index = flexsearch.create()
     const tree = JSON.stringify(node)
 
     const conceptsInScheme = await graphql(queries.allConcept(node.id))
     conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
       createPage({
-        path: getPath(node, 'html'),
+        path: getPath(node.id, 'html'),
         component: path.resolve(`./src/templates/Concept.js`),
         context: {
           node,
@@ -68,14 +68,16 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       })
       createJson({
-        path: getPath(node, 'json'),
+        path: getPath(node.id, 'json'),
         data: omitEmpty(Object.assign({}, node, context))
       })
       index.add(node.id, t(node.prefLabel))
     })
 
+    console.log(index.info())
+
     createPage({
-      path: getPath(node, 'html'),
+      path: getPath(node.id, 'html'),
       component: path.resolve(`./src/templates/ConceptScheme.js`),
       context: {
         node,
@@ -84,18 +86,16 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     })
     createJson({
-      path: getPath(node, 'json'),
+      path: getPath(node.id, 'json'),
       data: omitEmpty(Object.assign({}, node, context))
     })
     createJson({
-      path: getPath(node, 'index.json'),
+      path: getPath(node.id, 'index.json'),
       data: index.export()
     })
 
   })
 }
-
-const getPath = (node, extension) => node.id.replace("http:/", "").replace("#", "") + '.' + extension
 
 const createJson = ({path, data}) =>
   fs.outputFile(`public${path}`, JSON.stringify(data, null, 2), err => err && console.error(err))

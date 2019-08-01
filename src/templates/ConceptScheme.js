@@ -1,62 +1,82 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { css, jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
-import { t } from '../common'
+import FlexSearch from 'flexsearch'
+import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 
 const ConceptScheme = ({pageContext}) => {
+  const [index, setIndex] = useState(FlexSearch.create('speed'))
+  const [matches, setMatches] = useState(null)
+
+  // Fetch and load the serialized index
+  useEffect(() => {
+    fetch(getPath(pageContext.node.id, 'index.json'))
+      .then(response => response.json())
+      .then(serialized => {
+        const idx = FlexSearch.create()
+        idx.import(serialized)
+        setIndex(idx)
+        console.log("index loaded", idx.info())
+      })
+  }, [])
 
   return (
-  <div className="Concept">
+    <div className="Concept">
 
-    <div className="layout"
-     css={css`
-      display: flex;
-      max-height: 100vh;
-      padding: 20px;
+      <div className="layout"
+       css={css`
+        display: flex;
+        max-height: 100vh;
+        padding: 20px;
 
-      a.current {
-        color: tomato;
-        font-weight: bold;
-      }
+        a.current {
+          color: tomato;
+          font-weight: bold;
+        }
 
-      nav {
-        overflow: auto;
-        flex: 1;
-        border-right: 1px solid black;
-      }
+        nav {
+          overflow: auto;
+          flex: 1;
+          border-right: 1px solid black;
+        }
 
-      .content {
-        padding: 0 20px;
-        flex: 2;
-      }
+        .content {
+          padding: 0 20px;
+          flex: 2;
+        }
 
-      .markdown {
-        padding-top: 10px;
-      }
+        .markdown {
+          padding-top: 10px;
+        }
 
-    `}>
-    <nav>
-      <NestedList
-        items={JSON.parse(pageContext.tree).hasTopConcept}
-        baseURL={pageContext.baseURL}
-      />
-    </nav>
-    <div className="content">
-      <h1>{t(pageContext.node.title)}</h1>
-      <h2>{pageContext.node.id}</h2>
-      {pageContext.node.description
-        && (
-          <div className="markdown">
-            <Markdown>
-              {t(pageContext.node.description)}
-            </Markdown>
-          </div>
-        )
-      }
+      `}>
+      <nav>
+        <input type="text" onChange={
+          e => setMatches(e.target.value ? index.search(e.target.value) : null)
+        }/>
+        <NestedList
+          items={JSON.parse(pageContext.tree).hasTopConcept}
+          baseURL={pageContext.baseURL}
+          filter={matches}
+        />
+      </nav>
+      <div className="content">
+        <h1>{t(pageContext.node.title)}</h1>
+        <h2>{pageContext.node.id}</h2>
+        {pageContext.node.description
+          && (
+            <div className="markdown">
+              <Markdown>
+                {t(pageContext.node.description)}
+              </Markdown>
+            </div>
+          )
+        }
+      </div>
+      </div>
     </div>
-    </div>
-  </div>
-)}
+  )
+}
 
 export default ConceptScheme

@@ -1,15 +1,30 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Markdown from 'markdown-to-jsx'
-import { t } from '../common'
+import FlexSearch from 'flexsearch'
+import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 
 const Concept = ({pageContext}) => {
+  const [index, setIndex] = useState(FlexSearch.create('speed'))
+  const [matches, setMatches] = useState(null)
+
+  // Fetch and load the serialized index
+  useEffect(() => {
+    fetch(getPath(pageContext.node.inScheme.id, 'index.json'))
+      .then(response => response.json())
+      .then(serialized => {
+        const idx = FlexSearch.create()
+        idx.import(serialized)
+        setIndex(idx)
+        console.log("index loaded", idx.info())
+      })
+  }, [])
 
   useEffect(() => {
-    document.querySelector(".current")
-      .scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+    const current = document.querySelector(".current")
+    current && current.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
   })
 
   return (
@@ -43,10 +58,14 @@ const Concept = ({pageContext}) => {
 
     `}>
     <nav>
+      <input type="text" onChange={
+        e => setMatches(e.target.value ? index.search(e.target.value) : null)
+      }/>
       <NestedList
         items={JSON.parse(pageContext.tree).hasTopConcept}
         current={pageContext.node.id}
         baseURL={pageContext.baseURL}
+        filter={matches}
       />
     </nav>
     <div className="content">
