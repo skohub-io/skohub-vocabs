@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { css, jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 import FlexSearch from 'flexsearch'
+import escapeRegExp from 'lodash.escaperegexp'
 import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 
@@ -57,7 +58,7 @@ const ConceptScheme = ({pageContext}) => {
           items={JSON.parse(pageContext.tree).hasTopConcept}
           baseURL={pageContext.baseURL}
           filter={query ? index.search(query) : null}
-          highlight={RegExp(query, 'gi')}
+          highlight={RegExp(escapeRegExp(query), 'gi')}
         />
       </nav>
       <div className="content">

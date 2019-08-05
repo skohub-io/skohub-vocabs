@@ -27,6 +27,7 @@
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "lodash.escaperegexp": "^4.1.2",
     "markdown-to-jsx": "^6.10.2",
     "n3": "^1.1.1",
     "node-fetch": "^2.6.0",
