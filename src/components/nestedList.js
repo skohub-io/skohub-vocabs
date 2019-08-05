@@ -25,7 +25,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
         >
           <a
             className={item.id === current ? 'current' : ''}
-            href={`${item.id.replace('http://', `/${baseURL}`).replace('#', '')}.html`}
+            href={`${item.id.replace('http://', `${baseURL}/`).replace('#', '')}.html`}
           >
             <span
               dangerouslySetInnerHTML={{

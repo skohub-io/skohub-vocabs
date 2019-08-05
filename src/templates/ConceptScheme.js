@@ -11,7 +11,7 @@ const ConceptScheme = ({pageContext}) => {
 
   // Fetch and load the serialized index
   useEffect(() => {
-    fetch(getPath(pageContext.node.id, 'index.json'))
+    fetch(pageContext.baseURL + getPath(pageContext.node.id, 'index.json'))
       .then(response => response.json())
       .then(serialized => {
         const idx = FlexSearch.create()
