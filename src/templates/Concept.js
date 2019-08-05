@@ -8,7 +8,7 @@ import NestedList from '../components/nestedList'
 
 const Concept = ({pageContext}) => {
   const [index, setIndex] = useState(FlexSearch.create('speed'))
-  const [matches, setMatches] = useState(null)
+  const [query, setQuery] = useState(null)
 
   // Fetch and load the serialized index
   useEffect(() => {
@@ -58,14 +58,13 @@ const Concept = ({pageContext}) => {
 
     `}>
     <nav>
-      <input type="text" onChange={
-        e => setMatches(e.target.value ? index.search(e.target.value) : null)
-      }/>
+      <input type="text" onChange={e => setQuery(e.target.value || null)} />
       <NestedList
         items={JSON.parse(pageContext.tree).hasTopConcept}
         current={pageContext.node.id}
         baseURL={pageContext.baseURL}
-        filter={matches}
+        filter={query ? index.search(query) : null}
+        highlight={RegExp(query, 'gi')}
       />
     </nav>
     <div className="content">

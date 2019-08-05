@@ -12,7 +12,7 @@ const getNestedItems = item => {
   return ids
 }
 
-const NestedList = ({ items, current, baseURL, filter }) => {
+const NestedList = ({ items, current, baseURL, filter, highlight }) => {
   const filteredItems = filter
     ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
     : items
@@ -27,7 +27,11 @@ const NestedList = ({ items, current, baseURL, filter }) => {
             className={item.id === current ? 'current' : ''}
             href={`${item.id.replace('http://', `/${baseURL}`).replace('#', '')}.html`}
           >
-            {t(item.prefLabel)}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+              }}
+            />
           </a>
           {item.narrower &&
             <NestedList
@@ -35,6 +39,7 @@ const NestedList = ({ items, current, baseURL, filter }) => {
               current={current}
               baseURL={baseURL}
               filter={filter}
+              highlight={highlight}
             />
           }
         </li>
