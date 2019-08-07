@@ -90,7 +90,7 @@ exports.createPages = async ({ graphql, actions }) => {
       data: omitEmpty(Object.assign({}, node, context))
     })
     createJson({
-      path: getPath(node.id, 'index.json'),
+      path: getPath(node.id, 'index'),
       data: index.export()
     })
 

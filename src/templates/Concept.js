@@ -13,7 +13,7 @@ const Concept = ({pageContext}) => {
 
   // Fetch and load the serialized index
   useEffect(() => {
-    fetch(pageContext.baseURL +  getPath(pageContext.node.inScheme.id, 'index.json'))
+    fetch(pageContext.baseURL +  getPath(pageContext.node.inScheme.id, 'index'))
       .then(response => response.json())
       .then(serialized => {
         const idx = FlexSearch.create()
