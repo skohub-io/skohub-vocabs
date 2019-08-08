@@ -88,17 +88,15 @@ const processWebhooks = async () => {
       const webhook = webhooks.shift()
       await processWebhook(webhook)
 
-      const build = exec(`GITHUB_REPOSITORY=${webhook.repository} npm run build`)
+      const build = exec(`BASEURL=/${webhook.repository} npm run build`)
       build.stdout.on('data', (data) => console.log('gatsbyLog: ' + data.toString()))
       build.stderr.on('data', (data) => console.log('gatsbyError: ' + data.toString()))
       build.on('exit', async () => {
-        exec(`rm -r ${__dirname}/../.cache`).on('exit', () => {
+        exec(`rm -r ${__dirname}/../.cache ${__dirname}/../data/* ${__dirname}/../dist/${webhook.repository}/*`).on('exit', () => {
           exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-            exec(`rm -r ${__dirname}/../dist/${webhook.repository}/*`).on('exit', () => {
-              exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-                console.info("Build Finish".yellow)
-                processingWebhooks = false
-              })
+            exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
+              console.info("Build Finish".yellow)
+              processingWebhooks = false
             })
           })
         })

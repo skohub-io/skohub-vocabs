@@ -7,219 +7,95 @@ const jsonld = require('jsonld')
 const n3 = require('n3')
 const path = require('path')
 const fs = require('fs-extra')
+const flexsearch = require('flexsearch')
+const omitEmpty = require('omit-empty')
+const { t, getPath } = require('./src/common')
+const context = require('./src/context')
+const queries = require('./src/queries')
 
-const context = {
-  "@context": {
-    "id": "@id",
-    "type": "@type",
-    "@vocab": "http://www.w3.org/2004/02/skos/core#",
-    "title": {
-      "@id": "http://purl.org/dc/terms/title",
-      "@container": "@language"
-    },
-    "description": {
-      "@id": "http://purl.org/dc/terms/description",
-      "@container": "@language"
-    },
-    "prefLabel": {
-      "@container": "@language"
-    },
-    "definition": {
-      "@container": "@language"
-    },
-    "scopeNote": {
-      "@container": "@language"
-    },
-    "narrower": {
-      "@container": "@set"
-    }
-  }
-}
-
-const frame = Object.assign({'@type': 'ConceptScheme'}, context)
-
-exports.sourceNodes = ({ actions }) => {
-  const { createTypes } = actions
-  const typeDefs = `
-    """
-    Concept Node
-    """
-    type Concept implements Node @infer {
-      prefLabel: Label!
-      definition: Label
-      scopeNote: Label
-      id: String!
-      tree: String!
-      json: String!
-      narrower: [Concept]
-      inScheme: ConceptScheme
-      topConceptOf: ConceptScheme
-    }
-
-    """
-    ConceptScheme Node
-    """
-    type ConceptScheme implements Node @infer {
-      title: Label!
-      description: Label
-      id: String!
-      tree: String!
-      json: String!
-      hasTopConcept: [Concept]
-    }
-
-    """
-    Multilingual Label
-    """
-    type Label implements Node @infer {
-      de: String
-      en: String
-    }
-  `
-  createTypes(typeDefs)
-}
-
-exports.onCreateNode = async ({ node, loadNodeContent, actions, createContentDigest}, pluginOptions) => {
-
-  const { createNode, createParentChildLink } = actions
+exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
   const writer = new n3.Writer({ format: 'N-Quads' })
   const parser = new n3.Parser()
+  const nodes = await Promise.all(getNodes()
+    .filter(node => node.internal.mediaType === 'text/turtle')
+    .map(async node => loadNodeContent(node)))
 
-  if (node.internal.mediaType === 'text/turtle') {
-    const content = await loadNodeContent(node)
-
-    parser.parse(content, (error, quad, prefixes) => {
-      if (quad) {
-        writer.addQuad(quad)
-      } else if (prefixes) {
-        writer.end((error, nquads) => {
-          if (!error) {
-            jsonld.fromRDF(nquads, {format: 'application/n-quads'}, (err, doc) => {
-              if (err) throw err;
-              jsonld.frame(doc, frame, (err, framed) => {
-                if (err) throw err;
-                jsonld.compact(doc, context, (err, compacted) => {
-                  if (err) throw err;
-                  compacted['@graph'].forEach((obj, i) => transformObject(
-                    Object.assign(obj, {
-                      tree: JSON.stringify(framed['@graph'][0]),
-                      json: JSON.stringify(Object.assign({}, context, obj), null, 2)
-                    })
-                  ))
-                })
-              })
-            })
-          } else {
-            console.error(error)
-          }
-        })
-      } else if (error) {
-        console.error(error)
-      }
-    })
-  }
-
-  function transformObject(obj) {
-    const ttlNode = {
-      ...obj,
-      id: obj.id,
-      children: [],
-      parent: node.id,
-      internal: {
-        contentDigest: createContentDigest(obj),
-        type: obj.type,
-      },
+  nodes.forEach(node => parser.parse(node).forEach(quad => writer.addQuad(quad)))
+  writer.end(async (error, nquads) => {
+    if (error) {
+      console.error(error)
+      return
     }
-    createNode(ttlNode)
-    createParentChildLink({ parent: node, child: ttlNode })
-  }
+    const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
+    const compacted = await jsonld.compact(doc, context)
+    compacted['@graph'].forEach((obj, i) => {
+      actions.createNode({
+        ...obj,
+        id: obj.id,
+        children: (obj.narrower || obj.hasTopConcept || []).map(narrower => narrower.id),
+        parent: (obj.broader && obj.broader.id) || null,
+        inScheme___NODE: (obj.inScheme && obj.inScheme.id) || (obj.topConceptOf && obj.topConceptOf.id) || null,
+        topConceptOf___NODE: (obj.topConceptOf && obj.topConceptOf.id) || null,
+        narrower___NODE: (obj.narrower || []).map(narrower => narrower.id),
+        hasTopConcept___NODE: (obj.hasTopConcept || []).map(topConcept => topConcept.id),
+        broader___NODE: (obj.broader && obj.broader.id) || null,
+        internal: {
+          contentDigest: createContentDigest(obj),
+          type: obj.type,
+        },
+      })
+    })
+  })
 }
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  return graphql(`
-    {
-      allConcept {
-        edges {
-          node {
-            id
-            prefLabel {
-              de
-              en
-            }
-            definition {
-              de
-              en
-            }
-            scopeNote {
-              de
-              en
-            }
-            narrower {
-              id
-            }
-            inScheme {
-              id
-            }
-            topConceptOf {
-              id
-            }
-            tree
-            json
-          }
+  const conceptSchemes = await graphql(queries.allConceptScheme)
+
+  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
+    const index = flexsearch.create()
+    const tree = JSON.stringify(node)
+
+    const conceptsInScheme = await graphql(queries.allConcept(node.id))
+    conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
+      createPage({
+        path: getPath(node.id, 'html'),
+        component: path.resolve(`./src/templates/Concept.js`),
+        context: {
+          node,
+          tree,
+          baseURL: process.env.BASEURL || ''
         }
-      }
-      allConceptScheme {
-        edges {
-          node {
-            title {
-              de
-              en
-            }
-            description {
-              de
-              en
-            }
-            id
-            hasTopConcept {
-              id
-            }
-            tree
-            json
-          }
-        }
-      }
-    }
-`).then(result => {
-  const baseURL = process.env.GITHUB_REPOSITORY
-    ? process.env.GITHUB_REPOSITORY + '/'
-    : ''
-  result.data.allConcept.edges.forEach(({ node }) => {
-    createPage({
-      path: getPath(node, 'html'),
-      component: path.resolve(`./src/templates/Concept.js`),
-      context: {
-        node,
-        narrower: node.narrower ? node.narrower.map(narrower => narrower.id) : [],
-        baseURL
-      }
+      })
+      createJson({
+        path: getPath(node.id, 'json'),
+        data: omitEmpty(Object.assign({}, node, context))
+      })
+      index.add(node.id, t(node.prefLabel))
     })
-    createJson(node)
-  })
-  result.data.allConceptScheme.edges.forEach(({ node }) => {
+
+    console.log(index.info())
+
     createPage({
-      path: getPath(node, 'html'),
+      path: getPath(node.id, 'html'),
       component: path.resolve(`./src/templates/ConceptScheme.js`),
       context: {
         node,
-        hasTopConcept: node.hasTopConcept ? node.hasTopConcept.map(topConcept => topConcept.id) : [],
-        baseURL
+        tree,
+        baseURL: process.env.BASEURL || ''
       }
     })
-    createJson(node)
+    createJson({
+      path: getPath(node.id, 'json'),
+      data: omitEmpty(Object.assign({}, node, context))
+    })
+    createJson({
+      path: getPath(node.id, 'index'),
+      data: index.export()
+    })
+
   })
-})}
+}
 
-const getPath = (node, extension) => node.id.replace("http:/", "").replace("#", "") + '.' + extension
-
-const createJson = (node) => fs.outputFile('public' + getPath(node, 'json'), node.json, err => err && console.error(err))
+const createJson = ({path, data}) =>
+  fs.outputFile(`public${path}`, JSON.stringify(data, null, 2), err => err && console.error(err))

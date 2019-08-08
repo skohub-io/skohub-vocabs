@@ -4,6 +4,7 @@ module.exports = {
     description: `Static site generator for Simple Knowledge Management Systems (SKOS)`,
     author: `@gatsbyjs`,
   },
+  pathPrefix: `${process.env.BASEURL || ''}`,
   plugins: [
     `gatsby-plugin-emotion`,
     {
@@ -19,7 +20,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: 'data',
-        path: `${__dirname}/data/${process.env.GITHUB_REPOSITORY || ''}`,
+        path: `${__dirname}/data`,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
