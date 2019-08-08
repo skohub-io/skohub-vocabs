@@ -12,7 +12,9 @@ module.exports = `
     topConceptOf: ConceptScheme,
     narrower: [Concept],
     broader: Concept,
-    inScheme: ConceptScheme!
+    inScheme: ConceptScheme!,
+    hub: String,
+    inbox: String
   }
 
   type LanguageMap {

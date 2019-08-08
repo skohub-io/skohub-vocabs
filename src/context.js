@@ -22,6 +22,12 @@ module.exports = {
     },
     "narrower": {
       "@container": "@set"
+    },
+    "inbox": {
+      "@id": "http://www.w3.org/ns/ldp#inbox"
+    },
+    "hub": {
+      "@id": "http://www.w3.org/ns/ldp#hub"
     }
   }
 }

@@ -13,6 +13,8 @@ module.exports.allConcept = inScheme => `
         node {
           id
           type
+          hub
+          inbox
           prefLabel {
             de
             en_us
