@@ -31,20 +31,20 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
     }
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context)
-    compacted['@graph'].forEach((obj, i) => {
+    compacted['@graph'].forEach((graph, i) => {
+      const { narrower, broader, inScheme, topConceptOf, hasTopConcept, ...properties } = graph
       actions.createNode({
-        ...obj,
-        id: obj.id,
-        children: (obj.narrower || obj.hasTopConcept || []).map(narrower => narrower.id),
-        parent: (obj.broader && obj.broader.id) || null,
-        inScheme___NODE: (obj.inScheme && obj.inScheme.id) || (obj.topConceptOf && obj.topConceptOf.id) || null,
-        topConceptOf___NODE: (obj.topConceptOf && obj.topConceptOf.id) || null,
-        narrower___NODE: (obj.narrower || []).map(narrower => narrower.id),
-        hasTopConcept___NODE: (obj.hasTopConcept || []).map(topConcept => topConcept.id),
-        broader___NODE: (obj.broader && obj.broader.id) || null,
+        ...properties,
+        children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
+        parent: (broader && broader.id) || null,
+        inScheme___NODE: (inScheme && inScheme.id) || (topConceptOf && topConceptOf.id) || null,
+        topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
+        narrower___NODE: (narrower || []).map(narrower => narrower.id),
+        hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
+        broader___NODE: (broader && broader.id) || null,
         internal: {
-          contentDigest: createContentDigest(obj),
-          type: obj.type,
+          contentDigest: createContentDigest(graph),
+          type: properties.type,
         },
       })
     })
@@ -54,6 +54,8 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const conceptSchemes = await graphql(queries.allConceptScheme)
+
+  conceptSchemes.errors && console.error(conceptSchemes.errors)
 
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
     const index = flexsearch.create()
@@ -77,7 +79,7 @@ exports.createPages = async ({ graphql, actions }) => {
       index.add(node.id, t(node.prefLabel))
     })
 
-    console.log(index.info())
+    console.log("Built index", index.info())
 
     createPage({
       path: getPath(node.id, 'html'),
