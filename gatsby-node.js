@@ -12,6 +12,9 @@ const omitEmpty = require('omit-empty')
 const { t, getPath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
+const types = require('./src/types')
+
+exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types)
 
 exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
   const writer = new n3.Writer({ format: 'N-Quads' })
