@@ -73,9 +73,12 @@ const Concept = ({pageContext}) => {
     <div className="content">
       <h1>{t(pageContext.node.prefLabel)}</h1>
       <h2>{pageContext.node.id}</h2>
+      <form action={pageContext.node.hub} method="post">
+        <input type="hidden" name="hub.topic" value={pageContext.node.id} />
+        <input type="hidden" name="hub.callback" value={pageContext.node.id} />
+        <button type="submit" name="hub.mode" value="subscribe">Subscribe</button>
+      </form>
       <p>
-        <a href={pageContext.node.hub}>Hub</a>
-        &nbsp;
         <a href={pageContext.node.inbox}>Inbox</a>
       </p>
       {pageContext.node.definition
