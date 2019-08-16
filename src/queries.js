@@ -13,31 +13,39 @@ module.exports.allConcept = inScheme => `
         node {
           id
           type
+          hub
+          inbox
           prefLabel {
             de
+            en_us
           }
           definition {
             de
+            en_us
           }
           scopeNote {
             de
+            en_us
           }
           narrower {
             id
             prefLabel {
               de
+              en_us
             }
           }
           broader {
             id
             prefLabel {
               de
+              en_us
             }
           }
           inScheme {
             id
             title {
               de
+              en_us
             }
           }
           topConceptOf {
@@ -58,9 +66,11 @@ module.exports.allConceptScheme = `
           type
           title {
             de
+            en_us
           }
           description {
             de
+            en_us
           }
           hasTopConcept {
             ...ConceptFields
@@ -85,6 +95,7 @@ module.exports.allConceptScheme = `
     id
     prefLabel {
       de
+      en_us
     }
   }
 `

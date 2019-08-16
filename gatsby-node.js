@@ -9,16 +9,26 @@ const path = require('path')
 const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
+const urlTemplate = require('url-template')
 const { t, getPath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
+const types = require('./src/types')
 
-exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, actions }) => {
+require('dotenv').config()
+
+exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types)
+
+exports.sourceNodes = async ({
+  getNodes, loadNodeContent, createContentDigest, actions: { createNode }
+}) => {
   const writer = new n3.Writer({ format: 'N-Quads' })
   const parser = new n3.Parser()
   const nodes = await Promise.all(getNodes()
     .filter(node => node.internal.mediaType === 'text/turtle')
     .map(async node => loadNodeContent(node)))
+  const hubUrlTemplate = urlTemplate.parse(process.env.HUB)
+  const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
 
   nodes.forEach(node => parser.parse(node).forEach(quad => writer.addQuad(quad)))
   writer.end(async (error, nquads) => {
@@ -28,29 +38,35 @@ exports.sourceNodes = async ({ getNodes, loadNodeContent, createContentDigest, a
     }
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context)
-    compacted['@graph'].forEach((obj, i) => {
-      actions.createNode({
-        ...obj,
-        id: obj.id,
-        children: (obj.narrower || obj.hasTopConcept || []).map(narrower => narrower.id),
-        parent: (obj.broader && obj.broader.id) || null,
-        inScheme___NODE: (obj.inScheme && obj.inScheme.id) || (obj.topConceptOf && obj.topConceptOf.id) || null,
-        topConceptOf___NODE: (obj.topConceptOf && obj.topConceptOf.id) || null,
-        narrower___NODE: (obj.narrower || []).map(narrower => narrower.id),
-        hasTopConcept___NODE: (obj.hasTopConcept || []).map(topConcept => topConcept.id),
-        broader___NODE: (obj.broader && obj.broader.id) || null,
+    compacted['@graph'].forEach((graph, i) => {
+      const { narrower, broader, inScheme, topConceptOf, hasTopConcept, ...properties } = graph
+      const node = {
+        ...properties,
+        children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
+        parent: (broader && broader.id) || null,
+        inScheme___NODE: (inScheme && inScheme.id) || (topConceptOf && topConceptOf.id) || null,
+        topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
+        narrower___NODE: (narrower || []).map(narrower => narrower.id),
+        hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
+        broader___NODE: (broader && broader.id) || null,
         internal: {
-          contentDigest: createContentDigest(obj),
-          type: obj.type,
+          contentDigest: createContentDigest(graph),
+          type: properties.type,
         },
+      }
+      node.type === 'Concept' && Object.assign(node, {
+        hub: hubUrlTemplate.expand(node),
+        inbox: inboxUrlTemplate.expand(node)
       })
+      createNode(node)
     })
   })
 }
 
-exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions
+exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const conceptSchemes = await graphql(queries.allConceptScheme)
+
+  conceptSchemes.errors && console.error(conceptSchemes.errors)
 
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
     const index = flexsearch.create()
@@ -74,7 +90,7 @@ exports.createPages = async ({ graphql, actions }) => {
       index.add(node.id, t(node.prefLabel))
     })
 
-    console.log(index.info())
+    console.log("Built index", index.info())
 
     createPage({
       path: getPath(node.id, 'html'),
