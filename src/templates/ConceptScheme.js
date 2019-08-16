@@ -6,6 +6,8 @@ import escapeRegExp from 'lodash.escaperegexp'
 import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 
+import "../components/layout.css"
+
 const ConceptScheme = ({pageContext}) => {
   const [index, setIndex] = useState(FlexSearch.create('speed'))
   const [query, setQuery] = useState(null)
