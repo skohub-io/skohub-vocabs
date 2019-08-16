@@ -71,6 +71,11 @@ const Concept = ({pageContext}) => {
     <div className="content">
       <h1>{t(pageContext.node.prefLabel)}</h1>
       <h2>{pageContext.node.id}</h2>
+      <p>
+        <a href={pageContext.node.hub}>Hub</a>
+        &nbsp;
+        <a href={pageContext.node.inbox}>Inbox</a>
+      </p>
       {pageContext.node.definition
         && (
           <div className="markdown">
