@@ -10,7 +10,7 @@ const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
 const urlTemplate = require('url-template')
-const { t, getPath } = require('./src/common')
+const { t, getPath, getHeaders } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
 const types = require('./src/types')
@@ -71,6 +71,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
     const index = flexsearch.create()
     const tree = JSON.stringify(node)
+    const htaccess = []
 
     const conceptsInScheme = await graphql(queries.allConcept(node.id))
     conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
@@ -83,10 +84,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           baseURL: process.env.BASEURL || ''
         }
       })
-      createJson({
+      createData({
         path: getPath(node.id, 'json'),
-        data: omitEmpty(Object.assign({}, node, context))
+        data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
       })
+      htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id), getPath(node.id)))
       index.add(node.id, t(node.prefLabel))
     })
 
@@ -101,17 +103,20 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         baseURL: process.env.BASEURL || ''
       }
     })
-    createJson({
+    createData({
       path: getPath(node.id, 'json'),
-      data: omitEmpty(Object.assign({}, node, context))
+      data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
     })
-    createJson({
+    createData({
       path: getPath(node.id, 'index'),
-      data: index.export()
+      data: JSON.stringify(index.export(), null, 2)
     })
-
+    createData({
+      path: '/.htaccess',
+      data: htaccess.join("\n")
+    })
   })
 }
 
-const createJson = ({path, data}) =>
-  fs.outputFile(`public${path}`, JSON.stringify(data, null, 2), err => err && console.error(err))
+const createData = ({path, data}) =>
+  fs.outputFile(`public${path}`, data, err => err && console.error(err))
