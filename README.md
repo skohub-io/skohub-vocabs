@@ -5,7 +5,11 @@ This part of the [SkoHub](http://skohub.io) project covers the need to easily pu
 ## Set up
 
     $ git clone https://github.com/hbz/skohub-ssg.git
+    $ cd skohub-ssg
     $ npm i
+    $ cp .env.example .env
+
+The `.env` file contains configuration details used by the static site generator and the webhook server (like `PORT`, see below).
 
 ## Running the static site generator
 
@@ -24,9 +28,7 @@ to serve the build from `http://localhost:8000/`. Again, the URL is based on the
 
 ## Running the webhook server
 
-The webhook server allows to trigger a build when vocabularies are updated (i.e. changes are merged into the `master` branch) on GitHub. To run it, first create an `.env` file:
-
-    $ cp .env.example .env
+The webhook server allows to trigger a build when vocabularies are updated (i.e. changes are merged into the `master` branch) on GitHub.
 
 Running `npm run listen` will start the server on the defined `PORT` and expose a `build` endpoint. In order to wire this up with GitHub, this has to be available to the public. You can then configure the webhook in your GitHub repositories settings:
 
