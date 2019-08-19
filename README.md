@@ -8,14 +8,18 @@ This part of the [SkoHub](http://skohub.io) project covers the need to easily pu
     $ cd skohub-ssg
     $ npm i
     $ cp .env.example .env
+    $ cp test/data/systematik.ttl data/
 
 The `.env` file contains configuration details used by the static site generator and the webhook server (like `PORT`, see below).
+
+After changes to your `.env` or `data/*` files, make sure to delete the `.cache` directory:
+
+    $ rm -rf .cache
 
 ## Running the static site generator
 
 The static site generator will parse all turtle files in `./data` and build the vocabularies it finds:
 
-    $ cp test/data/systematik.ttl data/
     $ npm run build
 
 The build can be found in `public/` and be served e.g. by Apache. The directory structure is derived from the URIs of the SKOS concepts, e.g. `https://w3id.org/class/hochschulfaecher/scheme` will be available from `public/w3id.org/class/hochschulfaecher/scheme(.html|.json)`.
