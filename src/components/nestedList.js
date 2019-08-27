@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import React, { useState, useEffect } from "react"
-import { t } from '../common'
+import { t, getPath } from '../common'
 
 const getNestedItems = item => {
   let ids = [item.id]
@@ -25,7 +25,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
         >
           <a
             className={item.id === current ? 'current' : ''}
-            href={`${item.id.replace('http://', `${baseURL}/`).replace('#', '')}.html`}
+            href={getPath(item.id, 'html')}
           >
             <span
               dangerouslySetInnerHTML={{
