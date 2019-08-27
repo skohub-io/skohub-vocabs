@@ -25,7 +25,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
         >
           <a
             className={item.id === current ? 'current' : ''}
-            href={getPath(item.id, 'html')}
+            href={baseURL + getPath(item.id, 'html')}
           >
             <span
               dangerouslySetInnerHTML={{
