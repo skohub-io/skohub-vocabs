@@ -18,20 +18,24 @@ module.exports.allConcept = inScheme => `
           prefLabel {
             de
             en_us
+            en
           }
           definition {
             de
             en_us
+            en
           }
           scopeNote {
             de
             en_us
+            en
           }
           narrower {
             id
             prefLabel {
               de
               en_us
+              en
             }
           }
           broader {
@@ -39,6 +43,7 @@ module.exports.allConcept = inScheme => `
             prefLabel {
               de
               en_us
+              en
             }
           }
           inScheme {
@@ -46,6 +51,7 @@ module.exports.allConcept = inScheme => `
             title {
               de
               en_us
+              en
             }
           }
           topConceptOf {
@@ -67,10 +73,12 @@ module.exports.allConceptScheme = `
           title {
             de
             en_us
+            en
           }
           description {
             de
             en_us
+            en
           }
           hasTopConcept {
             ...ConceptFields
@@ -96,6 +104,7 @@ module.exports.allConceptScheme = `
     prefLabel {
       de
       en_us
+      en
     }
   }
 `

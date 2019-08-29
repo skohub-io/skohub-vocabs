@@ -19,6 +19,7 @@ module.exports = `
 
   type LanguageMap {
     de: String,
-    en_us: String
+    en_us: String,
+    en: String,
   }
 `
