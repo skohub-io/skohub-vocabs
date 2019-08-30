@@ -1,7 +1,43 @@
-import PropTypes from "prop-types"
-import React, { useState, useEffect } from "react"
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 import { t, getPath } from '../common'
 
+const style = css`
+  list-style-type: none;
+  padding: 0;
+
+  .treeItemIcon {
+    background-color: #3C3C3C;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    font-weight: bold;
+
+    &:before {
+      position: relative;
+      top: -1px;
+      content: "˗";
+    }
+
+    &.collapsed {
+
+      &:before {
+        left: -1px;
+        content: "+"
+      }
+
+      & + a + ul {
+        display: none;
+      }
+    }
+  }
+`
 const getNestedItems = item => {
   let ids = [item.id]
   if (item.narrower) {
@@ -18,11 +54,21 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
     : items
 
   return (
-    <ul>
+    <ul css={style}>
       {filteredItems.map(item => (
         <li
           key={item.id}
         >
+          {(item.narrower && item.narrower.length > 0) && (
+            <div
+              className={`treeItemIcon${(filter || getNestedItems(item).flat().some( id => id === current))
+                ?  '' : ' collapsed'}`}
+              onClick={(e) => {
+                e.target.classList.toggle("collapsed")
+              }}
+            >
+            </div>
+          )}
           <a
             className={item.id === current ? 'current' : ''}
             href={baseURL + getPath(item.id, 'html')}
@@ -33,7 +79,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
               }}
             />
           </a>
-          {item.narrower &&
+          {(item.narrower && item.narrower.length > 0) &&
             <NestedList
               items={item.narrower}
               current={current}

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+/** @jsx jsx */
+import { useState, useEffect } from 'react'
 import { css, jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 import FlexSearch from 'flexsearch'
@@ -31,31 +32,58 @@ const ConceptScheme = ({pageContext}) => {
        css={css`
         display: flex;
         max-height: 100vh;
-        padding: 20px;
+        font-size: 16px;
+        font-family: futura-pt,sans-serif,sans-serif;
+        color: #3c3c3c;
+
+        a {
+          text-decoration: none;
+          color: #3c3c3c;
+        }
 
         a.current {
           color: tomato;
           font-weight: bold;
         }
 
-        nav {
-          overflow: auto;
+        & > nav {
           flex: 1;
           border-right: 1px solid black;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+
+          input[type=text] {
+            width: 100%;
+            border: 1px solid black;
+            border-left: none;
+            border-right: none;
+            padding: 5px 10px;
+          }
+
+          & > ul {
+            overflow: auto;
+            margin: 0;
+            padding: 10px;
+          }
         }
 
         .content {
-          padding: 0 20px;
-          flex: 2;
+          padding: 20px;
+          flex: 3;
         }
 
         .markdown {
           padding-top: 10px;
         }
-
       `}>
       <nav>
-        <input type="text" onChange={e => setQuery(e.target.value || null)} />
+        <input
+          type="text"
+          onChange={e => setQuery(e.target.value || null)}
+          placeholder="Search"
+        />
         <NestedList
           items={JSON.parse(pageContext.tree).hasTopConcept}
           baseURL={pageContext.baseURL}
