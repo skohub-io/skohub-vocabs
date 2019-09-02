@@ -5,31 +5,53 @@ import { t, getPath } from '../common'
 const style = css`
   list-style-type: none;
   padding: 0;
+  word-wrap: break-word;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    background-color: hsla(0, 0%, 60%, 0.8);
+    width: 1px;
+    left: -17px;
+  }
+
+  span > strong {
+    display: inline-flex;
+  }
 
   .treeItemIcon {
-    background-color: #3C3C3C;
-    color: white;
-    cursor: pointer;
     display: inline-flex;
     border-radius: 50%;
     width: 20px;
     height: 20px;
-    justify-content: center;
-    align-items: center;
     margin-right: 5px;
     font-weight: bold;
+    position: relative;
+    top: 4px;
 
     &:before {
-      position: relative;
-      top: -1px;
-      content: "˗";
+      content: "";
+      position: absolute;
+      width: 60%;
+      height: 3px;
+      background-color: white;
+      left: 50%;
+      top: 50%;
+      transform: translateY(-50%) translateX(-50%);
     }
 
     &.collapsed {
-
-      &:before {
-        left: -1px;
-        content: "+"
+      &:after {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 60%;
+        background-color: white;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
       }
 
       & + a + ul {
@@ -60,14 +82,14 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
           key={item.id}
         >
           {(item.narrower && item.narrower.length > 0) && (
-            <div
-              className={`treeItemIcon${(filter || getNestedItems(item).flat().some( id => id === current))
+            <button
+              className={`treeItemIcon btn${(filter || getNestedItems(item).flat().some( id => id === current))
                 ?  '' : ' collapsed'}`}
               onClick={(e) => {
                 e.target.classList.toggle("collapsed")
               }}
             >
-            </div>
+            </button>
           )}
           <a
             className={item.id === current ? 'current' : ''}

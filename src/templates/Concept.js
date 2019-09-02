@@ -6,6 +6,7 @@ import FlexSearch from 'flexsearch'
 import escapeRegExp from 'lodash.escaperegexp'
 import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
+import TreeControls from '../components/TreeControls'
 
 import "../components/layout.css"
 
@@ -39,16 +40,28 @@ const Concept = ({pageContext}) => {
       max-height: 100vh;
       font-size: 16px;
       font-family: futura-pt,sans-serif,sans-serif;
-      color: #3c3c3c;
+      color: hsl(0, 0%, 24%);
 
       a {
         text-decoration: none;
-        color: #3c3c3c;
+        color: hsl(0, 0%, 24%);
       }
 
       a.current {
         color: tomato;
         font-weight: bold;
+      }
+
+      .btn {
+        background-color: hsl(0, 0%, 24%);
+        color: white;
+        border: none;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+          background-color: hsl(0, 0%, 40%);
+        }
       }
 
       & > nav {
@@ -89,6 +102,7 @@ const Concept = ({pageContext}) => {
         onChange={e => setQuery(e.target.value || null)}
         placeholder="Search"
       />
+      <TreeControls/>
       <NestedList
         items={JSON.parse(pageContext.tree).hasTopConcept}
         current={pageContext.node.id}
