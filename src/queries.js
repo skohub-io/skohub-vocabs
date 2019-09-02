@@ -24,13 +24,29 @@ module.exports.allConcept = (inScheme, languages) => `
           scopeNote {
             ${[...languages].join(' ')}
           }
+          note {
+            ${[...languages].join(' ')}
+          }
+          notation
           narrower {
             id
             prefLabel {
               ${[...languages].join(' ')}
             }
           }
+          narrowerTransitive {
+            id
+            prefLabel {
+              ${[...languages].join(' ')}
+            }
+          }
           broader {
+            id
+            prefLabel {
+              ${[...languages].join(' ')}
+            }
+          }
+          broaderTransitive {
             id
             prefLabel {
               ${[...languages].join(' ')}

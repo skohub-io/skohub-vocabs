@@ -71,7 +71,12 @@ const Concept = ({pageContext}) => {
       />
     </nav>
     <div className="content">
-      <h1>{t(pageContext.node.prefLabel)}</h1>
+      <h1>
+        {t(pageContext.node.prefLabel)}
+        {pageContext.node.notation &&
+          <span>&nbsp;({pageContext.node.notation.join(',')})</span>
+        }
+      </h1>
       <h2>{pageContext.node.id}</h2>
       <form action={pageContext.node.hub} method="post">
         <input type="hidden" name="hub.topic" value={pageContext.node.id} />
@@ -97,6 +102,16 @@ const Concept = ({pageContext}) => {
             <h3>Scope Note</h3>
             <Markdown>
               {t(pageContext.node.scopeNote)}
+            </Markdown>
+          </div>
+        )
+      }
+      {pageContext.node.note
+        && (
+          <div className="markdown">
+            <h3>Note</h3>
+            <Markdown>
+              {t(pageContext.node.note)}
             </Markdown>
           </div>
         )
