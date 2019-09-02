@@ -6,6 +6,7 @@ import FlexSearch from 'flexsearch'
 import escapeRegExp from 'lodash.escaperegexp'
 import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
+import TreeControls from '../components/TreeControls'
 
 import "../components/layout.css"
 
@@ -37,31 +38,71 @@ const Concept = ({pageContext}) => {
      css={css`
       display: flex;
       max-height: 100vh;
-      padding: 20px;
+      font-size: 16px;
+      font-family: futura-pt,sans-serif,sans-serif;
+      color: hsl(0, 0%, 24%);
+
+      a {
+        text-decoration: none;
+        color: hsl(0, 0%, 24%);
+      }
 
       a.current {
         color: tomato;
         font-weight: bold;
       }
 
-      nav {
-        overflow: auto;
+      .btn {
+        background-color: hsl(0, 0%, 24%);
+        color: white;
+        border: none;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+          background-color: hsl(0, 0%, 40%);
+        }
+      }
+
+      & > nav {
         flex: 1;
         border-right: 1px solid black;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        input[type=text] {
+          width: 100%;
+          border: 1px solid black;
+          border-left: none;
+          border-right: none;
+          padding: 5px 10px;
+        }
+
+        & > ul {
+          overflow: auto;
+          margin: 0;
+          padding: 10px;
+        }
       }
 
       .content {
-        padding: 0 20px;
-        flex: 2;
+        padding: 20px;
+        flex: 3;
       }
 
       .markdown {
         padding-top: 10px;
       }
-
     `}>
     <nav>
-      <input type="text" onChange={e => setQuery(e.target.value || null)} />
+      <input
+        type="text"
+        onChange={e => setQuery(e.target.value || null)}
+        placeholder="Search"
+      />
+      <TreeControls/>
       <NestedList
         items={JSON.parse(pageContext.tree).hasTopConcept}
         current={pageContext.node.id}
