@@ -83,7 +83,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
         >
           {(item.narrower && item.narrower.length > 0) && (
             <button
-              className={`treeItemIcon btn${(filter || getNestedItems(item).flat().some( id => id === current))
+              className={`treeItemIcon btn${(filter || getNestedItems(item).some( id => id === current))
                 ?  '' : ' collapsed'}`}
               onClick={(e) => {
                 e.target.classList.toggle("collapsed")
