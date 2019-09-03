@@ -94,7 +94,7 @@ const processWebhooks = async () => {
       build.on('exit', async () => {
         exec(`rm -r ${__dirname}/../.cache ${__dirname}/../data/* ${__dirname}/../dist/${webhook.repository}/*`).on('exit', () => {
           exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-            exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
+            exec(`shopt -s dotglob && mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
               console.info("Build Finish".yellow)
               processingWebhooks = false
             })
