@@ -7,10 +7,11 @@ const crypto = require('crypto')
 const uuidv4 = require('uuid/v4')
 const fs = require('fs-extra')
 const exec = require('child_process').exec
+const stripAnsi = require('strip-ansi')
 require('dotenv').config()
 require('colors')
 
-const { PORT, SECRET } = process.env
+const { PORT, SECRET, BUILD_URL } = process.env
 const app = new Koa()
 const router = new Router()
 
@@ -45,8 +46,8 @@ const isCorrectEvent = (headers, payload) => {
 }
 
 router.post('/build', async (ctx) => {
-  const { body } = ctx.request
-  const signature = ctx.request.headers['x-hub-signature']
+  const { body, headers } = ctx.request
+  const signature = headers['x-hub-signature']
 
   // Check if the given signature is valid
   if (!isSecured(signature, body)) {
@@ -56,16 +57,20 @@ router.post('/build', async (ctx) => {
   }
 
   // Check if the given event is valid
-  if (isCorrectEvent(ctx.request.headers, body)) {
+  if (isCorrectEvent(headers, body)) {
     const repository = body.repository.full_name
+    const id = uuidv4()
     webhooks.push({
-      id: uuidv4(),
+      id,
       signature,
       body,
       repository,
-      date: new Date().toISOString()
+      headers,
+      date: new Date().toISOString(),
+      status: "processing",
+      log: []
     })
-    ctx.body = 'Build triggered'
+    ctx.body = `Build triggered: ${BUILD_URL}?id=${id}`
   } else {
     ctx.body = 'Payload was not for master, build not triggered'
   }
@@ -88,10 +93,33 @@ const processWebhooks = async () => {
       const webhook = webhooks.shift()
       await processWebhook(webhook)
 
-      const build = exec(`BASEURL=/${webhook.repository} npm run build`)
-      build.stdout.on('data', (data) => console.log('gatsbyLog: ' + data.toString()))
-      build.stderr.on('data', (data) => console.log('gatsbyError: ' + data.toString()))
+      const build = exec(`BASEURL=/${webhook.repository} npm run build`, {encoding: "UTF-8"})
+      build.stdout.on('data', (data) => {
+        console.log('gatsbyLog: ' + data.toString())
+        webhook.log.push({
+          date: new Date() ,
+          text: stripAnsi(data.toString())
+        })
+        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
+      })
+      build.stderr.on('data', (data) => {
+        console.log('gatsbyError: ' + data.toString())
+        webhook.log.push({
+          date: new Date() ,
+          text: stripAnsi(data.toString())
+        })
+        webhook.status = "error"
+        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
+      })
       build.on('exit', async () => {
+        if (webhook.status !== "error") {
+          webhook.status = "complete"
+          webhook.log.push({
+            date: new Date() ,
+            text: "Build Finish"
+          })
+        }
+        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
         exec(`rm -r ${__dirname}/../.cache ${__dirname}/../data/* ${__dirname}/../dist/${webhook.repository}/*`).on('exit', () => {
           exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
             exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
