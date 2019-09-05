@@ -73,7 +73,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     const tree = JSON.stringify(node)
     const htaccess = [
       'AddType text/index .index',
-      'AddType application/ld+json .jsonld'
+      'AddType application/ld+json .jsonld',
+      'AddType application/json .json'
     ]
 
     const conceptsInScheme = await graphql(queries.allConcept(node.id))
