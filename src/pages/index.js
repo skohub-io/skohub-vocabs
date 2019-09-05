@@ -1,21 +1,39 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+import { t, getPath } from '../common'
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => {
+
+  const { nodes } = data.allConcept
+
+  return (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    <ul>
+      {nodes.map(node => (
+        <li key={node.id}>
+          <Link to={(process.env.BASEURL || '') + getPath(node.id, 'html')}>{t(node.prefLabel)}</Link>
+        </li>
+      ))}
+    </ul>
   </Layout>
-)
+)}
+
+export const query = graphql`
+  query HomePageQuery {
+    allConcept {
+      nodes {
+        id
+        prefLabel {
+          de
+          en_us
+        }
+      }
+	  }
+  }
+`
 
 export default IndexPage
