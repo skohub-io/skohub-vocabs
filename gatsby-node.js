@@ -73,7 +73,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     const tree = JSON.stringify(node)
     const htaccess = [
       'AddType text/index .index',
-      'AddType application/ld+json .json'
+      'AddType application/ld+json .jsonld'
     ]
 
     const conceptsInScheme = await graphql(queries.allConcept(node.id))
@@ -89,6 +89,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       })
       createData({
         path: getPath(node.id, 'json'),
+        data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+      })
+      createData({
+        path: getPath(node.id, 'jsonld'),
         data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
       })
       htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id), getPath(node.id)))
@@ -108,6 +112,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     })
     createData({
       path: getPath(node.id, 'json'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+    })
+    createData({
+      path: getPath(node.id, 'jsonld'),
       data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
     })
     createData({
