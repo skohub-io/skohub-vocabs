@@ -2,15 +2,8 @@ import { css } from '@emotion/core'
 
 export const style = css`
   display: flex;
-  max-height: 100vh;
-  font-size: 16px;
-  font-family: futura-pt,sans-serif,sans-serif;
-  color: hsl(0, 0%, 24%);
-
-  a {
-    text-decoration: none;
-    color: hsl(0, 0%, 24%);
-  }
+  overflow: hidden;
+  height: 100%;
 
   a.current {
     color: tomato;
@@ -32,17 +25,16 @@ export const style = css`
   & > nav {
     flex: 1;
     border-right: 1px solid black;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 
     input[type=text] {
       width: 100%;
-      border: 1px solid black;
+      border: none;
       border-left: none;
       border-right: none;
-      padding: 5px 10px;
+      padding: 10px 20px;
     }
 
     & > ul {
@@ -60,6 +52,7 @@ export const style = css`
   .content {
     padding: 20px;
     flex: 3;
+    overflow: auto;
   }
 
   .markdown {

@@ -7,10 +7,9 @@ import escapeRegExp from 'lodash.escaperegexp'
 import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 import TreeControls from '../components/TreeControls'
+import Layout from "../components/layout"
 
 import { style } from '../styles/concepts.css.js'
-
-import "../components/layout.css"
 
 const Concept = ({pageContext}) => {
   const [index, setIndex] = useState(FlexSearch.create('speed'))
@@ -34,10 +33,11 @@ const Concept = ({pageContext}) => {
   })
 
   return (
-  <div className="Concept">
-
-    <div className="layout"
-     css={style}>
+  <Layout>
+  <div
+    className="Concept"
+    css={style}
+  >
     <nav>
       <input
         type="text"
@@ -86,7 +86,7 @@ const Concept = ({pageContext}) => {
       }
     </div>
     </div>
-  </div>
+  </Layout>
 )}
 
 export default Concept
