@@ -1,4 +1,4 @@
-module.exports.allConcept = inScheme => `
+module.exports.allConcept = (inScheme, languages) => `
   {
     allConcept(
       filter: {
@@ -16,36 +16,30 @@ module.exports.allConcept = inScheme => `
           hub
           inbox
           prefLabel {
-            de
-            en_us
+            ${[...languages].join(' ')}
           }
           definition {
-            de
-            en_us
+            ${[...languages].join(' ')}
           }
           scopeNote {
-            de
-            en_us
+            ${[...languages].join(' ')}
           }
           narrower {
             id
             prefLabel {
-              de
-              en_us
+              ${[...languages].join(' ')}
             }
           }
           broader {
             id
             prefLabel {
-              de
-              en_us
+              ${[...languages].join(' ')}
             }
           }
           inScheme {
             id
             title {
-              de
-              en_us
+              ${[...languages].join(' ')}
             }
           }
           topConceptOf {
@@ -57,7 +51,7 @@ module.exports.allConcept = inScheme => `
   }
 `
 
-module.exports.allConceptScheme = `
+module.exports.allConceptScheme = languages => `
   {
     allConceptScheme {
       edges {
@@ -65,12 +59,10 @@ module.exports.allConceptScheme = `
           id
           type
           title {
-            de
-            en_us
+            ${[...languages].join(' ')}
           }
           description {
-            de
-            en_us
+            ${[...languages].join(' ')}
           }
           hasTopConcept {
             ...ConceptFields
@@ -94,8 +86,7 @@ module.exports.allConceptScheme = `
   fragment ConceptFields on Concept {
     id
     prefLabel {
-      de
-      en_us
+      ${[...languages].join(' ')}
     }
   }
 `
