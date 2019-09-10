@@ -43,7 +43,8 @@ exports.sourceNodes = async ({
     }
     const htaccess = [
       'AddType text/index .index',
-      'AddType application/ld+json .json'
+      'AddType application/ld+json .jsonld',
+      'AddType application/json .json'
     ]
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context)
@@ -63,11 +64,14 @@ exports.sourceNodes = async ({
           type: properties.type,
         },
       }
-      node.type === 'Concept' && Object.assign(node, {
-        hub: hubUrlTemplate.expand(node),
-        inbox: inboxUrlTemplate.expand(node)
-      })
-      htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id), getPath(node.id)))
+      if (node.type === 'Concept') {
+        Object.assign(node, {
+         hub: hubUrlTemplate.expand(node),
+         inbox: inboxUrlTemplate.expand(node)
+       })
+       htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id),
+        getPath(node.id)))
+      }
       createNode(node)
     })
     createData({
@@ -103,6 +107,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         path: getPath(node.id, 'json'),
         data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
       })
+      createData({
+        path: getPath(node.id, 'jsonld'),
+        data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+      })
       index.add(node.id, t(node.prefLabel))
     })
 
@@ -119,6 +127,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     })
     createData({
       path: getPath(node.id, 'json'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+    })
+    createData({
+      path: getPath(node.id, 'jsonld'),
       data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
     })
     createData({
