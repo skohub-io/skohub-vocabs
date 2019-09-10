@@ -118,10 +118,10 @@ const Concept = ({pageContext}) => {
     </nav>
     <div className="content">
       <h1>
-        {t(pageContext.node.prefLabel)}
         {pageContext.node.notation &&
-          <span>&nbsp;({pageContext.node.notation.join(',')})</span>
+          <span>{pageContext.node.notation.join(',')}&nbsp;</span>
         }
+        {t(pageContext.node.prefLabel)}
       </h1>
       <h2>{pageContext.node.id}</h2>
       <form action={pageContext.node.hub} method="post">

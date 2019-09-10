@@ -101,6 +101,7 @@ module.exports.allConceptScheme = languages => `
   }
   fragment ConceptFields on Concept {
     id
+    notation
     prefLabel {
       ${[...languages].join(' ')}
     }
