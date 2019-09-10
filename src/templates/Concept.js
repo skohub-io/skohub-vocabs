@@ -84,6 +84,11 @@ const Concept = ({pageContext}) => {
           overflow: auto;
           margin: 0;
           padding: 10px;
+          height: 100%;
+        }
+
+        & > ul:before {
+          content: none;
         }
       }
 

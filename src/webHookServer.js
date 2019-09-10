@@ -75,6 +75,8 @@ router.post('/build', async (ctx) => {
 const processWebhook = async (webhook) => {
   const response = await fetch(`https://api.github.com/repos/${webhook.repository}/contents/`)
   const files = await response.json()
+  // see https://github.com/eslint/eslint/issues/12117
+  // eslint-disable-next-line no-unused-vars
   for (const file of files) {
     await getFile({url: file.download_url, path: file.path}, webhook.repository)
   }

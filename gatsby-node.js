@@ -18,6 +18,7 @@ const types = require('./src/types')
 require('dotenv').config()
 
 const languages = new Set()
+let conceptSchemes
 
 exports.sourceNodes = async ({
   getNodes, loadNodeContent, createContentDigest, actions: { createNode }
@@ -32,7 +33,7 @@ exports.sourceNodes = async ({
 
   nodes.forEach(node => parser.parse(node).forEach(quad => {
     writer.addQuad(quad)
-    quad.object.language && languages.add(quad.object.language)
+    quad.object.language && languages.add(quad.object.language.replace("-", "_"))
   }))
 
   writer.end(async (error, nquads) => {
@@ -79,7 +80,7 @@ exports.sourceNodes = async ({
 exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types(languages))
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
-  const conceptSchemes = await graphql(queries.allConceptScheme(languages))
+  conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
@@ -129,3 +130,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
 const createData = ({path, data}) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage, deletePage } = actions
+  // Pass allConceptScheme to the pageContext of /pages/index.js
+  if (page.component && page.component.endsWith('src/pages/index.js')) {
+    deletePage(page)
+    const { allConceptScheme } = conceptSchemes.data
+    createPage({
+      ...page,
+      context: {
+        ...page.context,
+        allConceptScheme
+      },
+    })
+  }
+}
