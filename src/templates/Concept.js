@@ -124,11 +124,9 @@ const Concept = ({pageContext}) => {
         {t(pageContext.node.prefLabel)}
       </h1>
       <h2>{pageContext.node.id}</h2>
-      <form action={pageContext.node.hub} method="post">
-        <input type="hidden" name="hub.topic" value={pageContext.node.id} />
-        <input type="hidden" name="hub.callback" value={pageContext.node.id} />
-        <button type="submit" name="hub.mode" value="subscribe">Subscribe</button>
-      </form>
+      <p>
+        <a href={`/deck/?hub=wss://test.skohub.io&topic=${encodeURIComponent(pageContext.node.id)}`}>Subscribe</a>
+      </p>
       <p>
         <a href={pageContext.node.inbox}>Inbox</a>
       </p>
