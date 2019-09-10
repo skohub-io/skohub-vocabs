@@ -43,7 +43,6 @@ describe('Layout', () => {
     expect(wrapper.exists()).toBe(true)
     expect(html.includes('header')).toBe(true)
     expect(html.includes('Test Layout')).toBe(true)
-    expect(html.includes('footer')).toBe(true)
   })
 
 })

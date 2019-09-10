@@ -59,7 +59,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "lint:js": "eslint src --ext .jsx,.js --quiet",
-    "test": "jest --verbose",
+    "test": "npm run lint:js && jest --verbose",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --verbose --coverage",
