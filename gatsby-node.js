@@ -42,6 +42,7 @@ exports.sourceNodes = async ({
       return
     }
     const htaccess = [
+      'DirectoryIndex index',
       'AddType text/index .index',
       'AddType application/ld+json .jsonld',
       'AddType application/json .json'
