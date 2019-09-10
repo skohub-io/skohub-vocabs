@@ -33,7 +33,7 @@ exports.sourceNodes = async ({
 
   nodes.forEach(node => parser.parse(node).forEach(quad => {
     writer.addQuad(quad)
-        quad.object.language && languages.add(quad.object.language.replace("-", "_"))
+    quad.object.language && languages.add(quad.object.language.replace("-", "_"))
   }))
 
   writer.end(async (error, nquads) => {
