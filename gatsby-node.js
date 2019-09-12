@@ -17,7 +17,8 @@ const types = require('./src/types')
 
 require('dotenv').config()
 
-exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types)
+const languages = new Set()
+let conceptSchemes
 
 exports.sourceNodes = async ({
   getNodes, loadNodeContent, createContentDigest, actions: { createNode }
@@ -30,12 +31,22 @@ exports.sourceNodes = async ({
   const hubUrlTemplate = urlTemplate.parse(process.env.HUB)
   const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
 
-  nodes.forEach(node => parser.parse(node).forEach(quad => writer.addQuad(quad)))
+  nodes.forEach(node => parser.parse(node).forEach(quad => {
+    writer.addQuad(quad)
+    quad.object.language && languages.add(quad.object.language.replace("-", "_"))
+  }))
+
   writer.end(async (error, nquads) => {
     if (error) {
       console.error(error)
       return
     }
+    const htaccess = [
+      'DirectoryIndex index',
+      'AddType text/index .index',
+      'AddType application/ld+json .jsonld',
+      'AddType application/json .json'
+    ]
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context)
     compacted['@graph'].forEach((graph, i) => {
@@ -54,29 +65,35 @@ exports.sourceNodes = async ({
           type: properties.type,
         },
       }
-      node.type === 'Concept' && Object.assign(node, {
-        hub: hubUrlTemplate.expand(node),
-        inbox: inboxUrlTemplate.expand(node)
-      })
+      if (node.type === 'Concept') {
+        Object.assign(node, {
+         hub: hubUrlTemplate.expand(node),
+         inbox: inboxUrlTemplate.expand(node)
+       })
+       htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id),
+        getPath(node.id)))
+      }
       createNode(node)
+    })
+    createData({
+      path: '/.htaccess',
+      data: htaccess.join("\n")
     })
   })
 }
 
+exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types(languages))
+
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
-  const conceptSchemes = await graphql(queries.allConceptScheme)
+  conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
     const index = flexsearch.create()
     const tree = JSON.stringify(node)
-    const htaccess = [
-      'AddType text/index .index',
-      'AddType application/ld+json .json'
-    ]
 
-    const conceptsInScheme = await graphql(queries.allConcept(node.id))
+    const conceptsInScheme = await graphql(queries.allConcept(node.id, languages))
     conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
       createPage({
         path: getPath(node.id, 'html'),
@@ -91,7 +108,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         path: getPath(node.id, 'json'),
         data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
       })
-      htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id), getPath(node.id)))
+      createData({
+        path: getPath(node.id, 'jsonld'),
+        data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+      })
       index.add(node.id, t(node.prefLabel))
     })
 
@@ -111,15 +131,31 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
     })
     createData({
-      path: getPath(node.id, 'index'),
-      data: JSON.stringify(index.export(), null, 2)
+      path: getPath(node.id, 'jsonld'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
     })
     createData({
-      path: '/.htaccess',
-      data: htaccess.join("\n")
+      path: getPath(node.id, 'index'),
+      data: JSON.stringify(index.export(), null, 2)
     })
   })
 }
 
 const createData = ({path, data}) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage, deletePage } = actions
+  // Pass allConceptScheme to the pageContext of /pages/index.js
+  if (page.component && page.component.endsWith('src/pages/index.js')) {
+    deletePage(page)
+    const { allConceptScheme } = conceptSchemes.data
+    createPage({
+      ...page,
+      context: {
+        ...page.context,
+        allConceptScheme
+      },
+    })
+  }
+}

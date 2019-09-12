@@ -2,6 +2,8 @@
 import { css, jsx } from '@emotion/core'
 import { t, getPath } from '../common'
 
+import { colors as c } from '../styles/variables'
+
 const style = css`
   list-style-type: none;
   padding: 0;
@@ -12,7 +14,7 @@ const style = css`
     content: "";
     position: absolute;
     height: 100%;
-    background-color: hsla(0, 0%, 60%, 0.8);
+    background-color: ${c.primary};
     width: 1px;
     left: -17px;
   }
@@ -33,10 +35,10 @@ const style = css`
 
     &:before {
       content: "";
+      background-color: ${c.primary};
       position: absolute;
       width: 60%;
       height: 3px;
-      background-color: white;
       left: 50%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
@@ -45,10 +47,10 @@ const style = css`
     &.collapsed {
       &:after {
         content: "";
+        background-color: ${c.primary};
         position: absolute;
         width: 3px;
         height: 60%;
-        background-color: white;
         left: 50%;
         top: 50%;
         transform: translateX(-50%) translateY(-50%);
@@ -83,7 +85,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
         >
           {(item.narrower && item.narrower.length > 0) && (
             <button
-              className={`treeItemIcon btn${(filter || getNestedItems(item).some( id => id === current))
+              className={`treeItemIcon inputStyle${(filter || getNestedItems(item).some( id => id === current))
                 ?  '' : ' collapsed'}`}
               onClick={(e) => {
                 e.target.classList.toggle("collapsed")
@@ -95,6 +97,9 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
             className={item.id === current ? 'current' : ''}
             href={baseURL + getPath(item.id, 'html')}
           >
+            {item.notation &&
+              <span>{item.notation.join(',')}&nbsp;</span>
+            }
             <span
               dangerouslySetInnerHTML={{
                 __html: t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)

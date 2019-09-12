@@ -1,14 +1,16 @@
 /** @jsx jsx */
 import { useState, useEffect } from 'react'
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 import FlexSearch from 'flexsearch'
 import escapeRegExp from 'lodash.escaperegexp'
 import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 import TreeControls from '../components/TreeControls'
+import Layout from "../components/layout"
+import SEO from "../components/seo"
 
-import "../components/layout.css"
+import { style } from '../styles/concepts.css.js'
 
 const ConceptScheme = ({pageContext}) => {
   const [index, setIndex] = useState(FlexSearch.create('speed'))
@@ -27,73 +29,18 @@ const ConceptScheme = ({pageContext}) => {
   }, [])
 
   return (
-    <div className="Concept">
-
-      <div className="layout"
-       css={css`
-        display: flex;
-        max-height: 100vh;
-        font-size: 16px;
-        font-family: futura-pt,sans-serif,sans-serif;
-        color: hsl(0, 0%, 24%);
-
-        a {
-          text-decoration: none;
-          color: hsl(0, 0%, 24%);
-        }
-
-        a.current {
-          color: tomato;
-          font-weight: bold;
-        }
-
-        .btn {
-          background-color: hsl(0, 0%, 24%);
-          color: white;
-          border: none;
-          cursor: pointer;
-
-          &:hover,
-          &:focus {
-            background-color: hsl(0, 0%, 40%);
-          }
-        }
-
-        & > nav {
-          flex: 1;
-          border-right: 1px solid black;
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-
-          input[type=text] {
-            width: 100%;
-            border: 1px solid black;
-            border-left: none;
-            border-right: none;
-            padding: 5px 10px;
-          }
-
-          & > ul {
-            overflow: auto;
-            margin: 0;
-            padding: 10px;
-          }
-        }
-
-        .content {
-          padding: 20px;
-          flex: 3;
-        }
-
-        .markdown {
-          padding-top: 10px;
-        }
-      `}>
-      <nav>
+    <Layout>
+    <SEO title={t(pageContext.node.title)} keywords={['ConceptScheme', t(pageContext.node.title)]} />
+    <div
+      className="Concept"
+      css={style}
+    >
+      <nav
+        className="block"
+      >
         <input
           type="text"
+          className="inputStyle"
           onChange={e => setQuery(e.target.value || null)}
           placeholder="Search"
         />
@@ -105,7 +52,7 @@ const ConceptScheme = ({pageContext}) => {
           highlight={RegExp(escapeRegExp(query), 'gi')}
         />
       </nav>
-      <div className="content">
+      <div className="content block">
         <h1>{t(pageContext.node.title)}</h1>
         <h2>{pageContext.node.id}</h2>
         {pageContext.node.description
@@ -119,7 +66,7 @@ const ConceptScheme = ({pageContext}) => {
         }
       </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

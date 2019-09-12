@@ -1,4 +1,4 @@
-module.exports = `
+module.exports = languages => `
   type ConceptScheme implements Node {
     title: LanguageMap,
     description: LanguageMap,
@@ -9,16 +9,19 @@ module.exports = `
     prefLabel: LanguageMap,
     definition: LanguageMap,
     scopeNote: LanguageMap,
+    note: LanguageMap,
+    notation: [String],
     topConceptOf: ConceptScheme,
     narrower: [Concept],
+    narrowerTransitive: [Concept],
     broader: Concept,
+    broaderTransitive: [Concept],
     inScheme: ConceptScheme!,
     hub: String,
     inbox: String
   }
 
   type LanguageMap {
-    de: String,
-    en_us: String
+    ${[...languages].map(l => `${l}: String`).join(', ')}
   }
 `

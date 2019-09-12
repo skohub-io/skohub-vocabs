@@ -80,6 +80,8 @@ router.post('/build', async (ctx) => {
 const processWebhook = async (webhook) => {
   const response = await fetch(`https://api.github.com/repos/${webhook.repository}/contents/`)
   const files = await response.json()
+  // see https://github.com/eslint/eslint/issues/12117
+  // eslint-disable-next-line no-unused-vars
   for (const file of files) {
     await getFile({url: file.download_url, path: file.path}, webhook.repository)
   }
@@ -115,18 +117,21 @@ const processWebhooks = async () => {
         if (webhook.status !== "error") {
           webhook.status = "complete"
           webhook.log.push({
-            date: new Date() ,
+            date: new Date(),
             text: "Build Finish"
           })
         }
         fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
-        exec(`rm -r ${__dirname}/../.cache ${__dirname}/../data/* ${__dirname}/../dist/${webhook.repository}/*`).on('exit', () => {
-          exec(`mkdir -p ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-            exec(`mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`).on('exit', () => {
-              console.info("Build Finish".yellow)
-              processingWebhooks = false
-            })
-          })
+        const fsOps = [
+          `rm -r ${__dirname}/../.cache ${__dirname}/../data/*`,
+          `rm -r ${__dirname}/../dist/${webhook.repository}/*`,
+          `mkdir -p ${__dirname}/../dist/${webhook.repository}`,
+          `mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`,
+          `mv ${__dirname}/../public/.htaccess ${__dirname}/../dist/${webhook.repository}`,
+        ]
+        exec(fsOps.join(' && ')).on('exit', () => {
+          console.info("Build Finish".yellow)
+          processingWebhooks = false
         })
       })
     }
