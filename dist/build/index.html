@@ -237,10 +237,12 @@
     const setError = (msg) => {
       document.querySelector('.wrapper')
         .innerHTML = `
-          <div class="error">
-            <h1>Error</h1>
-            <p>${msg}</p>
-          </div>
+          <main>
+            <div class="error block">
+              <h1>Error</h1>
+              <p>${msg}</p>
+            </div>
+          </main>
           `
     }
 
