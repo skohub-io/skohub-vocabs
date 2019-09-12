@@ -8,6 +8,7 @@ import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 import TreeControls from '../components/TreeControls'
 import Layout from "../components/layout"
+import SEO from "../components/seo"
 
 import { style } from '../styles/concepts.css.js'
 
@@ -29,13 +30,17 @@ const ConceptScheme = ({pageContext}) => {
 
   return (
     <Layout>
+    <SEO title={t(pageContext.node.title)} keywords={['ConceptScheme', t(pageContext.node.title)]} />
     <div
       className="Concept"
       css={style}
     >
-      <nav>
+      <nav
+        className="block"
+      >
         <input
           type="text"
+          className="inputStyle"
           onChange={e => setQuery(e.target.value || null)}
           placeholder="Search"
         />
@@ -47,7 +52,7 @@ const ConceptScheme = ({pageContext}) => {
           highlight={RegExp(escapeRegExp(query), 'gi')}
         />
       </nav>
-      <div className="content">
+      <div className="content block">
         <h1>{t(pageContext.node.title)}</h1>
         <h2>{pageContext.node.id}</h2>
         {pageContext.node.description

@@ -10,6 +10,8 @@ import { Global, css } from '@emotion/core'
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
 
+import { colors as c } from '../styles/variables'
+
 import Header from "./header"
 
 const style = css`
@@ -20,6 +22,7 @@ const style = css`
   main {
     flex: 1;
     overflow: auto;
+    padding: 20px;
   }
 
   .centerPage {
@@ -69,8 +72,9 @@ const Layout = ({ children }) => (
               word-wrap: break-word;
               font-size: 16px;
               font-family: futura-pt, sans-serif, sans-serif;
-              color: #3c3c3c;
+              color: ${c.text};
               overflow: hidden;
+              background-color: ${c.base};
             }
 
             li > ul {
@@ -85,7 +89,32 @@ const Layout = ({ children }) => (
 
             a {
               text-decoration: none;
-              color: hsl(0, 0%, 24%);
+              color: ${c.primary};
+
+              &:hover {
+                color: ${c.accent};
+              }
+            }
+
+            .inputStyle {
+              background-color: ${c.inputBase};
+              box-shadow: 2px 2px 0 0 ${c.primary};
+              border: none;
+              cursor: pointer;
+              border: 1px solid ${c.primary};
+              color: ${c.primary};
+
+              &:hover,
+              &:focus {
+                background-color: ${c.inputAction};
+              }
+            }
+
+            .block {
+              background-color: ${c.blockBase};
+              box-shadow: 0 2px 4px 0 hsla(198, 45%, 10%, .12);
+              padding: 20px;
+              border-radius: 8px;
             }
           `}
         />

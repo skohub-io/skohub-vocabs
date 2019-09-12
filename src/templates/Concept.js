@@ -8,6 +8,7 @@ import { t, getPath } from '../common'
 import NestedList from '../components/nestedList'
 import TreeControls from '../components/TreeControls'
 import Layout from "../components/layout"
+import SEO from "../components/seo"
 
 import { style } from '../styles/concepts.css.js'
 
@@ -34,13 +35,15 @@ const Concept = ({pageContext}) => {
 
   return (
   <Layout>
+  <SEO title={t(pageContext.node.prefLabel)} keywords={['Concept', t(pageContext.node.prefLabel)]} />
   <div
     className="Concept"
     css={style}
   >
-    <nav>
+    <nav className="block">
       <input
         type="text"
+        className="inputStyle"
         onChange={e => setQuery(e.target.value || null)}
         placeholder="Search"
       />
@@ -53,13 +56,13 @@ const Concept = ({pageContext}) => {
         highlight={RegExp(escapeRegExp(query), 'gi')}
       />
     </nav>
-    <div className="content">
+    <div className="content block">
       <h1>{t(pageContext.node.prefLabel)}</h1>
       <h2>{pageContext.node.id}</h2>
       <form action={pageContext.node.hub} method="post">
         <input type="hidden" name="hub.topic" value={pageContext.node.id} />
         <input type="hidden" name="hub.callback" value={pageContext.node.id} />
-        <button type="submit" name="hub.mode" value="subscribe">Subscribe</button>
+        <button type="submit" name="hub.mode" value="subscribe" className="inputStyle">Subscribe</button>
       </form>
       <p>
         <a href={pageContext.node.inbox}>Inbox</a>

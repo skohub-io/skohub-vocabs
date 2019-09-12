@@ -12,8 +12,8 @@ const IndexPage = ({ pageContext }) => {
 
   return (
   <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <div className="centerPage">
+    <SEO title="Concept Schemes" keywords={['conceptSchemes']} />
+    <div className="centerPage block">
     <ul>
       {conceptSchemes.map(conceptScheme => (
         <li key={conceptScheme.id}>

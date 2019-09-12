@@ -3,9 +3,15 @@ import { css, jsx } from '@emotion/core'
 
 const style = css`
   display: flex;
+  margin-bottom: 10px;
 
   input[type=button] {
     flex: 1;
+    padding: 5px 10px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
   }
 `
 
@@ -16,7 +22,7 @@ const TreeControls = () => (
   >
     <input
       type="button"
-      className="btn"
+      className="inputStyle"
       value="Collapse"
       onClick={() => {
         [...document.querySelectorAll('.treeItemIcon')].forEach(el => el.classList.add("collapsed"))
@@ -24,7 +30,7 @@ const TreeControls = () => (
     />
     <input
       type="button"
-      className="btn"
+      className="inputStyle"
       value="Expand"
       onClick={() => {
         [...document.querySelectorAll('.collapsed')].forEach(el => el.classList.remove("collapsed"))
