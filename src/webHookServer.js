@@ -122,17 +122,11 @@ const processWebhooks = async () => {
           })
         }
         fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
-        const fsOps = [
-          `rm -r ${__dirname}/../.cache ${__dirname}/../data/*`,
-          `rm -r ${__dirname}/../dist/${webhook.repository}/*`,
-          `mkdir -p ${__dirname}/../dist/${webhook.repository}`,
-          `mv ${__dirname}/../public/* ${__dirname}/../dist/${webhook.repository}`,
-          `mv ${__dirname}/../public/.htaccess ${__dirname}/../dist/${webhook.repository}`,
-        ]
-        exec(fsOps.join(' && ')).on('exit', () => {
-          console.info("Build Finish".yellow)
-          processingWebhooks = false
-        })
+        fs.removeSync(`${__dirname}/../.cache`)
+        fs.emptyDir(`${__dirname}/../data/`)
+        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}`)
+        console.info("Build Finish".yellow)
+        processingWebhooks = false
       })
     }
   }
