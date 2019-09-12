@@ -247,8 +247,18 @@
     }
 
     const getData = async () => {
-      const response = await fetch(`./${id}.json`)
-      const json = await response.json()
+      try {
+        const response = await fetch(`./${id}.json`)
+        const json = await response.json()
+        renderData(json)
+      } catch (error) {
+        setTimeout(() => {
+          getData()
+        }, 2000);
+      }
+    }
+
+    const renderData = (json) => {
       payload.innerHTML = JSON.stringify(json.body, null, 2)
       date.innerHTML = new Date(json.date).toDateString()
       date.title = new Date(json.date).toISOString()
