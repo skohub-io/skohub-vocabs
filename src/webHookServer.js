@@ -123,7 +123,9 @@ const processWebhooks = async () => {
         }
         fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
         fs.removeSync(`${__dirname}/../.cache`)
-        fs.emptyDir(`${__dirname}/../data/`)
+        fs.readdirSync(`${__dirname}/../data/`)
+          .filter(filename  => filename !== '.gitignore')
+          .forEach(filename => fs.removeSync(`${__dirname}/../data/${filename}`))
         fs.removeSync(`${__dirname}/../dist/${webhook.repository}/`)
         fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}`)
         console.info("Build Finish".yellow)
