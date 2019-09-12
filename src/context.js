@@ -20,7 +20,19 @@ module.exports = {
     "scopeNote": {
       "@container": "@language"
     },
+    "note": {
+      "@container": "@language"
+    },
+    "notation": {
+      "@container": "@set"
+    },
     "narrower": {
+      "@container": "@set"
+    },
+    "narrowerTransitive": {
+      "@container": "@set"
+    },
+    "broaderTransitive": {
       "@container": "@set"
     },
     "inbox": {

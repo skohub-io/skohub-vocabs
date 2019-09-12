@@ -95,6 +95,9 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
             className={item.id === current ? 'current' : ''}
             href={baseURL + getPath(item.id, 'html')}
           >
+            {item.notation &&
+              <span>{item.notation.join(',')}&nbsp;</span>
+            }
             <span
               dangerouslySetInnerHTML={{
                 __html: t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)

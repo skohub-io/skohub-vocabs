@@ -41,6 +41,12 @@ exports.sourceNodes = async ({
       console.error(error)
       return
     }
+    const htaccess = [
+      'DirectoryIndex index',
+      'AddType text/index .index',
+      'AddType application/ld+json .jsonld',
+      'AddType application/json .json'
+    ]
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context)
     compacted['@graph'].forEach((graph, i) => {
@@ -59,11 +65,19 @@ exports.sourceNodes = async ({
           type: properties.type,
         },
       }
-      node.type === 'Concept' && Object.assign(node, {
-        hub: hubUrlTemplate.expand(node),
-        inbox: inboxUrlTemplate.expand(node)
-      })
+      if (node.type === 'Concept') {
+        Object.assign(node, {
+         hub: hubUrlTemplate.expand(node),
+         inbox: inboxUrlTemplate.expand(node)
+       })
+       htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id),
+        getPath(node.id)))
+      }
       createNode(node)
+    })
+    createData({
+      path: '/.htaccess',
+      data: htaccess.join("\n")
     })
   })
 }
@@ -78,11 +92,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
     const index = flexsearch.create()
     const tree = JSON.stringify(node)
-    const htaccess = [
-      'AddType text/index .index',
-      'AddType application/ld+json .jsonld',
-      'AddType application/json .json'
-    ]
 
     const conceptsInScheme = await graphql(queries.allConcept(node.id, languages))
     conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
@@ -103,7 +112,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         path: getPath(node.id, 'jsonld'),
         data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
       })
-      htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id), getPath(node.id)))
       index.add(node.id, t(node.prefLabel))
     })
 
@@ -129,10 +137,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     createData({
       path: getPath(node.id, 'index'),
       data: JSON.stringify(index.export(), null, 2)
-    })
-    createData({
-      path: '/.htaccess',
-      data: htaccess.join("\n")
     })
   })
 }
