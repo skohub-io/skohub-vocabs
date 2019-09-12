@@ -31,6 +31,7 @@
     "markdown-to-jsx": "^6.10.3",
     "n3": "^1.2.0",
     "node-fetch": "^2.6.0",
+    "normalize.css": "^8.0.1",
     "omit-empty": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",

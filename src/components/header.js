@@ -1,33 +1,69 @@
 import { Link } from "gatsby"
+import { css } from '@emotion/core'
 import PropTypes from "prop-types"
 import React from "react"
 
+import { colors as c } from '../styles/variables'
+
+const style = css`
+  background: #11998e;
+  background: linear-gradient(to right, #27CA84, #11998e);
+
+  h1 {
+    margin: 0;
+
+    a {
+      color: white;
+    }
+  }
+
+  .wave {
+    overflow: hidden;
+    position: relative;
+    height: 50px;
+  }
+
+  .headerContent {
+    padding: 20px 20px 5px 20px;
+  }
+
+  svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    fill: ${c.base};
+  }
+`
 const Header = ({ siteTitle }) => (
   <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
+    css={style}
   >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
+    <div className="headerContent">
+      <h1>
+        <Link to="/" >
           {siteTitle}
         </Link>
       </h1>
+
     </div>
+
+    <div className="wave">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1000 279.24"
+        preserveAspectRatio="none">
+          <path
+            d="M1000 0S331.54-4.18 0 279.24h1000z"
+            opacity=".25"
+          />
+          <path
+            d="M1000 279.24s-339.56-44.3-522.95-109.6S132.86 23.76 0 25.15v254.09z"
+          />
+        </svg>
+    </div>
+
   </header>
 )
 
