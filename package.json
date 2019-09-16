@@ -37,6 +37,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.0",
+    "strip-ansi": "^5.2.0",
     "url-template": "^2.0.8",
     "uuid": "^3.3.3"
   },

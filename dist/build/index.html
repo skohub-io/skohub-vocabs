@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SkoHub-Log</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
+  <style>
+    html {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+      -webkit-box-sizing: inherit;
+      -moz-box-sizing: inherit;
+      box-sizing: inherit;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+      word-wrap: break-word;
+      font-size: 16px;
+      font-family: futura-pt, sans-serif, sans-serif;
+      color: hsl(0, 0%, 24%);
+      background-color: rgb(242, 245, 247);
+    }
+
+    a {
+      text-decoration: none;
+      color: hsl(0, 0%, 24%);
+    }
+
+    a:hover {
+      color: hsl(161.6, 71.8%, 41.8%);
+    }
+
+    .block {
+      background-color: hsl(0, 100%, 100%);
+      box-shadow: 0 2px 4px 0 hsla(198, 45%, 10%, .12);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .wrapper {
+      /* max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 40px; */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      padding: 20px;
+      padding-top: 10px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    #status {
+      font-weight: bold;
+    }
+
+    h2 {
+      display: inline-block;
+    }
+
+    #log,
+    pre {
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap;
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap;
+    }
+
+    #log {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #log li a {
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    #log li:hover {
+      background-color: whitesmoke;
+    }
+
+    #log li span:first-child {
+      padding-right: 10px;
+    }
+
+    #log li:target {
+      background-color: palegreen;
+    }
+
+    header {
+      background: #11998e;
+      background: linear-gradient(to right, #27CA84, #11998e);
+    }
+
+    header h1 {
+      margin: 0;
+      display: inline-block;
+    }
+
+    header h1 a {
+      color: white;
+    }
+
+    header .wave {
+      overflow: hidden;
+      position: relative;
+      height: 50px;
+    }
+
+    header .headerContent {
+      padding: 20px 20px 5px 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    header h1 a:hover {
+      color: white;
+    }
+
+    header svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 49px;
+      fill: rgb(242, 245, 247);
+    }
+
+    #date {
+      color: hsl(0, 0%, 54%)
+    }
+
+    .error {
+      border: 4px solid tomato;
+      border-radius: 8px;
+      padding: 40px;
+      margin-top: 50px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
+    }
+
+    .error h1 {
+      color: tomato;
+    }
+
+    .metadata {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #status {
+      text-transform: capitalize;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <header
+      class="Header"
+    >
+      <div class="headerContent">
+        <h1>
+          <a href="/">
+            SkoHub-Log
+          </a>
+        </h1>
+      </div>
+
+      <div class="wave">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1000 279.24"
+          preserveAspectRatio="none">
+            <path
+              d="M1000 0S331.54-4.18 0 279.24h1000z"
+              opacity=".25"
+            />
+            <path
+              d="M1000 279.24s-339.56-44.3-522.95-109.6S132.86 23.76 0 25.15v254.09z"
+            />
+        </svg>
+      </div>
+    </header>
+
+    <main>
+        <div class="metadata">
+          <div>
+            <h2 id="status"></h2>
+          </div>
+          <span id="date"></span>
+        </div>
+
+        <h2>Payload</h2>
+        <span id="signature"></span>
+        <pre id="payload" class="block"></pre>
+
+        <h2>Headers</h2>
+        <pre id="headers" class="block"></pre>
+
+        <h2>Deploy log</h2>
+        <ul id="log"class="block"></ul>
+    </main>
+
+  </div>
+
+  <script>
+    const log = document.getElementById("log")
+    const date = document.getElementById("date")
+    const status = document.getElementById("status")
+    const payload = document.getElementById("payload")
+    const headers = document.getElementById("headers")
+    const signature = document.getElementById("signature")
+
+    const url = new URL(window.location.href)
+    const id = url.searchParams.get('id')
+
+    const setError = (msg) => {
+      document.querySelector('.wrapper')
+        .innerHTML = `
+          <main>
+            <div class="error block">
+              <h1>Error</h1>
+              <p>${msg}</p>
+            </div>
+          </main>
+          `
+    }
+
+    const getData = async () => {
+      try {
+        const response = await fetch(`./${id}.json`)
+        const json = await response.json()
+        renderData(json)
+      } catch (error) {
+        setTimeout(() => {
+          console.warn("error", error)
+          getData()
+        }, 2000);
+      }
+    }
+
+    const renderData = (json) => {
+      payload.innerHTML = JSON.stringify(json.body, null, 2)
+      date.innerHTML = new Date(json.date).toDateString()
+      date.title = new Date(json.date).toISOString()
+      signature.innerHTML = json.signature
+      headers.innerHTML = JSON.stringify(json.headers, null, 2)
+      json.log.forEach((line, i) => {
+        const li = document.createElement('li')
+        const a = document.createElement('a')
+        const logDate = document.createElement('span')
+        const logText = document.createElement('text')
+        li.id = i
+        a.href = `#${i}`
+        logDate.innerHTML = new Date(line.date).toLocaleString().split(', ').slice(-1)
+        logText.innerHTML = line.text
+        a.appendChild(logDate)
+        a.appendChild(logText)
+        li.appendChild(a)
+        log.appendChild(li)
+      })
+
+      status.innerHTML = json.status
+      if (json.status === "complete") {
+        status.style.color = "MediumSeaGreen"
+        const a = document.createElement("a")
+        const span = document.createElement("span")
+        span.innerHTML = " at "
+        a.href = `/${json.body.repository.full_name}`
+        a.innerHTML = json.body.repository.full_name
+
+        status.parentNode.insertBefore(span, status.nextSibling)
+        status.parentNode.insertBefore(a, span.nextSibling)
+        status.appendChild
+
+      } else if (json.status === "error") {
+        status.style.color = "Tomato"
+      } else {
+        status.style.color = "gold"
+      }
+
+      if (json.status === "processing") {
+        setTimeout(() => {
+          console.log("process")
+          getData()
+        }, 2000)
+      }
+    }
+
+    if (id) {
+      getData()
+    } else {
+      setError('Build id is a required parameter')
+    }
+
+  </script>
+
+</body>
+</html>
