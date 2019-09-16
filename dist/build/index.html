@@ -206,7 +206,9 @@
 
     <main>
         <div class="metadata">
-          <h2 id="status"></h2>
+          <div>
+            <h2 id="status"></h2>
+          </div>
           <span id="date"></span>
         </div>
 
@@ -253,6 +255,7 @@
         renderData(json)
       } catch (error) {
         setTimeout(() => {
+          console.warn("error", error)
           getData()
         }, 2000);
       }
@@ -282,6 +285,16 @@
       status.innerHTML = json.status
       if (json.status === "complete") {
         status.style.color = "MediumSeaGreen"
+        const a = document.createElement("a")
+        const span = document.createElement("span")
+        span.innerHTML = " at "
+        a.href = `/${json.body.repository.full_name}`
+        a.innerHTML = json.body.repository.full_name
+
+        status.parentNode.insertBefore(span, status.nextSibling)
+        status.parentNode.insertBefore(a, span.nextSibling)
+        status.appendChild
+
       } else if (json.status === "error") {
         status.style.color = "Tomato"
       } else {
@@ -290,6 +303,7 @@
 
       if (json.status === "processing") {
         setTimeout(() => {
+          console.log("process")
           getData()
         }, 2000)
       }
