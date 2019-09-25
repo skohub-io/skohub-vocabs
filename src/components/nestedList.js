@@ -132,7 +132,9 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
             }
             <span
               dangerouslySetInnerHTML={{
-                __html: t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+                __html: highlight
+                  ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+                  : t(item.prefLabel)
               }}
             />
           </a>
