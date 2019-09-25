@@ -46,6 +46,7 @@ const Concept = ({pageContext}) => {
         className="inputStyle"
         onChange={e => setQuery(e.target.value || null)}
         placeholder="Search"
+        autoFocus
       />
       <TreeControls/>
       <NestedList

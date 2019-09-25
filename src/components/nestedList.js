@@ -10,6 +10,26 @@ const style = css`
   word-wrap: break-word;
   position: relative;
 
+  li {
+    display: flex;
+    margin-bottom: 0;
+
+    & a {
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    > button + div {
+      margin-bottom: 10px;
+    }
+
+    > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -19,8 +39,17 @@ const style = css`
     left: -17px;
   }
 
+  .notation {
+    font-weight: bold;
+  }
+
+  span {
+    word-break: normal;
+  }
+
   span > strong {
     display: inline-flex;
+    color: ${c.accent};
   }
 
   .treeItemIcon {
@@ -31,7 +60,7 @@ const style = css`
     margin-right: 5px;
     font-weight: bold;
     position: relative;
-    top: 4px;
+    top: -1px;
 
     &:before {
       content: "";
@@ -56,7 +85,7 @@ const style = css`
         transform: translateX(-50%) translateY(-50%);
       }
 
-      & + a + ul {
+      & + div > a + ul {
         display: none;
       }
     }
@@ -93,12 +122,13 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
             >
             </button>
           )}
+          <div>
           <a
             className={item.id === current ? 'current' : ''}
             href={baseURL + getPath(item.id, 'html')}
           >
             {item.notation &&
-              <span>{item.notation.join(',')}&nbsp;</span>
+              <span className="notation">{item.notation.join(',')}&nbsp;</span>
             }
             <span
               dangerouslySetInnerHTML={{
@@ -115,6 +145,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
               highlight={highlight}
             />
           }
+          </div>
         </li>
       ))}
     </ul>
