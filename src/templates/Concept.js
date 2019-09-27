@@ -46,6 +46,7 @@ const Concept = ({pageContext}) => {
         className="inputStyle"
         onChange={e => setQuery(e.target.value || null)}
         placeholder="Search"
+        autoFocus
       />
       <TreeControls/>
       <NestedList
@@ -53,7 +54,7 @@ const Concept = ({pageContext}) => {
         current={pageContext.node.id}
         baseURL={pageContext.baseURL}
         filter={query ? index.search(query) : null}
-        highlight={RegExp(escapeRegExp(query), 'gi')}
+        highlight={query ? RegExp(escapeRegExp(query), 'gi'): null}
       />
     </nav>
     <div className="content block">

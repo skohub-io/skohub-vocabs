@@ -8,7 +8,7 @@ export const style = css`
   height: 100%;
 
   a.current {
-    color: ${c.accent};
+    color: ${c.accentDark};
     font-weight: bold;
   }
 
@@ -38,7 +38,7 @@ export const style = css`
 
   .content {
     padding: 20px;
-    flex: 3;
+    flex: 2;
     overflow: auto;
     margin-left: 20px;
 

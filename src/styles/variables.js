@@ -6,4 +6,5 @@ export const colors = {
   inputBase: 'hsl(204, 24%, 96%)',
   inputAction: 'hsl(192, 8.2%, 88%)',
   accent: 'hsl(161.6, 71.8%, 41.8%)',
+  accentDark: 'hsl(161.6, 71.8%, 31.8%)',
 }
