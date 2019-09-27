@@ -4,8 +4,8 @@ This part of the [SkoHub](http://skohub.io) project covers the need to easily pu
 
 ## Set up
 
-    $ git clone https://github.com/hbz/skohub-ssg.git
-    $ cd skohub-ssg
+    $ git clone https://github.com/hbz/skohub-vocabs.git
+    $ cd skohub-vocabs
     $ npm i
     $ cp .env.example .env
     $ cp test/data/systematik.ttl data/
