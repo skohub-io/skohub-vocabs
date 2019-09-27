@@ -1,5 +1,5 @@
 {
-  "name": "skohub-ssg",
+  "name": "skohub-vocabs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hbz/skohub-ssg.git"
+    "url": "git+https://github.com/hbz/skohub-vocabs.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hbz/skohub-ssg/issues"
+    "url": "https://github.com/hbz/skohub-vocabs/issues"
   },
-  "homepage": "https://github.com/hbz/skohub-ssg#readme",
+  "homepage": "https://github.com/hbz/skohub-vocabs#readme",
   "dependencies": {
     "xml2js": "^0.4.19",
     "xmldom": "^0.1.27",
