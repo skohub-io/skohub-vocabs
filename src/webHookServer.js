@@ -87,16 +87,6 @@ router.post('/build', async (ctx) => {
   ctx.status = 202
 })
 
-const processWebhook = async (webhook) => {
-  const files = await getRepositoryFiles(webhook)
-
-  // see https://github.com/eslint/eslint/issues/12117
-  // eslint-disable-next-line no-unused-vars
-  for (const file of files) {
-    await getFile({url: file.url, path: file.path}, webhook.repository)
-  }
-}
-
 const processWebhooks = async () => {
   if (processingWebhooks === false) {
     if (webhooks.length > 0) {
@@ -104,7 +94,24 @@ const processWebhooks = async () => {
       console.log(`Processing`.green)
       const webhook = webhooks.shift()
       const branch = webhook.ref.replace('refs/heads/', '')
-      await processWebhook(webhook)
+
+      try {
+        // Fetch urls for the repository files
+        const files = await getRepositoryFiles(webhook)
+
+        // see https://github.com/eslint/eslint/issues/12117
+        // Fetch each one of the repository files
+        // eslint-disable-next-line no-unused-vars
+        for (const file of files) {
+          await getFile({url: file.url, path: file.path}, webhook.repository)
+        }
+      } catch (error) {
+        // If there is an error fetching the files,
+        // stop the current webhook and return
+        console.error(error)
+        processingWebhooks = false
+        return
+      }
 
       const build = exec(`BASEURL=/${webhook.repository}/${branch} CI=true npm run build`, {encoding: "UTF-8"})
       build.stdout.on('data', (data) => {
