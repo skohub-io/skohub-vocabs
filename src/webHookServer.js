@@ -103,15 +103,15 @@ const processWebhooks = async () => {
       })
       build.stderr.on('data', (data) => {
         console.log('gatsbyError: ' + data.toString())
-        webhook.log.push({
-          date: new Date(),
-          text: data.toString(),
-          warning: true
-        })
         if (!data.toString().includes('warning Deprecation')) {
+          webhook.log.push({
+            date: new Date(),
+            text: data.toString(),
+            warning: true
+          })
           webhook.status = "error"
+          fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
         }
-        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
       })
       build.on('exit', async () => {
         if (webhook.status !== "error") {
