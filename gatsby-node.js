@@ -48,6 +48,10 @@ exports.sourceNodes = async ({
       'AddType application/ld+json .jsonld',
       'AddType application/activity+json .jsonas'
     ]
+    createData({
+      path: '/.htaccess',
+      data: htaccess.join("\n")
+    })
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context.jsonld)
     compacted['@graph'].forEach((graph, i) => {
@@ -74,16 +78,13 @@ exports.sourceNodes = async ({
       }
       createNode(node)
     })
-    createData({
-      path: '/.htaccess',
-      data: htaccess.join("\n")
-    })
   })
 }
 
 exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types(languages))
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
+  const actorUrlTemplate = urlTemplate.parse(process.env.ACTOR)
   conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
@@ -110,6 +111,25 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       createData({
         path: getPath(node.id, 'jsonld'),
         data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+      })
+      const actorPath = (process.env.BASEURL || '') + getPath(node.id)
+      const actor = actorUrlTemplate.expand({ path: actorPath })
+      const jsonas = {
+        id: actor,
+        type: 'Service',
+        name: t(node.prefLabel),
+        preferredUsername: Buffer.from(actorPath.substring(1)).toString('hex'),
+        inbox: node.inbox,
+        followers: node.followers,
+        publicKey: {
+          id: `${actor}#main-key`,
+          owner: actor,
+          publicKeyPem: process.env.PUBLIC_KEY
+        }
+      }
+      createData({
+        path: getPath(node.id, 'jsonas'),
+        data: JSON.stringify(omitEmpty(Object.assign({}, jsonas, context.as), null, 2))
       })
       index.add(node.id, t(node.prefLabel))
     })
