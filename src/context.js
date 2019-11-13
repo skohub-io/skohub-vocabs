@@ -1,4 +1,4 @@
-module.exports = {
+const jsonld = {
   "@context": {
     "id": "@id",
     "type": "@type",
@@ -34,12 +34,15 @@ module.exports = {
     },
     "broaderTransitive": {
       "@container": "@set"
-    },
-    "inbox": {
-      "@id": "http://www.w3.org/ns/ldp#inbox"
-    },
-    "hub": {
-      "@id": "http://www.w3.org/ns/ldp#hub"
     }
   }
 }
+
+const as = {
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/security/v1"
+  ]
+}
+
+module.exports = { jsonld, as }

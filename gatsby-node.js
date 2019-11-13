@@ -49,7 +49,7 @@ exports.sourceNodes = async ({
       'AddType application/activity+json .jsonas'
     ]
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
-    const compacted = await jsonld.compact(doc, context)
+    const compacted = await jsonld.compact(doc, context.jsonld)
     compacted['@graph'].forEach((graph, i) => {
       const { narrower, broader, inScheme, topConceptOf, hasTopConcept, ...properties } = graph
       const node = {
@@ -105,11 +105,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       })
       createData({
         path: getPath(node.id, 'json'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+        data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
       })
       createData({
         path: getPath(node.id, 'jsonld'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+        data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
       })
       index.add(node.id, t(node.prefLabel))
     })
@@ -127,11 +127,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     })
     createData({
       path: getPath(node.id, 'json'),
-      data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+      data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
     })
     createData({
       path: getPath(node.id, 'jsonld'),
-      data: JSON.stringify(omitEmpty(Object.assign({}, node, context), null, 2))
+      data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
     })
     createData({
       path: getPath(node.id, 'index'),
