@@ -10,7 +10,7 @@ const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
 const urlTemplate = require('url-template')
-const { t, getPath, getHeaders } = require('./src/common')
+const { t, getPath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
 const types = require('./src/types')
@@ -44,8 +44,9 @@ exports.sourceNodes = async ({
     const htaccess = [
       'DirectoryIndex index',
       'AddType text/index .index',
+      'AddType application/json .json',
       'AddType application/ld+json .jsonld',
-      'AddType application/json .json'
+      'AddType application/activity+json .jsonas'
     ]
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context)
@@ -70,8 +71,6 @@ exports.sourceNodes = async ({
          hub: hubUrlTemplate.expand(node),
          inbox: inboxUrlTemplate.expand(node)
        })
-       htaccess.push(getHeaders(unescape(node.inbox), unescape(node.hub), unescape(node.id),
-        getPath(node.id)))
       }
       createNode(node)
     })
