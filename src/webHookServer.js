@@ -39,7 +39,7 @@ const getFile = async (file, repository) => {
 router.post('/build', async (ctx) => {
   const { body, headers } = ctx.request
 
-  const hook = headers['x-hub-signature']
+  const hook = headers['x-github-event']
     ? getHookGitHub(headers, body, SECRET)
     : getHookGitLab(headers, body, SECRET)
 
