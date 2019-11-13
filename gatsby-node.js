@@ -28,7 +28,7 @@ exports.sourceNodes = async ({
   const nodes = await Promise.all(getNodes()
     .filter(node => node.internal.mediaType === 'text/turtle')
     .map(async node => loadNodeContent(node)))
-  const hubUrlTemplate = urlTemplate.parse(process.env.HUB)
+  const followersUrlTemplate = urlTemplate.parse(process.env.FOLLOWERS)
   const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
 
   nodes.forEach(node => parser.parse(node).forEach(quad => {
@@ -68,7 +68,7 @@ exports.sourceNodes = async ({
       }
       if (node.type === 'Concept') {
         Object.assign(node, {
-         hub: hubUrlTemplate.expand(node),
+         followers: followersUrlTemplate.expand(node),
          inbox: inboxUrlTemplate.expand(node)
        })
       }

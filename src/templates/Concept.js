@@ -66,9 +66,6 @@ const Concept = ({pageContext}) => {
       </h1>
       <h2>{pageContext.node.id}</h2>
       <p>
-        <a href={`/deck/?hub=wss://test.skohub.io&topic=${encodeURIComponent(pageContext.node.id)}`}>Subscribe</a>
-      </p>
-      <p>
         <a href={pageContext.node.inbox}>Inbox</a>
       </p>
       {pageContext.node.definition
