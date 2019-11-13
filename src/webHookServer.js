@@ -10,6 +10,7 @@ const fetch = require("node-fetch")
 const {
   getHookGitHub,
   getHookGitLab,
+  getHookSkoHub,
   isValid,
   getRepositoryFiles,
 } = require('./common')
@@ -39,9 +40,14 @@ const getFile = async (file, repository) => {
 router.post('/build', async (ctx) => {
   const { body, headers } = ctx.request
 
-  const hook = headers['x-github-event']
-    ? getHookGitHub(headers, body, SECRET)
-    : getHookGitLab(headers, body, SECRET)
+  let hook
+  if (headers['x-github-event']) {
+    hook = getHookGitHub(headers, body, SECRET)
+  } else if (headers['x-gitlab-event']) {
+    hook = getHookGitLab(headers, body, SECRET)
+  } else if (headers['x-skohub-event']) {
+    hook = getHookSkoHub(headers, body, SECRET)
+  }
 
   // Check if the given signature is valid
   if (!hook.isSecured) {
@@ -53,7 +59,7 @@ router.post('/build', async (ctx) => {
   // Check if the given event is valid
   if (isValid(hook)) {
     const id = uuidv4()
-    const { type, repository, headers, ref } = hook
+    const { type, repository, headers, ref, filesURL } = hook
     webhooks.push({
       id,
       body,
@@ -63,6 +69,7 @@ router.post('/build', async (ctx) => {
       status: "processing",
       log: [],
       type,
+      filesURL,
       ref
     })
     ctx.body = `Build triggered: ${BUILD_URL}?id=${id}`

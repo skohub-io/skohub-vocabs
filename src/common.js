@@ -40,6 +40,21 @@ const getHookGitLab = (headers, payload, SECRET) => {
   return obj
 }
 
+const getHookSkoHub = (headers, payload, SECRET) => {
+  const obj = {
+    type: 'skohub',
+    isPush: headers['x-skohub-event'] === 'push',
+    defaultBranch: maybe(payload, 'repository.master_branch'),
+    repository: maybe(payload, 'repository.full_name'),
+    isSecured: headers['x-skohub-token'] === SECRET,
+    ref: payload.ref,
+    filesURL: payload.files_url,
+    headers
+  }
+  obj.headers['x-skohub-token'] = '*******************' // Delete token for report
+  return obj
+}
+
 const isValid = (hook) => {
   const { isPush, repository, defaultBranch, ref } = hook
 
@@ -57,7 +72,7 @@ const isSecured = (signature, payload, SECRET) => {
   console.warn('Invalid signature'.red, signature, digest)
 }
 
-const getRepositoryFiles = async ({type, repository, ref}) => {
+const getRepositoryFiles = async ({type, repository, ref, filesURL}) => {
   let url
   let getLinks
 
@@ -69,6 +84,11 @@ const getRepositoryFiles = async ({type, repository, ref}) => {
   if (type === 'gitlab') {
     url = `https://gitlab.com/api/v4/projects/${encodeURIComponent(repository)}/repository/tree`
     getLinks = formatGitLabFiles
+  }
+
+  if (type === 'skohub') {
+    url = filesURL
+    getLinks = files => files
   }
 
   try {
@@ -109,6 +129,7 @@ module.exports = {
   getHeaders,
   getHookGitHub,
   getHookGitLab,
+  getHookSkoHub,
   isValid,
   getRepositoryFiles,
 }
