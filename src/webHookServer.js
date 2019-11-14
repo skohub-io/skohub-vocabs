@@ -109,6 +109,13 @@ const processWebhooks = async () => {
         // If there is an error fetching the files,
         // stop the current webhook and return
         console.error(error)
+        webhook.log.push({
+          date: new Date(),
+          text: error.message,
+          warning: true
+        })
+        webhook.status = "error"
+        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
         processingWebhooks = false
         return
       }
