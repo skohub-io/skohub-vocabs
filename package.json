@@ -48,7 +48,8 @@
     "eslint": "^6.6.0",
     "eslint-config-gatsby-standard": "^2.1.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "nock": "^11.7.0"
   },
   "keywords": [
     "gatsby"
