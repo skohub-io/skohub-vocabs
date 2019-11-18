@@ -539,9 +539,47 @@ describe('getRepositoryFiles', () => {
     expect(res.every(file => file.path && file.url)).toBe(true)
   })
 
-  // ToDo: Add test for thrown exceptions
-  // Add error for throw when the url is invalid
-  // Add error test when the returned content is malformed
+  test('Should throw error', async () => {
+
+    nock('https://api.github.com')
+      .get('/repos/custom/testTTL/contents/')
+      .query({"ref":"master"})
+      .reply(200, {message: "Not Found"})
+
+    await expect(getRepositoryFiles({
+      type: 'github',
+      repository: 'custom/testTTL',
+      ref: 'refs/heads/master',
+    })).rejects.toThrow("Not Found")
+  })
+
+  test('Should throw error', async () => {
+
+     nock('https://gitlab.com:443', {"encodedQueryParams":true})
+      .get('/api/v4/projects/custom%2FtestTTL/repository/tree')
+      .query({"ref":"refs%2Fheads%2Fmaster"})
+      .reply(200, {message: 	"404 Not Found"})
+
+    await expect(getRepositoryFiles({
+      type: 'gitlab',
+      repository: 'custom/testTTL',
+      ref: 'refs/heads/master',
+    })).rejects.toThrow("Not Found")
+  })
+
+  test('Should throw error', async () => {
+
+     nock('http://localhost:6000')
+      .get('/getFiles')
+      .reply(200, [{foo: 'bar'}])
+
+    await expect(getRepositoryFiles({
+      type: 'skohub',
+      repository: 'custom/testTTL',
+      ref: 'refs/heads/master',
+      filesURL: "http://localhost:6000/getFiles"
+    })).rejects.toThrow("Malformed custom files")
+  })
 })
 
 
