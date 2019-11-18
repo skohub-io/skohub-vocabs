@@ -72,8 +72,12 @@ exports.sourceNodes = async ({
       }
       if (node.type === 'Concept') {
         Object.assign(node, {
-         followers: followersUrlTemplate.expand(node),
-         inbox: inboxUrlTemplate.expand(node)
+         followers: followersUrlTemplate.expand({
+           id: ((process.env.BASEURL || '') + getPath(node.id)).substr(1)
+         }),
+         inbox: inboxUrlTemplate.expand({
+           id: ((process.env.BASEURL || '') + getPath(node.id)).substr(1)
+         })
        })
       }
       createNode(node)
