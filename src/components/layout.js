@@ -88,9 +88,6 @@ const Layout = ({ children }) => (
             }
 
             a {
-              text-decoration: none;
-              color: ${c.primary};
-
               &:hover {
                 color: ${c.accent};
               }
