@@ -1,3 +1,7 @@
+const maybe = require('mjn')
+const crypto = require('crypto')
+const fetch = require("node-fetch")
+
 const t = localized => localized
   && (Object.entries(localized).filter(([, value]) => !!value).shift() || []).pop()
   || ''
@@ -8,4 +12,103 @@ const getPath = (url, extension) => {
   return extension ? `${path}.${extension}` : path
 }
 
-module.exports = { t, getPath }
+const getHookGitHub = (headers, payload, SECRET) => {
+  const obj = {
+    type: 'github',
+    isPush: headers['x-github-event'] === 'push',
+    defaultBranch: maybe(payload, 'repository.master_branch'),
+    repository: maybe(payload, 'repository.full_name'),
+    isSecured: isSecured( headers['x-hub-signature'], payload, SECRET),
+    ref: payload.ref,
+    headers
+  }
+  obj.headers['x-hub-signature'] = '*******************' // Delete token for report
+  return obj
+}
+
+const getHookGitLab = (headers, payload, SECRET) => {
+  const obj = {
+    type: 'gitlab',
+    isPush: headers['x-gitlab-event'] === 'Push Hook',
+    defaultBranch: maybe(payload, 'project.default_branch'),
+    repository: maybe(payload, 'project.path_with_namespace'),
+    isSecured: headers['x-gitlab-token'] === SECRET,
+    ref: payload.ref,
+    headers
+  }
+  obj.headers['x-gitlab-token'] = '*******************' // Delete token for report
+  return obj
+}
+
+const isValid = (hook) => {
+  const { isPush, repository, defaultBranch, ref } = hook
+
+  return isPush // Only accept push request
+    && (repository !== null) // Has a repository
+    && (ref === `refs/heads/${defaultBranch}`) // Comes from master
+}
+
+const isSecured = (signature, payload, SECRET) => {
+  const hmac = crypto.createHmac('sha1', SECRET)
+  const digest = 'sha1=' + hmac.update(JSON.stringify(payload)).digest('hex')
+  if (signature === digest) {
+    return true
+  }
+  console.warn('Invalid signature'.red, signature, digest)
+}
+
+const getRepositoryFiles = async ({type, repository, ref}) => {
+  let url
+  let getLinks
+
+  if (type === 'github') {
+    url = `https://api.github.com/repos/${repository}/contents/`
+    getLinks = formatGitHubFiles
+  }
+
+  if (type === 'gitlab') {
+    url = `https://gitlab.com/api/v4/projects/${encodeURIComponent(repository)}/repository/tree`
+    getLinks = formatGitLabFiles
+  }
+
+  try {
+    return getLinks(await (await fetch(url)).json(), repository, ref)
+  } catch (error) {
+    console.log(error)
+    console.error('Error fetching data')
+  }
+}
+
+const formatGitHubFiles = (files) => {
+  return files
+    .filter(file => file.name.endsWith('.ttl'))
+    .map(file => {
+      return {
+        path: file.path,
+        url: file.download_url
+      }
+    })
+}
+
+const formatGitLabFiles = (files, repository, ref) => {
+  return files
+    .filter(file => file.name.endsWith('.ttl'))
+    .map(file => {
+      return {
+        path: file.path,
+        url: `https://gitlab.com/api/v4/projects/${encodeURIComponent(repository)}/repository/files/${file.path}/raw?ref=${ref}`
+      }
+    })
+}
+
+const getHeaders = (inbox, hub, self, path) => `Header set Link "<${inbox}>; rel=\\"http://www.w3.org/ns/ldp#inbox\\", <${hub}>; rel=\\"hub\\", <${self}>; rel=\\"self\\"" "expr=%{REQUEST_URI} =~ m|${path}|"`
+
+module.exports = {
+  t,
+  getPath,
+  getHeaders,
+  getHookGitHub,
+  getHookGitLab,
+  isValid,
+  getRepositoryFiles,
+}
