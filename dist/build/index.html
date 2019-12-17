@@ -293,8 +293,8 @@
         const a = document.createElement("a")
         const span = document.createElement("span")
         span.innerHTML = " at "
-        a.href = `/${json.repository}`
-        a.innerHTML = json.repository
+        a.href = `/${json.repository}/${json.ref.replace('refs/heads/', '')}`
+        a.innerHTML = `${json.repository}/${json.ref.replace('refs/heads/', '')}`
 
         status.parentNode.insertBefore(span, status.nextSibling)
         status.parentNode.insertBefore(a, span.nextSibling)

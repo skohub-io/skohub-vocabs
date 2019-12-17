@@ -10,6 +10,7 @@ const fetch = require("node-fetch")
 const {
   getHookGitHub,
   getHookGitLab,
+  getHookSkoHub,
   isValid,
   getRepositoryFiles,
 } = require('./common')
@@ -39,21 +40,32 @@ const getFile = async (file, repository) => {
 router.post('/build', async (ctx) => {
   const { body, headers } = ctx.request
 
-  const hook = headers['x-github-event']
-    ? getHookGitHub(headers, body, SECRET)
-    : getHookGitLab(headers, body, SECRET)
+  let hook
+  if (headers['x-github-event']) {
+    hook = getHookGitHub(headers, body, SECRET)
+  } else if (headers['x-gitlab-event']) {
+    hook = getHookGitLab(headers, body, SECRET)
+  } else if (headers['x-skohub-event']) {
+    hook = getHookSkoHub(headers, body, SECRET)
+  } else {
+    console.warn('Bad request, the event header is missing')
+    ctx.status = 400
+    ctx.body = 'Bad request, the event header is missing'
+    return
+  }
 
   // Check if the given signature is valid
   if (!hook.isSecured) {
+    console.warn('Bad request, the token is incorrect')
     ctx.status = 400
-    ctx.body = 'Bad request'
+    ctx.body = 'Bad request, the token is incorrect'
     return
   }
 
   // Check if the given event is valid
   if (isValid(hook)) {
     const id = uuidv4()
-    const { type, repository, headers, ref } = hook
+    const { type, repository, headers, ref, filesURL } = hook
     webhooks.push({
       id,
       body,
@@ -63,13 +75,14 @@ router.post('/build', async (ctx) => {
       status: "processing",
       log: [],
       type,
+      filesURL,
       ref
     })
     ctx.body = `Build triggered: ${BUILD_URL}?id=${id}`
     console.log('Build triggered')
   } else {
-    ctx.body = 'Payload was not for master, build not triggered'
-    console.log('Payload was not for master, build not triggered')
+    ctx.body = 'Payload was invalid, build not triggered'
+    console.log('Payload was invalid, build not triggered')
   }
   ctx.status = 202
 })
@@ -90,9 +103,10 @@ const processWebhooks = async () => {
       processingWebhooks = true
       console.log(`Processing`.green)
       const webhook = webhooks.shift()
+      const branch = webhook.ref.replace('refs/heads/', '')
       await processWebhook(webhook)
 
-      const build = exec(`BASEURL=/${webhook.repository} CI=true npm run build`, {encoding: "UTF-8"})
+      const build = exec(`BASEURL=/${webhook.repository}/${branch} CI=true npm run build`, {encoding: "UTF-8"})
       build.stdout.on('data', (data) => {
         console.log('gatsbyLog: ' + data.toString())
         webhook.log.push({
@@ -126,8 +140,8 @@ const processWebhooks = async () => {
         fs.readdirSync(`${__dirname}/../data/`)
           .filter(filename  => filename !== '.gitignore')
           .forEach(filename => fs.removeSync(`${__dirname}/../data/${filename}`))
-        fs.removeSync(`${__dirname}/../dist/${webhook.repository}/`)
-        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}`)
+        fs.removeSync(`${__dirname}/../dist/${webhook.repository}/${branch}/`)
+        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}/${branch}/`)
         console.info("Build Finish".yellow)
         processingWebhooks = false
       })

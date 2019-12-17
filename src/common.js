@@ -16,9 +16,8 @@ const getHookGitHub = (headers, payload, SECRET) => {
   const obj = {
     type: 'github',
     isPush: headers['x-github-event'] === 'push',
-    defaultBranch: maybe(payload, 'repository.master_branch'),
     repository: maybe(payload, 'repository.full_name'),
-    isSecured: isSecured( headers['x-hub-signature'], payload, SECRET),
+    isSecured: headers['x-hub-signature'] && isSecured(headers['x-hub-signature'], payload, SECRET),
     ref: payload.ref,
     headers
   }
@@ -30,7 +29,6 @@ const getHookGitLab = (headers, payload, SECRET) => {
   const obj = {
     type: 'gitlab',
     isPush: headers['x-gitlab-event'] === 'Push Hook',
-    defaultBranch: maybe(payload, 'project.default_branch'),
     repository: maybe(payload, 'project.path_with_namespace'),
     isSecured: headers['x-gitlab-token'] === SECRET,
     ref: payload.ref,
@@ -40,12 +38,26 @@ const getHookGitLab = (headers, payload, SECRET) => {
   return obj
 }
 
+const getHookSkoHub = (headers, payload, SECRET) => {
+  const obj = {
+    type: 'skohub',
+    isPush: headers['x-skohub-event'] === 'push',
+    repository: maybe(payload, 'repository.full_name'),
+    isSecured: headers['x-skohub-token'] === SECRET,
+    ref: payload.ref,
+    filesURL: payload.files_url,
+    headers
+  }
+  obj.headers['x-skohub-token'] = '*******************' // Delete token for report
+  return obj
+}
+
 const isValid = (hook) => {
-  const { isPush, repository, defaultBranch, ref } = hook
+  const { isPush, repository, ref } = hook
 
   return isPush // Only accept push request
-    && (repository !== null) // Has a repository
-    && (ref === `refs/heads/${defaultBranch}`) // Comes from master
+    && (repository !== null && /^\w*\/\w*$/.test(repository)) // Has a valid repository
+    && (ref !== null && /^refs\/heads\/\w*$/.test(ref)) // Has a valid ref
 }
 
 const isSecured = (signature, payload, SECRET) => {
@@ -57,18 +69,23 @@ const isSecured = (signature, payload, SECRET) => {
   console.warn('Invalid signature'.red, signature, digest)
 }
 
-const getRepositoryFiles = async ({type, repository, ref}) => {
+const getRepositoryFiles = async ({type, repository, ref, filesURL}) => {
   let url
   let getLinks
 
   if (type === 'github') {
-    url = `https://api.github.com/repos/${repository}/contents/`
+    url = `https://api.github.com/repos/${repository}/contents/?ref=${ref.replace('refs/heads/', '')}`
     getLinks = formatGitHubFiles
   }
 
   if (type === 'gitlab') {
-    url = `https://gitlab.com/api/v4/projects/${encodeURIComponent(repository)}/repository/tree`
+    url = `https://gitlab.com/api/v4/projects/${encodeURIComponent(repository)}/repository/tree?ref=${ref}`
     getLinks = formatGitLabFiles
+  }
+
+  if (type === 'skohub') {
+    url = filesURL
+    getLinks = files => files
   }
 
   try {
@@ -79,7 +96,7 @@ const getRepositoryFiles = async ({type, repository, ref}) => {
   }
 }
 
-const formatGitHubFiles = (files) => {
+const formatGitHubFiles = (files, repository, ref) => {
   return files
     .filter(file => file.name.endsWith('.ttl'))
     .map(file => {
@@ -109,6 +126,7 @@ module.exports = {
   getHeaders,
   getHookGitHub,
   getHookGitLab,
+  getHookSkoHub,
   isValid,
   getRepositoryFiles,
 }
