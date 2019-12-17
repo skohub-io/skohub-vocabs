@@ -88,12 +88,7 @@ const getRepositoryFiles = async ({type, repository, ref, filesURL}) => {
     getLinks = files => files
   }
 
-  try {
-    return getLinks(await (await fetch(url)).json(), repository, ref)
-  } catch (error) {
-    console.log(error)
-    console.error('Error fetching data')
-  }
+  return getLinks(await (await fetch(url)).json(), repository, ref)
 }
 
 const formatGitHubFiles = (files, repository, ref) => {
