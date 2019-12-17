@@ -26,6 +26,11 @@ const webhooks = []
 let processingWebhooks = false
 
 const getFile = async (file, repository) => {
+
+  if (!file || !repository) {
+    throw new Error('Missing parameters for getFile')
+  }
+
   try {
     const response = await fetch(file.url)
     const data = await response.text()
@@ -78,13 +83,14 @@ router.post('/build', async (ctx) => {
       filesURL,
       ref
     })
+    ctx.status = 202
     ctx.body = `Build triggered: ${BUILD_URL}?id=${id}`
     console.log('Build triggered')
   } else {
+    ctx.status = 400
     ctx.body = 'Payload was invalid, build not triggered'
     console.log('Payload was invalid, build not triggered')
   }
-  ctx.status = 202
 })
 
 const processWebhooks = async () => {
@@ -167,9 +173,12 @@ app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(PORT, () => console.info(`⚡ Listening on localhost:${PORT}`.green))
+
+const server = app.listen(PORT, () => console.info(`⚡ Listening on localhost:${PORT}`.green))
 
 // Loop to processing requests
 setInterval(() => {
   processWebhooks()
 }, 1)
+
+module.exports = { server, getFile }
