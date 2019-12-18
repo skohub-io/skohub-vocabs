@@ -49,6 +49,15 @@ export const style = css`
     > h1 {
       margin: 0;
     }
+
+    a {
+      color: blue;
+      text-decoration: underline;
+
+      &:visited {
+        color: purple;
+      }
+    }
   }
 
   .markdown {
