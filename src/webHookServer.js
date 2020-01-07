@@ -126,7 +126,14 @@ const processWebhooks = async () => {
         return
       }
 
-      const build = exec(`BASEURL=/${webhook.repository}/${branch} CI=true npm run build`, {encoding: "UTF-8"})
+      let repositoryURL = ''
+      if (webhook.type === 'github') {
+        repositoryURL = `GATSBY_RESPOSITORY_URL=https://github.com/${webhook.repository}`
+      } else if (webhook.type === 'gitlab') {
+        repositoryURL = `GATSBY_RESPOSITORY_URL=https://gitlab.com/${webhook.repository}`
+      }
+
+      const build = exec(`BASEURL=/${webhook.repository}/${branch} ${repositoryURL} CI=true npm run build`, {encoding: "UTF-8"})
       build.stdout.on('data', (data) => {
         console.log('gatsbyLog: ' + data.toString())
         webhook.log.push({
