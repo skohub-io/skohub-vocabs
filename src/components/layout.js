@@ -142,7 +142,7 @@ const Layout = ({ children }) => (
             target="_blank"
             rel="noopener noreferrer"
           >
-            Fork me on {process.env.GATSBY_RESPOSITORY_URL.includes('github') ? 'GitHub' : 'GitLab'}
+            Fork this vocab on {process.env.GATSBY_RESPOSITORY_URL.includes('github') ? 'GitHub' : 'GitLab'}
           </a>
         )}
 
