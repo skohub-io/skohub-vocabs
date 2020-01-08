@@ -28,7 +28,7 @@ const getHookGitHub = (headers, payload, SECRET) => {
 const getHookGitLab = (headers, payload, SECRET) => {
   const obj = {
     type: 'gitlab',
-    isPush: (headers && (headers['x-gitlab-event'] === 'Push Hook')) || false,
+    isPush: /Push Hook$/.test(headers['x-gitlab-event']),
     repository: maybe(payload, 'project.path_with_namespace', null),
     isSecured: (headers && headers['x-gitlab-token'] && (headers['x-gitlab-token'] === SECRET)) || false,
     ref: (payload && payload.ref) || null,
@@ -56,8 +56,8 @@ const isValid = (hook) => {
   const { isPush, repository, ref } = hook
 
   return (isPush === true) // Only accept push request
-    && (repository !== null && /^\w*\/\w*$/.test(repository)) // Has a valid repository
-    && (ref !== null && /^refs\/heads\/\w*$/.test(ref)) // Has a valid ref
+    && (repository !== null && /^[^/]+\/[^/]+$/.test(repository)) // Has a valid repository
+    && (ref !== null && /^refs\/heads|tags\/[^/]+$/.test(ref)) // Has a valid ref
 }
 
 const isSecured = (signature, payload, SECRET) => {
@@ -81,7 +81,7 @@ const getRepositoryFiles = async ({type, repository, ref, filesURL}) => {
   let getLinks
 
   if (type === 'github') {
-    url = `https://api.github.com/repos/${repository}/contents/?ref=${ref.replace('refs/heads/', '')}`
+    url = `https://api.github.com/repos/${repository}/contents/?ref=${ref.replace(/refs\/(heads|tags)\//, '')}`
     getLinks = formatGitHubFiles
   }
 
