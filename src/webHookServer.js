@@ -103,10 +103,10 @@ const processWebhooks = async () => {
       processingWebhooks = true
       console.log(`Processing`.green)
       const webhook = webhooks.shift()
-      const branch = webhook.ref.replace('refs/heads/', '')
+      const ref = webhook.ref.replace('refs/', '')
       await processWebhook(webhook)
 
-      const build = exec(`BASEURL=/${webhook.repository}/${branch} CI=true npm run build`, {encoding: "UTF-8"})
+      const build = exec(`BASEURL=/${webhook.repository}/${ref} CI=true npm run build`, {encoding: "UTF-8"})
       build.stdout.on('data', (data) => {
         console.log('gatsbyLog: ' + data.toString())
         webhook.log.push({
@@ -140,8 +140,8 @@ const processWebhooks = async () => {
         fs.readdirSync(`${__dirname}/../data/`)
           .filter(filename  => filename !== '.gitignore')
           .forEach(filename => fs.removeSync(`${__dirname}/../data/${filename}`))
-        fs.removeSync(`${__dirname}/../dist/${webhook.repository}/${branch}/`)
-        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}/${branch}/`)
+        fs.removeSync(`${__dirname}/../dist/${webhook.repository}/${ref}/`)
+        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}/${ref}/`)
         console.info("Build Finish".yellow)
         processingWebhooks = false
       })
