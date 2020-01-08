@@ -56,8 +56,8 @@ const isValid = (hook) => {
   const { isPush, repository, ref } = hook
 
   return isPush // Only accept push request
-    && (repository !== null && /^\w*\/\w*$/.test(repository)) // Has a valid repository
-    && (ref !== null && /^refs\/heads\/\w*$/.test(ref)) // Has a valid ref
+    && (repository !== null && /^[^\/]+\/[^\/]+$/.test(repository)) // Has a valid repository
+    && (ref !== null && /^refs\/heads\/[^\/]+$/.test(ref)) // Has a valid ref
 }
 
 const isSecured = (signature, payload, SECRET) => {
