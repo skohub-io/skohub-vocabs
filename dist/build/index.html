@@ -59,6 +59,7 @@
     main {
       padding: 20px;
       padding-top: 10px;
+      width: 100%;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -170,6 +171,10 @@
       text-transform: capitalize;
     }
 
+    .warning {
+      background-color: hsl(51, 100%, 93%);
+    }
+
   </style>
 
 </head>
@@ -213,7 +218,6 @@
         </div>
 
         <h2>Payload</h2>
-        <span id="signature"></span>
         <pre id="payload" class="block"></pre>
 
         <h2>Headers</h2>
@@ -231,7 +235,6 @@
     const status = document.getElementById("status")
     const payload = document.getElementById("payload")
     const headers = document.getElementById("headers")
-    const signature = document.getElementById("signature")
 
     const url = new URL(window.location.href)
     const id = url.searchParams.get('id')
@@ -265,8 +268,8 @@
       payload.innerHTML = JSON.stringify(json.body, null, 2)
       date.innerHTML = new Date(json.date).toDateString()
       date.title = new Date(json.date).toISOString()
-      signature.innerHTML = json.signature
       headers.innerHTML = JSON.stringify(json.headers, null, 2)
+      log.innerHTML = ''
       json.log.forEach((line, i) => {
         const li = document.createElement('li')
         const a = document.createElement('a')
@@ -276,6 +279,9 @@
         a.href = `#${i}`
         logDate.innerHTML = new Date(line.date).toLocaleString().split(', ').slice(-1)
         logText.innerHTML = line.text
+        if (line.warning) {
+          li.classList.add('warning')
+        }
         a.appendChild(logDate)
         a.appendChild(logText)
         li.appendChild(a)
@@ -288,8 +294,8 @@
         const a = document.createElement("a")
         const span = document.createElement("span")
         span.innerHTML = " at "
-        a.href = `/${json.body.repository.full_name}`
-        a.innerHTML = json.body.repository.full_name
+        a.href = `/${json.repository}/${json.ref.replace('refs/', '')}`
+        a.innerHTML = `${json.repository}/${json.ref.replace('refs/', '')}`
 
         status.parentNode.insertBefore(span, status.nextSibling)
         status.parentNode.insertBefore(a, span.nextSibling)

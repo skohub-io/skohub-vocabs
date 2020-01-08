@@ -2,12 +2,19 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
-const fetch = require("node-fetch")
-const crypto = require('crypto')
 const uuidv4 = require('uuid/v4')
 const fs = require('fs-extra')
 const exec = require('child_process').exec
-const stripAnsi = require('strip-ansi')
+const fetch = require("node-fetch")
+
+const {
+  getHookGitHub,
+  getHookGitLab,
+  getHookSkoHub,
+  isValid,
+  getRepositoryFiles,
+} = require('./common')
+
 require('dotenv').config()
 require('colors')
 
@@ -19,6 +26,11 @@ const webhooks = []
 let processingWebhooks = false
 
 const getFile = async (file, repository) => {
+
+  if (!file || !repository) {
+    throw new Error('Missing parameters for getFile')
+  }
+
   try {
     const response = await fetch(file.url)
     const data = await response.text()
@@ -30,62 +42,56 @@ const getFile = async (file, repository) => {
   }
 }
 
-const isSecured = (signature, payload) => {
-  const hmac = crypto.createHmac('sha1', SECRET)
-  const digest = 'sha1=' + hmac.update(JSON.stringify(payload)).digest('hex')
-  console.log(signature, digest)
-  return signature === digest
-}
-
-const isCorrectEvent = (headers, payload) => {
-  return (headers['x-github-event'] === 'push')
-    && payload
-    && payload.repository
-    && payload.repository.full_name
-    && (payload.ref === `refs/heads/${payload.repository.master_branch}`)
-}
-
 router.post('/build', async (ctx) => {
   const { body, headers } = ctx.request
-  const signature = headers['x-hub-signature']
+
+  let hook
+  if (headers['x-github-event']) {
+    hook = getHookGitHub(headers, body, SECRET)
+  } else if (headers['x-gitlab-event']) {
+    hook = getHookGitLab(headers, body, SECRET)
+  } else if (headers['x-skohub-event']) {
+    hook = getHookSkoHub(headers, body, SECRET)
+  } else {
+    console.warn('Bad request, the event header is missing')
+    ctx.status = 400
+    ctx.body = 'Bad request, the event header is missing'
+    return
+  }
 
   // Check if the given signature is valid
-  if (!isSecured(signature, body)) {
+  if (!hook.isSecured) {
+    console.warn('Bad request, the token is incorrect')
     ctx.status = 400
-    ctx.body = 'Bad request'
+    ctx.body = 'Bad request, the token is incorrect'
     return
   }
 
   // Check if the given event is valid
-  if (isCorrectEvent(headers, body)) {
-    const repository = body.repository.full_name
+  if (isValid(hook)) {
     const id = uuidv4()
+    const { type, repository, headers, ref, filesURL } = hook
     webhooks.push({
       id,
-      signature,
       body,
       repository,
       headers,
       date: new Date().toISOString(),
       status: "processing",
-      log: []
+      log: [],
+      type,
+      filesURL,
+      ref
     })
+    ctx.status = 202
     ctx.body = `Build triggered: ${BUILD_URL}?id=${id}`
+    console.log('Build triggered')
   } else {
-    ctx.body = 'Payload was not for master, build not triggered'
+    ctx.status = 400
+    ctx.body = 'Payload was invalid, build not triggered'
+    console.log('Payload was invalid, build not triggered')
   }
-  ctx.status = 202
 })
-
-const processWebhook = async (webhook) => {
-  const response = await fetch(`https://api.github.com/repos/${webhook.repository}/contents/`)
-  const files = await response.json()
-  // see https://github.com/eslint/eslint/issues/12117
-  // eslint-disable-next-line no-unused-vars
-  for (const file of files) {
-    await getFile({url: file.download_url, path: file.path}, webhook.repository)
-  }
-}
 
 const processWebhooks = async () => {
   if (processingWebhooks === false) {
@@ -93,25 +99,60 @@ const processWebhooks = async () => {
       processingWebhooks = true
       console.log(`Processing`.green)
       const webhook = webhooks.shift()
-      await processWebhook(webhook)
+      const ref = webhook.ref.replace('refs/', '')
 
-      const build = exec(`BASEURL=/${webhook.repository} npm run build`, {encoding: "UTF-8"})
+      try {
+        // Fetch urls for the repository files
+        const files = await getRepositoryFiles(webhook)
+
+        // see https://github.com/eslint/eslint/issues/12117
+        // Fetch each one of the repository files
+        // eslint-disable-next-line no-unused-vars
+        for (const file of files) {
+          await getFile({url: file.url, path: file.path}, webhook.repository)
+        }
+      } catch (error) {
+        // If there is an error fetching the files,
+        // stop the current webhook and return
+        console.error(error)
+        webhook.log.push({
+          date: new Date(),
+          text: error.message,
+          warning: true
+        })
+        webhook.status = "error"
+        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
+        processingWebhooks = false
+        return
+      }
+
+      let repositoryURL = ''
+      if (webhook.type === 'github') {
+        repositoryURL = `GATSBY_RESPOSITORY_URL=https://github.com/${webhook.repository}`
+      } else if (webhook.type === 'gitlab') {
+        repositoryURL = `GATSBY_RESPOSITORY_URL=https://gitlab.com/${webhook.repository}`
+      }
+
+      const build = exec(`BASEURL=/${webhook.repository}/${ref} ${repositoryURL} CI=true npm run build`, {encoding: "UTF-8"})
       build.stdout.on('data', (data) => {
         console.log('gatsbyLog: ' + data.toString())
         webhook.log.push({
-          date: new Date() ,
-          text: stripAnsi(data.toString())
+          date: new Date(),
+          text: data.toString()
         })
         fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
       })
       build.stderr.on('data', (data) => {
         console.log('gatsbyError: ' + data.toString())
-        webhook.log.push({
-          date: new Date() ,
-          text: stripAnsi(data.toString())
-        })
-        webhook.status = "error"
-        fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
+        if (!data.toString().includes('Deprecation') && !data.toString().includes('lscpu')) {
+          webhook.log.push({
+            date: new Date(),
+            text: data.toString(),
+            warning: true
+          })
+          webhook.status = "error"
+          fs.writeFile(`${__dirname}/../dist/build/${webhook.id}.json`, JSON.stringify(webhook))
+        }
       })
       build.on('exit', async () => {
         if (webhook.status !== "error") {
@@ -126,8 +167,8 @@ const processWebhooks = async () => {
         fs.readdirSync(`${__dirname}/../data/`)
           .filter(filename  => filename !== '.gitignore')
           .forEach(filename => fs.removeSync(`${__dirname}/../data/${filename}`))
-        fs.removeSync(`${__dirname}/../dist/${webhook.repository}/`)
-        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}`)
+        fs.removeSync(`${__dirname}/../dist/${webhook.repository}/${ref}/`)
+        fs.moveSync(`${__dirname}/../public/`, `${__dirname}/../dist/${webhook.repository}/${ref}/`)
         console.info("Build Finish".yellow)
         processingWebhooks = false
       })
@@ -139,9 +180,12 @@ app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(PORT, () => console.info(`⚡ Listening on localhost:${PORT}`))
+
+const server = app.listen(PORT, () => console.info(`⚡ Listening on localhost:${PORT}`.green))
 
 // Loop to processing requests
 setInterval(() => {
   processWebhooks()
 }, 1)
+
+module.exports = { server, getFile }

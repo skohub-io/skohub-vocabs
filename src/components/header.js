@@ -13,6 +13,7 @@ const style = css`
     margin: 0;
 
     a {
+      text-decoration: none;
       color: white;
     }
   }

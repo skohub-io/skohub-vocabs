@@ -29,6 +29,20 @@ const style = css`
     max-width: 1200px;
     margin: 0 auto;
   }
+
+  .forkMe {
+    position: fixed;
+    background-color: hsl(212, 28%, 9%);
+    color: white;
+    padding: 10px 50px;
+    transform: rotate(45deg);
+    top: 32px;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid white;
+    right: -56px;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+  }
 `
 
 const Layout = ({ children }) => (
@@ -120,6 +134,18 @@ const Layout = ({ children }) => (
         />
         <Header siteTitle={data.site.siteMetadata.title} />
         <main>{children}</main>
+
+        {process.env.GATSBY_RESPOSITORY_URL && (
+          <a
+            href={process.env.GATSBY_RESPOSITORY_URL}
+            className="forkMe"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Fork this vocab on {process.env.GATSBY_RESPOSITORY_URL.includes('github') ? 'GitHub' : 'GitLab'}
+          </a>
+        )}
+
       </div>
     )}
   />
