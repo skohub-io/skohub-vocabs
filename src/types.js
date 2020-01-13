@@ -1,11 +1,13 @@
 module.exports = languages => `
   type ConceptScheme implements Node {
+    type: String,
     title: LanguageMap,
     description: LanguageMap,
     hasTopConcept: [Concept]!
   }
 
   type Concept implements Node {
+    type: String,
     prefLabel: LanguageMap,
     definition: LanguageMap,
     scopeNote: LanguageMap,

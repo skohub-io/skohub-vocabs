@@ -56,8 +56,12 @@ exports.sourceNodes = async ({
     const compacted = await jsonld.compact(doc, context.jsonld)
     compacted['@graph'].forEach((graph, i) => {
       const { narrower, broader, inScheme, topConceptOf, hasTopConcept, ...properties } = graph
+      const type = Array.isArray(properties.type)
+        ? properties.type.find(t => ['Concept', 'ConceptScheme'])
+        : properties.type
       const node = {
         ...properties,
+        type,
         children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
         parent: (broader && broader.id) || null,
         inScheme___NODE: (inScheme && inScheme.id) || (topConceptOf && topConceptOf.id) || null,
@@ -67,10 +71,10 @@ exports.sourceNodes = async ({
         broader___NODE: (broader && broader.id) || null,
         internal: {
           contentDigest: createContentDigest(graph),
-          type: properties.type,
+          type,
         },
       }
-      if (node.type === 'Concept') {
+      if (type === 'Concept') {
         Object.assign(node, {
          followers: followersUrlTemplate.expand({
            id: ((process.env.BASEURL || '') + getPath(node.id)).substr(1)
@@ -80,7 +84,7 @@ exports.sourceNodes = async ({
          })
        })
       }
-      createNode(node)
+      ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
     })
   })
 }
