@@ -144,7 +144,11 @@ const processWebhooks = async () => {
       })
       build.stderr.on('data', (data) => {
         console.log('gatsbyError: ' + data.toString())
-        if (!data.toString().includes('Deprecation') && !data.toString().includes('lscpu')) {
+        if (
+          !data.toString().includes('Deprecation') &&
+          !data.toString().includes('warning') &&
+          !data.toString().includes('lscpu')
+        ) {
           webhook.log.push({
             date: new Date(),
             text: data.toString(),
