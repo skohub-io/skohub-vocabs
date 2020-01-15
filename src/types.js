@@ -3,7 +3,7 @@ module.exports = languages => `
     type: String,
     title: LanguageMap,
     description: LanguageMap,
-    hasTopConcept: [Concept]!
+    hasTopConcept: [Concept]
   }
 
   type Concept implements Node {
