@@ -99,7 +99,7 @@ describe('processWebhooks', () => {
     expect(response.status).toEqual(202)
     console.log(response.text)
     expect(response.text.includes('Build triggered:')).toEqual(true)
-    await timeout(50000)
+    await timeout(40000)
 
     // Check if build log exists
     const id = /id=([a-zA-Z0-9_.-]*)/.exec(response.text.split('?')[1])[1]
@@ -119,7 +119,7 @@ describe('processWebhooks', () => {
     // The index should be in the dist for this build
     const buildExists = await fs.pathExists('dist/custom/test/master/index.html')
     expect(buildExists).toBe(true)
-  }, 40000)
+  }, 50000)
 })
 
 describe('getFile', () => {
