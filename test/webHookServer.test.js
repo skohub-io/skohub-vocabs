@@ -107,10 +107,6 @@ describe('processWebhooks', () => {
     const buildLogExists = await fs.pathExists(`dist/build/${id}.json`)
     expect(buildLogExists).toBe(true)
 
-    // .cache should be deleted
-    const cacheDirExists = await fs.pathExists('.cache')
-    expect(cacheDirExists).toBe(false)
-
     // data folder should be empty
     const dataDirContent = (await fs.readdir('data'))
       .filter(filename  => filename !== '.gitignore')
