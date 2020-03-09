@@ -108,7 +108,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
 
   return (
     <ul css={style}>
-      {filteredItems.map(item => (
+      {(filteredItems || []).map(item => (
         <li
           key={item.id}
         >

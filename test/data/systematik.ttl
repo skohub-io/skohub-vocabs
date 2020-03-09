@@ -3,6 +3,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix vann: <> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 <scheme#> a skos:ConceptScheme ;
 dct:title "Fächersystematik Hochschulbildung in Deutschland"@de ;
@@ -13,7 +14,7 @@ dct:title "Fächersystematik Hochschulbildung in Deutschland"@de ;
   skos:hasTopConcept <F1#>, <F17#>, <F56#>, <F146#>, <F381#>, <F193#>, <F255#>, <F382#>, <F273#>, <F380#> .
 
 
-<F1#> a skos:Concept ;
+<F1#> a skos:Concept, owl:Class ;
   skos:prefLabel "Agrar- und Forstwissenschaften"@de ;
   skos:definition """Die Agrar- und Forstwissenschaften beschäftigen sich vor allem mit Ackerbau, Viehzucht und der Nutzung bzw. Gestaltung von Wald, Natur und Landschaft. Inhaltlich prägen diese Fächergruppe ökologische, wirtschaftliche, sozial- und ingenieurwissenschaftliche Fragestellungen, die im Zusammenhang mit der Natur gestellt und beantwortet werden. Neben dem Studienbereich Agrarwissenschaften sind auch Studiengänge der Forst- und Holzwirtschaften, sowie der Umwelt- und Landschaftsgestaltung Teil der Fächergruppe. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften.html))"""@de;
   skos:scopeNote """Die Studiengänge der Agrar- und Forstwissenschaften sind stark durch naturwissenschaftliche Studienfächer wie Zoologie, Botanik, Physik und Chemie geprägt. Je nach Studienrichtung werden im Studium auch wirtschafts- und sozialwissenschaftliche Grundlagen vermittelt. Bei den Studiengängen der Forst- und Holzwirtschaften sowie der Umweltgestaltung stehen eher ingenieurwissenschaftlich-technische Inhalte im Fokus. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften.html))"""@de;

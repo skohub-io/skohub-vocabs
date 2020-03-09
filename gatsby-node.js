@@ -55,22 +55,31 @@ exports.sourceNodes = async ({
     const doc = await jsonld.fromRDF(nquads, {format: 'application/n-quads'})
     const compacted = await jsonld.compact(doc, context.jsonld)
     compacted['@graph'].forEach((graph, i) => {
-      const { narrower, broader, inScheme, topConceptOf, hasTopConcept, ...properties } = graph
+      const {
+        narrower, narrowerTransitive, broader, broaderTransitive, inScheme, topConceptOf,
+        hasTopConcept, ...properties
+      } = graph
+      const type = Array.isArray(properties.type)
+        ? properties.type.find(t => ['Concept', 'ConceptScheme'])
+        : properties.type
       const node = {
         ...properties,
+        type,
         children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
         parent: (broader && broader.id) || null,
         inScheme___NODE: (inScheme && inScheme.id) || (topConceptOf && topConceptOf.id) || null,
         topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
         narrower___NODE: (narrower || []).map(narrower => narrower.id),
+        narrowerTransitive___NODE: (narrowerTransitive || []).map(narrowerTransitive => narrowerTransitive.id),
         hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
         broader___NODE: (broader && broader.id) || null,
+        broaderTransitive___NODE: (broaderTransitive && broaderTransitive.id) || null,
         internal: {
           contentDigest: createContentDigest(graph),
-          type: properties.type,
+          type,
         },
       }
-      if (node.type === 'Concept') {
+      if (type === 'Concept') {
         Object.assign(node, {
          followers: followersUrlTemplate.expand({
            id: ((process.env.BASEURL || '') + getPath(node.id)).substr(1)
@@ -80,7 +89,7 @@ exports.sourceNodes = async ({
          })
        })
       }
-      createNode(node)
+      ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
     })
   })
 }
