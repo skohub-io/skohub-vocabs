@@ -28,7 +28,7 @@ const getHookGitHub = (headers, payload, SECRET) => {
 const getHookGitLab = (headers, payload, SECRET) => {
   const obj = {
     type: 'gitlab',
-    isPush: /Push Hook$/.test(headers['x-gitlab-event']),
+    isPush: /Push Hook$/.test(headers && headers['x-gitlab-event']),
     repository: maybe(payload, 'project.path_with_namespace', null),
     isSecured: (headers && headers['x-gitlab-token'] && (headers['x-gitlab-token'] === SECRET)) || false,
     ref: (payload && payload.ref) || null,
