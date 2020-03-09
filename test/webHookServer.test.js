@@ -117,7 +117,7 @@ describe('processWebhooks', () => {
     expect(publicDirExists).toBe(false)
 
     // The index should be in the dist for this build
-    const buildExists = await fs.pathExists('dist/custom/test/master/index.html')
+    const buildExists = await fs.pathExists('dist/custom/test/heads/master/index.html')
     expect(buildExists).toBe(true)
   }, 50000)
 })
