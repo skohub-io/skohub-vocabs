@@ -119,7 +119,7 @@ describe('processWebhooks', () => {
     // The index should be in the dist for this build
     const buildExists = await fs.pathExists('dist/custom/test/master/index.html')
     expect(buildExists).toBe(true)
-  }, 30000)
+  }, 40000)
 })
 
 describe('getFile', () => {
