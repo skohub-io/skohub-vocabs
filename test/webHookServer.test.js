@@ -99,7 +99,7 @@ describe('processWebhooks', () => {
     expect(response.status).toEqual(202)
     console.log(response.text)
     expect(response.text.includes('Build triggered:')).toEqual(true)
-    await timeout(40000)
+    await timeout(50000)
 
     // Check if build log exists
     const id = /id=([a-zA-Z0-9_.-]*)/.exec(response.text.split('?')[1])[1]
