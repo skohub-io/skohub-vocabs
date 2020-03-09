@@ -99,17 +99,13 @@ describe('processWebhooks', () => {
     expect(response.status).toEqual(202)
     console.log(response.text)
     expect(response.text.includes('Build triggered:')).toEqual(true)
-    await timeout(25000)
+    await timeout(40000)
 
     // Check if build log exists
     const id = /id=([a-zA-Z0-9_.-]*)/.exec(response.text.split('?')[1])[1]
     console.log(`dist/build/${id}.json`)
     const buildLogExists = await fs.pathExists(`dist/build/${id}.json`)
     expect(buildLogExists).toBe(true)
-
-    // .cache should be deleted
-    const cacheDirExists = await fs.pathExists('.cache')
-    expect(cacheDirExists).toBe(false)
 
     // data folder should be empty
     const dataDirContent = (await fs.readdir('data'))
@@ -121,9 +117,9 @@ describe('processWebhooks', () => {
     expect(publicDirExists).toBe(false)
 
     // The index should be in the dist for this build
-    const buildExists = await fs.pathExists('dist/custom/test/master/index.html')
+    const buildExists = await fs.pathExists('dist/custom/test/heads/master/index.html')
     expect(buildExists).toBe(true)
-  }, 30000)
+  }, 50000)
 })
 
 describe('getFile', () => {
