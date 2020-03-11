@@ -15,6 +15,7 @@ import { style } from '../styles/concepts.css.js'
 const Concept = ({pageContext}) => {
   const [index, setIndex] = useState(FlexSearch.create('speed'))
   const [query, setQuery] = useState(null)
+  const [tree, setTree] = useState(null)
 
   // Fetch and load the serialized index
   useEffect(() => {
@@ -26,6 +27,13 @@ const Concept = ({pageContext}) => {
         setIndex(idx)
         console.log("index loaded", idx.info())
       })
+  }, [])
+
+  // Fetch and load the tree
+  useEffect(() => {
+    fetch(pageContext.baseURL + getPath(pageContext.node.inScheme.id, 'json'))
+      .then(response => response.json())
+      .then(tree => setTree(tree))
   }, [])
 
   useEffect(() => {
@@ -49,13 +57,15 @@ const Concept = ({pageContext}) => {
         autoFocus
       />
       <TreeControls/>
-      <NestedList
-        items={JSON.parse(pageContext.tree).hasTopConcept}
-        current={pageContext.node.id}
-        baseURL={pageContext.baseURL}
-        filter={query ? index.search(query) : null}
-        highlight={query ? RegExp(escapeRegExp(query), 'gi'): null}
-      />
+      {tree && (
+        <NestedList
+          items={tree.hasTopConcept}
+          current={pageContext.node.id}
+          baseURL={pageContext.baseURL}
+          filter={query ? index.search(query) : null}
+          highlight={query ? RegExp(escapeRegExp(query), 'gi'): null}
+        />
+      )}
     </nav>
     <div className="content block">
       <h1>

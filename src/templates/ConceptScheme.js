@@ -47,7 +47,7 @@ const ConceptScheme = ({pageContext}) => {
         />
         <TreeControls/>
         <NestedList
-          items={JSON.parse(pageContext.tree).hasTopConcept}
+          items={pageContext.node.hasTopConcept}
           baseURL={pageContext.baseURL}
           filter={query ? index.search(query) : null}
           highlight={RegExp(escapeRegExp(query), 'gi')}
