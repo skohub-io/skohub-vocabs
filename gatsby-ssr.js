@@ -4,4 +4,9 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 
-// You can delete this file if you're not using it
+const react = require('react')
+const App = require('./src/templates/App').default
+
+exports.wrapPageElement = ({ element, props }) => (
+ <App {...props}>{element}</App>
+)

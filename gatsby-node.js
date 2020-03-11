@@ -109,7 +109,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
       createPage({
         path: getPath(node.id, 'html'),
-        component: path.resolve(`./src/templates/Concept.js`),
+        component: path.resolve(`./src/components/Concept.js`),
         context: {
           node,
           baseURL: process.env.BASEURL || ''
@@ -149,7 +149,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
     createPage({
       path: getPath(node.id, 'html'),
-      component: path.resolve(`./src/templates/ConceptScheme.js`),
+      component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
         node,
         baseURL: process.env.BASEURL || ''
