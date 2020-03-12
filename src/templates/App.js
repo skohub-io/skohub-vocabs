@@ -69,7 +69,6 @@ const App = ({pageContext, children}) => {
             <NestedList
               items={tree.hasTopConcept}
               current={console.log(pageContext.node.id) || pageContext.node.id}
-              baseURL={pageContext.baseURL}
               filter={query ? index.search(query) : null}
               highlight={query ? RegExp(escapeRegExp(query), 'gi'): null}
             />

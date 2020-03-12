@@ -102,7 +102,7 @@ const getNestedItems = item => {
   return ids
 }
 
-const NestedList = ({ items, current, baseURL, filter, highlight }) => {
+const NestedList = ({ items, current, filter, highlight }) => {
   const filteredItems = filter
     ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
     : items
@@ -126,7 +126,7 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
           <div>
             <Link
               className={item.id === current ? 'current' : ''}
-              to={baseURL + getPath(item.id, 'html')}
+              to={getPath(item.id, 'html')}
             >
             {item.notation &&
               <span className="notation">{item.notation.join(',')}&nbsp;</span>
@@ -143,7 +143,6 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
             <NestedList
               items={item.narrower}
               current={current}
-              baseURL={baseURL}
               filter={filter}
               highlight={highlight}
             />

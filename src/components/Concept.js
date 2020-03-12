@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 
-import { t, getPath } from '../common'
+import { t } from '../common'
 
 const Concept = ({ pageContext: { node: concept } }) => (
   <div className="content block">
