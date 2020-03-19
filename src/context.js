@@ -19,6 +19,14 @@ const jsonld = {
       "@id": "dct:issued",
       "@type": "xsd:date"
     },
+    "created": {
+      "@id": "dct:created",
+      "@type": "xsd:date"
+    },
+    "modified": {
+      "@id": "dct:modified",
+      "@type": "xsd:date"
+    },
     "creator": "dct:creator",
     "publisher": "dct:publisher",
     "preferredNamespacePrefix": "vann:preferredNamespacePrefix",
