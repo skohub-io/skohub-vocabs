@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { t, getPath } from '../common'
+import { Link } from "gatsby"
 
 import { colors as c } from '../styles/variables'
 
@@ -101,7 +102,7 @@ const getNestedItems = item => {
   return ids
 }
 
-const NestedList = ({ items, current, baseURL, filter, highlight }) => {
+const NestedList = ({ items, current, filter, highlight }) => {
   const filteredItems = filter
     ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
     : items
@@ -123,10 +124,10 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
             </button>
           )}
           <div>
-          <a
-            className={item.id === current ? 'current' : ''}
-            href={baseURL + getPath(item.id, 'html')}
-          >
+            <Link
+              className={item.id === current ? 'current' : ''}
+              to={getPath(item.id, 'html')}
+            >
             {item.notation &&
               <span className="notation">{item.notation.join(',')}&nbsp;</span>
             }
@@ -137,12 +138,11 @@ const NestedList = ({ items, current, baseURL, filter, highlight }) => {
                   : t(item.prefLabel)
               }}
             />
-          </a>
+          </Link>
           {(item.narrower && item.narrower.length > 0) &&
             <NestedList
               items={item.narrower}
               current={current}
-              baseURL={baseURL}
               filter={filter}
               highlight={highlight}
             />

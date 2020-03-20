@@ -9,7 +9,7 @@ const style = css`
     flex: 1;
     padding: 5px 10px;
 
-    &:first-child {
+    &:first-of-type {
       margin-right: 10px;
     }
   }

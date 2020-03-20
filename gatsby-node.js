@@ -104,16 +104,14 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
     const index = flexsearch.create()
-    const tree = JSON.stringify(node)
 
     const conceptsInScheme = await graphql(queries.allConcept(node.id, languages))
     conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
       createPage({
         path: getPath(node.id, 'html'),
-        component: path.resolve(`./src/templates/Concept.js`),
+        component: path.resolve(`./src/components/Concept.js`),
         context: {
           node,
-          tree,
           baseURL: process.env.BASEURL || ''
         }
       })
@@ -151,10 +149,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
     createPage({
       path: getPath(node.id, 'html'),
-      component: path.resolve(`./src/templates/ConceptScheme.js`),
+      component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
         node,
-        tree,
         baseURL: process.env.BASEURL || ''
       }
     })

@@ -4,4 +4,9 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 
-// You can delete this file if you're not using it
+import react from 'react'
+import App from './src/templates/App'
+
+export const wrapPageElement = ({ element, props }) => props.pageContext.node ? (
+  <App {...props}>{element}</App>
+) : element
