@@ -2,10 +2,11 @@
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 
-import { t } from '../common'
+import Concept from './Concept'
+import { t, getDomId } from '../common'
 
-const ConceptScheme = ({ pageContext: { conceptScheme } }) => (
-  <div className="content block">
+const ConceptScheme = ({ pageContext: { node: conceptScheme, embed } }) => (
+  <div className="content block" id={getDomId(conceptScheme.id)}>
     <h1>{t(conceptScheme.title)}</h1>
     <h2>{conceptScheme.id}</h2>
     {conceptScheme.description
@@ -17,6 +18,13 @@ const ConceptScheme = ({ pageContext: { conceptScheme } }) => (
         </div>
       )
     }
+    {embed && (
+      <div className="embedded">
+        {embed.map(concept => (
+          <Concept key={concept.json.id} pageContext={{ node: concept.json }} />
+        ))}
+      </div>
+    )}
   </div>
 )
 

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { t, getPath } from '../common'
+import { t, getFilePath, getFragment } from '../common'
 import { Link } from "gatsby"
 
 import { colors as c } from '../styles/variables'
@@ -124,29 +124,48 @@ const NestedList = ({ items, current, filter, highlight }) => {
             </button>
           )}
           <div>
-            <Link
-              className={item.id === current ? 'current' : ''}
-              to={getPath(item.id, 'html')}
-            >
-            {item.notation &&
-              <span className="notation">{item.notation.join(',')}&nbsp;</span>
+            {getFragment(item.id) ? (
+              <a
+                className={item.id === current ? 'current' : ''}
+                href={getFilePath(item.id, 'html') + getFragment(item.id)}
+              >
+                {item.notation &&
+                  <span className="notation">{item.notation.join(',')}&nbsp;</span>
+                }
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: highlight
+                      ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+                      : t(item.prefLabel)
+                  }}
+                />
+              </a>
+            ) : (
+              <Link
+                className={item.id === current ? 'current' : ''}
+                to={getFilePath(item.id, 'html')}
+              >
+                {item.notation &&
+                  <span className="notation">{item.notation.join(',')}&nbsp;</span>
+                }
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: highlight
+                      ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+                      : t(item.prefLabel)
+                  }}
+                />
+              </Link>
+            )}
+
+            {(item.narrower && item.narrower.length > 0) &&
+              <NestedList
+                items={item.narrower}
+                current={current}
+                filter={filter}
+                highlight={highlight}
+              />
             }
-            <span
-              dangerouslySetInnerHTML={{
-                __html: highlight
-                  ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
-                  : t(item.prefLabel)
-              }}
-            />
-          </Link>
-          {(item.narrower && item.narrower.length > 0) &&
-            <NestedList
-              items={item.narrower}
-              current={current}
-              filter={filter}
-              highlight={highlight}
-            />
-          }
           </div>
         </li>
       ))}

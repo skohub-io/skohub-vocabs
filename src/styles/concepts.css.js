@@ -36,6 +36,10 @@ export const style = css`
     }
   }
 
+  .embedded .content:target {
+    background-color: tomato;
+  }
+
   .content {
     padding: 20px;
     flex: 2;

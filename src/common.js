@@ -6,10 +6,19 @@ const t = localized => localized
   && (Object.entries(localized).filter(([, value]) => !!value).shift() || []).pop()
   || ''
 
-const getPath = (url, extension) => {
-  let path = url.replace(/^https?:\//, "").replace(/#$/, "")
+const getFilePath = (url, extension) => {
+  let path = url.replace(/^https?:\//, "").split('#').shift()
   path.endsWith('/') && (path += 'index')
   return extension ? `${path}.${extension}` : path
+}
+
+const getPath = url => url.replace(/^https?:\/\//, "")
+
+const getFragment = url => new URL(url).hash
+
+const getDomId = url => {
+  const fragment = getFragment(url)
+  return fragment ? fragment.substr(1) : url
 }
 
 const getHookGitHub = (headers, payload, SECRET) => {
@@ -144,6 +153,9 @@ const getHeaders = (inbox, hub, self, path) => `Header set Link "<${inbox}>; rel
 module.exports = {
   t,
   getPath,
+  getFilePath,
+  getFragment,
+  getDomId,
   getHeaders,
   getHookGitHub,
   getHookGitLab,

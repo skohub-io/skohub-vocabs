@@ -1,0 +1,23 @@
+@prefix : <http://example.org/hashURIConceptScheme#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+:scheme
+  a skos:ConceptScheme ;
+  dct:title "Hash URI Concept Scheme"@de ;
+  skos:hasTopConcept :concept1, :concept2, :concept3 .
+
+:concept1
+  a skos:Concept ;
+  skos:topConceptOf :scheme ;
+  skos:prefLabel "Concept 1"@de .
+
+:concept2
+  a skos:Concept ;
+  skos:topConceptOf :scheme ;
+  skos:prefLabel "Concept 2"@de .
+
+:concept3
+  a skos:Concept ;
+  skos:topConceptOf :scheme ;
+  skos:prefLabel "Concept 3"@de .
