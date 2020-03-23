@@ -4,7 +4,7 @@ import Markdown from 'markdown-to-jsx'
 
 import { t } from '../common'
 
-const Concept = ({ pageContext: { node: concept } }) => (
+const Concept = ({ pageContext: { concept } }) => (
   <div className="content block">
     <h1>
       {concept.notation &&

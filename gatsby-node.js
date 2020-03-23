@@ -102,36 +102,36 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
-  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
+  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node: conceptScheme }) => {
     const index = flexsearch.create()
 
-    const conceptsInScheme = await graphql(queries.allConcept(node.id, languages))
-    conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
+    const conceptsInScheme = await graphql(queries.allConcept(conceptScheme.id, languages))
+    conceptsInScheme.data.allConcept.edges.forEach(({ node: concept }) => {
       createPage({
-        path: getPath(node.id, 'html'),
+        path: getPath(concept.id, 'html'),
         component: path.resolve(`./src/components/Concept.js`),
         context: {
-          node,
+          concept,
           baseURL: process.env.BASEURL || ''
         }
       })
       createData({
-        path: getPath(node.id, 'json'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+        path: getPath(concept.id, 'json'),
+        data: JSON.stringify(omitEmpty(Object.assign({}, concept, context.jsonld), null, 2))
       })
       createData({
-        path: getPath(node.id, 'jsonld'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+        path: getPath(concept.id, 'jsonld'),
+        data: JSON.stringify(omitEmpty(Object.assign({}, concept, context.jsonld), null, 2))
       })
-      const actorPath = (process.env.BASEURL || '') + getPath(node.id)
+      const actorPath = (process.env.BASEURL || '') + getPath(concept.id)
       const actor = actorUrlTemplate.expand({ path: actorPath })
       const jsonas = {
         id: actor,
         type: 'Service',
-        name: t(node.prefLabel),
+        name: t(concept.prefLabel),
         preferredUsername: Buffer.from(actorPath.substring(1)).toString('hex'),
-        inbox: node.inbox,
-        followers: node.followers,
+        inbox: concept.inbox,
+        followers: concept.followers,
         publicKey: {
           id: `${actor}#main-key`,
           owner: actor,
@@ -139,32 +139,32 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         }
       }
       createData({
-        path: getPath(node.id, 'jsonas'),
+        path: getPath(concept.id, 'jsonas'),
         data: JSON.stringify(omitEmpty(Object.assign({}, jsonas, context.as), null, 2))
       })
-      index.add(node.id, t(node.prefLabel))
+      index.add(concept.id, t(concept.prefLabel))
     })
 
     console.log("Built index", index.info())
 
     createPage({
-      path: getPath(node.id, 'html'),
+      path: getPath(conceptScheme.id, 'html'),
       component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
-        node,
+        conceptScheme,
         baseURL: process.env.BASEURL || ''
       }
     })
     createData({
-      path: getPath(node.id, 'json'),
-      data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+      path: getPath(conceptScheme.id, 'json'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
     })
     createData({
-      path: getPath(node.id, 'jsonld'),
-      data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+      path: getPath(conceptScheme.id, 'jsonld'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
     })
     createData({
-      path: getPath(node.id, 'index'),
+      path: getPath(conceptScheme.id, 'index'),
       data: JSON.stringify(index.export(), null, 2)
     })
   })
