@@ -36,8 +36,12 @@ export const style = css`
     }
   }
 
-  .embedded .content:target {
-    background-color: tomato;
+  .concept .content:not(:target) {
+    display: none
+  }
+
+  .concept .content:target ~ div {
+    display: none
   }
 
   .content {

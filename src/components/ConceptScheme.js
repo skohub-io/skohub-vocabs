@@ -6,25 +6,25 @@ import Concept from './Concept'
 import { t, getDomId } from '../common'
 
 const ConceptScheme = ({ pageContext: { node: conceptScheme, embed } }) => (
-  <div className="content block" id={getDomId(conceptScheme.id)}>
-    <h1>{t(conceptScheme.title)}</h1>
-    <h2>{conceptScheme.id}</h2>
-    {conceptScheme.description
-      && (
-        <div className="markdown">
-          <Markdown>
-            {t(conceptScheme.description)}
-          </Markdown>
-        </div>
-      )
-    }
+  <div className="content concept block" id={getDomId(conceptScheme.id)}>
     {embed && (
-      <div className="embedded">
-        {embed.map(concept => (
-          <Concept key={concept.json.id} pageContext={{ node: concept.json }} />
-        ))}
-      </div>
+      embed.map(concept => (
+        <Concept key={concept.json.id} pageContext={{ node: concept.json }} />
+      ))
     )}
+    <div>
+      <h1>{t(conceptScheme.title)}</h1>
+      <h2>{conceptScheme.id}</h2>
+      {conceptScheme.description
+        && (
+          <div className="markdown">
+            <Markdown>
+              {t(conceptScheme.description)}
+            </Markdown>
+          </div>
+        )
+      }
+    </div>
   </div>
 )
 
