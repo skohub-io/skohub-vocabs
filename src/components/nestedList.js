@@ -127,7 +127,7 @@ const NestedList = ({ items, current, filter, highlight }) => {
             {getFragment(item.id) ? (
               <a
                 className={item.id === current ? 'current' : ''}
-                href={getFilePath(item.id, 'html') + getFragment(item.id)}
+                href={getFragment(item.id)}
               >
                 {item.notation &&
                   <span className="notation">{item.notation.join(',')}&nbsp;</span>
