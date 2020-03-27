@@ -10,7 +10,7 @@ const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
 const urlTemplate = require('url-template')
-const { t, getPath } = require('./src/common')
+const { t, getPath, getFilePath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
 const types = require('./src/types')
@@ -82,10 +82,10 @@ exports.sourceNodes = async ({
       if (type === 'Concept') {
         Object.assign(node, {
          followers: followersUrlTemplate.expand({
-           id: ((process.env.BASEURL || '') + getPath(node.id)).substr(1)
+           id: ((process.env.BASEURL || '') + getPath(node.id))
          }),
          inbox: inboxUrlTemplate.expand({
-           id: ((process.env.BASEURL || '') + getPath(node.id)).substr(1)
+           id: ((process.env.BASEURL || '') + getPath(node.id))
          })
        })
       }
@@ -102,69 +102,81 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
-  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node }) => {
+  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node: conceptScheme }) => {
     const index = flexsearch.create()
 
-    const conceptsInScheme = await graphql(queries.allConcept(node.id, languages))
-    conceptsInScheme.data.allConcept.edges.forEach(({ node }) => {
-      createPage({
-        path: getPath(node.id, 'html'),
-        component: path.resolve(`./src/components/Concept.js`),
-        context: {
-          node,
-          baseURL: process.env.BASEURL || ''
-        }
-      })
-      createData({
-        path: getPath(node.id, 'json'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
-      })
-      createData({
-        path: getPath(node.id, 'jsonld'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
-      })
-      const actorPath = (process.env.BASEURL || '') + getPath(node.id)
+    const conceptsInScheme = await graphql(queries.allConcept(conceptScheme.id, languages))
+    const embeddedConcepts = []
+    conceptsInScheme.data.allConcept.edges.forEach(({ node: concept }) => {
+      const json = omitEmpty(Object.assign({}, concept, context.jsonld))
+      const jsonld = omitEmpty(Object.assign({}, concept, context.jsonld))
+      const actorPath = (process.env.BASEURL || '') + getPath(concept.id)
       const actor = actorUrlTemplate.expand({ path: actorPath })
-      const jsonas = {
+      const jsonas = omitEmpty({
+        context: context.as,
         id: actor,
         type: 'Service',
-        name: t(node.prefLabel),
-        preferredUsername: Buffer.from(actorPath.substring(1)).toString('hex'),
-        inbox: node.inbox,
-        followers: node.followers,
+        name: t(concept.prefLabel),
+        preferredUsername: Buffer.from(actorPath).toString('hex'),
+        inbox: concept.inbox,
+        followers: concept.followers,
         publicKey: {
           id: `${actor}#main-key`,
           owner: actor,
           publicKeyPem: process.env.PUBLIC_KEY
         }
-      }
-      createData({
-        path: getPath(node.id, 'jsonas'),
-        data: JSON.stringify(omitEmpty(Object.assign({}, jsonas, context.as), null, 2))
       })
-      index.add(node.id, t(node.prefLabel))
+
+      if (getFilePath(concept.id) === getFilePath(conceptScheme.id)) {
+        // embed concepts in concept scheme
+        embeddedConcepts.push({ json, jsonld, jsonas })
+      } else {
+        // create pages and data
+        createPage({
+          path: getFilePath(concept.id, 'html'),
+          component: path.resolve(`./src/components/Concept.js`),
+          context: {
+            node: concept,
+            baseURL: process.env.BASEURL || ''
+          }
+        })
+        createData({
+          path: getFilePath(concept.id, 'json'),
+          data: JSON.stringify(json, null, 2)
+        })
+        createData({
+          path: getFilePath(concept.id, 'jsonld'),
+          data: JSON.stringify(jsonld, null, 2)
+        })
+        createData({
+          path: getFilePath(concept.id, 'jsonas'),
+          data: JSON.stringify(jsonas, null, 2)
+        })
+      }
+      index.add(concept.id, t(concept.prefLabel))
     })
 
     console.log("Built index", index.info())
 
     createPage({
-      path: getPath(node.id, 'html'),
+      path: getFilePath(conceptScheme.id, 'html'),
       component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
-        node,
+        node: conceptScheme,
+        embed: embeddedConcepts,
         baseURL: process.env.BASEURL || ''
       }
     })
     createData({
-      path: getPath(node.id, 'json'),
-      data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+      path: getFilePath(conceptScheme.id, 'json'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
     })
     createData({
-      path: getPath(node.id, 'jsonld'),
-      data: JSON.stringify(omitEmpty(Object.assign({}, node, context.jsonld), null, 2))
+      path: getFilePath(conceptScheme.id, 'jsonld'),
+      data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
     })
     createData({
-      path: getPath(node.id, 'index'),
+      path: getFilePath(conceptScheme.id, 'index'),
       data: JSON.stringify(index.export(), null, 2)
     })
   })

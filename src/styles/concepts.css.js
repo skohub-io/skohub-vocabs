@@ -36,6 +36,14 @@ export const style = css`
     }
   }
 
+  .concept .content:not(:target) {
+    display: none
+  }
+
+  .concept .content:target ~ div {
+    display: none
+  }
+
   .content {
     padding: 20px;
     flex: 2;

@@ -5,7 +5,7 @@
 const nock = require('nock')
 const {
   t,
-  getPath,
+  getFilePath,
   getHookGitHub,
   getHookGitLab,
   getHookSkoHub,
@@ -597,10 +597,10 @@ describe('Translate', () => {
 
 })
 
-describe('getPath', () => {
+describe('getFilePath', () => {
 
   test('Should return a valid path', () => {
-    expect(getPath("http://w3id.org/class/hochschulfaecher/S393#", "html"))
+    expect(getFilePath("http://w3id.org/class/hochschulfaecher/S393#", "html"))
       .toBe('/w3id.org/class/hochschulfaecher/S393.html')
   })
 })

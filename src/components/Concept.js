@@ -2,10 +2,10 @@
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 
-import { t } from '../common'
+import { t, getDomId } from '../common'
 
 const Concept = ({ pageContext: { node: concept } }) => (
-  <div className="content block">
+  <div className="content block" id={getDomId(concept.id)}>
     <h1>
       {concept.notation &&
         <span>{concept.notation.join(',')}&nbsp;</span>
