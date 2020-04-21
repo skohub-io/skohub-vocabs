@@ -43,7 +43,9 @@ const Header = ({ siteTitle }) => (
   >
     <div className="headerContent">
       <h1>
-        <Link to="/" >
+        < Link to = {
+          (process.env.BASEURL || '/')
+          }>
           {siteTitle}
         </Link>
       </h1>
