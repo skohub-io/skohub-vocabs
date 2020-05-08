@@ -31,6 +31,7 @@ cd $HOME/git/$NAME/
 # nothing to change from here
 ###
 
+npm install
 # start skohub-pubsub
 PORT=$PORT npm run listen >> logs/$NAME.log 2>&1 &
 
