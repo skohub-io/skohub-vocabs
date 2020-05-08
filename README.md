@@ -41,3 +41,6 @@ Running `npm run listen` will start the server on the defined `PORT` and expose 
 ## Connecting to our webhook server
 
 Feel free to clone https://github.com/literarymachine/skos.git to poke around. Go to https://github.com/YOUR_GITHUB_USER/skos/settings/hooks/new to set up the web hook (get in touch to receive the secret). Edit https://github.com/YOUR_GITHUB_USER/skos/edit/master/hochschulfaecher.ttl and commit the changes to master. This will trigger a build and expose it at https://test.skohub.io/YOUR_GITHUB_USER/skos/w3id.org/class/hochschulfaecher/scheme.
+
+## Use start scripts and monit
+You may want to use the start scripts in `scripts/` to manage via init and to monitor with `monit`.
