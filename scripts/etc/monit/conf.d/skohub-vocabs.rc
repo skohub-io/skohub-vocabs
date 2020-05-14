@@ -4,7 +4,8 @@
 # first, ensure to have copied the init.d sript to its place
 check host skohub-vocabs with address 127.0.0.1
    start program = "/bin/bash /etc/init.d/skohub-vocabs.sh start"
+     as uid $YOUR_SKOHUB_VOCABS_UID and gid $YOUR_SKOHUB_VOCABS_GID with timeout 100 seconds
    stop program = "/bin/bash /etc/init.d/skohub-vocabs.sh stop"
-   as uid $YOUR_SKOHUB_VOCABS_UID and gid $YOUR_SKOHUB_VOCABS_GID
+     as uid $YOUR_SKOHUB_VOCABS_UID and gid $YOUR_SKOHUB_VOCABS_GID with timeout 100 seconds
    if failed host 127.0.0.1 port $PORT then start
    if 5 restarts within 5 cycles then timeout
