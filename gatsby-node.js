@@ -82,10 +82,10 @@ exports.sourceNodes = async ({
       if (type === 'Concept') {
         Object.assign(node, {
          followers: followersUrlTemplate.expand({
-           id: ((process.env.BASEURL || '') + getPath(node.id))
+           id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
          }),
          inbox: inboxUrlTemplate.expand({
-           id: ((process.env.BASEURL || '') + getPath(node.id))
+           id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
          })
        })
       }
@@ -110,7 +110,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     conceptsInScheme.data.allConcept.edges.forEach(({ node: concept }) => {
       const json = omitEmpty(Object.assign({}, concept, context.jsonld))
       const jsonld = omitEmpty(Object.assign({}, concept, context.jsonld))
-      const actorPath = (process.env.BASEURL || '') + getPath(concept.id)
+      const actorPath = `${process.env.BASEURL || ''}/${getPath(concept.id)}`.substr(1)
       const actor = actorUrlTemplate.expand({ path: actorPath })
       const jsonas = omitEmpty({
         context: context.as,
