@@ -1,5 +1,6 @@
 const jsonld = {
   "@context": {
+    "@version": 1.1,
     "id": "@id",
     "type": "@type",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
@@ -35,6 +36,9 @@ const jsonld = {
     "source": "dct:source",
     "prefLabel": {
       "@container": "@language"
+    },
+    "altLabel": {
+      "@container": ["@language", "@set"],
     },
     "definition": {
       "@container": "@language"
