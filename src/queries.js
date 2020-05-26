@@ -36,16 +36,10 @@ module.exports.allConcept = (inScheme, languages) => `
             prefLabel {
               ${[...languages].join(' ')}
             }
-            altLabel {
-              ${[...languages].join(' ')}
-            }
           }
           narrowerTransitive {
             id
             prefLabel {
-              ${[...languages].join(' ')}
-            }
-            altLabel {
               ${[...languages].join(' ')}
             }
           }
@@ -54,16 +48,10 @@ module.exports.allConcept = (inScheme, languages) => `
             prefLabel {
               ${[...languages].join(' ')}
             }
-            altLabel {
-              ${[...languages].join(' ')}
-            }
           }
           broaderTransitive {
             id
             prefLabel {
-              ${[...languages].join(' ')}
-            }
-            altLabel {
               ${[...languages].join(' ')}
             }
           }
