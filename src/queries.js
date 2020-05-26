@@ -18,6 +18,9 @@ module.exports.allConcept = (inScheme, languages) => `
           prefLabel {
             ${[...languages].join(' ')}
           }
+          altLabel {
+            ${[...languages].join(' ')}
+          }
           definition {
             ${[...languages].join(' ')}
           }
@@ -103,6 +106,9 @@ module.exports.allConceptScheme = languages => `
     id
     notation
     prefLabel {
+      ${[...languages].join(' ')}
+    }
+    altLabel {
       ${[...languages].join(' ')}
     }
   }
