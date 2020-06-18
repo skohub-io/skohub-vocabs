@@ -8,6 +8,8 @@ const jsonld = {
     "dct": "http://purl.org/dc/terms/",
     "schema": "http://schema.org/",
     "vann": "http://purl.org/vocab/vann/",
+    "as": "https://www.w3.org/ns/activitystreams#",
+    "ldp": "http://www.w3.org/ns/ldp#",
     "title": {
       "@id": "dct:title",
       "@container": "@language"
@@ -60,7 +62,9 @@ const jsonld = {
     },
     "broaderTransitive": {
       "@container": "@set"
-    }
+    },
+    "followers": "as:followers",
+    "inbox": "ldp:inbox"
   }
 }
 
