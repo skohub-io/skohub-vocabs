@@ -4,7 +4,7 @@ This part of the [SkoHub](http://skohub.io) project covers the need to easily pu
 
 ## Set up
 
-    $ git clone https://github.com/hbz/skohub-vocabs.git
+    $ git clone https://github.com/skohub-io/skohub-vocabs.git
     $ cd skohub-vocabs
     $ npm i
     $ cp .env.example .env
