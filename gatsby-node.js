@@ -132,6 +132,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           component: path.resolve(`./src/components/Concept.js`),
           context: {
             language,
+            languages: Array.from(languages),
             node: concept,
             baseURL: process.env.BASEURL || ''
           }
@@ -159,6 +160,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
         language,
+        languages: Array.from(languages),
         node: conceptScheme,
         embed: embeddedConcepts,
         baseURL: process.env.BASEURL || ''
@@ -184,6 +186,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     component: path.resolve(`./src/components/index.js`),
     context: {
       language,
+      languages: Array.from(languages),
       conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(node => node.node)
     },
   }))

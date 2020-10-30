@@ -5,8 +5,8 @@ import { i18n, getFilePath } from '../common'
 import Layout from "./layout"
 import SEO from "./seo"
 
-const IndexPage = ({ pageContext: { conceptSchemes, language } }) => (
-  <Layout>
+const IndexPage = ({ pageContext: { conceptSchemes, language, languages } }) => (
+  <Layout languages={languages} language={language}>
     <SEO title="Concept Schemes" keywords={['conceptSchemes']} />
     <div className="centerPage block">
       <ul>

@@ -47,7 +47,7 @@ const App = ({pageContext, children}) => {
   })
 
   return (
-    <Layout>
+    <Layout languages={pageContext.languages} language={pageContext.language}>
       <SEO
         title={i18n(pageContext.language)(pageContext.node.prefLabel || pageContext.node.title)}
         keywords={['Concept', i18n(pageContext.language)(pageContext.node.prefLabel || pageContext.node.title)]}
