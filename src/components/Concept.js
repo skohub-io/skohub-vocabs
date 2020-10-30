@@ -2,15 +2,15 @@
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 
-import { t, getDomId } from '../common'
+import { i18n, getDomId } from '../common'
 
-const Concept = ({ pageContext: { node: concept } }) => (
+const Concept = ({ pageContext: { node: concept, language } }) => (
   <div className="content block" id={getDomId(concept.id)}>
     <h1>
       {concept.notation &&
         <span>{concept.notation.join(',')}&nbsp;</span>
       }
-      {t(concept.prefLabel)}
+      {i18n(language)(concept.prefLabel)}
     </h1>
     <h2>{concept.id}</h2>
     <p>
@@ -21,7 +21,7 @@ const Concept = ({ pageContext: { node: concept } }) => (
         <div className="markdown">
           <h3>Definition</h3>
           <Markdown>
-            {t(concept.definition)}
+            {i18n(language)(concept.definition)}
           </Markdown>
         </div>
       )
@@ -31,7 +31,7 @@ const Concept = ({ pageContext: { node: concept } }) => (
         <div className="markdown">
           <h3>Scope Note</h3>
           <Markdown>
-            {t(concept.scopeNote)}
+            {i18n(language)(concept.scopeNote)}
           </Markdown>
         </div>
       )
@@ -41,7 +41,7 @@ const Concept = ({ pageContext: { node: concept } }) => (
         <div className="markdown">
           <h3>Note</h3>
           <Markdown>
-            {t(concept.note)}
+            {i18n(language)(concept.note)}
           </Markdown>
         </div>
       )

@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
-import { t, getFilePath } from '../common'
+import { i18n, getFilePath } from '../common'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -18,7 +18,7 @@ const IndexPage = ({ pageContext }) => {
       {conceptSchemes.map(conceptScheme => (
         <li key={conceptScheme.id}>
           <Link to={(process.env.BASEURL || '') + getFilePath(conceptScheme.id, 'html')}>
-            {conceptScheme.title ? t(conceptScheme.title) : conceptScheme.id}
+            {conceptScheme.title ? i18n(pageContext.language)(conceptScheme.title) : conceptScheme.id}
           </Link>
         </li>
       ))}

@@ -10,7 +10,7 @@ const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
 const urlTemplate = require('url-template')
-const { t, getPath, getFilePath } = require('./src/common')
+const { i18n, getPath, getFilePath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
 const types = require('./src/types')
@@ -112,7 +112,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       const jsonas = Object.assign(omitEmpty({
         id: actor,
         type: 'Service',
-        name: t(concept.prefLabel),
+        name: i18n(languages[0])(concept.prefLabel), // FIXME: which lang should we use?
         preferredUsername: Buffer.from(actorPath).toString('hex'),
         inbox: concept.inbox,
         followers: concept.followers,
@@ -128,14 +128,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         embeddedConcepts.push({ json, jsonld, jsonas })
       } else {
         // create pages and data
-        createPage({
-          path: getFilePath(concept.id, 'html'),
+        languages.forEach(language => createPage({
+          path: getFilePath(concept.id, `${language}.html`),
           component: path.resolve(`./src/components/Concept.js`),
           context: {
+            language,
             node: concept,
             baseURL: process.env.BASEURL || ''
           }
-        })
+        }))
         createData({
           path: getFilePath(concept.id, 'json'),
           data: JSON.stringify(json, null, 2)
@@ -149,20 +150,21 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           data: JSON.stringify(jsonas, null, 2)
         })
       }
-      index.add(concept.id, t(concept.prefLabel))
+      languages.forEach(language => index.add(concept.id, i18n(language)(concept.prefLabel)))
     })
 
     console.log("Built index", index.info())
 
-    createPage({
-      path: getFilePath(conceptScheme.id, 'html'),
+    languages.forEach(language => createPage({
+      path: getFilePath(conceptScheme.id, `${language}.html`),
       component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
+        language,
         node: conceptScheme,
         embed: embeddedConcepts,
         baseURL: process.env.BASEURL || ''
       }
-    })
+    }))
     createData({
       path: getFilePath(conceptScheme.id, 'json'),
       data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
@@ -191,6 +193,7 @@ exports.onCreatePage = ({ page, actions }) => {
       ...page,
       context: {
         ...page.context,
+        language: languages[0],
         allConceptScheme
       },
     })
