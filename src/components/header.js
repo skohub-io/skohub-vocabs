@@ -61,7 +61,7 @@ const Header = ({ siteTitle, languages, language, pathName = useLocation().pathn
       {languages && languages.length > 1 && (
         <ul>
           {languages.map(l => (
-            <li>
+            <li key={l}>
               {l === language ? (
                 <span className="currentLanguage">{l}</span>
               ) : (
