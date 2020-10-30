@@ -144,7 +144,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
             ) : (
               <Link
                 className={item.id === current ? 'current' : ''}
-                to={getFilePath(item.id, 'html')}
+                to={getFilePath(item.id, `${language}.html`)}
               >
                 {item.notation &&
                   <span className="notation">{item.notation.join(',')}&nbsp;</span>

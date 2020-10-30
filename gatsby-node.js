@@ -18,7 +18,6 @@ const types = require('./src/types')
 require('dotenv').config()
 
 const languages = new Set()
-let conceptSchemes
 
 jsonld.registerRDFParser('text/turtle', ttlString => {
   const quads = (new n3.Parser()).parse(ttlString)
@@ -95,7 +94,7 @@ exports.createSchemaCustomization = ({ actions: { createTypes } }) => createType
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const actorUrlTemplate = urlTemplate.parse(process.env.ACTOR)
-  conceptSchemes = await graphql(queries.allConceptScheme(languages))
+  const conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
@@ -178,24 +177,18 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       data: JSON.stringify(index.export(), null, 2)
     })
   })
+
+  // Build index pages
+  languages.forEach(language => createPage({
+    path: `/index.${language}.html`,
+    component: path.resolve(`./src/components/index.js`),
+    context: {
+      language,
+      conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(node => node.node)
+    },
+  }))
+
 }
 
 const createData = ({path, data}) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))
-
-exports.onCreatePage = ({ page, actions }) => {
-  const { createPage, deletePage } = actions
-  // Pass allConceptScheme to the pageContext of /pages/index.js
-  if (page.component && page.component.endsWith('src/pages/index.js')) {
-    deletePage(page)
-    const { allConceptScheme } = conceptSchemes.data
-    createPage({
-      ...page,
-      context: {
-        ...page.context,
-        language: languages[0],
-        allConceptScheme
-      },
-    })
-  }
-}
