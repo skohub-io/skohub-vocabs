@@ -19,6 +19,7 @@ module.exports = languages => `
     narrowerTransitive: [Concept] @link(from: "narrowerTransitive___NODE"),
     broader: Concept @link(from: "broader___NODE"),
     broaderTransitive: [Concept] @link(from: "broaderTransitive___NODE"),
+    related: [Concept] @link(from: "related___NODE"),
     inScheme: ConceptScheme! @link(from: "inScheme___NODE"),
     hub: String,
     inbox: String

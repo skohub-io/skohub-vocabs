@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
+import { Link } from 'gatsby'
 
-import { t, getDomId } from '../common'
+import { t, getDomId, getFilePath } from '../common'
 
 const Concept = ({ pageContext: { node: concept } }) => (
   <div className="content block" id={getDomId(concept.id)}>
@@ -43,6 +44,22 @@ const Concept = ({ pageContext: { node: concept } }) => (
           <Markdown>
             {t(concept.note)}
           </Markdown>
+        </div>
+      )
+    }
+    {concept.related
+      && (
+        <div>
+          <h3>Related</h3>
+          <ul>
+            {concept.related.map(related => (
+              <li key={related.id}>
+                <Link to={getFilePath(related.id, 'html')}>
+                  {t(related.prefLabel)}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       )
     }

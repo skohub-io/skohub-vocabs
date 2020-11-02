@@ -53,8 +53,8 @@ exports.sourceNodes = async ({
   const compacted = await jsonld.compact(doc, context.jsonld)
   compacted['@graph'].forEach((graph, i) => {
     const {
-      narrower, narrowerTransitive, broader, broaderTransitive, inScheme, topConceptOf,
-      hasTopConcept, ...properties
+      narrower, narrowerTransitive, broader, broaderTransitive, related,
+      inScheme, topConceptOf, hasTopConcept, ...properties
     } = graph
     const type = Array.isArray(properties.type)
       ? properties.type.find(t => ['Concept', 'ConceptScheme'])
@@ -71,6 +71,7 @@ exports.sourceNodes = async ({
       hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
       broader___NODE: (broader && broader.id) || null,
       broaderTransitive___NODE: (broaderTransitive && broaderTransitive.id) || null,
+      related___NODE: (related || []).map(related => related.id),
       internal: {
         contentDigest: createContentDigest(graph),
         type,

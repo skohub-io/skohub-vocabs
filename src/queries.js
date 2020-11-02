@@ -55,6 +55,12 @@ module.exports.allConcept = (inScheme, languages) => `
               ${[...languages].join(' ')}
             }
           }
+          related {
+            id
+            prefLabel {
+              ${[...languages].join(' ')}
+            }
+          }
           inScheme {
             id
             title {
