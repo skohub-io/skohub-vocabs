@@ -23,6 +23,7 @@
     "gatsby-source-filesystem": "^2.1.37",
     "gatsby-transformer-json": "^2.2.17",
     "gatsby-transformer-sharp": "^2.3.3",
+    "graceful-fs": "^4.2.4",
     "jsonld": "^1.8.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",

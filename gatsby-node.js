@@ -16,6 +16,7 @@ const queries = require('./src/queries')
 const types = require('./src/types')
 
 require('dotenv').config()
+require('graceful-fs').gracefulify(require('fs'))
 
 const languages = new Set()
 let conceptSchemes
