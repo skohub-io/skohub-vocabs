@@ -64,7 +64,10 @@ const jsonld = {
       "@container": "@set"
     },
     "followers": "as:followers",
-    "inbox": "ldp:inbox"
+    "inbox": "ldp:inbox",
+    "hasTopConcept": {
+      "@container": "@set"
+    }
   }
 }
 
