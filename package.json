@@ -10,7 +10,6 @@
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "flexsearch": "^0.6.32",
-    "fs-extra": "^9.0.0",
     "gatsby": "~2.17.11",
     "gatsby-image": "^2.2.31",
     "gatsby-link": "^2.2.23",
