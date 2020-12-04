@@ -45,6 +45,10 @@ Feel free to clone https://github.com/literarymachine/skos.git to poke around. G
 ## Use start scripts and monit
 You may want to use the start scripts in `scripts/` to manage via init and to monitor with `monit`.
 
+## Problems
+Depending on special circumstances you may get errors in the log files, e.g.
+`EMFILE: too many open files`. [Search our issues for solutions](https://github.com/skohub-io/skohub-vocabs/issues?q=is%3Aissue) or feel encouraged to open a new issue if you can't find a solution.
+
 ## Credits
 
 The project to create a stable beta version of SkoHub has been funded by the North-Rhine Westphalian Library Service Centre (hbz) and carried out in cooperation with [graphthinking GmbH](https://graphthinking.com/) in 2019/2020.
