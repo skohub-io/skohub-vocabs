@@ -43,9 +43,11 @@ Running `npm run listen` will start the server on the defined `PORT` and expose 
 Feel free to clone https://github.com/literarymachine/skos.git to poke around. Go to https://github.com/YOUR_GITHUB_USER/skos/settings/hooks/new to set up the web hook (get in touch to receive the secret). Edit https://github.com/YOUR_GITHUB_USER/skos/edit/master/hochschulfaecher.ttl and commit the changes to master. This will trigger a build and expose it at https://test.skohub.io/YOUR_GITHUB_USER/skos/w3id.org/class/hochschulfaecher/scheme.
 
 ## Use start scripts and monit
+
 You may want to use the start scripts in `scripts/` to manage via init and to monitor with `monit`.
 
-## Problems
+## Troubleshooting
+
 Depending on special circumstances you may get errors in the log files, e.g.
 `EMFILE: too many open files`. [Search our issues for solutions](https://github.com/skohub-io/skohub-vocabs/issues?q=is%3Aissue) or feel encouraged to open a new issue if you can't find a solution.
 
