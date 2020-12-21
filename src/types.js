@@ -20,7 +20,7 @@ module.exports = languages => `
     broader: Concept @link(from: "broader___NODE"),
     broaderTransitive: [Concept] @link(from: "broaderTransitive___NODE"),
     related: [Concept] @link(from: "related___NODE"),
-    relatedMatch: [RelatedMatch],
+    relatedMatch: [Concept],
     inScheme: ConceptScheme! @link(from: "inScheme___NODE"),
     hub: String,
     inbox: String
@@ -32,8 +32,4 @@ module.exports = languages => `
   type LanguageMapArray {
     ${[...languages].map(l => `${l}: [String]`).join(', ')}
   }
-  type RelatedMatch {
-    id: String
-  }
-
 `
