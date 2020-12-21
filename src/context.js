@@ -60,6 +60,9 @@ const jsonld = {
     "related": {
       "@container": "@set"
     },
+    "relatedMatch": {
+      "@container": "@set"
+    },
     "narrowerTransitive": {
       "@container": "@set"
     },

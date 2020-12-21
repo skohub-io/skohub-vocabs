@@ -61,6 +61,9 @@ module.exports.allConcept = (inScheme, languages) => `
               ${[...languages].join(' ')}
             }
           }
+          relatedMatch {
+            id
+          }
           inScheme {
             id
             title {

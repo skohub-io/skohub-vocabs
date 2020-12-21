@@ -54,7 +54,7 @@ exports.sourceNodes = async ({
   compacted['@graph'].forEach((graph, i) => {
     const {
       narrower, narrowerTransitive, broader, broaderTransitive, related,
-      inScheme, topConceptOf, hasTopConcept, ...properties
+      relatedMatch, inScheme, topConceptOf, hasTopConcept, ...properties
     } = graph
     const type = Array.isArray(properties.type)
       ? properties.type.find(t => ['Concept', 'ConceptScheme'])
@@ -72,6 +72,7 @@ exports.sourceNodes = async ({
       broader___NODE: (broader && broader.id) || null,
       broaderTransitive___NODE: (broaderTransitive && broaderTransitive.id) || null,
       related___NODE: (related || []).map(related => related.id),
+      relatedMatch,
       internal: {
         contentDigest: createContentDigest(graph),
         type,
