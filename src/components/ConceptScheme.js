@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 
 import Concept from './Concept'
-import { t, getDomId } from '../common'
+import { t, getDomId, getFilePath } from '../common'
 
 const ConceptScheme = ({ pageContext: { node: conceptScheme, embed } }) => (
   <div className="content concept block" id={getDomId(conceptScheme.id)}>
@@ -15,6 +15,7 @@ const ConceptScheme = ({ pageContext: { node: conceptScheme, embed } }) => (
     <div>
       <h1>{t(conceptScheme.title)}</h1>
       <h2>{conceptScheme.id}</h2>
+      <a href={getFilePath(conceptScheme.id, 'json')}>JSON</a>
       {conceptScheme.description
         && (
           <div className="markdown">
