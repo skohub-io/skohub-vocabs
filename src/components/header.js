@@ -54,7 +54,7 @@ const Header = ({ siteTitle, languages, language, pathName = useLocation().pathn
   >
     <div className="headerContent">
       <h1>
-        <Link to="/" >
+        <Link to={`/index.${language}.html`} >
           {siteTitle}
         </Link>
       </h1>
