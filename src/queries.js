@@ -64,6 +64,18 @@ module.exports.allConcept = (inScheme, languages) => `
           relatedMatch {
             id
           }
+          broadMatch {
+            id
+          }
+          narrowMatch {
+            id
+          }
+          closeMatch {
+            id
+          }
+          exactMatch {
+            id
+          }
           inScheme {
             id
             title {
