@@ -45,7 +45,7 @@ const style = css`
   }
 `
 
-const Layout = ({ children }) => (
+const Layout = ({ children, languages, language }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -132,7 +132,11 @@ const Layout = ({ children }) => (
             }
           `}
         />
-        <Header siteTitle={data.site.siteMetadata.title} />
+        <Header
+          siteTitle={data.site.siteMetadata.title}
+          languages={languages}
+          language={language}
+        />
         <main>{children}</main>
 
         {process.env.GATSBY_RESPOSITORY_URL && (

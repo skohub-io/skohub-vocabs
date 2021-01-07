@@ -2,9 +2,7 @@ const maybe = require('mjn')
 const crypto = require('crypto')
 const fetch = require("node-fetch")
 
-const t = localized => localized
-  && (Object.entries(localized).filter(([, value]) => !!value).shift() || []).pop()
-  || ''
+const i18n = lang => localized => localized[lang] || ''
 
 const getFilePath = (url, extension) => {
   let path = url.replace(/^https?:\//, "").split('#').shift()
@@ -151,7 +149,7 @@ const verifyFiles = (files) => {
 const getHeaders = (inbox, hub, self, path) => `Header set Link "<${inbox}>; rel=\\"http://www.w3.org/ns/ldp#inbox\\", <${hub}>; rel=\\"hub\\", <${self}>; rel=\\"self\\"" "expr=%{REQUEST_URI} =~ m|${path}|"`
 
 module.exports = {
-  t,
+  i18n,
   getPath,
   getFilePath,
   getFragment,

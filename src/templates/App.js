@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import FlexSearch from 'flexsearch'
 import escapeRegExp from 'lodash.escaperegexp'
-import { t, getFilePath } from '../common'
+import { i18n, getFilePath } from '../common'
 import NestedList from '../components/nestedList'
 import TreeControls from '../components/TreeControls'
 import Layout from '../components/layout'
@@ -47,10 +47,10 @@ const App = ({pageContext, children}) => {
   })
 
   return (
-    <Layout>
+    <Layout languages={pageContext.languages} language={pageContext.language}>
       <SEO
-        title={t(pageContext.node.prefLabel || pageContext.node.title)}
-        keywords={['Concept', t(pageContext.node.prefLabel || pageContext.node.title)]}
+        title={i18n(pageContext.language)(pageContext.node.prefLabel || pageContext.node.title)}
+        keywords={['Concept', i18n(pageContext.language)(pageContext.node.prefLabel || pageContext.node.title)]}
       />
       <div
         className="Concept"
@@ -71,6 +71,7 @@ const App = ({pageContext, children}) => {
               current={pageContext.node.id}
               filter={query ? index.search(query) : null}
               highlight={query ? RegExp(escapeRegExp(query), 'gi'): null}
+              language={pageContext.language}
             />
           )}
         </nav>

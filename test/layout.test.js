@@ -6,7 +6,8 @@
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import { StaticQuery } from 'gatsby';
+import { StaticQuery } from 'gatsby'
+import { createHistory, createMemorySource, LocationProvider } from '@reach/router'
 import Layout from '../src/components/layout'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -33,9 +34,11 @@ const data = {
 
 describe('Layout', () => {
   const wrapper = shallow(
-    <Layout data={data}>
-      <div>Test Layout</div>
-    </Layout>
+    <LocationProvider history={createHistory(createMemorySource('/'))}>
+      <Layout data={data}>
+        <div>Test Layout</div>
+      </Layout>
+    </LocationProvider>
   )
 
   test('Renders', () => {
