@@ -5,6 +5,8 @@
  */
 const jsonld = require('jsonld')
 const n3 = require('n3')
+const { DataFactory } = n3
+const { namedNode } = DataFactory
 const path = require('path')
 const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
@@ -33,7 +35,7 @@ jsonld.registerRDFParser('text/turtle', ttlString => {
     quad.object.language && languages.add(quad.object.language.replace("-", "_"))
     inverses[quad.predicate.id] && store.addQuad(
       quad.object,
-      n3.namedNode(inverses[quad.predicate.id]),
+      namedNode(inverses[quad.predicate.id]),
       quad.subject,
       quad.graph
     )

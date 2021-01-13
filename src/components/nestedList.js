@@ -165,6 +165,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
                 current={current}
                 filter={filter}
                 highlight={highlight}
+                language={language}
               />
             }
           </div>
