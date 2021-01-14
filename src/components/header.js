@@ -2,6 +2,7 @@ import { Link } from "gatsby"
 import { css } from '@emotion/core'
 import PropTypes from "prop-types"
 import React from "react"
+import { useLocation } from '@reach/router'
 
 import { colors as c } from '../styles/variables'
 
@@ -11,11 +12,17 @@ const style = css`
 
   h1 {
     margin: 0;
+    display: inline;
 
     a {
       text-decoration: none;
       color: white;
     }
+  }
+
+  ul, li {
+    display: inline;
+    margin-right: 5px;
   }
 
   .wave {
@@ -28,6 +35,10 @@ const style = css`
     padding: 20px 20px 5px 20px;
   }
 
+  .currentLanguage {
+    font-weight: bold;
+  }
+
   svg {
     position: absolute;
     bottom: 0;
@@ -37,17 +48,29 @@ const style = css`
     fill: ${c.base};
   }
 `
-const Header = ({ siteTitle }) => (
+const Header = ({ siteTitle, languages, language, pathName = useLocation().pathname.slice(0, -8) }) => (
   <header
     css={style}
   >
     <div className="headerContent">
       <h1>
-        <Link to="/" >
+        <Link to={`/index.${language}.html`} >
           {siteTitle}
         </Link>
       </h1>
-
+      {languages && languages.length > 1 && (
+        <ul>
+          {languages.map(l => (
+            <li key={l}>
+              {l === language ? (
+                <span className="currentLanguage">{l}</span>
+              ) : (
+                <a href={`${pathName}.${l}.html`}>{l}</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
 
     <div className="wave">
