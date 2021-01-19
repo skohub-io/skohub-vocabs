@@ -53,7 +53,7 @@ const Concept = ({ pageContext: { node: concept, language } }) => (
         <ul>
           {concept.related.map((related) => (
             <li key={related.id}>
-              <Link to={getFilePath(related.id, "html")}>
+              <Link to={getFilePath(related.id, `${language}.html`)}>
                 {i18n(language)(related.prefLabel)}
               </Link>
             </li>
