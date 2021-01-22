@@ -2,6 +2,7 @@
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
 import jsonpng from '../images/jsonld.png'
+import { Link } from 'gatsby'
 
 import { i18n, getDomId, getFilePath } from '../common'
 
@@ -48,6 +49,80 @@ const Concept = ({ pageContext: { node: concept, language } }) => (
         </div>
       )
     }
+    {concept.related && concept.related.length > 0 && (
+      <div>
+        <h3>Related</h3>
+        <ul>
+          {concept.related.map((related) => (
+            <li key={related.id}>
+              <Link to={getFilePath(related.id, `${language}.html`)}>
+                {i18n(language)(related.prefLabel)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.narrowMatch && concept.narrowMatch.length > 0 && (
+      <div>
+        <h3>Narrow Match</h3>
+        <ul>
+          {concept.narrowMatch.map((narrowMatch) => (
+            <li key={narrowMatch.id}>
+              <a href={narrowMatch.id}>{narrowMatch.id}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.broadMatch && concept.broadMatch.length > 0 && (
+      <div>
+        <h3>Broad Match</h3>
+        <ul>
+          {concept.broadMatch.map((broadMatch) => (
+            <li key={broadMatch.id}>
+              <a href={broadMatch.id}>{broadMatch.id}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.exactMatch && concept.exactMatch.length > 0 && (
+      <div>
+        <h3>Exact Match</h3>
+        <ul>
+          {concept.exactMatch.map((exactMatch) => (
+            <li key={exactMatch.id}>
+              <a href={exactMatch.id}>{exactMatch.id}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.closeMatch && concept.closeMatch.length > 0 && (
+      <div>
+        <h3>Close Match</h3>
+        <ul>
+          {concept.closeMatch.map((closeMatch) => (
+            <li key={closeMatch.id}>
+              <a href={closeMatch.id}>{closeMatch.id}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.relatedMatch && concept.relatedMatch.length > 0 && (
+      <div>
+        <h3>Related Match</h3>
+        <ul>
+          {concept.relatedMatch.map((relatedMatch) => (
+            <li key={relatedMatch.id}>
+              <a href={relatedMatch.id}>{relatedMatch.id}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
   </div>
 )
 
