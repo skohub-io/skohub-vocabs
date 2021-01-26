@@ -111,11 +111,5 @@ module.exports.allConceptScheme = languages => `
     altLabel {
       ${[...languages].join(' ')}
     }
-    broader {
-      id
-      prefLabel {
-        ${[...languages].join(' ')}
-      }
-    }
   }
 `
