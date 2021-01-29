@@ -14,6 +14,7 @@ module.exports = languages => `
     scopeNote: LanguageMap,
     note: LanguageMap,
     notation: [String],
+    example: LanguageMap,
     topConceptOf: ConceptScheme @link(from: "topConceptOf___NODE"),
     narrower: [Concept] @link(from: "narrower___NODE"),
     narrowerTransitive: [Concept] @link(from: "narrowerTransitive___NODE"),

@@ -47,6 +47,16 @@ const Concept = ({ pageContext: { node: concept, language } }) => (
         </div>
       )
     }
+    {concept.example 
+      && (
+        <div className="markdown">
+          <h3>Example</h3>
+          <Markdown>
+            {i18n(language)(concept.example)}
+          </Markdown>
+        </div>
+      )
+    }
     {concept.related && concept.related.length > 0 && (
       <div>
         <h3>Related</h3>
