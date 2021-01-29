@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import Markdown from 'markdown-to-jsx'
-import jsonpng from '../images/jsonld.png'
 import { Link } from 'gatsby'
+import JsonLink from './JsonLink'
 
 import { i18n, getDomId, getFilePath } from '../common'
 
@@ -15,7 +15,7 @@ const Concept = ({ pageContext: { node: concept, language } }) => (
       {i18n(language)(concept.prefLabel)}
     </h1>
     <h2>{concept.id}</h2>
-    <a href={getFilePath(concept.id, 'json')}><img src={jsonpng} alt="JSON" /></a>
+    <JsonLink to={getFilePath(concept.id, 'json')} />
     <p>
       <a href={concept.inbox}>Inbox</a>
     </p>
