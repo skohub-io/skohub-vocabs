@@ -54,6 +54,9 @@ const jsonld = {
     "notation": {
       "@container": "@set"
     },
+    "example": {
+      "@container": "@language"
+    },
     "narrower": {
       "@container": "@set"
     },

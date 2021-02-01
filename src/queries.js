@@ -31,6 +31,9 @@ module.exports.allConcept = (inScheme, languages) => `
             ${[...languages].join(' ')}
           }
           notation
+          example {
+            ${[...languages].join(' ')}
+          }
           narrower {
             id
             prefLabel {
