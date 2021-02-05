@@ -24,7 +24,8 @@ const languages = new Set()
 
 const inverses = {
   'http://www.w3.org/2004/02/skos/core#narrower': 'http://www.w3.org/2004/02/skos/core#broader',
-  'http://www.w3.org/2004/02/skos/core#broader': 'http://www.w3.org/2004/02/skos/core#narrower'
+  'http://www.w3.org/2004/02/skos/core#broader': 'http://www.w3.org/2004/02/skos/core#narrower',
+  'http://www.w3.org/2004/02/skos/core#related': 'http://www.w3.org/2004/02/skos/core#related'
 }
 
 jsonld.registerRDFParser('text/turtle', ttlString => {
