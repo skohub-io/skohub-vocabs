@@ -6,7 +6,7 @@ import JsonLink from './JsonLink'
 
 import { i18n, getDomId, getFilePath } from '../common'
 
-const Concept = ({ pageContext: { node: concept, language } }) => (
+const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
   <div className="content block" id={getDomId(concept.id)}>
     <h1>
       {concept.notation &&
@@ -15,7 +15,9 @@ const Concept = ({ pageContext: { node: concept, language } }) => (
       {i18n(language)(concept.prefLabel)}
     </h1>
     <h2>{concept.id}</h2>
-    <JsonLink to={getFilePath(concept.id, 'json')} />
+    <JsonLink
+      to={baseURL + getFilePath(concept.id, "json")}
+    />
     <p>
       <a href={concept.inbox}>Inbox</a>
     </p>

@@ -6,7 +6,9 @@ import Concept from './Concept'
 import { i18n, getDomId, getFilePath } from '../common'
 import JsonLink from './JsonLink'
 
-const ConceptScheme = ({ pageContext: { node: conceptScheme, embed, language } }) => (
+const ConceptScheme = ({
+  pageContext: { node: conceptScheme, embed, language, baseURL },
+}) => (
   <div className="content concept block" id={getDomId(conceptScheme.id)}>
     {embed &&
       embed.map((concept) => (
@@ -15,9 +17,10 @@ const ConceptScheme = ({ pageContext: { node: conceptScheme, embed, language } }
     <div>
       <h1>{i18n(language)(conceptScheme.title)}</h1>
       <h2>{conceptScheme.id}</h2>
-      <JsonLink to={getFilePath(conceptScheme.id, "json")} />
-      {conceptScheme.description
-        && (
+      <JsonLink
+        to={baseURL + getFilePath(conceptScheme.id, "json")}
+      />
+      {conceptScheme.description && (
           <div className="markdown">
             <Markdown>
               {i18n(language)(conceptScheme.description)}
