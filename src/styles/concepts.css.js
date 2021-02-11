@@ -37,14 +37,15 @@ export const style = css`
   }
 
   .concept .content:not(:target) {
-    display: none
+    display: none ;
   }
 
   .concept .content:target ~ div {
-    display: none
+    display: none ;
   }
 
   .content {
+    position: relative ;
     padding: 20px;
     flex: 2;
     overflow: auto;
@@ -52,6 +53,12 @@ export const style = css`
 
     button {
       padding: 10px 20px;
+    }
+
+    .json-png {
+      position: absolute;
+      right: 10px;
+      top: 10px;
     }
 
     > h1 {
