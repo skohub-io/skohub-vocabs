@@ -18,7 +18,7 @@
   "homepage": "https://github.com/hbz/skohub-vocabs#readme",
   "dependencies": {
     "xml2js": "^0.4.19",
-    "xmldom": "^0.1.27",
+    "xmldom": "^0.6.0",
     "xpath": "0.0.27"
   }
 }
