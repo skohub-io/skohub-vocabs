@@ -50,11 +50,11 @@ const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
           </Markdown>
         </div>
     )}
-    {concept.altLabel && concept.altLabel.hasOwnProperty(language) && (
+    {concept.altLabel && i18n(language)(concept.altLabel) !== '' && (
       <div>
         <h3>Alt Label</h3>
           <ul>
-            {concept.altLabel[language].map((altLabel, i) => (
+          {i18n(language)(concept.altLabel).map((altLabel, i) => (
               <li key={i}>{altLabel}</li>
             ))}
           </ul>
