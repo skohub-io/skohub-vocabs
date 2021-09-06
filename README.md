@@ -1,3 +1,4 @@
+test webhook
 # Build
 
 ![https://github.com/hbz/skohub-vocabs/actions?query=workflow%3ABuild](https://github.com/hbz/skohub-vocabs/workflows/Build/badge.svg?branch=master)
