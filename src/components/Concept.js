@@ -49,10 +49,18 @@ const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
             {i18n(language)(concept.note)}
           </Markdown>
         </div>
-      )
-    }
-    {concept.example 
-      && (
+    )}
+    {concept.altLabel && i18n(language)(concept.altLabel) !== '' && (
+      <div>
+        <h3>Alt Label</h3>
+          <ul>
+          {i18n(language)(concept.altLabel).map((altLabel, i) => (
+              <li key={i}>{altLabel}</li>
+            ))}
+          </ul>
+      </div>
+    )}
+    {concept.example && (
         <div className="markdown">
           <h3>Example</h3>
           <Markdown>
