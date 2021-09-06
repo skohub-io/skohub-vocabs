@@ -31,6 +31,9 @@ module.exports.allConcept = (inScheme, languages) => `
             ${[...languages].join(' ')}
           }
           notation
+          example {
+            ${[...languages].join(' ')}
+          }
           narrower {
             id
             prefLabel {
@@ -54,6 +57,27 @@ module.exports.allConcept = (inScheme, languages) => `
             prefLabel {
               ${[...languages].join(' ')}
             }
+          }
+          related {
+            id
+            prefLabel {
+              ${[...languages].join(' ')}
+            }
+          }
+          relatedMatch {
+            id
+          }
+          broadMatch {
+            id
+          }
+          narrowMatch {
+            id
+          }
+          closeMatch {
+            id
+          }
+          exactMatch {
+            id
           }
           inScheme {
             id

@@ -54,7 +54,16 @@ const jsonld = {
     "notation": {
       "@container": "@set"
     },
+    "example": {
+      "@container": "@language"
+    },
     "narrower": {
+      "@container": "@set"
+    },
+    "related": {
+      "@container": "@set"
+    },
+    "relatedMatch": {
       "@container": "@set"
     },
     "narrowerTransitive": {
@@ -63,8 +72,23 @@ const jsonld = {
     "broaderTransitive": {
       "@container": "@set"
     },
+    "broadMatch": {
+      "@container": "@set"
+    },
+    "narrowMatch": {
+      "@container": "@set"
+    },
+    "closeMatch": {
+      "@container": "@set"
+    },
+    "exactMatch": {
+      "@container": "@set"
+    },
     "followers": "as:followers",
-    "inbox": "ldp:inbox"
+    "inbox": "ldp:inbox",
+    "hasTopConcept": {
+      "@container": "@set"
+    }
   }
 }
 

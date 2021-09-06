@@ -5,27 +5,43 @@
  */
 const jsonld = require('jsonld')
 const n3 = require('n3')
+const { DataFactory } = n3
+const { namedNode } = DataFactory
 const path = require('path')
 const fs = require('fs-extra')
 const flexsearch = require('flexsearch')
 const omitEmpty = require('omit-empty')
 const urlTemplate = require('url-template')
-const { t, getPath, getFilePath } = require('./src/common')
+const { i18n, getPath, getFilePath } = require('./src/common')
 const context = require('./src/context')
 const queries = require('./src/queries')
 const types = require('./src/types')
 
 require('dotenv').config()
+require('graceful-fs').gracefulify(require('fs'))
 
 const languages = new Set()
-let conceptSchemes
+
+const inverses = {
+  'http://www.w3.org/2004/02/skos/core#narrower': 'http://www.w3.org/2004/02/skos/core#broader',
+  'http://www.w3.org/2004/02/skos/core#broader': 'http://www.w3.org/2004/02/skos/core#narrower',
+  'http://www.w3.org/2004/02/skos/core#related': 'http://www.w3.org/2004/02/skos/core#related'
+}
 
 jsonld.registerRDFParser('text/turtle', ttlString => {
   const quads = (new n3.Parser()).parse(ttlString)
+  const store = new n3.Store()
+  store.addQuads(quads)
   quads.forEach(quad => {
     quad.object.language && languages.add(quad.object.language.replace("-", "_"))
+    inverses[quad.predicate.id] && store.addQuad(
+      quad.object,
+      namedNode(inverses[quad.predicate.id]),
+      quad.subject,
+      quad.graph
+    )
   })
-  return quads
+  return store.getQuads()
 })
 
 exports.sourceNodes = async ({
@@ -53,8 +69,9 @@ exports.sourceNodes = async ({
   const compacted = await jsonld.compact(doc, context.jsonld)
   compacted['@graph'].forEach((graph, i) => {
     const {
-      narrower, narrowerTransitive, broader, broaderTransitive, inScheme, topConceptOf,
-      hasTopConcept, ...properties
+        narrower, narrowerTransitive, narrowMatch, broader, broaderTransitive,
+        broadMatch, exactMatch, closeMatch, related, relatedMatch,
+        inScheme, topConceptOf, hasTopConcept, ...properties
     } = graph
     const type = Array.isArray(properties.type)
       ? properties.type.find(t => ['Concept', 'ConceptScheme'])
@@ -68,9 +85,15 @@ exports.sourceNodes = async ({
       topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
       narrower___NODE: (narrower || []).map(narrower => narrower.id),
       narrowerTransitive___NODE: (narrowerTransitive || []).map(narrowerTransitive => narrowerTransitive.id),
+      narrowMatch,
       hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
       broader___NODE: (broader && broader.id) || null,
       broaderTransitive___NODE: (broaderTransitive && broaderTransitive.id) || null,
+      broadMatch,
+      exactMatch,
+      closeMatch,
+      related___NODE: (related || []).map(related => related.id),
+      relatedMatch,
       internal: {
         contentDigest: createContentDigest(graph),
         type,
@@ -95,7 +118,7 @@ exports.createSchemaCustomization = ({ actions: { createTypes } }) => createType
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const actorUrlTemplate = urlTemplate.parse(process.env.ACTOR)
-  conceptSchemes = await graphql(queries.allConceptScheme(languages))
+  const conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
@@ -112,7 +135,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       const jsonas = Object.assign(omitEmpty({
         id: actor,
         type: 'Service',
-        name: t(concept.prefLabel),
+        name: i18n(languages[0])(concept.prefLabel), // FIXME: which lang should we use?
         preferredUsername: Buffer.from(actorPath).toString('hex'),
         inbox: concept.inbox,
         followers: concept.followers,
@@ -128,14 +151,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         embeddedConcepts.push({ json, jsonld, jsonas })
       } else {
         // create pages and data
-        createPage({
-          path: getFilePath(concept.id, 'html'),
+        languages.forEach(language => createPage({
+          path: getFilePath(concept.id, `${language}.html`),
           component: path.resolve(`./src/components/Concept.js`),
           context: {
+            language,
+            languages: Array.from(languages),
             node: concept,
             baseURL: process.env.BASEURL || ''
           }
-        })
+        }))
         createData({
           path: getFilePath(concept.id, 'json'),
           data: JSON.stringify(json, null, 2)
@@ -149,20 +174,22 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           data: JSON.stringify(jsonas, null, 2)
         })
       }
-      index.add(concept.id, t(concept.prefLabel))
+      languages.forEach(language => index.add(concept.id, i18n(language)(concept.prefLabel)))
     })
 
     console.log("Built index", index.info())
 
-    createPage({
-      path: getFilePath(conceptScheme.id, 'html'),
+    languages.forEach(language => createPage({
+      path: getFilePath(conceptScheme.id, `${language}.html`),
       component: path.resolve(`./src/components/ConceptScheme.js`),
       context: {
+        language,
+        languages: Array.from(languages),
         node: conceptScheme,
         embed: embeddedConcepts,
         baseURL: process.env.BASEURL || ''
       }
-    })
+    }))
     createData({
       path: getFilePath(conceptScheme.id, 'json'),
       data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
@@ -176,23 +203,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       data: JSON.stringify(index.export(), null, 2)
     })
   })
+
+  // Build index pages
+  languages.forEach(language => createPage({
+    path: `/index.${language}.html`,
+    component: path.resolve(`./src/components/index.js`),
+    context: {
+      language,
+      languages: Array.from(languages),
+      conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(node => node.node)
+    },
+  }))
+
 }
 
 const createData = ({path, data}) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))
-
-exports.onCreatePage = ({ page, actions }) => {
-  const { createPage, deletePage } = actions
-  // Pass allConceptScheme to the pageContext of /pages/index.js
-  if (page.component && page.component.endsWith('src/pages/index.js')) {
-    deletePage(page)
-    const { allConceptScheme } = conceptSchemes.data
-    createPage({
-      ...page,
-      context: {
-        ...page.context,
-        allConceptScheme
-      },
-    })
-  }
-}

@@ -4,7 +4,7 @@
 /* global test */
 const nock = require('nock')
 const {
-  t,
+  i18n,
   getFilePath,
   getHookGitHub,
   getHookGitLab,
@@ -587,12 +587,12 @@ describe('Translate', () => {
 
   test('Translates a localized string', () => {
     const localized = { en_us: null, en: null, de: 'Südostasien und Ozeanien' }
-    expect(t(localized)).toBe("Südostasien und Ozeanien")
+    expect(i18n('de')(localized)).toBe("Südostasien und Ozeanien")
   })
 
   test('Should return an empty string', () => {
     const localized = { en_us: null, en: null, de: null }
-    expect(t(localized)).toBe("")
+    expect(i18n('de')(localized)).toBe("")
   })
 
 })

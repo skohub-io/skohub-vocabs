@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { t, getFilePath, getFragment } from '../common'
+import { i18n, getFilePath, getFragment } from '../common'
 import { Link } from "gatsby"
 
 import { colors as c } from '../styles/variables'
@@ -102,10 +102,11 @@ const getNestedItems = item => {
   return ids
 }
 
-const NestedList = ({ items, current, filter, highlight }) => {
+const NestedList = ({ items, current, filter, highlight, language }) => {
   const filteredItems = filter
     ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
     : items
+  const t = i18n(language)
 
   return (
     <ul css={style}>
@@ -143,7 +144,7 @@ const NestedList = ({ items, current, filter, highlight }) => {
             ) : (
               <Link
                 className={item.id === current ? 'current' : ''}
-                to={getFilePath(item.id, 'html')}
+                to={getFilePath(item.id, `${language}.html`)}
               >
                 {item.notation &&
                   <span className="notation">{item.notation.join(',')}&nbsp;</span>
@@ -164,6 +165,7 @@ const NestedList = ({ items, current, filter, highlight }) => {
                 current={current}
                 filter={filter}
                 highlight={highlight}
+                language={language}
               />
             }
           </div>
