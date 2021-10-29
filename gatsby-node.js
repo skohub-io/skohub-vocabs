@@ -123,7 +123,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
   conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node: conceptScheme }) => {
-    const index = flexsearch.create()
+    const indexes = Object.fromEntries([...languages].map(l => {
+      const index = flexsearch.create()
+      return [l, index]
+    }))
 
     const conceptsInScheme = await graphql(queries.allConcept(conceptScheme.id, languages))
     const embeddedConcepts = []
@@ -174,10 +177,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           data: JSON.stringify(jsonas, null, 2)
         })
       }
-      languages.forEach(language => index.add(concept.id, i18n(language)(concept.prefLabel)))
+      languages.forEach(language => indexes[language].add(concept.id, i18n(language)(concept.prefLabel)))
     })
 
-    console.log("Built index", index.info())
+    languages.forEach(l => {
+      console.log(`Built index for language "${l}"`, indexes[l].info())
+    })
+    
 
     languages.forEach(language => createPage({
       path: getFilePath(conceptScheme.id, `${language}.html`),
@@ -198,10 +204,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: getFilePath(conceptScheme.id, 'jsonld'),
       data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
     })
-    createData({
-      path: getFilePath(conceptScheme.id, 'index'),
-      data: JSON.stringify(index.export(), null, 2)
-    })
+    languages.forEach(language => createData({
+      path: getFilePath(conceptScheme.id, `${language}.index`),
+      data: JSON.stringify(indexes[language].export(), null, 2)
+    }))
   })
 
   // Build index pages
