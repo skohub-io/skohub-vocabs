@@ -122,7 +122,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
-  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node: conceptScheme }) => {
+  await Promise.all(conceptSchemes.data.allConceptScheme.edges.map(async ({ node: conceptScheme }) => {
     const indexes = Object.fromEntries([...languages].map(l => {
       const index = flexsearch.create()
       return [l, index]
@@ -208,7 +208,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: getFilePath(conceptScheme.id, `${language}.index`),
       data: JSON.stringify(indexes[language].export(), null, 2)
     }))
-  })
+  }))
 
   // Build index pages
   languages.forEach(language => createPage({
