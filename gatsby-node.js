@@ -225,3 +225,14 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
 const createData = ({path, data}) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      fallback: {
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+      },
+    },
+  })
+}
