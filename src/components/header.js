@@ -1,5 +1,5 @@
 import { Link } from "gatsby"
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import PropTypes from "prop-types"
 import React from "react"
 import { useLocation } from '@reach/router'

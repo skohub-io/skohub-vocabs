@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
+import { jsx } from '@emotion/react'
 import Markdown from 'markdown-to-jsx'
 import { Link } from 'gatsby'
 import JsonLink from './JsonLink'

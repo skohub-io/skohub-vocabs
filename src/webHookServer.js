@@ -2,7 +2,7 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require("uuid")
 const fs = require('fs-extra')
 const exec = require('child_process').exec
 const fetch = require("node-fetch")
