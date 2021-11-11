@@ -7,6 +7,27 @@
 
 This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view including links to an inbox for each subject. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
 
+### Install Node.js
+
+We currently support Node >= 14.15.0.
+#### Windows
+
+Download and install the latest Node.js version from [the official Node.js website]( https://nodejs.org/en/).
+
+#### Unix
+
+Download the lastest nvm version.
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
+```
+
+Set default Node.js version. When nvm is installed, it does not default to a particular node version. You’ll need to install the version you want and give nvm instructions to use it. This example uses the version 15 release, but more recent version numbers can be used instead.
+
+```
+nvm install 14
+nvm use 14
+```
+
 ## Set up
 
     $ git clone https://github.com/skohub-io/skohub-vocabs.git
