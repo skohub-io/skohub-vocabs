@@ -41,7 +41,7 @@
     "babel-jest": "^27.3.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "eslint": "^7.0.0",
+    "eslint": "^7.23.0",
     "eslint-config-gatsby-standard": "^3.0.2",
     "jest": "^27.3.1",
     "nock": "^13.2.0",
