@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "skohub-vocabs",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A simple tool for publishing SKOS vocabularies. See https://www.skohub.io for further information.",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Hochschulbibliothekszentrum NRW <https://www.hbz-nrw.de/>, graphthinking GmbH <https://graphthinking.com/>",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "colors": "^1.4.0",
@@ -48,9 +48,10 @@
     "supertest": "^6.1.6"
   },
   "keywords": [
-    "gatsby"
+    "SKOS",
+    "SkoHub"
   ],
-  "license": "MIT",
+  "license": "Apache License 2.0",
   "scripts": {
     "build": "gatsby clean && gatsby build --prefix-paths",
     "develop": "gatsby develop",
@@ -66,9 +67,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/skohub-io/skohub-vocabs"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/skohub-io/skohub-vocabs/issues"
   }
 }
