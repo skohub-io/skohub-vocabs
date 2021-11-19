@@ -45,7 +45,7 @@ jsonld.registerRDFParser('text/turtle', ttlString => {
 })
 
 exports.sourceNodes = async ({
-  getNodes, loadNodeContent, createContentDigest, actions: { createNode }
+  getNodes, loadNodeContent, createContentDigest, actions: { createNode, createTypes }
 }) => {
   const nodes = await Promise.all(getNodes()
     .filter(node => node.internal.mediaType === 'text/turtle')
@@ -54,6 +54,14 @@ exports.sourceNodes = async ({
   const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
 
   const doc = await jsonld.fromRDF(nodes.join('\n'), {format: 'text/turtle'})
+
+  // the order of calls in the gatsby lifecycle changed from v2 to v4.
+  // createSchemaCustomization is now called before sourceNodes
+  // but this has the side effect that languages is not yet modified, 
+  // since we don't know BEFORE the sourceNodes call
+  // which languages are present in our type definition.
+  // this leads to an error when creating the types.
+  createTypes(types(languages))
 
   const htaccess = [
     'DirectoryIndex index',
@@ -114,7 +122,6 @@ exports.sourceNodes = async ({
 
 }
 
-exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types(languages))
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const actorUrlTemplate = urlTemplate.parse(process.env.ACTOR)
