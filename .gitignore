@@ -68,6 +68,3 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 .vscode
-
-__my_test_data
-.env.production
