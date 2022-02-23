@@ -47,6 +47,7 @@ jsonld.registerRDFParser('text/turtle', ttlString => {
 exports.sourceNodes = async ({
   getNodes, loadNodeContent, createContentDigest, actions: { createNode, createTypes }
 }) => {
+  console.log(getNodes().filter(node => node.internal.mediaType === 'text/turtle'))
   const nodes = await Promise.all(getNodes()
     .filter(node => node.internal.mediaType === 'text/turtle')
     .map(async node => loadNodeContent(node)))
