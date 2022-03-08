@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import pageContext from '../test/data/pageContext'
 import Concept from '../src/components/Concept'
 import { StaticQuery } from 'gatsby';
