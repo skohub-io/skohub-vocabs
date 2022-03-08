@@ -1,6 +1,0 @@
-{
-  "extends": "gatsby-standard",
-  "rules": {
-    "node/no-path-concat": "off"
-  }
-}
