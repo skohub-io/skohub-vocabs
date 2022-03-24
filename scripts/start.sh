@@ -10,7 +10,7 @@
 # config
 PORT=9006 # the port skohub-vocabs runs at
 NAME=skohub-vocabs
-NODE_VERSION="v12.16.1"
+NODE_VERSION="v14.17.6"
 
 if [ -n "$(lsof -i:$PORT)" ]; then
    echo "There is already a process running on port $PORT with an unexpectd PID. Cancelling starting."
@@ -24,6 +24,7 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh # loads nvm
 nvm install $NODE_VERSION # makes also sure to use the proper version
+nvm use $NODE_VERSION
 
 cd $HOME/git/$NAME/
 

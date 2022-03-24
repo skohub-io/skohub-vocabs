@@ -5,9 +5,9 @@
 
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { StaticQuery } from 'gatsby'
-import { createHistory, createMemorySource, LocationProvider } from '@reach/router'
+import { createHistory, createMemorySource, LocationProvider } from '@gatsbyjs/reach-router'
 import Layout from '../src/components/layout'
 
 Enzyme.configure({ adapter: new Adapter() })

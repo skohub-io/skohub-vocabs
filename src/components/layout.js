@@ -6,7 +6,7 @@
  */
 
 import React from "react"
-import { Global, css } from '@emotion/core'
+import { Global, css } from '@emotion/react'
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
 

@@ -9,7 +9,7 @@ const fs = require('fs-extra')
 const { server, getFile } = require("../src/webHookServer")
 const request = require("supertest")
 const nock = require('nock')
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require("uuid")
 
 const timeout = async ms => new Promise(resolve => setTimeout(resolve, ms))
 

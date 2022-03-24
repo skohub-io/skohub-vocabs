@@ -21,7 +21,6 @@ require('dotenv').config()
 require('graceful-fs').gracefulify(require('fs'))
 
 const languages = new Set()
-
 const inverses = {
   'http://www.w3.org/2004/02/skos/core#narrower': 'http://www.w3.org/2004/02/skos/core#broader',
   'http://www.w3.org/2004/02/skos/core#broader': 'http://www.w3.org/2004/02/skos/core#narrower',
@@ -44,17 +43,84 @@ jsonld.registerRDFParser('text/turtle', ttlString => {
   return store.getQuads()
 })
 
-exports.sourceNodes = async ({
-  getNodes, loadNodeContent, createContentDigest, actions: { createNode }
-}) => {
-  const nodes = await Promise.all(getNodes()
-    .filter(node => node.internal.mediaType === 'text/turtle')
-    .map(async node => loadNodeContent(node)))
-  const followersUrlTemplate = urlTemplate.parse(process.env.FOLLOWERS)
-  const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
+const createData = ({ path, data }) =>
+  fs.outputFile(`public${path}`, data, err => err && console.error(err))
 
-  const doc = await jsonld.fromRDF(nodes.join('\n'), {format: 'text/turtle'})
+const getTurtleFiles = function (dirPath, arrayOfFiles) {
+  const files = fs.readdirSync(dirPath)
+  arrayOfFiles = arrayOfFiles || []
 
+  files.forEach(function (file) {
+    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+      arrayOfFiles = getTurtleFiles(dirPath + "/" + file, arrayOfFiles)
+    } else {
+      file.endsWith(".ttl") && arrayOfFiles.push(path.join(__dirname, dirPath, "/", file))
+    }
+  })
+  return arrayOfFiles
+}
+
+exports.onPreBootstrap = async ({createContentDigest, actions}) => {
+  const { createNode } = actions
+  const ttlFiles = getTurtleFiles('./data', [])
+  console.info(`Found these turtle files:`)
+  ttlFiles.forEach(e => console.info(e))
+  ttlFiles.forEach(async f => {
+    const followersUrlTemplate = urlTemplate.parse(process.env.FOLLOWERS)
+    const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
+    
+    const ttlString = fs.readFileSync(f).toString()
+    const doc = await jsonld.fromRDF(ttlString, { format: 'text/turtle' })
+    const compacted = await jsonld.compact(doc, context.jsonld)
+    await compacted['@graph'].forEach(graph => {
+      const {
+        narrower, narrowerTransitive, narrowMatch, broader, broaderTransitive,
+        broadMatch, exactMatch, closeMatch, related, relatedMatch,
+        inScheme, topConceptOf, hasTopConcept, ...properties
+      } = graph
+      const type = Array.isArray(properties.type)
+        ? properties.type.find(t => ['Concept', 'ConceptScheme'])
+        : properties.type
+      const node = {
+        ...properties,
+        type,
+        children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
+        parent: (broader && broader.id) || null,
+        inScheme___NODE: (inScheme && inScheme.id) || (topConceptOf && topConceptOf.id) || null,
+        topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
+        narrower___NODE: (narrower || []).map(narrower => narrower.id),
+        narrowerTransitive___NODE: (narrowerTransitive || []).map(narrowerTransitive => narrowerTransitive.id),
+        narrowMatch,
+        hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
+        broader___NODE: (broader && broader.id) || null,
+        broaderTransitive___NODE: (broaderTransitive && broaderTransitive.id) || null,
+        broadMatch,
+        exactMatch,
+        closeMatch,
+        related___NODE: (related || []).map(related => related.id),
+        relatedMatch,
+        internal: {
+          contentDigest: createContentDigest(graph),
+          type,
+        }
+      }
+      if (type === 'Concept') {
+        Object.assign(node, {
+          followers: followersUrlTemplate.expand({
+            id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
+          }),
+          inbox: inboxUrlTemplate.expand({
+            id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
+          })
+        })
+      }
+      ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
+    })
+  })
+}
+
+exports.sourceNodes = async ({ actions }) => {
+  const { createTypes } = actions
   const htaccess = [
     'DirectoryIndex index',
     'AddType text/index .index',
@@ -62,59 +128,12 @@ exports.sourceNodes = async ({
     'AddType application/ld+json .jsonld',
     'AddType application/activity+json .jsonas'
   ]
-  createData({
+  await createData({
     path: '/.htaccess',
     data: htaccess.join("\n")
   })
-  const compacted = await jsonld.compact(doc, context.jsonld)
-  compacted['@graph'].forEach((graph, i) => {
-    const {
-        narrower, narrowerTransitive, narrowMatch, broader, broaderTransitive,
-        broadMatch, exactMatch, closeMatch, related, relatedMatch,
-        inScheme, topConceptOf, hasTopConcept, ...properties
-    } = graph
-    const type = Array.isArray(properties.type)
-      ? properties.type.find(t => ['Concept', 'ConceptScheme'])
-      : properties.type
-    const node = {
-      ...properties,
-      type,
-      children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
-      parent: (broader && broader.id) || null,
-      inScheme___NODE: (inScheme && inScheme.id) || (topConceptOf && topConceptOf.id) || null,
-      topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
-      narrower___NODE: (narrower || []).map(narrower => narrower.id),
-      narrowerTransitive___NODE: (narrowerTransitive || []).map(narrowerTransitive => narrowerTransitive.id),
-      narrowMatch,
-      hasTopConcept___NODE: (hasTopConcept || []).map(topConcept => topConcept.id),
-      broader___NODE: (broader && broader.id) || null,
-      broaderTransitive___NODE: (broaderTransitive && broaderTransitive.id) || null,
-      broadMatch,
-      exactMatch,
-      closeMatch,
-      related___NODE: (related || []).map(related => related.id),
-      relatedMatch,
-      internal: {
-        contentDigest: createContentDigest(graph),
-        type,
-      },
-    }
-    if (type === 'Concept') {
-      Object.assign(node, {
-       followers: followersUrlTemplate.expand({
-         id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
-       }),
-       inbox: inboxUrlTemplate.expand({
-         id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
-       })
-     })
-    }
-    ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
-  })
-
+  createTypes(types(languages))
 }
-
-exports.createSchemaCustomization = ({ actions: { createTypes } }) => createTypes(types(languages))
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const actorUrlTemplate = urlTemplate.parse(process.env.ACTOR)
@@ -122,7 +141,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
 
-  conceptSchemes.data.allConceptScheme.edges.forEach(async ({ node: conceptScheme }) => {
+  await Promise.all(conceptSchemes.data.allConceptScheme.edges.map(async ({ node: conceptScheme }) => {
     const indexes = Object.fromEntries([...languages].map(l => {
       const index = flexsearch.create()
       return [l, index]
@@ -183,7 +202,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     languages.forEach(l => {
       console.log(`Built index for language "${l}"`, indexes[l].info())
     })
-    
 
     languages.forEach(language => createPage({
       path: getFilePath(conceptScheme.id, `${language}.html`),
@@ -208,7 +226,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: getFilePath(conceptScheme.id, `${language}.index`),
       data: JSON.stringify(indexes[language].export(), null, 2)
     }))
-  })
+  }))
 
   // Build index pages
   languages.forEach(language => createPage({
@@ -220,8 +238,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(node => node.node)
     },
   }))
-
 }
 
-const createData = ({path, data}) =>
-  fs.outputFile(`public${path}`, data, err => err && console.error(err))
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      fallback: {
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+      },
+    },
+  })
+}

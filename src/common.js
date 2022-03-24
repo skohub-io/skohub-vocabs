@@ -1,5 +1,5 @@
 const maybe = require('mjn')
-const crypto = require('crypto')
+const crypto = require("crypto")
 const fetch = require("node-fetch")
 
 const i18n = lang => localized => localized[lang] || ''

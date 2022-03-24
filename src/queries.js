@@ -94,7 +94,7 @@ module.exports.allConcept = (inScheme, languages) => `
   }
 `
 
-module.exports.allConceptScheme = languages => `
+module.exports.allConceptScheme = (languages) => `
   {
     allConceptScheme {
       edges {
