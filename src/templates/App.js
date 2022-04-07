@@ -16,7 +16,7 @@ const App = ({pageContext, children}) => {
   const conceptSchemeId = pageContext.node.type === 'ConceptScheme'
     ? pageContext.node.id
     : pageContext.node.inScheme.id
-  const [index, setIndex] = useState(FlexSearch.create('speed'))
+  const [index, setIndex] = useState(FlexSearch.create())
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(pageContext.node.type === 'ConceptScheme' ? pageContext.node : null)
 
