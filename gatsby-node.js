@@ -143,7 +143,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   await Promise.all(conceptSchemes.data.allConceptScheme.edges.map(async ({ node: conceptScheme }) => {
     const indexes = Object.fromEntries([...languages].map(l => {
-      const index = flexsearch.create()
+      const index = flexsearch.create({
+        tokenize: "full",
+      })
       return [l, index]
     }))
 
