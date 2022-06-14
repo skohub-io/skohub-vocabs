@@ -12,7 +12,7 @@ const IndexPage = ({ pageContext: { conceptSchemes, language, languages } }) => 
       <ul>
         {conceptSchemes.map(conceptScheme => (
           <li key={conceptScheme.id}>
-            <Link to={(process.env.BASEURL || '') + getFilePath(conceptScheme.id, `${language}.html`)}>
+            <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
               {conceptScheme.title ? i18n(language)(conceptScheme.title) : conceptScheme.id}
             </Link>
           </li>
