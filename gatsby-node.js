@@ -121,17 +121,6 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
 
 exports.sourceNodes = async ({ actions }) => {
   const { createTypes } = actions
-  const htaccess = [
-    'DirectoryIndex index',
-    'AddType text/index .index',
-    'AddType application/json .json',
-    'AddType application/ld+json .jsonld',
-    'AddType application/activity+json .jsonas'
-  ]
-  await createData({
-    path: '/.htaccess',
-    data: htaccess.join("\n")
-  })
   createTypes(types(languages))
 }
 
@@ -224,6 +213,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: getFilePath(conceptScheme.id, 'jsonld'),
       data: JSON.stringify(omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2))
     })
+    // create index files
     languages.forEach(language => createData({
       path: getFilePath(conceptScheme.id, `${language}.index`),
       data: JSON.stringify(indexes[language].export(), null, 2)
