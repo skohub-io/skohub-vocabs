@@ -76,13 +76,14 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
       const {
         narrower, narrowerTransitive, narrowMatch, broader, broaderTransitive,
         broadMatch, exactMatch, closeMatch, related, relatedMatch,
-        inScheme, topConceptOf, hasTopConcept, ...properties
+        inScheme, topConceptOf, hasTopConcept, prefLabel, ...properties
       } = graph
       const type = Array.isArray(properties.type)
         ? properties.type.find(t => ['Concept', 'ConceptScheme'])
         : properties.type
       const node = {
         ...properties,
+        prefLabel: (prefLabel || {}),
         type,
         children: (narrower || hasTopConcept || []).map(narrower => narrower.id),
         parent: (broader && broader.id) || null,
@@ -159,7 +160,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       const jsonas = Object.assign(omitEmpty({
         id: actor,
         type: 'Service',
-        name: i18n(languages[0])(concept.prefLabel), // FIXME: which lang should we use?
+        name: i18n(languages[0])(concept.prefLabel || ''), // FIXME: which lang should we use?
         preferredUsername: Buffer.from(actorPath).toString('hex'),
         inbox: concept.inbox,
         followers: concept.followers,
@@ -198,7 +199,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           data: JSON.stringify(jsonas, null, 2)
         })
       }
-      languages.forEach(language => indexes[language].add(concept.id, i18n(language)(concept.prefLabel)))
+      languages.forEach(language => indexes[language].add(concept.id, i18n(language)(concept.prefLabel || '')))
     })
 
     languages.forEach(l => {

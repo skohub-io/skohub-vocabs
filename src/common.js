@@ -2,7 +2,7 @@ const maybe = require('mjn')
 const crypto = require("crypto")
 const fetch = require("node-fetch")
 
-const i18n = lang => localized => localized[lang] || ''
+const i18n = (lang="en") => (localized = {}) => localized[lang] || '*no label in language*'
 
 const getFilePath = (url, extension) => {
   let path = url.replace(/^https?:\//, "").split('#').shift()
