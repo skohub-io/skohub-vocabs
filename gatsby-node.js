@@ -44,7 +44,7 @@ jsonld.registerRDFParser('text/turtle', ttlString => {
 })
 
 const createData = ({ path, data }) =>
-  fs.outputFile(`public${path}`, data, err => err && console.error(err))
+  fs.outputFile(`./public${path.startsWith('/') ? path : '/' + path}`, data, err => err && console.error(err))
 
 const getTurtleFiles = function (dirPath, arrayOfFiles) {
   const files = fs.readdirSync(dirPath)
