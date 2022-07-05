@@ -54,7 +54,7 @@ const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
       <div>
         <h3>Alt Label</h3>
           <ul>
-          {i18n(language)(concept.altLabel).map((altLabel, i) => (
+          {Array.isArray(i18n(language)(concept.altLabel)) && i18n(language)(concept.altLabel).map((altLabel, i) => (
               <li key={i}>{altLabel}</li>
             ))}
           </ul>

@@ -170,10 +170,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           publicKeyPem: process.env.PUBLIC_KEY
         }
       }), context.as)
-
+      // FIXME the following prohibits other concepts to be pushed here
+      // I already pulled it out the if clause
+      embeddedConcepts.push({ json, jsonld, jsonas })
       if (getFilePath(concept.id) === getFilePath(conceptScheme.id)) {
         // embed concepts in concept scheme
-        embeddedConcepts.push({ json, jsonld, jsonas })
       } else {
         // create pages and data
         languages.forEach(language => createPage({

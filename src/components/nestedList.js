@@ -103,6 +103,9 @@ const getNestedItems = item => {
 }
 
 const NestedList = ({ items, current, filter, highlight, language }) => {
+  items.sort(function (a, b) {
+    return a.notation - b.notation
+  })
   const filteredItems = filter
     ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
     : items

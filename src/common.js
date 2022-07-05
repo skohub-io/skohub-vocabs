@@ -2,9 +2,16 @@ const maybe = require('mjn')
 const crypto = require("crypto")
 const fetch = require("node-fetch")
 
-const i18n = (lang="en") => (localized = {}) => localized[lang] || '*no label in language*'
+// const i18n = lang => localized => localized[lang] || '*no label in language2*'
+
+const i18n = (lang = "en") => {
+  return (localized = {}) => localized[lang] || "*no label in language*"
+}
 
 const getFilePath = (url, extension) => {
+  if (url === "http://www.w3.org/ns/activitystreams#preferredUsername"){
+    console.log(url)
+  }
   let path = url.replace(/^https?:\//, "").split('#').shift()
   path.endsWith('/') && (path += 'index')
   return extension ? `${path}.${extension}` : path

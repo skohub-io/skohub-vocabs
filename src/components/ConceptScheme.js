@@ -12,7 +12,7 @@ const ConceptScheme = ({
   <div className="content concept block" id={getDomId(conceptScheme.id)}>
     {embed &&
       embed.map((concept) => (
-        <Concept key={concept.json.id} pageContext={{ node: concept.json }} />
+        <Concept key={concept.json.id} pageContext={{ node: concept.json, language, baseURL }} />
       ))}
     <div>
       <h1>{i18n(language)(conceptScheme.title)}</h1>
