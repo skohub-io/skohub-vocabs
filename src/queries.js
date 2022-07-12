@@ -132,6 +132,7 @@ module.exports.allConceptScheme = (languages) => `
   fragment ConceptFields on Concept {
     id
     notation
+    owlTypes
     prefLabel {
       ${[...languages].join(' ')}
     }

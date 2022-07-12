@@ -8,7 +8,7 @@ import { colors as c } from '../styles/variables'
 
 const style = css`
   background: #11998e;
-  background: linear-gradient(to right, #27CA84, #11998e);
+  background: linear-gradient(to right, ${c.headerLeft}, ${c.headerRight});
 
   h1 {
     margin: 0;

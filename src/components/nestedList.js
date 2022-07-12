@@ -43,6 +43,30 @@ const style = css`
   .notation {
     font-weight: bold;
   }
+  .notation::after {
+    display: inline-block;
+  }
+  .Class .notation::after {
+    content: "{} ";
+    color: ${c.secondary};
+    transform: scale(84%);
+    transform-origin: top;
+  }
+  .ObjectProperty .notation::after,
+  .DatatypeProperty .notation::after {
+    content: " ";
+    background: ${c.secondary};
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 4px;
+  }
+  .ObjectProperty .notation::after {
+    border-radius: 50%;
+  }
+  .ObjectProperty.FunctionalProperty .notation::after,
+  .DatatypeProperty.FunctionalProperty .notation::after {
+    background: ${c.accentDark};
+  }
 
   span {
     word-break: normal;
@@ -63,7 +87,7 @@ const style = css`
     position: relative;
     top: -1px;
 
-    &:before {
+    &::before {
       content: "";
       background-color: ${c.primary};
       position: absolute;
@@ -108,72 +132,71 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
   })
   const filteredItems = filter
     ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
-    : items
-  const t = i18n(language)
-
+    : items;
+  const t = i18n(language);
+// console.info('!_!', filteredItems[0], filteredItems[20], filteredItems[50]);
   return (
     <ul css={style}>
-      {(filteredItems || []).map(item => (
-        <li
-          key={item.id}
-        >
-          {(item.narrower && item.narrower.length > 0) && (
-            <button
-              className={`treeItemIcon inputStyle${(filter || getNestedItems(item).some( id => id === current))
-                ?  '' : ' collapsed'}`}
-              onClick={(e) => {
-                e.target.classList.toggle("collapsed")
-              }}
-            >
-            </button>
-          )}
-          <div>
-            {getFragment(item.id) ? (
-              <a
-                className={item.id === current ? 'current' : ''}
-                href={getFragment(item.id)}
-              >
-                {item.notation &&
-                  <span className="notation">{item.notation.join(',')}&nbsp;</span>
-                }
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: highlight
-                      ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
-                      : t(item.prefLabel)
-                  }}
-                />
-              </a>
-            ) : (
-              <Link
-                className={item.id === current ? 'current' : ''}
-                to={getFilePath(item.id, `${language}.html`)}
-              >
-                {item.notation &&
-                  <span className="notation">{item.notation.join(',')}&nbsp;</span>
-                }
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: highlight
-                      ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
-                      : t(item.prefLabel)
-                  }}
-                />
-              </Link>
-            )}
+      {(filteredItems || []).map(item => {
+        const itemClasses = [
+          item.id === current ? 'current' : '',
+          !!item.owlTypes ? item.owlTypes.join(' ') : ''
+        ].join(item.id === current && !!item.owlTypes ? ' ' : '');
 
-            {(item.narrower && item.narrower.length > 0) &&
-              <NestedList
-                items={item.narrower}
-                current={current}
-                filter={filter}
-                highlight={highlight}
-                language={language}
-              />
-            }
-          </div>
-        </li>
-      ))}
+        return (
+          <li key={item.id}>
+            {(item.narrower && item.narrower.length > 0) && (
+              <button
+                className={`treeItemIcon inputStyle${(filter || getNestedItems(item).some( id => id === current))
+                  ?  '' : ' collapsed'}`}
+                onClick={(e) => {
+                  e.target.classList.toggle("collapsed")
+                }}
+              >
+              </button>
+            )}
+            <div>
+              {getFragment(item.id) ? (
+                <a className={itemClasses} href={getFragment(item.id)}>
+                  {item.notation &&
+                    <span className="notation">{item.notation.join(',')}&nbsp;</span>
+                  }
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: highlight
+                        ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+                        : t(item.prefLabel)
+                    }}
+                  />
+                </a>
+              ) : (
+                <Link className={itemClasses} to={getFilePath(item.id, `${language}.html`)}>
+                  {item.notation &&
+                    <span className="notation">{item.notation.join(',')}&nbsp;</span>
+                  }
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: highlight
+                        ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
+                        : t(item.prefLabel)
+                    }}
+                  />
+                </Link>
+              )}
+
+              {(item.narrower && item.narrower.length > 0) &&
+                <NestedList
+                  items={item.narrower}
+                  current={current}
+                  filter={filter}
+                  highlight={highlight}
+                  language={language}
+                />
+              }
+            </div>
+          </li>
+        )
+      })}
     </ul>
   )
 }
