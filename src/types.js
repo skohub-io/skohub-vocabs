@@ -1,6 +1,7 @@
 module.exports = (languages) => `
   type ConceptScheme implements Node {
     type: String,
+    owlTypes: [String],
     title: LanguageMap,
     description: LanguageMap,
     hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE")
@@ -8,6 +9,7 @@ module.exports = (languages) => `
 
   type Concept implements Node {
     type: String,
+    owlTypes: [String],
     prefLabel: LanguageMap,
     altLabel: LanguageMapArray,
     definition: LanguageMap,
@@ -34,7 +36,7 @@ module.exports = (languages) => `
   type LanguageMap {
     ${[...languages].map(l => `${l}: String`).join(', ')}
   }
-  
+
   type LanguageMapArray {
     ${[...languages].map(l => `${l}: [String]`).join(', ')}
   }
