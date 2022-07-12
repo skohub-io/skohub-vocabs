@@ -50,7 +50,8 @@ const style = css`
     content: "{} ";
     color: ${c.secondary};
     transform: scale(84%);
-    transform-origin: top;
+    transform-origin: left top;
+    width: 1.5ch;
   }
   .ObjectProperty .notation::after,
   .DatatypeProperty .notation::after {
@@ -66,6 +67,11 @@ const style = css`
   .ObjectProperty.FunctionalProperty .notation::after,
   .DatatypeProperty.FunctionalProperty .notation::after {
     background: ${c.accentDark};
+  }
+  .Thing .notation::after {
+    content: "–";
+    color: ${c.accentDark};
+    width: 1.5ch;
   }
 
   span {
