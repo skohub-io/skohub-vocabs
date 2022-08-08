@@ -26,6 +26,12 @@ const App = ({pageContext, children}) => {
       .then(response => response.json())
       .then(serialized => {
         const idx = FlexSearch.create()
+        // add custom matcher to match umlaute at beginning of string
+        idx.addMatcher({
+          '[Aä]': "a", // replaces all 'ä' to 'a'
+          '[Öö]': "o",
+          '[Üü]': "u",
+        })
         idx.import(serialized)
         setIndex(idx)
         console.log("index loaded", idx.info())

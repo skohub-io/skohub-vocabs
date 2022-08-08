@@ -135,6 +135,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       const index = flexsearch.create({
         tokenize: "full",
       })
+        index.addMatcher({
+          '[Ää]': "a", // replaces all 'ä' to 'a'
+          '[Öö]': "o",
+          '[Üü]': "u",
+        })
       return [l, index]
     }))
 
