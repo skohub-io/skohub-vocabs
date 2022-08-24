@@ -27,8 +27,7 @@ module.exports = (languages) => `
     closeMatch: [Concept],
     exactMatch: [Concept],
     inScheme: ConceptScheme! @link(from: "inScheme___NODE"),
-    hub: String,
-    inbox: String
+    hub: String
   }
 
   type LanguageMap {

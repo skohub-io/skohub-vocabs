@@ -18,9 +18,6 @@ const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
     <JsonLink
       to={baseURL + getFilePath(concept.id, "json")}
     />
-    <p>
-      <a href={concept.inbox}>Inbox</a>
-    </p>
     {concept.definition
       && (
         <div className="markdown">

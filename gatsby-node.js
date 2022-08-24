@@ -67,8 +67,7 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
   ttlFiles.forEach(e => console.info(e))
   ttlFiles.forEach(async f => {
     const followersUrlTemplate = urlTemplate.parse(process.env.FOLLOWERS)
-    const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
-    
+
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: 'text/turtle' })
     const compacted = await jsonld.compact(doc, context.jsonld)
@@ -109,9 +108,6 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
           followers: followersUrlTemplate.expand({
             id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
           }),
-          inbox: inboxUrlTemplate.expand({
-            id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
-          })
         })
       }
       ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
@@ -155,7 +151,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         type: 'Service',
         name: i18n(languages[0])(concept.prefLabel), // FIXME: which lang should we use?
         preferredUsername: Buffer.from(actorPath).toString('hex'),
-        inbox: concept.inbox,
         followers: concept.followers,
         publicKey: {
           id: `${actor}#main-key`,
