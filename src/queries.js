@@ -13,7 +13,6 @@ module.exports.allConcept = (inScheme, languages) => `
         node {
           id
           type
-          followers
           prefLabel {
             ${[...languages].join(' ')}
           }
