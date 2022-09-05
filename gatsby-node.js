@@ -66,9 +66,6 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
   console.info(`Found these turtle files:`)
   ttlFiles.forEach(e => console.info(e))
   ttlFiles.forEach(async f => {
-    const followersUrlTemplate = urlTemplate.parse(process.env.FOLLOWERS)
-    const inboxUrlTemplate = urlTemplate.parse(process.env.INBOX)
-    
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: 'text/turtle' })
     const compacted = await jsonld.compact(doc, context.jsonld)
@@ -105,14 +102,7 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
         }
       }
       if (type === 'Concept') {
-        Object.assign(node, {
-          followers: followersUrlTemplate.expand({
-            id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
-          }),
-          inbox: inboxUrlTemplate.expand({
-            id: `${process.env.BASEURL || ''}/${getPath(node.id)}`.substr(1)
-          })
-        })
+        Object.assign(node, {})
       }
       ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
     })
@@ -148,25 +138,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     conceptsInScheme.data.allConcept.edges.forEach(({ node: concept }) => {
       const json = omitEmpty(Object.assign({}, concept, context.jsonld))
       const jsonld = omitEmpty(Object.assign({}, concept, context.jsonld))
-      const actorPath = `${process.env.BASEURL || ''}/${getPath(concept.id)}`.substr(1)
-      const actor = actorUrlTemplate.expand({ path: actorPath })
-      const jsonas = Object.assign(omitEmpty({
-        id: actor,
-        type: 'Service',
-        name: i18n(languages[0])(concept.prefLabel), // FIXME: which lang should we use?
-        preferredUsername: Buffer.from(actorPath).toString('hex'),
-        inbox: concept.inbox,
-        followers: concept.followers,
-        publicKey: {
-          id: `${actor}#main-key`,
-          owner: actor,
-          publicKeyPem: process.env.PUBLIC_KEY
-        }
-      }), context.as)
 
       if (getFilePath(concept.id) === getFilePath(conceptScheme.id)) {
         // embed concepts in concept scheme
-        embeddedConcepts.push({ json, jsonld, jsonas })
+        embeddedConcepts.push({ json, jsonld })
       } else {
         // create pages and data
         languages.forEach(language => createPage({
@@ -186,10 +161,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         createData({
           path: getFilePath(concept.id, 'jsonld'),
           data: JSON.stringify(jsonld, null, 2)
-        })
-        createData({
-          path: getFilePath(concept.id, 'jsonas'),
-          data: JSON.stringify(jsonas, null, 2)
         })
       }
       languages.forEach(language => indexes[language].add(concept.id, i18n(language)(concept.prefLabel)))

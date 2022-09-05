@@ -146,7 +146,7 @@ const verifyFiles = (files) => {
   }
 }
 
-const getHeaders = (inbox, hub, self, path) => `Header set Link "<${inbox}>; rel=\\"http://www.w3.org/ns/ldp#inbox\\", <${hub}>; rel=\\"hub\\", <${self}>; rel=\\"self\\"" "expr=%{REQUEST_URI} =~ m|${path}|"`
+const getHeaders = (hub, self, path) => `Header set Link "<${hub}>; rel=\\"hub\\", <${self}>; rel=\\"self\\"" "expr=%{REQUEST_URI} =~ m|${path}|"`
 
 module.exports = {
   i18n,

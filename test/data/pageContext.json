@@ -3,7 +3,6 @@
     "id": "http://w3id.org/class/hochschulfaecher/S99#",
     "type": "Concept",
     "hub": "https://test.skohub.io/hub",
-    "inbox": "https://test.skohub.io/inbox?target=http%3A%2F%2Fw3id.org%2Fclass%2Fhochschulfaecher%2FS99%23",
     "prefLabel": {
       "en_us": null,
       "de": "Konstruktionstechnik"

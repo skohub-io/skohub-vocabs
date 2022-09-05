@@ -5,7 +5,7 @@
 
 # Static site generator for Simple Knowledge Management Systems (SKOS)
 
-This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view including links to an inbox for each subject. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
+This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
 
 ### Install Node.js
 

@@ -2,7 +2,6 @@ DirectoryIndex index
 AddType text/index .index
 AddType application/json .json
 AddType application/ld+json .jsonld
-AddType application/activity+json .jsonas
 
 <IfModule mod_deflate.c>
   # Compress HTML, CSS, JavaScript, Text, XML and fonts

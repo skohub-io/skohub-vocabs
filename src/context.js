@@ -8,7 +8,6 @@ const jsonld = {
     "dct": "http://purl.org/dc/terms/",
     "schema": "http://schema.org/",
     "vann": "http://purl.org/vocab/vann/",
-    "as": "https://www.w3.org/ns/activitystreams#",
     "ldp": "http://www.w3.org/ns/ldp#",
     "title": {
       "@id": "dct:title",
@@ -84,19 +83,10 @@ const jsonld = {
     "exactMatch": {
       "@container": "@set"
     },
-    "followers": "as:followers",
-    "inbox": "ldp:inbox",
     "hasTopConcept": {
       "@container": "@set"
     }
   }
 }
 
-const as = {
-  "@context": [
-    "https://www.w3.org/ns/activitystreams",
-    "https://w3id.org/security/v1"
-  ]
-}
-
-module.exports = { jsonld, as }
+module.exports = { jsonld }
