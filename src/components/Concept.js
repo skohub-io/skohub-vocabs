@@ -6,7 +6,7 @@ import JsonLink from './JsonLink'
 
 import { i18n, getDomId, getFilePath } from '../common'
 
-const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
+const Concept = ({ pageContext: { node: concept, language, collections, baseURL } }) => (
   <div className="content block" id={getDomId(concept.id)}>
     <h1>
       {concept.notation &&
@@ -140,6 +140,20 @@ const Concept = ({ pageContext: { node: concept, language, baseURL } }) => (
         </ul>
       </div>
     )}
+      {collections.length > 0 && (
+        <div className="collections">
+            <h3>in Collections</h3>
+            <ul>
+                {collections.map((collection) => (
+                  <li key={collection.id}>
+                      <Link to={getFilePath(collection.id, `${language}.html`)}>
+                          {i18n(language)(collection.prefLabel)}
+                      </Link>
+                  </li>
+                ))}
+            </ul>
+        </div>
+      )}
   </div>
 )
 

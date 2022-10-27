@@ -1,4 +1,11 @@
 module.exports = (languages) => `
+
+  type Collection implements Node {
+    type: String,
+    prefLabel: LanguageMap,
+    member: [Concept] @link(from: "member___NODE")
+  }
+
   type ConceptScheme implements Node {
     type: String,
     title: LanguageMap,

@@ -1,3 +1,25 @@
+module.exports.allCollection = (languages) => `
+{
+  allCollection {
+    edges {
+      node {
+        id
+        type
+        prefLabel {
+            ${[...languages].join(' ')}
+        }
+        member {
+          id
+          prefLabel {
+            ${[...languages].join(' ')}
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 module.exports.allConcept = (inScheme, languages) => `
   {
     allConcept(
