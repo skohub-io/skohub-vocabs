@@ -140,7 +140,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         </ul>
       </div>
     )}
-      {collections.length > 0 && (
+      {collections && collections.length > 0 && (
         <div className="collections">
             <h3>in Collections</h3>
             <ul>
