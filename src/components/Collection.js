@@ -12,7 +12,7 @@ const Collection = ({ pageContext: { node: collection, language, baseURL } }) =>
       <ul>
         {
           collection.member.map((member) => (
-            <li>
+            <li key={member.id}>
               <Link to={getFilePath(member.id, `${language}.html`)}>
                 {i18n(language)(member.prefLabel)}
               </Link>
