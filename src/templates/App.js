@@ -13,7 +13,7 @@ import SEO from '../components/seo'
 import { style } from '../styles/concepts.css.js'
 
 const App = ({pageContext, children}) => {
-  const conceptSchemeId = pageContext.node.type === 'ConceptScheme'
+  const conceptSchemeId = (pageContext.node.type === 'ConceptScheme' || pageContext.node.type === 'Collection')
     ? pageContext.node.id
     : pageContext.node.inScheme.id
   const [index, setIndex] = useState(FlexSearch.create())
@@ -28,7 +28,7 @@ const App = ({pageContext, children}) => {
         const idx = FlexSearch.create()
         // add custom matcher to match umlaute at beginning of string
         idx.addMatcher({
-          '[Aä]': "a", // replaces all 'ä' to 'a'
+          '[Ää]': "a", // replaces all 'ä' to 'a'
           '[Öö]': "o",
           '[Üü]': "u",
         })

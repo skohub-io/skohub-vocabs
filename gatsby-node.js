@@ -65,7 +65,7 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
   const ttlFiles = getTurtleFiles('./data', [])
   console.info(`Found these turtle files:`)
   ttlFiles.forEach(e => console.info(e))
-  ttlFiles.forEach(async f => {
+  for (const f of ttlFiles) {
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: 'text/turtle' })
     const compacted = await jsonld.compact(doc, context.jsonld)
@@ -73,10 +73,10 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
       const {
         narrower, narrowerTransitive, narrowMatch, broader, broaderTransitive,
         broadMatch, exactMatch, closeMatch, related, relatedMatch,
-        inScheme, topConceptOf, hasTopConcept, ...properties
+        inScheme, topConceptOf, hasTopConcept, member, ...properties
       } = graph
       const type = Array.isArray(properties.type)
-        ? properties.type.find(t => ['Concept', 'ConceptScheme'])
+        ? properties.type.find(t => ['Concept', 'ConceptScheme', 'Collection'])
         : properties.type
       const node = {
         ...properties,
@@ -99,14 +99,15 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
         internal: {
           contentDigest: createContentDigest(graph),
           type,
-        }
+        },
+        member___NODE: (member || []).map(member => member.id)
       }
       if (type === 'Concept') {
         Object.assign(node, {})
       }
-      ['Concept', 'ConceptScheme'].includes(type) && createNode(node)
+      ['Concept', 'ConceptScheme', 'Collection'].includes(type) && createNode(node)
     })
-  })
+  }
 }
 
 exports.sourceNodes = async ({ actions }) => {
@@ -115,7 +116,56 @@ exports.sourceNodes = async ({ actions }) => {
 }
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
-  const actorUrlTemplate = urlTemplate.parse(process.env.ACTOR)
+
+  const memberOf = {}
+
+  // Build collection pages
+  const collections = await graphql(queries.allCollection(languages))
+  await Promise.all(collections.data.allCollection.edges.map(async ({ node: collection }) => {
+    const indexes = Object.fromEntries([...languages].map(l => {
+      const index = flexsearch.create({
+        tokenize: "full",
+      })
+      index.addMatcher({
+        '[Ää]': "a", // replaces all 'ä' to 'a'
+        '[Öö]': "o",
+        '[Üü]': "u",
+      })
+      return [l, index]
+    }))
+
+    // store collection membership for concepts
+    collection.member.forEach((m) => {
+      if (memberOf.hasOwnProperty(m.id)) {
+        memberOf[m.id].push(collection);
+      } else {
+        memberOf[m.id] = [collection];
+      }
+    })
+
+    const json = omitEmpty(Object.assign({}, collection, context.jsonld))
+    const jsonld = omitEmpty(Object.assign({}, collection, context.jsonld))
+    languages.forEach(language => createPage({
+      path: getFilePath(collection.id, `${language}.html`),
+      component: path.resolve(`./src/components/Collection.js`),
+      context: {
+        language,
+        languages: Array.from(languages),
+        node: collection,
+        baseURL: process.env.BASEURL || ''
+      }
+    }))
+    createData({
+      path: getFilePath(collection.id, 'json'),
+      data: JSON.stringify(json, null, 2)
+    })
+    createData({
+      path: getFilePath(collection.id, 'jsonld'),
+      data: JSON.stringify(jsonld, null, 2)
+    })
+    languages.forEach(language => indexes[language].add(collection.id, i18n(language)(collection.prefLabel)))
+  }))
+
   const conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
@@ -151,6 +201,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             language,
             languages: Array.from(languages),
             node: concept,
+            collections: memberOf.hasOwnProperty(concept.id) ? memberOf[concept.id] : [],
             baseURL: process.env.BASEURL || ''
           }
         }))
