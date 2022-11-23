@@ -1,0 +1,10 @@
+__mocks__
+.cache
+.git
+.github
+data
+logs
+node_modules
+scripts
+test
+.vscode
