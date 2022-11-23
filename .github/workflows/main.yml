@@ -1,0 +1,55 @@
+name: Build
+
+on: push
+
+env:
+  REGISTRY: 
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: echo Using node version $(node --version)
+    - run: echo Using npm version $(npm --version)
+    - run: cp .env.example .env
+    - run: cp test/data/systematik.ttl data/
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+
+  docker:
+    needs: [build]
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: skohub/skohub-vocabs-docker
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
