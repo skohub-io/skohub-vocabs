@@ -54,6 +54,7 @@
   "license": "Apache License 2.0",
   "scripts": {
     "build": "gatsby clean && gatsby build --prefix-paths",
+    "container-build": "gatsby build --prefix-paths",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
