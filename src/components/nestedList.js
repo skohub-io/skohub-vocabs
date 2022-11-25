@@ -149,13 +149,14 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
                 {item.notation &&
                   <span className="notation">{item.notation.join(',')}&nbsp;</span>
                 }
+                {t(item.prefLabel) ?
                 <span
                   dangerouslySetInnerHTML={{
                     __html: highlight
                       ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
                       : t(item.prefLabel)
                   }}
-                />
+                /> : <i style={{color: 'red'}}>No label for language "{language}" provided</i>}
               </Link>
             )}
 

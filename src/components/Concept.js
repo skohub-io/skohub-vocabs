@@ -23,7 +23,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <div className="markdown">
           <h3>Definition</h3>
           <Markdown>
-            {i18n(language)(concept.definition)}
+            {i18n(language)(concept.definition) || `*No definition in language "${language}" provided.*`}
           </Markdown>
         </div>
       )
@@ -33,7 +33,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <div className="markdown">
           <h3>Scope Note</h3>
           <Markdown>
-            {i18n(language)(concept.scopeNote)}
+            {i18n(language)(concept.scopeNote)  || `*No scope note in language "${language}" provided.*`}
           </Markdown>
         </div>
       )
@@ -43,7 +43,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <div className="markdown">
           <h3>Note</h3>
           <Markdown>
-            {i18n(language)(concept.note)}
+            {i18n(language)(concept.note)  || `*No note in language "${language}" provided.*`}
           </Markdown>
         </div>
     )}
@@ -61,7 +61,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <div className="markdown">
           <h3>Example</h3>
           <Markdown>
-            {i18n(language)(concept.example)}
+            {i18n(language)(concept.example) || `*No example in language "${language}" provided.*`}
           </Markdown>
         </div>
       )
@@ -73,7 +73,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
           {concept.related.map((related) => (
             <li key={related.id}>
               <Link to={getFilePath(related.id, `${language}.html`)}>
-                {i18n(language)(related.prefLabel)}
+                {i18n(language)(related.prefLabel) || related.id}
               </Link>
             </li>
           ))}
@@ -147,7 +147,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
                 {collections.map((collection) => (
                   <li key={collection.id}>
                       <Link to={getFilePath(collection.id, `${language}.html`)}>
-                          {i18n(language)(collection.prefLabel)}
+                          {i18n(language)(collection.prefLabel || `*No label in language ${language} provided.*`)}
                       </Link>
                   </li>
                 ))}
