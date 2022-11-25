@@ -7,7 +7,7 @@ import JsonLink from './JsonLink'
 import { i18n, getDomId, getFilePath } from '../common'
 
 const Concept = ({ pageContext: { node: concept, language, collections, baseURL } }) => (
-  <div className="content block" id={getDomId(concept.id)}>
+  <div className="content block main-block" id={getDomId(concept.id)}>
     <h1>
       {concept.notation &&
         <span>{concept.notation.join(',')}&nbsp;</span>
@@ -98,7 +98,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <ul>
           {concept.broadMatch.map((broadMatch) => (
             <li key={broadMatch.id}>
-              <a href={broadMatch.id}>{broadMatch.id}</a>
+              <a target="_blank" href={broadMatch.id}>{broadMatch.id}</a>
             </li>
           ))}
         </ul>
@@ -110,7 +110,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <ul>
           {concept.exactMatch.map((exactMatch) => (
             <li key={exactMatch.id}>
-              <a href={exactMatch.id}>{exactMatch.id}</a>
+              <a target="_blank" href={exactMatch.id}>{exactMatch.id}</a>
             </li>
           ))}
         </ul>
@@ -122,7 +122,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <ul>
           {concept.closeMatch.map((closeMatch) => (
             <li key={closeMatch.id}>
-              <a href={closeMatch.id}>{closeMatch.id}</a>
+              <a target="_blank" href={closeMatch.id}>{closeMatch.id}</a>
             </li>
           ))}
         </ul>
@@ -134,7 +134,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
         <ul>
           {concept.relatedMatch.map((relatedMatch) => (
             <li key={relatedMatch.id}>
-              <a href={relatedMatch.id}>{relatedMatch.id}</a>
+              <a target="_blank" href={relatedMatch.id}>{relatedMatch.id}</a>
             </li>
           ))}
         </ul>

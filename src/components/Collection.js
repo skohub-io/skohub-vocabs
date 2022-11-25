@@ -5,7 +5,7 @@ import { i18n, getFilePath } from '../common'
 import JsonLink from './JsonLink'
 
 const Collection = ({ pageContext: { node: collection, language, baseURL } }) => (
-  <div className="content block">
+  <div className="content block main-block">
     <h1>{i18n(language)(collection.prefLabel)}</h1>
     <h2>{collection.id}</h2>
     <JsonLink to={baseURL + getFilePath(collection.id, "json")} />

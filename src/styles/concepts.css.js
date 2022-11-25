@@ -4,16 +4,52 @@ import { colors as c } from '../styles/variables'
 
 export const style = css`
   display: flex;
-  overflow: hidden;
   height: 100%;
+  
+  @media only screen and (max-width: 800px) {
+        display: block;
+        flex-direction: column;
+        height: auto;
+    }
 
   a.current {
-    color: ${c.accentDark};
-    font-weight: bold;
+    color: ${c.skoHubMiddleGreen};
+    font-weight: 700;
+  }
+
+  .block {
+    background-color: ${c.skoHubWhite};
+    box-shadow: 0px 10px 20px ${c.skoHubMiddleGrey};
+    padding: 30px;
+    border-radius: 30px;
+    
+    @media only screen and (max-width: 1024px) {
+        padding: 15px;
+    }
+  }
+
+  .nav-block {
+    flex: 1;
+    
+    @media only screen and (max-width: 800px) {
+        display: block;
+        height: 45vh;
+        overflow: auto;
+        padding: 15px 15px 30px 15px;
+        width: 100%;
+    }
+  }
+    
+  .main-block {
+    flex: 2;
+    
+    @media only screen and (max-width: 800px) {
+        display: block;
+        width: 100%;
+    }
   }
 
   & > nav {
-    flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -29,6 +65,11 @@ export const style = css`
       margin: 0;
       padding: 10px;
       height: 100%;
+      
+      @media only screen and (max-width: 800px) {
+      overflow: visible;
+      height: auto;
+      }
     }
 
     & > ul:before {
@@ -37,19 +78,21 @@ export const style = css`
   }
 
   .concept .content:not(:target) {
-    display: none ;
+    display: none;
   }
 
   .concept .content:target ~ div {
-    display: none ;
+    display: none;
   }
 
   .content {
-    position: relative ;
-    padding: 20px;
-    flex: 2;
+    position: relative;
     overflow: auto;
     margin-left: 20px;
+
+    @media only screen and (max-width: 800px) {
+        margin: 20px 0 0 0;
+    }
 
     button {
       padding: 10px 20px;
@@ -57,20 +100,49 @@ export const style = css`
 
     .json-png {
       position: absolute;
-      right: 10px;
-      top: 10px;
+      right: 30px;
+      top: 30px;
+      
+        @media only screen and (max-width: 1024px) {
+            position: relative;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
     }
 
-    > h1 {
+    h1 {
       margin: 0;
+      padding: 0 0 15px 0;
+      font-size: 30px;
+      line-height: 32px;
+      font-weight: 700;
+      
+      @media only screen and (max-width: 800px) {
+        font-size: 24px;
+        line-height: 26px;
+      }
+    }
+      
+    h2 {
+      margin: 0;
+      padding: 0 0 15px 0;
+      font-size: 24px;
+      line-height: 28px;
+      font-weight: 700;
+      
+      @media only screen and (max-width: 800px) {
+        font-size: 20px;
+        line-height: 26px;
+      }      
     }
 
     a {
-      color: blue;
+      color: ${c.skoHubAction};
       text-decoration: underline;
 
-      &:visited {
-        color: purple;
+      &:hover {
+        color: ${c.skoHubMiddleGreen};
       }
     }
   }

@@ -9,7 +9,7 @@ import JsonLink from './JsonLink'
 const ConceptScheme = ({
   pageContext: { node: conceptScheme, embed, language, baseURL },
 }) => (
-  <div className="content concept block" id={getDomId(conceptScheme.id)}>
+  <div className="content concept block main-block" id={getDomId(conceptScheme.id)}>
     {embed &&
       embed.map((concept) => (
         <Concept key={concept.json.id} pageContext={{ node: concept.json }} />

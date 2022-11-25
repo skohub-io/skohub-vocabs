@@ -13,6 +13,14 @@ import { StaticQuery, graphql } from "gatsby"
 import { colors as c } from '../styles/variables'
 
 import Header from "./header"
+import Footer from "./footer"
+
+import ubuntu400woff from '../fonts/ubuntu-v20-latin-regular.woff'
+import ubuntu400woff2 from '../fonts/ubuntu-v20-latin-regular.woff2'
+import ubuntu400ttf from '../fonts/ubuntu-v20-latin-700.ttf'
+import ubuntu700woff from '../fonts/ubuntu-v20-latin-700.woff'
+import ubuntu700woff2 from '../fonts/ubuntu-v20-latin-700.woff2'
+import ubuntu700ttf from'../fonts/ubuntu-v20-latin-700.ttf'
 
 const style = css`
   height: 100vh;
@@ -23,6 +31,10 @@ const style = css`
     flex: 1;
     overflow: auto;
     padding: 20px;
+    
+    @media only screen and (max-width: 1024px) {
+        overflow: visible;
+    }
   }
 
   .centerPage {
@@ -32,16 +44,17 @@ const style = css`
 
   .forkMe {
     position: fixed;
-    background-color: hsl(212, 28%, 9%);
-    color: white;
-    padding: 10px 50px;
+    background-color: ${c.skoHubDarkGreen};
+    color: ${c.skoHubWhite};
+    padding: 0 60px;
+    height: 40px;
     transform: rotate(45deg);
-    top: 32px;
-    font-size: 10px;
-    font-weight: bold;
-    border: 1px solid white;
-    right: -56px;
-    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    font-size: 14px;
+    line-height: 40px;
+    font-weight: 700;
+    bottom: 60px;
+    left: -60px;
+    box-shadow: 0 10px 20px ${c.skoHubBlackGreen};
   }
 `
 
@@ -63,6 +76,29 @@ const Layout = ({ children, languages, language }) => (
       >
         <Global
           styles={css`
+
+            /* ubuntu-regular - latin */
+            @font-face {
+                font-family: 'Ubuntu';
+                font-style: normal;
+                font-weight: 400;
+                src: local(''),
+                url({ubuntu400woff2}) format('woff2'), /* Super Modern Browsers */
+                url({ubuntu400woff}) format('woff'), /* Modern Browsers */
+                url({ubuntu400ttf}) format('truetype'), /* Safari, Android, iOS */
+                }
+            
+            /* ubuntu-700 - latin */
+            @font-face {
+                font-family: 'Ubuntu';
+                font-style: normal;
+                font-weight: 700;
+                src: local(''),
+                url({ubuntu700woff2}) format('woff2'), /* Super Modern Browsers */
+                url({ubuntu700woff}) format('woff'), /* Modern Browsers */
+                url({ubuntu700ttf}) format('truetype'), /* Safari, Android, iOS */
+                }
+
             html {
               -webkit-box-sizing: border-box;
               -moz-box-sizing: border-box;
@@ -75,6 +111,12 @@ const Layout = ({ children, languages, language }) => (
               box-sizing: inherit;
             }
 
+             * {
+              -webkit-transition: all 0.5s ease;
+              -moz-transition: all 0.5s ease;
+              transition: all 0.5s ease;
+            }
+
             html,
             body {
               height: 100%; /* needed for proper layout */
@@ -83,12 +125,21 @@ const Layout = ({ children, languages, language }) => (
             body {
               padding: 0;
               margin: 0;
+              border: 0 none;
+              overflow: hidden;
+              background-color: ${c.skoHubWhite};
+              font-family: 'Ubuntu', sans-serif;
+              font-weight: 400;
               word-wrap: break-word;
               font-size: 16px;
-              font-family: futura-pt, sans-serif, sans-serif;
-              color: ${c.text};
-              overflow: hidden;
-              background-color: ${c.base};
+              line-height: 20px;
+              color: ${c.skoHubDarkGreen};
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              
+              @media only screen and (max-width: 1024px) {
+                overflow: auto;
+              }
             }
 
             li > ul {
@@ -103,33 +154,38 @@ const Layout = ({ children, languages, language }) => (
 
             a {
               text-decoration: none;
-              color: ${c.primary};
+              color: ${c.skoHubDarkGreen};
 
               &:hover {
-                color: ${c.accent};
+                color: ${c.skoHubAction};
               }
             }
 
             .inputStyle {
-              background-color: ${c.inputBase};
-              box-shadow: 2px 2px 0 0 ${c.primary};
-              border: none;
+              background-color: ${c.skoHubWhite};
               cursor: pointer;
-              border: 1px solid ${c.primary};
-              color: ${c.primary};
+              border: 1px solid ${c.skoHubDarkGrey};
+              border-radius: 30px;
+              color: ${c.skoHubDarkGreen};
 
               &:hover,
               &:focus {
-                background-color: ${c.inputAction};
+                background-color: ${c.skoHubLightGrey};
+              }
+              
+              &[type=button] {
+                  background: ${c.skoHubLightGrey};
+                  border: 1px solid ${c.skoHubLightGrey};
+                  font-weight: 700;
+                  
+                  &:hover {
+                    background: ${c.skoHubMiddleGreen};
+                    border: 1px solid ${c.skoHubMiddleGreen};
+                    color: ${c.skoHubWhite};
+                  }
               }
             }
-
-            .block {
-              background-color: ${c.blockBase};
-              box-shadow: 0 2px 4px 0 hsla(198, 45%, 10%, .12);
-              padding: 20px;
-              border-radius: 8px;
-            }
+            
           `}
         />
         <Header
@@ -138,6 +194,12 @@ const Layout = ({ children, languages, language }) => (
           language={language}
         />
         <main>{children}</main>
+
+        <Footer
+          siteTitle={data.site.siteMetadata.title}
+          languages={languages}
+          language={language}
+        />
 
         {process.env.GATSBY_RESPOSITORY_URL && (
           <a
@@ -149,7 +211,6 @@ const Layout = ({ children, languages, language }) => (
             Fork this vocab on {process.env.GATSBY_RESPOSITORY_URL.includes('github') ? 'GitHub' : 'GitLab'}
           </a>
         )}
-
       </div>
     )}
   />

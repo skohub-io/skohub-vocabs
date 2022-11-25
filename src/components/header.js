@@ -5,47 +5,81 @@ import React from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
 
 import { colors as c } from '../styles/variables'
+import skohubsvg from '../images/skohub-signet-color.svg'
 
 const style = css`
-  background: #11998e;
-  background: linear-gradient(to right, #27CA84, #11998e);
+  background: ${c.skoHubWhite};
 
-  h1 {
+  .headerContent {
+    padding: 20px 20px 0 20px;
+    display: flex;
+  }
+
+  .skohubLogo {
     margin: 0;
-    display: inline;
+    display: inline-block;
+    width: calc(100% - 80px);
 
     a {
       text-decoration: none;
-      color: white;
+      color: ${c.skoHubDarkGreen};
+    }
+    
+    .skohubImg {
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+    }
+  
+    .skohubTitle {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 0 0 15px;
+      font-size: 24px;
+      line-height: 24px;
+      font-weight: 700;
+      
+      @media only screen and (max-width: 800px) {
+        padding: 0 0 0 8px;
+        font-size: 18px;
+      }    
     }
   }
 
-  ul, li {
-    display: inline;
-    margin-right: 5px;
-  }
-
-  .wave {
-    overflow: hidden;
-    position: relative;
-    height: 50px;
-  }
-
-  .headerContent {
-    padding: 20px 20px 5px 20px;
-  }
-
-  .currentLanguage {
-    font-weight: bold;
-  }
-
-  svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 49px;
-    fill: ${c.base};
+  ul.language-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    
+    li {
+      margin: 0 0 0 5px;
+      display: inline;
+      
+      a {
+        display: inline-block;
+        padding: 5px;
+        color: ${c.skoHubMiddleGrey};
+        border: 1px solid ${c.skoHubMiddleGrey};
+        border-radius: 30px;
+        
+        &:hover {
+            color: ${c.skoHubAction};
+            border: 1px solid ${c.skoHubAction};
+        }
+      }
+      
+      .currentLanguage {
+        font-weight: bold;
+        display: inline-block;
+        padding: 5px;
+        border: 1px solid ${c.skoHubLightGreen};
+        border-radius: 30px;
+      }
+    }
   }
 `
 const Header = ({ siteTitle, languages, language, pathName = useLocation().pathname.slice(0, -8) }) => (
@@ -53,13 +87,14 @@ const Header = ({ siteTitle, languages, language, pathName = useLocation().pathn
     css={style}
   >
     <div className="headerContent">
-      <h1>
-        <Link to={`/index.${language}.html`} >
-          {siteTitle}
+      <div className="skohubLogo">
+          <Link to={`/index.${language}.html`} >
+          <img className="skohubImg" src={skohubsvg} alt="SkoHub" />
+          <span className="skohubTitle">{siteTitle}</span>
         </Link>
-      </h1>
+      </div>
       {languages && languages.length > 1 && (
-        <ul>
+        <ul className="language-menu">
           {languages.map(l => (
             <li key={l}>
               {l === language ? (
@@ -71,21 +106,6 @@ const Header = ({ siteTitle, languages, language, pathName = useLocation().pathn
           ))}
         </ul>
       )}
-    </div>
-
-    <div className="wave">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1000 279.24"
-        preserveAspectRatio="none">
-          <path
-            d="M1000 0S331.54-4.18 0 279.24h1000z"
-            opacity=".25"
-          />
-          <path
-            d="M1000 279.24s-339.56-44.3-522.95-109.6S132.86 23.76 0 25.15v254.09z"
-          />
-        </svg>
     </div>
 
   </header>
