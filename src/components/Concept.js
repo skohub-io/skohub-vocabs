@@ -147,7 +147,7 @@ const Concept = ({ pageContext: { node: concept, language, collections, baseURL 
                 {collections.map((collection) => (
                   <li key={collection.id}>
                       <Link to={getFilePath(collection.id, `${language}.html`)}>
-                          {i18n(language)(collection.prefLabel || `*No label in language ${language} provided.*`)}
+                          {i18n(language)(collection.prefLabel) || `*No label in language "${language}" provided.*`}
                       </Link>
                   </li>
                 ))}
