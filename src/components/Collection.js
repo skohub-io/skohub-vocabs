@@ -14,7 +14,7 @@ const Collection = ({ pageContext: { node: collection, language, baseURL } }) =>
           collection.member.map((member) => (
             <li key={member.id}>
               <Link to={getFilePath(member.id, `${language}.html`)}>
-                {i18n(language)(member.prefLabel)}
+                {i18n(language)(member.prefLabel) || `*No label in language "${language}" provided.*`}
               </Link>
             </li>
           ))
