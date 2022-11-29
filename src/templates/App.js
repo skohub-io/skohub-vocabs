@@ -62,7 +62,7 @@ const App = ({pageContext, children}) => {
         className="Concept"
         css={style}
       >
-        <nav className="block">
+        <nav className="block nav-block">
           <input
             type="text"
             className="inputStyle"

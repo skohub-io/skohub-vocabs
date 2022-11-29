@@ -35,9 +35,9 @@ const style = css`
     content: "";
     position: absolute;
     height: 100%;
-    background-color: ${c.primary};
+    background-color: ${c.skoHubMiddleGrey};
     width: 1px;
-    left: -17px;
+    left: -16px;
   }
 
   .notation {
@@ -50,7 +50,7 @@ const style = css`
 
   span > strong {
     display: inline-flex;
-    color: ${c.accent};
+    color: ${c.skoHubDarkGreen};
   }
 
   .treeItemIcon {
@@ -65,7 +65,7 @@ const style = css`
 
     &:before {
       content: "";
-      background-color: ${c.primary};
+      background-color: ${c.skoHubDarkGreen};
       position: absolute;
       width: 60%;
       height: 3px;
@@ -77,7 +77,7 @@ const style = css`
     &.collapsed {
       &:after {
         content: "";
-        background-color: ${c.primary};
+        background-color: ${c.skoHubDarkGreen};
         position: absolute;
         width: 3px;
         height: 60%;
@@ -149,13 +149,14 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
                 {item.notation &&
                   <span className="notation">{item.notation.join(',')}&nbsp;</span>
                 }
+                {t(item.prefLabel) ?
                 <span
                   dangerouslySetInnerHTML={{
                     __html: highlight
                       ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
                       : t(item.prefLabel)
                   }}
-                />
+                /> : <i style={{color: 'red'}}>No label for language "{language}" provided</i>}
               </Link>
             )}
 
