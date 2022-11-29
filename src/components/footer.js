@@ -11,7 +11,7 @@ const style = css`
   color: ${c.skoHubWhite};
 
   .footerContent {
-    padding: 20px;
+        padding: 20px;
     text-align: right;
     
     @media only screen and (max-width: 800px) {
@@ -19,15 +19,20 @@ const style = css`
     }
     
     ul {
+      display: flex;
       list-style: none;
       margin: 0;
       padding: 0;
       
       li {
           display: inline-block;
-          padding: 0 20px 0 0;
+          padding: 0 20px 0 0px;
           margin: 0;
-      }        
+      }
+      
+      .push-right {
+        margin-left: auto;
+      }  
     }
     
     a {
@@ -40,14 +45,27 @@ const style = css`
     }
   }
 `
+
+
 const Footer = ({ siteTitle, languages, language, pathName = useLocation().pathname.slice(0, -8) }) => (
   <footer
     css={style}
   >
     <div className="footerContent">
         <ul>
-            <li><a href="https://www.hbz-nrw.de/impressum" target="_blank">Impressum</a></li>
-            <li>&copy; <a href="https://skohub.io" target="_blank">SkoHub</a></li>
+          {process.env.GATSBY_RESPOSITORY_URL && (
+          <li>
+            <a
+              href={process.env.GATSBY_RESPOSITORY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Source
+            </a>
+          </li>
+          )}
+          <li className="push-right"><a href="https://www.hbz-nrw.de/impressum" target="_blank" rel="noopener noreferrer">Impressum</a></li>
+          <li>&copy; <a href="https://skohub.io" target="_blank" rel="noopener noreferrer">SkoHub</a></li>
         </ul>
     </div>
   </footer>

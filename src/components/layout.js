@@ -200,17 +200,6 @@ const Layout = ({ children, languages, language }) => (
           languages={languages}
           language={language}
         />
-
-        {process.env.GATSBY_RESPOSITORY_URL && (
-          <a
-            href={process.env.GATSBY_RESPOSITORY_URL}
-            className="forkMe"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Fork this vocab on {process.env.GATSBY_RESPOSITORY_URL.includes('github') ? 'GitHub' : 'GitLab'}
-          </a>
-        )}
       </div>
     )}
   />
