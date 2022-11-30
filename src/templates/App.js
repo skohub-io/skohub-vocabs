@@ -20,6 +20,17 @@ const App = ({pageContext, children}) => {
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(pageContext.node.type === 'ConceptScheme' ? pageContext.node : null)
 
+  let showTreeControls = false;
+
+  if (!showTreeControls && tree && tree.hasTopConcept) {
+    for (const topConcept of tree.hasTopConcept) {
+      if (topConcept.narrower) {
+        showTreeControls = true;
+        break;
+      }
+    }
+  }
+
   // Fetch and load the serialized index
   useEffect(() => {
     fetch(pageContext.baseURL + getFilePath(conceptSchemeId, `${pageContext.language}.index`))
@@ -70,7 +81,9 @@ const App = ({pageContext, children}) => {
             placeholder="Search"
             autoFocus
           />
-          <TreeControls/>
+          {showTreeControls && (
+            <TreeControls/>
+          )}
           {tree && (
             <NestedList
               items={tree.hasTopConcept}
