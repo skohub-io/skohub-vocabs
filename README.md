@@ -69,7 +69,7 @@ Use this command to build your pages with docker:
 ## Serving from other location than root (`/`)
 
 If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable in `.env`.
-If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built sides, you might get errors when clicking links, because the files are in the `public/` folder.
+If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
 To fix this set `BASEURL=public` in your `.env` file.
 
 ## Running the webhook server
