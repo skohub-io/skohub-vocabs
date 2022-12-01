@@ -54,6 +54,24 @@ You can also run the development web server:
 
 to serve the build from `http://localhost:8000/`. Again, the URL is based on the SKOS URIs, e.g. `http://localhost:8000/w3id.org/class/hochschulfaecher/scheme.html`
 
+## Running the static site generator with docker
+
+You can also run the static site generator with docker.
+It will parse all turtle files in `./data` and build the vocabularies it finds.
+The build can then be found in the `public/` folder.
+Since docker creates the content of this folder it will have root permissions.
+So in order to delete the content you might have to use `sudo rm public`
+
+Use this command to build your pages with docker:
+
+`docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:master`
+
+## Serving from other location than root (`/`)
+
+If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable in `.env`.
+If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built sides, you might get errors when clicking links, because the files are in the `public/` folder.
+To fix this set `BASEURL=public` in your `.env` file.
+
 ## Running the webhook server
 
 The webhook server allows to trigger a build when vocabularies are updated (i.e. changes are merged into the `master` branch) on GitHub.
