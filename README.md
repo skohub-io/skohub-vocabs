@@ -97,4 +97,4 @@ Depending on special circumstances you may get errors in the log files, e.g.
 
 The project to create a stable beta version of SkoHub has been funded by the North-Rhine Westphalian Library Service Centre (hbz) and carried out in cooperation with [graphthinking GmbH](https://graphthinking.com/) in 2019/2020.
 
-<a target="_blank" href="https://www.hbz-nrw.de"><img src="https://skohub-io.github.io/skohub.io/img/hbz-logo.svg" width="120px"></a>
+<a target="_blank" href="https://www.hbz-nrw.de"><img src="https://raw.githubusercontent.com/skohub-io/skohub.io/master/img/logo-hbz-color.svg" width="120px"></a>
