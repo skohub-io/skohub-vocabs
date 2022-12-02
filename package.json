@@ -11,6 +11,7 @@
     "dotenv": "^16.0.0",
     "flexsearch": "^0.6.32",
     "fs-extra": "^10.0.0",
+    "gatsby-plugin-manifest": "^5.2.0",
     "graceful-fs": "^4.2.8",
     "jsonld": "^5.2.0",
     "koa": "^2.13.4",
