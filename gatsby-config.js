@@ -25,5 +25,17 @@ module.exports = {
         path: `${__dirname}/data`,
       },
     },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Skohub Vocabs`,
+        short_name: `Skohub Vocabs`,
+        start_url: `/`,
+        background_color: `#ffffff`,
+        theme_color: `#26c884`,
+        display: `minimal-ui`,
+        icon: `src/images/skohub-icon.png`, // This path is relative to the root of the site.
+      },
+    },
   ],
 }
