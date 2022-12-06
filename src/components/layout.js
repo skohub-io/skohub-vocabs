@@ -58,7 +58,7 @@ const style = css`
   }
 `
 
-const Layout = ({ children, languages, language }) => (
+const Layout = ({ children, languages, language, cs }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -192,6 +192,7 @@ const Layout = ({ children, languages, language }) => (
           siteTitle={data.site.siteMetadata.title}
           languages={languages}
           language={language}
+          cs={cs}
         />
         <main>{children}</main>
 

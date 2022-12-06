@@ -3,6 +3,8 @@ import { css } from '@emotion/react'
 import PropTypes from "prop-types"
 import React from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
+import { getFilePath } from '../common'
+
 
 import { colors as c } from '../styles/variables'
 import skohubsvg from '../images/skohub-signet-color.svg'
@@ -82,7 +84,7 @@ const style = css`
     }
   }
 `
-const Header = ({ siteTitle, languages, language, pathName = useLocation().pathname.slice(0, -8) }) => (
+const Header = ({ siteTitle, languages, language, cs, pathName = useLocation().pathname.slice(0, -8) }) => (
   <header
     css={style}
   >
@@ -93,6 +95,7 @@ const Header = ({ siteTitle, languages, language, pathName = useLocation().pathn
           <span className="skohubTitle">{siteTitle}</span>
         </Link>
       </div>
+      {cs && cs.id && <Link to={getFilePath(cs.id, `${language}.html`)}>{cs.title[language]}</Link>}
       {languages && languages.length > 1 && (
         <ul className="language-menu">
           {languages.map(l => (
