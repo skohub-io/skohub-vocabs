@@ -45,7 +45,11 @@ const style = css`
       @media only screen and (max-width: 800px) {
         padding: 0 0 0 8px;
         font-size: 18px;
-      }    
+      } 
+    }
+    .conceptScheme {
+      padding: 15px 0 0 0;
+      font-size: 24px;
     }
   }
 
@@ -111,12 +115,14 @@ const Header = ({ siteTitle, languages, language }) => {
           <img className="skohubImg" src={skohubsvg} alt="SkoHub" />
           <span className="skohubTitle">{siteTitle}</span>
         </Link>
-      </div>
         {conceptScheme && conceptScheme.id && (
+          <div className="conceptScheme">
           <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
             {conceptScheme.title[language] || conceptScheme.id}
           </Link>
+          </div>
         )}
+      </div>
       {languages && languages.length > 1 && (
         <ul className="language-menu">
             {languages.map((l) => (
