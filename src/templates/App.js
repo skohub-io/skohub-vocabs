@@ -19,7 +19,6 @@ const App = ({pageContext, children}) => {
   const [index, setIndex] = useState(FlexSearch.create())
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(pageContext.node.type === 'ConceptScheme' ? pageContext.node : null)
-  const [conceptScheme, setConceptScheme] = useState({})
 
   let showTreeControls = false;
 
@@ -58,22 +57,14 @@ const App = ({pageContext, children}) => {
         .then(tree => setTree(tree))
   }, [])
 
-  // fetch conceptScheme title
-  useEffect(() => {
-    fetch(pageContext.baseURL + getFilePath(conceptSchemeId, 'json'))
-      .then(response => response.json())
-      .then(r => setConceptScheme(prevState => ({...prevState, ...r})))
-  }, [conceptSchemeId, pageContext.baseURL, pageContext.language])
-
   // Scroll current item into view
   useEffect(() => {
     const current = document.querySelector(".current")
     current && current.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
   })
 
-  console.log(conceptScheme)
   return (
-    <Layout languages={pageContext.languages} language={pageContext.language} cs={conceptScheme}>
+    <Layout languages={pageContext.languages} language={pageContext.language}>
       <SEO
         title={i18n(pageContext.language)(pageContext.node.prefLabel || pageContext.node.title)}
         keywords={['Concept', i18n(pageContext.language)(pageContext.node.prefLabel || pageContext.node.title)]}
