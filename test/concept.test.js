@@ -8,7 +8,6 @@ import Enzyme, { shallow } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import pageContext from '../test/data/pageContext'
 import Concept from '../src/components/Concept'
-import { StaticQuery } from 'gatsby';
 
 Enzyme.configure({ adapter: new Adapter() })
 
