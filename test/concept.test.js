@@ -1,5 +1,5 @@
 import React from "react"
-import { render, screen, getByText } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import pageContext from "../test/data/pageContext"
 import Concept from "../src/components/Concept"
 
