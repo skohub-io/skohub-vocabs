@@ -63,7 +63,7 @@
     "format": "prettier --write **/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "lint:js": "eslint src --ext .jsx,.js",
+    "lint:js": "eslint src --ext .jsx,.js --max-warnings=0",
     "test": "npm run lint:js && jest --verbose --detectOpenHandles --forceExit",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
@@ -80,7 +80,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --write"
+      "npm run format",
+      "npm run lint:js"
     ]
   }
 }
