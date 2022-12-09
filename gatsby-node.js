@@ -57,6 +57,11 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
       file.endsWith(".ttl") && arrayOfFiles.push(path.join(__dirname, dirPath, "/", file))
     }
   })
+  if (arrayOfFiles.length === 0)
+    throw new Error(`
+    ⛔ Data folder is empty, aborting. 
+      Add some turtle files to data folder to get beautiful rendered vocabs.
+    `)
   return arrayOfFiles
 }
 
