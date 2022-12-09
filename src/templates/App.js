@@ -54,7 +54,7 @@ const App = ({ pageContext, children }) => {
         setIndex(idx)
         console.log("index loaded", idx.info())
       })
-  }, [])
+  }, [conceptSchemeId, pageContext.baseURL, pageContext.language])
 
   // Fetch and load the tree
   useEffect(() => {
@@ -62,7 +62,7 @@ const App = ({ pageContext, children }) => {
       fetch(pageContext.baseURL + getFilePath(conceptSchemeId, "json"))
         .then((response) => response.json())
         .then((tree) => setTree(tree))
-  }, [])
+  }, [conceptSchemeId, pageContext.node.type, pageContext.baseURL])
 
   // Scroll current item into view
   useEffect(() => {
