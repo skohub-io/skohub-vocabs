@@ -6,21 +6,21 @@
  */
 
 import React from "react"
-import { Global, css } from '@emotion/react'
+import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
 
-import { colors as c } from '../styles/variables'
+import { colors as c } from "../styles/variables"
 
 import Header from "./header"
 import Footer from "./footer"
 
-import ubuntu400woff from '../fonts/ubuntu-v20-latin-regular.woff'
-import ubuntu400woff2 from '../fonts/ubuntu-v20-latin-regular.woff2'
-import ubuntu400ttf from '../fonts/ubuntu-v20-latin-700.ttf'
-import ubuntu700woff from '../fonts/ubuntu-v20-latin-700.woff'
-import ubuntu700woff2 from '../fonts/ubuntu-v20-latin-700.woff2'
-import ubuntu700ttf from'../fonts/ubuntu-v20-latin-700.ttf'
+import ubuntu400woff from "../fonts/ubuntu-v20-latin-regular.woff"
+import ubuntu400woff2 from "../fonts/ubuntu-v20-latin-regular.woff2"
+import ubuntu400ttf from "../fonts/ubuntu-v20-latin-700.ttf"
+import ubuntu700woff from "../fonts/ubuntu-v20-latin-700.woff"
+import ubuntu700woff2 from "../fonts/ubuntu-v20-latin-700.woff2"
+import ubuntu700ttf from "../fonts/ubuntu-v20-latin-700.ttf"
 
 const style = css`
   height: 100vh;
@@ -31,9 +31,9 @@ const style = css`
     flex: 1;
     overflow: auto;
     padding: 20px;
-    
+
     @media only screen and (max-width: 1024px) {
-        overflow: visible;
+      overflow: visible;
     }
   }
 
@@ -69,35 +69,29 @@ const Layout = ({ children, languages, language }) => (
         }
       }
     `}
-    render={data => (
-      <div
-        className="wrapper"
-        css={style}
-      >
+    render={(data) => (
+      <div className="wrapper" css={style}>
         <Global
           styles={css`
-
             /* ubuntu-regular - latin */
             @font-face {
-                font-family: 'Ubuntu';
-                font-style: normal;
-                font-weight: 400;
-                src: local(''),
-                url({ubuntu400woff2}) format('woff2'), /* Super Modern Browsers */
-                url({ubuntu400woff}) format('woff'), /* Modern Browsers */
-                url({ubuntu400ttf}) format('truetype'), /* Safari, Android, iOS */
-                }
-            
+              font-family: "Ubuntu";
+              font-style: normal;
+              font-weight: 400;
+              src: local(""), url({ubuntu400woff2}) format("woff2"),
+                /* Super Modern Browsers */ url({ubuntu400woff}) format("woff"),
+                /* Modern Browsers */ url({ubuntu400ttf}) format("truetype"); /* Safari, Android, iOS */
+            }
+
             /* ubuntu-700 - latin */
             @font-face {
-                font-family: 'Ubuntu';
-                font-style: normal;
-                font-weight: 700;
-                src: local(''),
-                url({ubuntu700woff2}) format('woff2'), /* Super Modern Browsers */
-                url({ubuntu700woff}) format('woff'), /* Modern Browsers */
-                url({ubuntu700ttf}) format('truetype'), /* Safari, Android, iOS */
-                }
+              font-family: "Ubuntu";
+              font-style: normal;
+              font-weight: 700;
+              src: local(""), url({ubuntu700woff2}) format("woff2"),
+                /* Super Modern Browsers */ url({ubuntu700woff}) format("woff"),
+                /* Modern Browsers */ url({ubuntu700ttf}) format("truetype"); /* Safari, Android, iOS */
+            }
 
             html {
               -webkit-box-sizing: border-box;
@@ -105,13 +99,15 @@ const Layout = ({ children, languages, language }) => (
               box-sizing: border-box;
             }
 
-            *, *:before, *:after {
+            *,
+            *:before,
+            *:after {
               -webkit-box-sizing: inherit;
               -moz-box-sizing: inherit;
               box-sizing: inherit;
             }
 
-             * {
+            * {
               -webkit-transition: all 0.5s ease;
               -moz-transition: all 0.5s ease;
               transition: all 0.5s ease;
@@ -128,7 +124,7 @@ const Layout = ({ children, languages, language }) => (
               border: 0 none;
               overflow: hidden;
               background-color: ${c.skoHubWhite};
-              font-family: 'Ubuntu', sans-serif;
+              font-family: "Ubuntu", sans-serif;
               font-weight: 400;
               word-wrap: break-word;
               font-size: 16px;
@@ -136,7 +132,7 @@ const Layout = ({ children, languages, language }) => (
               color: ${c.skoHubDarkGreen};
               -webkit-font-smoothing: antialiased;
               -moz-osx-font-smoothing: grayscale;
-              
+
               @media only screen and (max-width: 1024px) {
                 overflow: auto;
               }
@@ -172,20 +168,19 @@ const Layout = ({ children, languages, language }) => (
               &:focus {
                 background-color: ${c.skoHubLightGrey};
               }
-              
-              &[type=button] {
-                  background: ${c.skoHubLightGrey};
-                  border: 1px solid ${c.skoHubLightGrey};
-                  font-weight: 700;
-                  
-                  &:hover {
-                    background: ${c.skoHubMiddleGreen};
-                    border: 1px solid ${c.skoHubMiddleGreen};
-                    color: ${c.skoHubWhite};
-                  }
+
+              &[type="button"] {
+                background: ${c.skoHubLightGrey};
+                border: 1px solid ${c.skoHubLightGrey};
+                font-weight: 700;
+
+                &:hover {
+                  background: ${c.skoHubMiddleGreen};
+                  border: 1px solid ${c.skoHubMiddleGreen};
+                  color: ${c.skoHubWhite};
+                }
               }
             }
-            
           `}
         />
         <Header

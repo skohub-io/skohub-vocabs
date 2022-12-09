@@ -1,44 +1,44 @@
 import { Link } from "gatsby"
-import { css } from '@emotion/react'
+import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
 
-import { colors as c } from '../styles/variables'
+import { colors as c } from "../styles/variables"
 
 const style = css`
   background: ${c.skoHubMiddleGreen};
   color: ${c.skoHubWhite};
 
   .footerContent {
-        padding: 20px;
+    padding: 20px;
     text-align: right;
-    
+
     @media only screen and (max-width: 800px) {
       text-align: center;
     }
-    
+
     ul {
       display: flex;
       list-style: none;
       margin: 0;
       padding: 0;
-      
+
       li {
-          display: inline-block;
-          padding: 0 20px 0 0px;
-          margin: 0;
+        display: inline-block;
+        padding: 0 20px 0 0px;
+        margin: 0;
       }
-      
+
       .push-right {
         margin-left: auto;
-      }  
+      }
     }
-    
+
     a {
       color: ${c.skoHubWhite};
       font-weight: 700;
-        
+
       &:hover {
         text-decoration: underline;
       }
@@ -46,14 +46,16 @@ const style = css`
   }
 `
 
-
-const Footer = ({ siteTitle, languages, language, pathName = useLocation().pathname.slice(0, -8) }) => (
-  <footer
-    css={style}
-  >
+const Footer = ({
+  siteTitle,
+  languages,
+  language,
+  pathName = useLocation().pathname.slice(0, -8),
+}) => (
+  <footer css={style}>
     <div className="footerContent">
-        <ul>
-          {process.env.GATSBY_RESPOSITORY_URL && (
+      <ul>
+        {process.env.GATSBY_RESPOSITORY_URL && (
           <li>
             <a
               href={process.env.GATSBY_RESPOSITORY_URL}
@@ -63,10 +65,23 @@ const Footer = ({ siteTitle, languages, language, pathName = useLocation().pathn
               Source
             </a>
           </li>
-          )}
-          <li className="push-right"><a href="https://www.hbz-nrw.de/impressum" target="_blank" rel="noopener noreferrer">Impressum</a></li>
-          <li>&copy; <a href="https://skohub.io" target="_blank" rel="noopener noreferrer">SkoHub</a></li>
-        </ul>
+        )}
+        <li className="push-right">
+          <a
+            href="https://www.hbz-nrw.de/impressum"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Impressum
+          </a>
+        </li>
+        <li>
+          &copy;{" "}
+          <a href="https://skohub.io" target="_blank" rel="noopener noreferrer">
+            SkoHub
+          </a>
+        </li>
+      </ul>
     </div>
   </footer>
 )

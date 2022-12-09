@@ -6,7 +6,7 @@ module.exports = {
     description: `Static site generator for Simple Knowledge Management Systems (SKOS)`,
     author: `@gatsbyjs`,
   },
-  pathPrefix: `${process.env.BASEURL || ''}`,
+  pathPrefix: `${process.env.BASEURL || ""}`,
   plugins: [
     `gatsby-plugin-emotion`,
     {
@@ -21,7 +21,7 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'data',
+        name: "data",
         path: `${__dirname}/data`,
       },
     },
