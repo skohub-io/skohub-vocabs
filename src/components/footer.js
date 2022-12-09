@@ -1,4 +1,3 @@
-import { Link } from "gatsby"
 import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React from "react"

@@ -82,7 +82,9 @@ const Concept = ({
         <ul>
           {concept.narrowMatch.map((narrowMatch) => (
             <li key={narrowMatch.id}>
-              <a href={narrowMatch.id}>{narrowMatch.id}</a>
+              <a target="_blank" rel="noreferrer" href={narrowMatch.id}>
+                {narrowMatch.id}
+              </a>
             </li>
           ))}
         </ul>
@@ -94,7 +96,7 @@ const Concept = ({
         <ul>
           {concept.broadMatch.map((broadMatch) => (
             <li key={broadMatch.id}>
-              <a target="_blank" href={broadMatch.id}>
+              <a target="_blank" rel="noreferrer" href={broadMatch.id}>
                 {broadMatch.id}
               </a>
             </li>
@@ -108,7 +110,7 @@ const Concept = ({
         <ul>
           {concept.exactMatch.map((exactMatch) => (
             <li key={exactMatch.id}>
-              <a target="_blank" href={exactMatch.id}>
+              <a target="_blank" rel="noreferrer" href={exactMatch.id}>
                 {exactMatch.id}
               </a>
             </li>
@@ -122,7 +124,7 @@ const Concept = ({
         <ul>
           {concept.closeMatch.map((closeMatch) => (
             <li key={closeMatch.id}>
-              <a target="_blank" href={closeMatch.id}>
+              <a target="_blank" rel="noreferrer" href={closeMatch.id}>
                 {closeMatch.id}
               </a>
             </li>
@@ -136,7 +138,7 @@ const Concept = ({
         <ul>
           {concept.relatedMatch.map((relatedMatch) => (
             <li key={relatedMatch.id}>
-              <a target="_blank" href={relatedMatch.id}>
+              <a target="_blank" rel="noreferrer" href={relatedMatch.id}>
                 {relatedMatch.id}
               </a>
             </li>
