@@ -37,15 +37,18 @@
     "babel-jest": "^27.3.1",
     "enzyme": "^3.11.0",
     "eslint": "^8.10.0",
+    "eslint-config-react-app": "^7.0.0",
     "gatsby": "^4.9.2",
     "gatsby-plugin-emotion": "^7.9.0",
     "gatsby-plugin-image": "^2.8.1",
     "gatsby-plugin-sharp": "^4.11.1",
     "gatsby-source-filesystem": "^4.9.0",
     "gatsby-transformer-sharp": "^4.9.0",
-    "eslint-config-react-app": "^7.0.0",
+    "husky": "^8.0.2",
     "jest": "^27.3.1",
+    "lint-staged": "^13.1.0",
     "nock": "^13.2.0",
+    "prettier": "^2.8.1",
     "supertest": "^6.1.6"
   },
   "keywords": [
@@ -60,12 +63,13 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "lint:js": "eslint src --ext .jsx,.js --quiet",
+    "lint:js": "eslint src --ext .jsx,.js",
     "test": "npm run lint:js && jest --verbose --detectOpenHandles --forceExit",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --verbose --coverage",
-    "listen": "node src/webHookServer.js"
+    "listen": "node src/webHookServer.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -73,5 +77,11 @@
   },
   "bugs": {
     "url": "https://github.com/skohub-io/skohub-vocabs/issues"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint . --ext .jsx,.js"
+    ]
   }
 }
