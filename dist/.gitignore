@@ -1,6 +1,9 @@
 # Ignore everything in this directory
-*
+/*
+
+# Don't commit log files used for testing
+**/*.json
+
 # Except this file
 !.gitignore
 !build
-!build/index.html

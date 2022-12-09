@@ -1,215 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>SkoHub-Log</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SkoHub-Log</title>
+    <link rel="icon" type="image/x-icon" href="./images/skohub-icon.png">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+      :root {
+        --skoHubWhite: rgb(255, 255, 255);
+        --skoHubDarkGreen: rgb(15, 85, 75);
+        --skoHubMiddleGreen: rgb(20, 150, 140);
+        --skoHubLightGreen: rgb(40, 200, 175);
+        --skoHubThinGreen: rgb(55, 250, 210);
+        --skoHubBlackGreen: rgb(5, 30, 30);
+        --skoHubAction: rgb(230, 0, 125);
+        --skoHubNotice: rgb(250, 180, 50);
+        --skoHubDarkGrey: rgb(155, 155, 155);
+        --skoHubMiddleGrey: rgb(200, 200, 200);
+        --skoHubLightGrey: rgb(235, 235, 235);
+      }
 
-  <style>
-    html {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
+      /* ubuntu-regular - latin */
+      @font-face {
+        font-family: "Ubuntu";
+        font-style: normal;
+        font-weight: 400;
+        src: local(""),
+          url(./fonts/ubuntu-v20-latin-regular.woff2) format("woff2"),
+          /* Super Modern Browsers */ url(./fonts/ubuntu-v20-latin-regular.woff)
+            format("woff"),
+          /* Modern Browsers */ url(./fonts/ubuntu-v20-latin-regular.ttf)
+            format("truetype"); /* Safari, Android, iOS */
+      }
 
-    *, *:before, *:after {
-      -webkit-box-sizing: inherit;
-      -moz-box-sizing: inherit;
-      box-sizing: inherit;
-    }
+      /* ubuntu-700 - latin */
+      @font-face {
+        font-family: "Ubuntu";
+        font-style: normal;
+        font-weight: 700;
+        src: local(""), url(./fonts/ubuntu-v20-latin-700.woff2) format("woff2"),
+          /* Super Modern Browsers */ url(./fonts/ubuntu-v20-latin-700.woff)
+            format("woff"),
+          /* Modern Browsers */ url(./fonts/ubuntu-v20-latin-700.ttf)
+            format("truetype"); /* Safari, Android, iOS */
+      }
+      html,
+      body {
+        height: 100%; /* needed for proper layout */
+      }
+      html {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
 
-    body {
-      padding: 0;
-      margin: 0;
-      word-wrap: break-word;
-      font-size: 16px;
-      font-family: futura-pt, sans-serif, sans-serif;
-      color: hsl(0, 0%, 24%);
-      background-color: rgb(242, 245, 247);
-    }
+      *,
+      *:before,
+      *:after {
+        -webkit-box-sizing: inherit;
+        -moz-box-sizing: inherit;
+        box-sizing: inherit;
+      }
 
-    a {
-      text-decoration: none;
-      color: hsl(0, 0%, 24%);
-    }
+      body {
+        padding: 0;
+        margin: 0;
+        border: 0 none;
+        /* overflow: hidden; */
+        background-color: var(--skoHubWhite);
+        font-family: "Ubuntu", sans-serif;
+        word-wrap: break-word;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: var(--skoHubDarkGreen);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
 
-    a:hover {
-      color: hsl(161.6, 71.8%, 41.8%);
-    }
+      a {
+        text-decoration: none;
+        color: var(--skoHubDarkGreen);
+      }
 
-    .block {
-      background-color: hsl(0, 100%, 100%);
-      box-shadow: 0 2px 4px 0 hsla(198, 45%, 10%, .12);
-      padding: 20px;
-      border-radius: 8px;
-    }
+      a:hover {
+        color: var(--skoHubAction);
+      }
 
-    .wrapper {
-      /* max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 40px; */
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+      .block {
+        background-color: var(--skoHubWhite);
+        box-shadow: 0 10px 20px 0 var(--skoHubMiddleGrey);
+        padding: 30px;
+        border-radius: 30px;
+      }
 
-    main {
-      padding: 20px;
-      padding-top: 10px;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+      .wrapper {
+        /* max-width: 1000px;
+          margin: 0 auto;
+          padding: 0 40px; */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-    #status {
-      font-weight: bold;
-    }
+      main {
+        padding: 20px;
+        padding-top: 10px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-    h2 {
-      display: inline-block;
-    }
+      #status {
+        font-weight: bold;
+      }
 
-    #log,
-    pre {
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      white-space: -moz-pre-wrap;
-      white-space: -pre-wrap;
-      white-space: -o-pre-wrap;
-    }
+      h2 {
+        display: inline-block;
+      }
 
-    #log {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
+      #log,
+      pre {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+      }
 
-    #log li a {
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-    }
+      #log {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
 
-    #log li:hover {
-      background-color: whitesmoke;
-    }
+      #log li a {
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+      }
 
-    #log li span:first-child {
-      padding-right: 10px;
-    }
+      #log li:hover {
+        background-color: var(--skoHubLightGrey);
+      }
 
-    #log li:target {
-      background-color: palegreen;
-    }
+      #log li span:first-child {
+        padding-right: 10px;
+      }
 
-    header {
-      background: #11998e;
-      background: linear-gradient(to right, #27CA84, #11998e);
-    }
+      #log li:target {
+        background-color: var(--skoHubThinGreen);
+      }
 
-    header h1 {
-      margin: 0;
-      display: inline-block;
-    }
+      header {
+        background: var(--skoHubWhite);
+      }
 
-    header h1 a {
-      color: white;
-    }
+      header h1 {
+        margin: 0;
+        display: inline-block;
+      }
 
-    header .wave {
-      overflow: hidden;
-      position: relative;
-      height: 50px;
-    }
+      header h1 a {
+        color: var(--skoHubDarkGreen);
+      }
 
-    header .headerContent {
-      padding: 20px 20px 5px 20px;
-      display: flex;
-      align-items: center;
-    }
+      header .wave {
+        overflow: hidden;
+        position: relative;
+        height: 50px;
+      }
 
-    header h1 a:hover {
-      color: white;
-    }
+      header .headerContent {
+        padding: 20px 20px 0px 20px;
+        display: flex;
+      }
 
-    header svg {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 49px;
-      fill: rgb(242, 245, 247);
-    }
+      header h1 a:hover {
+        color: var(--skoHubAction);
+      }
 
-    #date {
-      color: hsl(0, 0%, 54%)
-    }
+      header .skohubLogo {
+        margin: 0;
+        display: inline-block;
+        width: calc(100% - 80px);
+      }
 
-    .error {
-      border: 4px solid tomato;
-      border-radius: 8px;
-      padding: 40px;
-      margin-top: 50px;
-      background-color: #fff;
-      box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
-    }
+      header a {
+        text-decoration: none;
+        color: var(--skoHubDarkGreen);
+      }
 
-    .error h1 {
-      color: tomato;
-    }
+      header .skohubImg {
+        display: inline-block;
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+      }
 
-    .metadata {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+      header .skohubTitle {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0 0 15px;
+        font-size: 24px;
+        line-height: 24px;
+        font-weight: 700;
+      }
 
-    #status {
-      text-transform: capitalize;
-    }
+      #date {
+        color: hsl(0, 0%, 54%);
+      }
 
-    .warning {
-      background-color: hsl(51, 100%, 93%);
-    }
+      .error {
+        border: 4px solid tomato;
+        border-radius: 8px;
+        padding: 40px;
+        margin-top: 50px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px 0 rgba(14, 30, 37, 0.12);
+      }
 
-  </style>
+      .error h1 {
+        color: tomato;
+      }
 
-</head>
-<body>
+      .metadata {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-  <div class="wrapper">
+      #status {
+        text-transform: capitalize;
+      }
 
-    <header
-      class="Header"
-    >
-      <div class="headerContent">
-        <h1>
-          <a href="/">
-            SkoHub-Log
-          </a>
-        </h1>
-      </div>
+      .warning {
+        background-color: hsl(51, 100%, 93%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <div class="headerContent">
+          <div class="skohubLogo">
+            <a href="/">
+              <img
+                class="skohubImg"
+                src="images/skohub-icon.png"
+                alt="SkoHub"
+              />
+              <span class="skohubTitle">SkoHub-Log</span>
+            </a>
+          </div>
+        </div>
+      </header>
 
-      <div class="wave">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1000 279.24"
-          preserveAspectRatio="none">
-            <path
-              d="M1000 0S331.54-4.18 0 279.24h1000z"
-              opacity=".25"
-            />
-            <path
-              d="M1000 279.24s-339.56-44.3-522.95-109.6S132.86 23.76 0 25.15v254.09z"
-            />
-        </svg>
-      </div>
-    </header>
-
-    <main>
+      <main>
         <div class="metadata">
           <div>
             <h2 id="status"></h2>
@@ -224,24 +277,22 @@
         <pre id="headers" class="block"></pre>
 
         <h2>Deploy log</h2>
-        <ul id="log"class="block"></ul>
-    </main>
+        <ul id="log" class="block"></ul>
+      </main>
+    </div>
 
-  </div>
+    <script>
+      const log = document.getElementById("log")
+      const date = document.getElementById("date")
+      const status = document.getElementById("status")
+      const payload = document.getElementById("payload")
+      const headers = document.getElementById("headers")
 
-  <script>
-    const log = document.getElementById("log")
-    const date = document.getElementById("date")
-    const status = document.getElementById("status")
-    const payload = document.getElementById("payload")
-    const headers = document.getElementById("headers")
+      const url = new URL(window.location.href)
+      const id = url.searchParams.get("id")
 
-    const url = new URL(window.location.href)
-    const id = url.searchParams.get('id')
-
-    const setError = (msg) => {
-      document.querySelector('.wrapper')
-        .innerHTML = `
+      const setError = (msg) => {
+        document.querySelector(".wrapper").innerHTML = `
           <main>
             <div class="error block">
               <h1>Error</h1>
@@ -249,79 +300,79 @@
             </div>
           </main>
           `
-    }
-
-    const getData = async () => {
-      try {
-        const response = await fetch(`./${id}.json`)
-        const json = await response.json()
-        renderData(json)
-      } catch (error) {
-        setTimeout(() => {
-          console.warn("error", error)
-          getData()
-        }, 2000);
       }
-    }
 
-    const renderData = (json) => {
-      payload.innerHTML = JSON.stringify(json.body, null, 2)
-      date.innerHTML = new Date(json.date).toDateString()
-      date.title = new Date(json.date).toISOString()
-      headers.innerHTML = JSON.stringify(json.headers, null, 2)
-      log.innerHTML = ''
-      json.log.forEach((line, i) => {
-        const li = document.createElement('li')
-        const a = document.createElement('a')
-        const logDate = document.createElement('span')
-        const logText = document.createElement('text')
-        li.id = i
-        a.href = `#${i}`
-        logDate.innerHTML = new Date(line.date).toLocaleString().split(', ').slice(-1)
-        logText.innerHTML = line.text
-        if (line.warning) {
-          li.classList.add('warning')
+      const getData = async () => {
+        try {
+          const response = await fetch(`./${id}.json`)
+          const json = await response.json()
+          renderData(json)
+        } catch (error) {
+          setTimeout(() => {
+            console.warn("error", error)
+            getData()
+          }, 2000)
         }
-        a.appendChild(logDate)
-        a.appendChild(logText)
-        li.appendChild(a)
-        log.appendChild(li)
-      })
+      }
 
-      status.innerHTML = json.status
-      if (json.status === "complete") {
-        status.style.color = "MediumSeaGreen"
-        const a = document.createElement("a")
-        const span = document.createElement("span")
-        span.innerHTML = " at "
-        a.href = `/${json.repository}/${json.ref.replace('refs/', '')}/`
-        a.innerHTML = `${json.repository}/${json.ref.replace('refs/', '')}/`
+      const renderData = (json) => {
+        payload.innerHTML = JSON.stringify(json.body, null, 2)
+        date.innerHTML = new Date(json.date).toDateString()
+        date.title = new Date(json.date).toISOString()
+        headers.innerHTML = JSON.stringify(json.headers, null, 2)
+        log.innerHTML = ""
+        json.log.forEach((line, i) => {
+          const li = document.createElement("li")
+          const a = document.createElement("a")
+          const logDate = document.createElement("span")
+          const logText = document.createElement("text")
+          li.id = i
+          a.href = `#${i}`
+          logDate.innerHTML = new Date(line.date)
+            .toLocaleString()
+            .split(", ")
+            .slice(-1)
+          logText.innerHTML = line.text
+          if (line.warning) {
+            li.classList.add("warning")
+          }
+          a.appendChild(logDate)
+          a.appendChild(logText)
+          li.appendChild(a)
+          log.appendChild(li)
+        })
 
-        status.parentNode.insertBefore(span, status.nextSibling)
-        status.parentNode.insertBefore(a, span.nextSibling)
-        status.appendChild
+        status.innerHTML = json.status
+        if (json.status === "complete") {
+          status.style.color = "MediumSeaGreen"
+          const a = document.createElement("a")
+          const span = document.createElement("span")
+          span.innerHTML = " at "
+          a.href = `/${json.repository}/${json.ref.replace("refs/", "")}/`
+          a.innerHTML = `${json.repository}/${json.ref.replace("refs/", "")}/`
 
-      } else if (json.status === "error") {
-        status.style.color = "Tomato"
+          status.parentNode.insertBefore(span, status.nextSibling)
+          status.parentNode.insertBefore(a, span.nextSibling)
+          status.appendChild
+        } else if (json.status === "error") {
+          status.style.color = "Tomato"
+        } else {
+          status.style.color = "gold"
+        }
+
+        if (json.status === "processing") {
+          setTimeout(() => {
+            console.log("process")
+            getData()
+          }, 2000)
+        }
+      }
+
+      if (id) {
+        getData()
       } else {
-        status.style.color = "gold"
+        setError("Build id is a required parameter")
       }
-
-      if (json.status === "processing") {
-        setTimeout(() => {
-          console.log("process")
-          getData()
-        }, 2000)
-      }
-    }
-
-    if (id) {
-      getData()
-    } else {
-      setError('Build id is a required parameter')
-    }
-
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
