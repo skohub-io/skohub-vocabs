@@ -21,6 +21,7 @@ require('dotenv').config()
 require('graceful-fs').gracefulify(require('fs'))
 
 const languages = new Set()
+const langsByCS = {}
 const inverses = {
   'http://www.w3.org/2004/02/skos/core#narrower': 'http://www.w3.org/2004/02/skos/core#broader',
   'http://www.w3.org/2004/02/skos/core#broader': 'http://www.w3.org/2004/02/skos/core#narrower',
@@ -42,6 +43,24 @@ jsonld.registerRDFParser('text/turtle', ttlString => {
   })
   return store.getQuads()
 })
+
+const parseLanguages = function (cs, arrayOfObj) {
+  for (let obj of arrayOfObj) {
+    for (let k of Object.keys(obj)) {
+      if (k === "hasTopConcept" || k === "narrower") {
+        // Concept Schemes
+        obj?.title && Object.keys(obj.title).forEach(l => langsByCS[cs].add(l))
+        // Concepts
+        obj?.prefLabel && Object.keys(obj.prefLabel).forEach(l => langsByCS[cs].add(l))
+        obj?.altLabel && Object.keys(obj.altLabel).forEach(l => langsByCS[cs].add(l))
+        obj?.hiddenLabel && Object.keys(obj.hiddenLabel).forEach(l => langsByCS[cs].add(l))
+
+        obj?.hasTopConcept && parseLanguages(cs, obj?.hasTopConcept)
+        obj?.narrower && parseLanguages(cs, obj?.narrower)
+      }
+    }
+  }
+}
 
 const createData = ({ path, data }) =>
   fs.outputFile(`public${path}`, data, err => err && console.error(err))
@@ -74,6 +93,12 @@ exports.onPreBootstrap = async ({createContentDigest, actions}) => {
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: 'text/turtle' })
     const compacted = await jsonld.compact(doc, context.jsonld)
+
+    // langsByCS[]
+    const conceptSchemeId = compacted["@graph"].find(node => node.type === "ConceptScheme").id
+    langsByCS[conceptSchemeId] = new Set()
+    parseLanguages(conceptSchemeId, compacted["@graph"])
+
     await compacted['@graph'].forEach(graph => {
       const {
         narrower, narrowerTransitive, narrowMatch, broader, broaderTransitive,
@@ -252,16 +277,26 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }))
   }))
 
+  console.info(langsByCS)
   // Build index pages
-  languages.forEach(language => createPage({
-    path: `/index.${language}.html`,
-    component: path.resolve(`./src/components/index.js`),
-    context: {
-      language,
-      languages: Array.from(languages),
-      conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(node => node.node)
-    },
-  }))
+  languages.forEach((language) =>
+    createPage({
+      path: `/index.${language}.html`,
+      component: path.resolve(`./src/components/index.js`),
+      context: {
+        language,
+        languages: Array.from(languages),
+        conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(
+          (node) => node.node
+        ),
+        langsByCS: Object.fromEntries(
+          Object.entries(langsByCS).map(([key, value]) => {
+            return [key, Array.from(value)]
+          })
+        ),
+      },
+    })
+  )
 }
 
 exports.onCreateWebpackConfig = ({ actions }) => {
