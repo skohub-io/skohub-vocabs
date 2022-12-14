@@ -277,7 +277,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }))
   }))
 
-  console.info(langsByCS)
   // Build index pages
   languages.forEach((language) =>
     createPage({

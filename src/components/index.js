@@ -6,16 +6,11 @@ import Layout from "./layout"
 import SEO from "./seo"
 
 const IndexPage = ({
-  pageContext: { conceptSchemes, langsByCS },
+  pageContext: { conceptSchemes, language, langsByCS },
 }) => {
   // languages || language
   console.log(langsByCS)
   const languages = new Set([...Object.values(langsByCS).flat()])
-  console.log(languages)
-  const userLang = navigator.language || navigator.userLanguage 
-  console.log(userLang)
-  const language = userLang.slice(0,2)
-  console.log(language)
 
   return (
     <Layout languages={Array.from(languages)} language={language}>
@@ -30,7 +25,7 @@ const IndexPage = ({
                   `${
                     langsByCS[conceptScheme.id].includes(language)
                       ? language
-                      : langsByCS[conceptScheme.id][0] // take first available language ithe one chosen from lang tag is not available
+                      : langsByCS[conceptScheme.id][0] // take first available language if the one chosen from lang tag is not available
                   }.html`
                 )}
               >
