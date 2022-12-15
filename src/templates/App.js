@@ -13,13 +13,10 @@ import SEO from '../components/seo'
 import { style } from '../styles/concepts.css.js'
 
 const App = ({pageContext, children}) => {
-  const conceptSchemeId = (pageContext.node.type === 'ConceptScheme' || pageContext.node.type === 'Collection')
-    ? pageContext.node.id
-    : pageContext.node.inScheme.id
+  const [conceptSchemeId, setConceptSchemeId] = useState(null)
   const [index, setIndex] = useState(FlexSearch.create())
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(pageContext.node.type === 'ConceptScheme' ? pageContext.node : null)
-
   let showTreeControls = false;
 
   if (!showTreeControls && tree && tree.hasTopConcept) {
@@ -31,9 +28,33 @@ const App = ({pageContext, children}) => {
     }
   }
 
+  // get concept scheme id
+  // things would be alot easier if skos would require collections
+  // to belong to a Concept Scheme. Unfortunatley this is not the case.
+  useEffect(() => {
+    if (pageContext.node.type === "ConceptScheme") {
+      setConceptSchemeId(pageContext.node.id)
+    } else if (pageContext.node.type === "Concept") {
+      setConceptSchemeId(pageContext.node.inScheme.id)
+    } else if (pageContext.node.type === "Collection") {
+      // members of a collection can either be skos:Concepts or skos:Collection
+      // so we need to check each member till we find a concept
+      // from which we can derive the languages of the concept scheme
+      for (const member of pageContext.node.member) {
+        fetch(getFilePath(member.id, "json"))
+          .then(response => response.json())
+          .then(res => {
+            if (res.type === "Concept") {
+              setConceptSchemeId(res.inScheme.id)
+            }
+          })
+        }
+      }
+  }, [pageContext.node.type, pageContext.node.id, pageContext.node.inScheme, pageContext.node.member])
+
   // Fetch and load the serialized index
   useEffect(() => {
-    fetch(pageContext.baseURL + getFilePath(conceptSchemeId, `${pageContext.language}.index`))
+    conceptSchemeId && fetch(pageContext.baseURL + getFilePath(conceptSchemeId, `${pageContext.language}.index`))
       .then(response => response.json())
       .then(serialized => {
         const idx = FlexSearch.create()
@@ -45,17 +66,16 @@ const App = ({pageContext, children}) => {
         })
         idx.import(serialized)
         setIndex(idx)
-        console.log("index loaded", idx.info())
       })
-  }, [])
+  }, [conceptSchemeId, pageContext.baseURL, pageContext.language])
 
   // Fetch and load the tree
   useEffect(() => {
-    pageContext.node.type !== 'ConceptScheme'
+    conceptSchemeId && pageContext.node.type !== 'ConceptScheme'
       && fetch(pageContext.baseURL + getFilePath(conceptSchemeId, 'json'))
         .then(response => response.json())
         .then(tree => setTree(tree))
-  }, [])
+  }, [conceptSchemeId, pageContext.baseURL, pageContext.node.type])
 
   // Scroll current item into view
   useEffect(() => {

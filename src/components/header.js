@@ -110,6 +110,7 @@ const Header = ({ siteTitle, languages, language }) => {
         }
       }
     }
+
     fetch(pathName + ".json")
       .then((response) => response.json())
       .then((r) => {
@@ -117,13 +118,33 @@ const Header = ({ siteTitle, languages, language }) => {
           setConceptScheme((prev) => ({ ...prev, ...r }))
           parseLanguages([r])
         } else if (r.type === "Concept") {
-          const cs = r.topConceptOf ? r.topConceptOf : r.inScheme
+          const cs = r.inScheme
           setConceptScheme((prev) => ({ ...prev, ...cs }))
           fetch(getFilePath(cs.id, "json"))
             .then((response) => response.json())
-            .then((r) => {
-              parseLanguages([r])
+            .then((res) => {
+              parseLanguages([res])
             })
+        } else if (r.type === "Collection") {
+          // members of a collection can either be skos:Concepts or skos:Collection
+          // so we need to check each member till we find a concept
+          // from which we can derive the languages of the concept scheme
+          for (const member of r.member) {
+            fetch(getFilePath(member.id, "json"))
+              .then(response => response.json())
+              .then((res) => {
+                if (res.type === "Concept") {
+                  console.log("found concept")
+                  const cs = res.inScheme
+                  setConceptScheme((prev) => ({ ...prev, ...cs }))
+                  fetch(getFilePath(cs.id, "json"))
+                    .then((response) => response.json())
+                    .then((res) => {
+                  parseLanguages([res])
+                  })
+                }
+              })
+          }
         } else {
           languages.forEach(l => setLangs(prev => new Set(prev.add(l))))
         }

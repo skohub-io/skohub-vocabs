@@ -6,14 +6,12 @@ import Layout from "./layout"
 import SEO from "./seo"
 
 const IndexPage = ({
-  pageContext: { conceptSchemes, language, langsByCS },
+  pageContext: { conceptSchemes, language, languagesByCS },
 }) => {
-  // languages || language
-  console.log(langsByCS)
-  const languages = new Set([...Object.values(langsByCS).flat()])
+  const languages = Array.from(new Set([...Object.values(languagesByCS).flat()]))
 
   return (
-    <Layout languages={Array.from(languages)} language={language}>
+    <Layout languages={languages} language={language}>
       <SEO title="Concept Schemes" keywords={["conceptSchemes"]} />
       <div className="centerPage block">
         <ul>
@@ -23,9 +21,9 @@ const IndexPage = ({
                 to={getFilePath(
                   conceptScheme.id,
                   `${
-                    langsByCS[conceptScheme.id].includes(language)
+                    languagesByCS[conceptScheme.id].includes(language)
                       ? language
-                      : langsByCS[conceptScheme.id][0] // take first available language if the one chosen from lang tag is not available
+                      : languagesByCS[conceptScheme.id][0] // take first available language if the one chosen from lang tag is not available
                   }.html`
                 )}
               >
