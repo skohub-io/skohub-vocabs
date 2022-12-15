@@ -84,7 +84,6 @@ const style = css`
   }
 `
 
-
 const Header = ({ siteTitle, languages, language }) => {
   const [conceptScheme, setConceptScheme] = useState({})
   const [langs, setLangs] = useState(new Set())

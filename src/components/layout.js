@@ -8,7 +8,7 @@
 import React from "react"
 import { Global, css } from '@emotion/react'
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 
 import { colors as c } from '../styles/variables'
 
@@ -58,18 +58,17 @@ const style = css`
   }
 `
 
-const Layout = ({ children, languages, language }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
+const Layout = ({ children, languages, language }) => {
+  const data = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      site {
+        siteMetadata {
+          title
         }
       }
-    `}
-    render={data => (
+    }
+  `)
+  return (
       <div
         className="wrapper"
         css={style}
@@ -201,10 +200,8 @@ const Layout = ({ children, languages, language }) => (
           language={language}
         />
       </div>
-    )}
-  />
-)
-
+    )
+}
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }

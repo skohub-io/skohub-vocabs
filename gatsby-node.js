@@ -75,17 +75,17 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
       file.endsWith(".ttl") && arrayOfFiles.push(path.join(__dirname, dirPath, "/", file))
     }
   })
-  if (arrayOfFiles.length === 0)
-    throw new Error(`
-    ⛔ Data folder is empty, aborting. 
-      Add some turtle files to data folder to get beautiful rendered vocabs.
-    `)
   return arrayOfFiles
 }
 
 exports.onPreBootstrap = async ({createContentDigest, actions}) => {
   const { createNode } = actions
   const ttlFiles = getTurtleFiles('./data', [])
+  if (ttlFiles.length === 0)
+    throw new Error(`
+    ⛔ Data folder is empty, aborting. 
+      Add some turtle files to data folder to get beautiful rendered vocabs.
+    `)
   console.info(`Found these turtle files:`)
   ttlFiles.forEach(e => console.info(e))
   for (const f of ttlFiles) {
