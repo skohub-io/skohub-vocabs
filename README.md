@@ -7,23 +7,21 @@ This part of the [SkoHub](http://skohub.io) project covers the need to easily pu
 
 ### Install Node.js
 
-We currently support Node >= 14.15.0.
+We currently support Node >= 18.
 #### Windows
 
 Download and install the latest Node.js version from [the official Node.js website]( https://nodejs.org/en/).
 
 #### Unix
 
-Download the lastest nvm version.
-```
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
-```
+[Install the lastest nvm version](https://github.com/nvm-sh/nvm#installing-and-updating).
 
-Set default Node.js version. When nvm is installed, it does not default to a particular node version. You’ll need to install the version you want and give nvm instructions to use it. This example uses the version 15 release, but more recent version numbers can be used instead.
+Set default Node.js version. When nvm is installed, it does not default to a particular node version. You’ll need to install the version you want and give nvm instructions to use it.
+See [here](https://github.com/nvm-sh/nvm#bash) to automatically switch to the correct node version (not necessary, but handy).
 
 ```
-nvm install 14
-nvm use 14
+nvm install 18
+nvm use 18
 ```
 
 ## Set up
