@@ -7,15 +7,14 @@ const jsonld = require("jsonld")
 const n3 = require("n3")
 const { DataFactory } = n3
 const { namedNode } = DataFactory
-const path = require("path")
-const fs = require("fs-extra")
-const flexsearch = require("flexsearch")
-const omitEmpty = require("omit-empty")
-const urlTemplate = require("url-template")
-const { i18n, getPath, getFilePath } = require("./src/common")
-const context = require("./src/context")
-const queries = require("./src/queries")
-const types = require("./src/types")
+const path = require('path')
+const fs = require('fs-extra')
+const flexsearch = require('flexsearch')
+const omitEmpty = require('omit-empty')
+const { i18n, getFilePath } = require('./src/common')
+const context = require('./src/context')
+const queries = require('./src/queries')
+const types = require('./src/types')
 
 require("dotenv").config()
 require("graceful-fs").gracefulify(require("fs"))
@@ -63,17 +62,17 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
         arrayOfFiles.push(path.join(__dirname, dirPath, "/", file))
     }
   })
-  if (arrayOfFiles.length === 0)
-    throw new Error(`
-    ⛔ Data folder is empty, aborting. 
-      Add some turtle files to data folder to get beautiful rendered vocabs.
-    `)
   return arrayOfFiles
 }
 
 exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
   const { createNode } = actions
-  const ttlFiles = getTurtleFiles("./data", [])
+  const ttlFiles = getTurtleFiles('./data', [])
+  if (ttlFiles.length === 0)
+    throw new Error(`
+    ⛔ Data folder is empty, aborting. 
+      Add some turtle files to data folder to get beautiful rendered vocabs.
+    `)
   console.info(`Found these turtle files:`)
   ttlFiles.forEach((e) => console.info(e))
   for (const f of ttlFiles) {

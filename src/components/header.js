@@ -82,13 +82,10 @@ const style = css`
     }
   }
 `
-const Header = ({
-  siteTitle,
-  languages,
-  language,
-  pathName = useLocation().pathname.slice(0, -8),
-}) => (
-  <header css={style}>
+const Header = ({ siteTitle, languages, language, pathName = useLocation().pathname.slice(0, -8) }) => (
+  <header aria-label="banner"
+    css={style}
+  >
     <div className="headerContent">
       <div className="skohubLogo">
         <Link to={`/index.${language}.html`}>

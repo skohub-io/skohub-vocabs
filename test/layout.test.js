@@ -1,12 +1,6 @@
-/* global expect */
-/* global describe */
-/* global test */
-/* global beforeEach */
-
 import React from "react"
-import Enzyme, { shallow } from "enzyme"
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17"
-import { StaticQuery } from "gatsby"
+import * as Gatsby from "gatsby"
+import { render, screen } from "@testing-library/react"
 import {
   createHistory,
   createMemorySource,
@@ -14,41 +8,42 @@ import {
 } from "@gatsbyjs/reach-router"
 import Layout from "../src/components/layout"
 
-Enzyme.configure({ adapter: new Adapter() })
-
-beforeEach(() => {
-  StaticQuery.mockImplementationOnce(({ render }) =>
-    render({
-      site: {
-        siteMetadata: {
-          title: `Default Starter`,
-        },
-      },
-    })
-  )
-})
-
-const data = {
+const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+const title = `Gatsby Default Starter`
+const mockUseStaticQuery = {
   site: {
     siteMetadata: {
-      title: "Gatsby Starter Blog",
+      title: title,
     },
   },
 }
 
-describe("Layout", () => {
-  const wrapper = shallow(
-    <LocationProvider history={createHistory(createMemorySource("/"))}>
-      <Layout data={data}>
-        <div>Test Layout</div>
-      </Layout>
-    </LocationProvider>
-  )
+const data = {}
 
-  test("Renders", () => {
-    const html = wrapper.html()
-    expect(wrapper.exists()).toBe(true)
-    expect(html.includes("header")).toBe(true)
-    expect(html.includes("Test Layout")).toBe(true)
+describe("Layout", () => {
+  beforeEach(() => {
+    useStaticQuery.mockImplementation(() => mockUseStaticQuery)
+  })
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+  it("renders layout component", () => {
+    const reTitle = new RegExp(title, "i")
+    render(
+      <LocationProvider history={createHistory(createMemorySource("/"))}>
+        <Layout data={data}>
+          <div>Test Layout</div>
+        </Layout>
+      </LocationProvider>
+    )
+    screen.debug()
+    // header is there
+    expect(screen.getByRole("banner")).toBeInTheDocument()
+    // link attribute is filled correctly
+    expect(screen.getByRole("link", { name: reTitle })).toBeInTheDocument()
+    // Test Layout <-- is the child that is passed
+    expect(screen.getByText(/test layout/i)).toBeInTheDocument()
+    // footer
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument()
   })
 })
