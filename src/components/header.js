@@ -3,8 +3,7 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import { getFilePath } from '../common'
-
+import { getFilePath } from "../common"
 
 import { colors as c } from "../styles/variables"
 import skohubsvg from "../images/skohub-signet-color.svg"
@@ -45,7 +44,7 @@ const style = css`
       @media only screen and (max-width: 800px) {
         padding: 0 0 0 8px;
         font-size: 18px;
-      } 
+      }
     }
     .conceptScheme {
       padding: 15px 0 0 0;
@@ -109,36 +108,36 @@ const Header = ({ siteTitle, languages, language }) => {
   }, [pathName])
   return (
     <header css={style}>
-    <div className="headerContent">
-      <div className="skohubLogo">
+      <div className="headerContent">
+        <div className="skohubLogo">
           <Link to={`/index.${language}.html`}>
-          <img className="skohubImg" src={skohubsvg} alt="SkoHub" />
-          <span className="skohubTitle">{siteTitle}</span>
-        </Link>
-        {conceptScheme && conceptScheme.id && (
-          <div className="conceptScheme">
-          <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
-            {conceptScheme.title[language] || conceptScheme.id}
+            <img className="skohubImg" src={skohubsvg} alt="SkoHub" />
+            <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          </div>
+          {conceptScheme && conceptScheme.id && (
+            <div className="conceptScheme">
+              <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
+                {conceptScheme.title[language] || conceptScheme.id}
+              </Link>
+            </div>
+          )}
+        </div>
+        {languages && languages.length > 1 && (
+          <ul className="language-menu">
+            {languages.map((l) => (
+              <li key={l}>
+                {l === language ? (
+                  <span className="currentLanguage">{l}</span>
+                ) : (
+                  <a href={`${pathName}.${l}.html`}>{l}</a>
+                )}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
-      {languages && languages.length > 1 && (
-        <ul className="language-menu">
-            {languages.map((l) => (
-            <li key={l}>
-              {l === language ? (
-                <span className="currentLanguage">{l}</span>
-              ) : (
-                <a href={`${pathName}.${l}.html`}>{l}</a>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  </header>
-)
+    </header>
+  )
 }
 
 Header.propTypes = {
