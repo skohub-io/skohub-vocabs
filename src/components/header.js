@@ -1,13 +1,13 @@
 import { Link } from "gatsby"
-import { css } from '@emotion/react'
+import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
 import { getFilePath } from '../common'
 
 
-import { colors as c } from '../styles/variables'
-import skohubsvg from '../images/skohub-signet-color.svg'
+import { colors as c } from "../styles/variables"
+import skohubsvg from "../images/skohub-signet-color.svg"
 
 const style = css`
   background: ${c.skoHubWhite};
@@ -26,14 +26,14 @@ const style = css`
       text-decoration: none;
       color: ${c.skoHubDarkGreen};
     }
-    
+
     .skohubImg {
       display: inline-block;
       vertical-align: middle;
       width: 30px;
       height: 30px;
     }
-  
+
     .skohubTitle {
       display: inline-block;
       vertical-align: middle;
@@ -41,7 +41,7 @@ const style = css`
       font-size: 24px;
       line-height: 24px;
       font-weight: 700;
-      
+
       @media only screen and (max-width: 800px) {
         padding: 0 0 0 8px;
         font-size: 18px;
@@ -60,24 +60,24 @@ const style = css`
     display: inline-block;
     width: 80px;
     text-align: right;
-    
+
     li {
       margin: 0 0 0 5px;
       display: inline;
-      
+
       a {
         display: inline-block;
         padding: 5px;
         color: ${c.skoHubMiddleGrey};
         border: 1px solid ${c.skoHubMiddleGrey};
         border-radius: 30px;
-        
+
         &:hover {
-            color: ${c.skoHubAction};
-            border: 1px solid ${c.skoHubAction};
+          color: ${c.skoHubAction};
+          border: 1px solid ${c.skoHubAction};
         }
       }
-      
+
       .currentLanguage {
         font-weight: bold;
         display: inline-block;

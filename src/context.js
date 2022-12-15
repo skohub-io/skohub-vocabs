@@ -1,92 +1,92 @@
 const jsonld = {
   "@context": {
     "@version": 1.1,
-    "id": "@id",
-    "type": "@type",
+    id: "@id",
+    type: "@type",
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "dct": "http://purl.org/dc/terms/",
-    "schema": "http://schema.org/",
-    "vann": "http://purl.org/vocab/vann/",
-    "ldp": "http://www.w3.org/ns/ldp#",
-    "title": {
+    xsd: "http://www.w3.org/2001/XMLSchema#",
+    dct: "http://purl.org/dc/terms/",
+    schema: "http://schema.org/",
+    vann: "http://purl.org/vocab/vann/",
+    ldp: "http://www.w3.org/ns/ldp#",
+    title: {
       "@id": "dct:title",
-      "@container": "@language"
+      "@container": "@language",
     },
-    "description": {
+    description: {
       "@id": "dct:description",
-      "@container": "@language"
+      "@container": "@language",
     },
-    "issued": {
+    issued: {
       "@id": "dct:issued",
-      "@type": "xsd:date"
+      "@type": "xsd:date",
     },
-    "created": {
+    created: {
       "@id": "dct:created",
-      "@type": "xsd:date"
+      "@type": "xsd:date",
     },
-    "modified": {
+    modified: {
       "@id": "dct:modified",
-      "@type": "xsd:date"
+      "@type": "xsd:date",
     },
-    "creator": "dct:creator",
-    "publisher": "dct:publisher",
-    "preferredNamespacePrefix": "vann:preferredNamespacePrefix",
-    "preferredNamespaceUri": "vann:preferredNamespaceUri",
-    "isBasedOn": "schema:isBasedOn",
-    "source": "dct:source",
-    "prefLabel": {
-      "@container": "@language"
+    creator: "dct:creator",
+    publisher: "dct:publisher",
+    preferredNamespacePrefix: "vann:preferredNamespacePrefix",
+    preferredNamespaceUri: "vann:preferredNamespaceUri",
+    isBasedOn: "schema:isBasedOn",
+    source: "dct:source",
+    prefLabel: {
+      "@container": "@language",
     },
-    "altLabel": {
+    altLabel: {
       "@container": ["@language", "@set"],
     },
-    "definition": {
-      "@container": "@language"
+    definition: {
+      "@container": "@language",
     },
-    "scopeNote": {
-      "@container": "@language"
+    scopeNote: {
+      "@container": "@language",
     },
-    "note": {
-      "@container": "@language"
+    note: {
+      "@container": "@language",
     },
-    "notation": {
-      "@container": "@set"
+    notation: {
+      "@container": "@set",
     },
-    "example": {
-      "@container": "@language"
+    example: {
+      "@container": "@language",
     },
-    "narrower": {
-      "@container": "@set"
+    narrower: {
+      "@container": "@set",
     },
-    "related": {
-      "@container": "@set"
+    related: {
+      "@container": "@set",
     },
-    "relatedMatch": {
-      "@container": "@set"
+    relatedMatch: {
+      "@container": "@set",
     },
-    "narrowerTransitive": {
-      "@container": "@set"
+    narrowerTransitive: {
+      "@container": "@set",
     },
-    "broaderTransitive": {
-      "@container": "@set"
+    broaderTransitive: {
+      "@container": "@set",
     },
-    "broadMatch": {
-      "@container": "@set"
+    broadMatch: {
+      "@container": "@set",
     },
-    "narrowMatch": {
-      "@container": "@set"
+    narrowMatch: {
+      "@container": "@set",
     },
-    "closeMatch": {
-      "@container": "@set"
+    closeMatch: {
+      "@container": "@set",
     },
-    "exactMatch": {
-      "@container": "@set"
+    exactMatch: {
+      "@container": "@set",
     },
-    "hasTopConcept": {
-      "@container": "@set"
-    }
-  }
+    hasTopConcept: {
+      "@container": "@set",
+    },
+  },
 }
 
 module.exports = { jsonld }
