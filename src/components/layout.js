@@ -71,136 +71,133 @@ const Layout = ({ children, languages, language }) => {
     }
   `)
   return (
-      <div
-        className="wrapper"
-        css={style}
-      >
-        <Global
-          styles={css`
-            /* ubuntu-regular - latin */
-            @font-face {
-              font-family: "Ubuntu";
-              font-style: normal;
-              font-weight: 400;
-              src: local(""), url({ubuntu400woff2}) format("woff2"),
-                /* Super Modern Browsers */ url({ubuntu400woff}) format("woff"),
-                /* Modern Browsers */ url({ubuntu400ttf}) format("truetype"); /* Safari, Android, iOS */
+    <div className="wrapper" css={style}>
+      <Global
+        styles={css`
+          /* ubuntu-regular - latin */
+          @font-face {
+            font-family: "Ubuntu";
+            font-style: normal;
+            font-weight: 400;
+            src: local(""), url({ubuntu400woff2}) format("woff2"),
+              /* Super Modern Browsers */ url({ubuntu400woff}) format("woff"),
+              /* Modern Browsers */ url({ubuntu400ttf}) format("truetype"); /* Safari, Android, iOS */
+          }
+
+          /* ubuntu-700 - latin */
+          @font-face {
+            font-family: "Ubuntu";
+            font-style: normal;
+            font-weight: 700;
+            src: local(""), url({ubuntu700woff2}) format("woff2"),
+              /* Super Modern Browsers */ url({ubuntu700woff}) format("woff"),
+              /* Modern Browsers */ url({ubuntu700ttf}) format("truetype"); /* Safari, Android, iOS */
+          }
+
+          html {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+          }
+
+          *,
+          *:before,
+          *:after {
+            -webkit-box-sizing: inherit;
+            -moz-box-sizing: inherit;
+            box-sizing: inherit;
+          }
+
+          * {
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+          }
+
+          html,
+          body {
+            height: 100%; /* needed for proper layout */
+          }
+
+          body {
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+            overflow: hidden;
+            background-color: ${c.skoHubWhite};
+            font-family: "Ubuntu", sans-serif;
+            font-weight: 400;
+            word-wrap: break-word;
+            font-size: 16px;
+            line-height: 20px;
+            color: ${c.skoHubDarkGreen};
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            @media only screen and (max-width: 1024px) {
+              overflow: auto;
+            }
+          }
+
+          li > ul {
+            margin-left: 1.45rem;
+            margin-bottom: calc(1.45rem / 2);
+            margin-top: calc(1.45rem / 2);
+          }
+
+          li {
+            margin-bottom: calc(1.45rem / 2);
+          }
+
+          a {
+            text-decoration: none;
+            color: ${c.skoHubDarkGreen};
+
+            &:hover {
+              color: ${c.skoHubAction};
+            }
+          }
+
+          .inputStyle {
+            background-color: ${c.skoHubWhite};
+            cursor: pointer;
+            border: 1px solid ${c.skoHubDarkGrey};
+            border-radius: 30px;
+            color: ${c.skoHubDarkGreen};
+
+            &:hover,
+            &:focus {
+              background-color: ${c.skoHubLightGrey};
             }
 
-            /* ubuntu-700 - latin */
-            @font-face {
-              font-family: "Ubuntu";
-              font-style: normal;
+            &[type="button"] {
+              background: ${c.skoHubLightGrey};
+              border: 1px solid ${c.skoHubLightGrey};
               font-weight: 700;
-              src: local(""), url({ubuntu700woff2}) format("woff2"),
-                /* Super Modern Browsers */ url({ubuntu700woff}) format("woff"),
-                /* Modern Browsers */ url({ubuntu700ttf}) format("truetype"); /* Safari, Android, iOS */
-            }
-
-            html {
-              -webkit-box-sizing: border-box;
-              -moz-box-sizing: border-box;
-              box-sizing: border-box;
-            }
-
-            *,
-            *:before,
-            *:after {
-              -webkit-box-sizing: inherit;
-              -moz-box-sizing: inherit;
-              box-sizing: inherit;
-            }
-
-            * {
-              -webkit-transition: all 0.5s ease;
-              -moz-transition: all 0.5s ease;
-              transition: all 0.5s ease;
-            }
-
-            html,
-            body {
-              height: 100%; /* needed for proper layout */
-            }
-
-            body {
-              padding: 0;
-              margin: 0;
-              border: 0 none;
-              overflow: hidden;
-              background-color: ${c.skoHubWhite};
-              font-family: "Ubuntu", sans-serif;
-              font-weight: 400;
-              word-wrap: break-word;
-              font-size: 16px;
-              line-height: 20px;
-              color: ${c.skoHubDarkGreen};
-              -webkit-font-smoothing: antialiased;
-              -moz-osx-font-smoothing: grayscale;
-
-              @media only screen and (max-width: 1024px) {
-                overflow: auto;
-              }
-            }
-
-            li > ul {
-              margin-left: 1.45rem;
-              margin-bottom: calc(1.45rem / 2);
-              margin-top: calc(1.45rem / 2);
-            }
-
-            li {
-              margin-bottom: calc(1.45rem / 2);
-            }
-
-            a {
-              text-decoration: none;
-              color: ${c.skoHubDarkGreen};
 
               &:hover {
-                color: ${c.skoHubAction};
+                background: ${c.skoHubMiddleGreen};
+                border: 1px solid ${c.skoHubMiddleGreen};
+                color: ${c.skoHubWhite};
               }
             }
+          }
+        `}
+      />
+      <Header
+        siteTitle={data.site.siteMetadata.title}
+        languages={languages}
+        language={language}
+      />
+      <main>{children}</main>
 
-            .inputStyle {
-              background-color: ${c.skoHubWhite};
-              cursor: pointer;
-              border: 1px solid ${c.skoHubDarkGrey};
-              border-radius: 30px;
-              color: ${c.skoHubDarkGreen};
-
-              &:hover,
-              &:focus {
-                background-color: ${c.skoHubLightGrey};
-              }
-
-              &[type="button"] {
-                background: ${c.skoHubLightGrey};
-                border: 1px solid ${c.skoHubLightGrey};
-                font-weight: 700;
-
-                &:hover {
-                  background: ${c.skoHubMiddleGreen};
-                  border: 1px solid ${c.skoHubMiddleGreen};
-                  color: ${c.skoHubWhite};
-                }
-              }
-            }
-          `}
-        />
-        <Header
-          siteTitle={data.site.siteMetadata.title}
-          languages={languages}
-          language={language}
-        />
-        <main>{children}</main>
-
-        <Footer
-          siteTitle={data.site.siteMetadata.title}
-          languages={languages}
-          language={language}
-        />
-      </div>
-    )
+      <Footer
+        siteTitle={data.site.siteMetadata.title}
+        languages={languages}
+        language={language}
+      />
+    </div>
+  )
 }
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
