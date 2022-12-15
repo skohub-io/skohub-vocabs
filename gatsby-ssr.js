@@ -4,9 +4,8 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 
-import react from 'react'
-import App from './src/templates/App'
+import react from "react"
+import App from "./src/templates/App"
 
-export const wrapPageElement = ({ element, props }) => props.pageContext.node ? (
-  <App {...props}>{element}</App>
-) : element
+export const wrapPageElement = ({ element, props }) =>
+  props.pageContext.node ? <App {...props}>{element}</App> : element
