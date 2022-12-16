@@ -2,16 +2,16 @@
 /* global describe */
 /* global test */
 /* global afterEach */
-process.env.SECRET = 'secret'
-process.env.BUILD_URL = 'http://localhost:8081/build'
+process.env.SECRET = "secret"
+process.env.BUILD_URL = "http://localhost:8081/build"
 
-const fs = require('fs-extra')
+const fs = require("fs-extra")
 const { server, getFile } = require("../src/webHookServer")
 const request = require("supertest")
-const nock = require('nock')
+const nock = require("nock")
 const { v4: uuidv4 } = require("uuid")
 
-const timeout = async ms => new Promise(resolve => setTimeout(resolve, ms))
+const timeout = async (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 afterEach(() => {
   server.close()
@@ -29,23 +29,23 @@ describe("webHookServer", () => {
   test("Signature is incorrect", async () => {
     const response = await request(server)
       .post("/build")
-      .send({foo: 'bar'})
-      .set('x-github-event', 'push')
-      .set('x-hub-signature', 'wrongToken')
-      .set('Accept', 'application/json')
+      .send({ foo: "bar" })
+      .set("x-github-event", "push")
+      .set("x-hub-signature", "wrongToken")
+      .set("Accept", "application/json")
 
     expect(response.status).toEqual(400)
     expect(response.text).toEqual("Bad request, the token is incorrect")
   })
 
   test("Push event is incorrect", async () => {
-    process.env = Object.assign(process.env, { SECRET: 'secret' });
+    process.env = Object.assign(process.env, { SECRET: "secret" })
     const response = await request(server)
       .post("/build")
-      .send({foo: 'bar'})
-      .set('x-github-event', 'push wrong')
-      .set('x-hub-signature', 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d')
-      .set('Accept', 'application/json')
+      .send({ foo: "bar" })
+      .set("x-github-event", "push wrong")
+      .set("x-hub-signature", "sha1=52b582138706ac0c597c315cfc1a1bf177408a4d")
+      .set("Accept", "application/json")
 
     expect(response.status).toEqual(400)
     expect(response.text).toEqual("Payload was invalid, build not triggered")
@@ -54,16 +54,15 @@ describe("webHookServer", () => {
   test("Payload is incorrect", async () => {
     const response = await request(server)
       .post("/build")
-      .send({foo: 'bar'})
-      .set('x-github-event', 'push')
-      .set('x-hub-signature', 'sha1=52b582138706ac0c597c315cfc1a1bf177408a4d')
-      .set('Accept', 'application/json')
+      .send({ foo: "bar" })
+      .set("x-github-event", "push")
+      .set("x-hub-signature", "sha1=52b582138706ac0c597c315cfc1a1bf177408a4d")
+      .set("Accept", "application/json")
 
     expect(response.status).toEqual(400)
     expect(response.text).toEqual("Payload was invalid, build not triggered")
   })
 })
-
 
 // describe('processWebhooks', () => {
 //   test('Should process a correct hook and create the files for a build ', async () => {
@@ -122,26 +121,27 @@ describe("webHookServer", () => {
 //   }, 50000)
 // })
 
-describe('getFile', () => {
-  test('Creates the file', async () => {
+describe("getFile", () => {
+  test("Creates the file", async () => {
     const id = uuidv4()
     const cwd = process.cwd()
-    process.chdir('/tmp')
+    process.chdir("/tmp")
 
-    nock('https://fakeURL.test')
-      .get('/file')
-      .reply(200, {foo: 'bar'})
+    nock("https://fakeURL.test").get("/file").reply(200, { foo: "bar" })
 
-    await getFile({
-      url: 'https://fakeURL.test/file',
-      path: 'file'
-    }, id)
+    await getFile(
+      {
+        url: "https://fakeURL.test/file",
+        path: "file",
+      },
+      id
+    )
     const file = await fs.readFile(`/tmp/data/${id}/file`)
-    expect(JSON.parse(file)).toStrictEqual({foo: 'bar'})
+    expect(JSON.parse(file)).toStrictEqual({ foo: "bar" })
     process.chdir(cwd)
   })
 
-  test('Should fail with missing parameters', async () => {
+  test("Should fail with missing parameters", async () => {
     await expect(getFile()).rejects.toThrow("Missing parameters for getFile")
   })
 })

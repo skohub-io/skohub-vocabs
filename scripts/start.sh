@@ -10,7 +10,7 @@
 # config
 PORT=9006 # the port skohub-vocabs runs at
 NAME=skohub-vocabs
-NODE_VERSION="v14.17.6"
+NODE_VERSION="v18.12.1"
 
 if [ -n "$(lsof -i:$PORT)" ]; then
    echo "There is already a process running on port $PORT with an unexpectd PID. Cancelling starting."

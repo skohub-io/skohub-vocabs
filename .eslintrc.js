@@ -5,8 +5,6 @@ module.exports = {
   extends: `react-app`,
   rules: {
     "node/no-path-concat": "off",
-    "react-hooks/rules-of-hooks": "off"
-  }
-
+    "react-hooks/rules-of-hooks": "off",
+  },
 }
-

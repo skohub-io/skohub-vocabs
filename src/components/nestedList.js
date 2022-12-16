@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/react'
-import { i18n, getFilePath, getFragment } from '../common'
+import { css, jsx } from "@emotion/react"
+import { i18n, getFilePath, getFragment } from "../common"
 import { Link } from "gatsby"
 
-import { colors as c } from '../styles/variables'
+import { colors as c } from "../styles/variables"
 
 const style = css`
   list-style-type: none;
@@ -92,10 +92,10 @@ const style = css`
     }
   }
 `
-const getNestedItems = item => {
+const getNestedItems = (item) => {
   let ids = [item.id]
   if (item.narrower) {
-    item.narrower.forEach(narrower => {
+    item.narrower.forEach((narrower) => {
       ids = ids.concat(getNestedItems(narrower))
     })
   }
@@ -104,63 +104,82 @@ const getNestedItems = item => {
 
 const NestedList = ({ items, current, filter, highlight, language }) => {
   const filteredItems = filter
-    ? items.filter(item => !filter || filter.some(filter => getNestedItems(item).includes(filter)))
+    ? items.filter(
+        (item) =>
+          !filter ||
+          filter.some((filter) => getNestedItems(item).includes(filter))
+      )
     : items
   const t = i18n(language)
 
   return (
     <ul css={style}>
-      {(filteredItems || []).map(item => (
-        <li
-          key={item.id}
-        >
-          {(item.narrower && item.narrower.length > 0) && (
+      {(filteredItems || []).map((item) => (
+        <li key={item.id}>
+          {item.narrower && item.narrower.length > 0 && (
             <button
-              className={`treeItemIcon inputStyle${(filter || getNestedItems(item).some( id => id === current))
-                ?  '' : ' collapsed'}`}
+              className={`treeItemIcon inputStyle${
+                filter || getNestedItems(item).some((id) => id === current)
+                  ? ""
+                  : " collapsed"
+              }`}
               onClick={(e) => {
                 e.target.classList.toggle("collapsed")
               }}
-            >
-            </button>
+            ></button>
           )}
           <div>
             {getFragment(item.id) ? (
               <a
-                className={item.id === current ? 'current' : ''}
+                className={item.id === current ? "current" : ""}
                 href={getFragment(item.id)}
               >
-                {item.notation &&
-                  <span className="notation">{item.notation.join(',')}&nbsp;</span>
-                }
+                {item.notation && (
+                  <span className="notation">
+                    {item.notation.join(",")}&nbsp;
+                  </span>
+                )}
                 <span
                   dangerouslySetInnerHTML={{
                     __html: highlight
-                      ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
-                      : t(item.prefLabel)
+                      ? t(item.prefLabel).replace(
+                          highlight,
+                          (str) => `<strong>${str}</strong>`
+                        )
+                      : t(item.prefLabel),
                   }}
                 />
               </a>
             ) : (
               <Link
-                className={item.id === current ? 'current' : ''}
+                className={item.id === current ? "current" : ""}
                 to={getFilePath(item.id, `${language}.html`)}
               >
-                {item.notation &&
-                  <span className="notation">{item.notation.join(',')}&nbsp;</span>
-                }
-                {t(item.prefLabel) ?
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: highlight
-                      ? t(item.prefLabel).replace(highlight, str => `<strong>${str}</strong>`)
-                      : t(item.prefLabel)
-                  }}
-                /> : <i style={{color: 'red'}}>No label for language "{language}" provided</i>}
+                {item.notation && (
+                  <span className="notation">
+                    {item.notation.join(",")}&nbsp;
+                  </span>
+                )}
+                {t(item.prefLabel) ? (
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: highlight
+                        ? t(item.prefLabel).replace(
+                            highlight,
+                            (str) => `<strong>${str}</strong>`
+                          )
+                        : t(item.prefLabel),
+                    }}
+                  />
+                ) : (
+                  <i style={{ color: "red" }}>
+                    No label for language "{language}" provided
+                  </i>
+                )}
               </Link>
             )}
 
-            {(item.narrower && item.narrower.length > 0) &&
+            {item.narrower && item.narrower.length > 0 && (
               <NestedList
                 items={item.narrower}
                 current={current}
@@ -168,7 +187,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
                 highlight={highlight}
                 language={language}
               />
-            }
+            )}
           </div>
         </li>
       ))}

@@ -1,16 +1,18 @@
 import React from "react"
 import { Link } from "gatsby"
-import { i18n, getFilePath } from '../common'
+import { i18n, getFilePath } from "../common"
 
 import Layout from "./layout"
 import SEO from "./seo"
 
-const IndexPage = ({ pageContext: { conceptSchemes, language, languages } }) => (
+const IndexPage = ({
+  pageContext: { conceptSchemes, language, languages },
+}) => (
   <Layout languages={languages} language={language}>
-    <SEO title="Concept Schemes" keywords={['conceptSchemes']} />
+    <SEO title="Concept Schemes" keywords={["conceptSchemes"]} />
     <div className="centerPage block">
       <ul>
-        {conceptSchemes.map(conceptScheme => (
+        {conceptSchemes.map((conceptScheme) => (
           <li key={conceptScheme.id}>
             <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
               {i18n(language)(conceptScheme.title) || conceptScheme.id}

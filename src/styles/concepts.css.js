@@ -1,16 +1,16 @@
-import { css } from '@emotion/react'
+import { css } from "@emotion/react"
 
-import { colors as c } from '../styles/variables'
+import { colors as c } from "../styles/variables"
 
 export const style = css`
   display: flex;
   height: 100%;
-  
+
   @media only screen and (max-width: 800px) {
-        display: block;
-        flex-direction: column;
-        height: auto;
-    }
+    display: block;
+    flex-direction: column;
+    height: auto;
+  }
 
   a.current {
     color: ${c.skoHubMiddleGreen};
@@ -22,30 +22,30 @@ export const style = css`
     box-shadow: 0px 10px 20px ${c.skoHubMiddleGrey};
     padding: 30px;
     border-radius: 30px;
-    
+
     @media only screen and (max-width: 1024px) {
-        padding: 15px;
+      padding: 15px;
     }
   }
 
   .nav-block {
     flex: 1;
-    
+
     @media only screen and (max-width: 800px) {
-        display: block;
-        height: 45vh;
-        overflow: auto;
-        padding: 15px 15px 30px 15px;
-        width: 100%;
+      display: block;
+      height: 45vh;
+      overflow: auto;
+      padding: 15px 15px 30px 15px;
+      width: 100%;
     }
   }
-    
+
   .main-block {
     flex: 2;
-    
+
     @media only screen and (max-width: 800px) {
-        display: block;
-        width: 100%;
+      display: block;
+      width: 100%;
     }
   }
 
@@ -54,7 +54,7 @@ export const style = css`
     flex-direction: column;
     overflow: hidden;
 
-    input[type=text] {
+    input[type="text"] {
       margin-bottom: 10px;
       width: 100%;
       padding: 10px;
@@ -65,10 +65,10 @@ export const style = css`
       margin: 0;
       padding: 10px;
       height: 100%;
-      
+
       @media only screen and (max-width: 800px) {
-      overflow: visible;
-      height: auto;
+        overflow: visible;
+        height: auto;
       }
     }
 
@@ -91,7 +91,7 @@ export const style = css`
     margin-left: 20px;
 
     @media only screen and (max-width: 800px) {
-        margin: 20px 0 0 0;
+      margin: 20px 0 0 0;
     }
 
     button {
@@ -102,13 +102,13 @@ export const style = css`
       position: absolute;
       right: 30px;
       top: 30px;
-      
-        @media only screen and (max-width: 1024px) {
-            position: relative;
-            left: 0;
-            right: 0;
-            top: 0;
-        }
+
+      @media only screen and (max-width: 1024px) {
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+      }
     }
 
     h1 {
@@ -117,24 +117,24 @@ export const style = css`
       font-size: 30px;
       line-height: 32px;
       font-weight: 700;
-      
+
       @media only screen and (max-width: 800px) {
         font-size: 24px;
         line-height: 26px;
       }
     }
-      
+
     h2 {
       margin: 0;
       padding: 0 0 15px 0;
       font-size: 24px;
       line-height: 28px;
       font-weight: 700;
-      
+
       @media only screen and (max-width: 800px) {
         font-size: 20px;
         line-height: 26px;
-      }      
+      }
     }
 
     a {
