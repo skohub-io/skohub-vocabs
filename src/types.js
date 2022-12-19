@@ -38,10 +38,10 @@ module.exports = (languages) => `
   }
 
   type LanguageMap {
-    ${[...languages].map(l => `${l}: String`).join(', ')}
+    ${[...languages].map((l) => `${l}: String`).join(", ")}
   }
   
   type LanguageMapArray {
-    ${[...languages].map(l => `${l}: [String]`).join(', ')}
+    ${[...languages].map((l) => `${l}: [String]`).join(", ")}
   }
 `
