@@ -46,6 +46,10 @@ const style = css`
         font-size: 18px;
       }
     }
+    .conceptScheme {
+      padding: 15px 0 0 0;
+      font-size: 24px;
+    }
   }
 
   ul.language-menu {

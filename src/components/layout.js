@@ -15,12 +15,14 @@ import { colors as c } from "../styles/variables"
 import Header from "./header"
 import Footer from "./footer"
 
+/* eslint-disable no-unused-vars */
 import ubuntu400woff from "../fonts/ubuntu-v20-latin-regular.woff"
 import ubuntu400woff2 from "../fonts/ubuntu-v20-latin-regular.woff2"
 import ubuntu400ttf from "../fonts/ubuntu-v20-latin-700.ttf"
 import ubuntu700woff from "../fonts/ubuntu-v20-latin-700.woff"
 import ubuntu700woff2 from "../fonts/ubuntu-v20-latin-700.woff2"
 import ubuntu700ttf from "../fonts/ubuntu-v20-latin-700.ttf"
+/* eslint-enable no-unused-vars */
 
 const style = css`
   height: 100vh;

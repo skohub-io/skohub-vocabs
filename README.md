@@ -91,6 +91,15 @@ You may want to use the start scripts in `scripts/` to manage via init and to mo
 Depending on special circumstances you may get errors in the log files, e.g.
 `EMFILE: too many open files`. [Search our issues for solutions](https://github.com/skohub-io/skohub-vocabs/issues?q=is%3Aissue) or feel encouraged to open a new issue if you can't find a solution.
 
+## Development
+
+### Code formatting and styling
+
+To improve code quality we currently use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/) for formatting and linting.
+Pre-Commit hooks are implemented using [lint-staged](https://github.com/okonet/lint-staged) and [husky](https://github.com/typicode/husky).
+This will format the code and check for linting errors with each commit.
+So if your commit errors, make sure to check the output and fix accordingly.
+
 ## Credits
 
 The project to create a stable beta version of SkoHub has been funded by the North-Rhine Westphalian Library Service Centre (hbz) and carried out in cooperation with [graphthinking GmbH](https://graphthinking.com/) in 2019/2020.
