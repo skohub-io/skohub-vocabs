@@ -90,22 +90,82 @@ const style = css`
 
 const Header = ({ siteTitle, languages, language }) => {
   const [conceptScheme, setConceptScheme] = useState({})
+  const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
   // to display the concept scheme title in the header
   // we have to retrieve concept scheme info in this component
   useEffect(() => {
+    function parseLanguages(arrayOfObj) {
+      for (let obj of arrayOfObj) {
+        for (let k of Object.keys(obj)) {
+          if (k === "hasTopConcept" || k === "narrower") {
+            // Concept Schemes
+            obj?.title &&
+              Object.keys(obj.title).forEach((t) =>
+                setLangs((prev) => new Set(prev.add(t)))
+              )
+            // Concepts
+            obj?.prefLabel &&
+              Object.keys(obj.prefLabel).forEach((t) =>
+                setLangs((prev) => new Set(prev.add(t)))
+              )
+            obj?.altLabel &&
+              Object.keys(obj.altLabel).forEach((t) =>
+                setLangs((prev) => new Set(prev.add(t)))
+              )
+            obj?.hiddenLabel &&
+              Object.keys(obj.hiddenLabel).forEach((t) =>
+                setLangs((prev) => new Set(prev.add(t)))
+              )
+
+            obj?.hasTopConcept && parseLanguages(obj?.hasTopConcept)
+            obj?.narrower && parseLanguages(obj?.narrower)
+          }
+        }
+      }
+    }
+
     fetch(pathName + ".json")
       .then((response) => response.json())
       .then((r) => {
         if (r.type === "ConceptScheme") {
           setConceptScheme((prev) => ({ ...prev, ...r }))
+          parseLanguages([r])
         } else if (r.type === "Concept") {
-          const cs = r.topConceptOf ? r.topConceptOf : r.inScheme
+          const cs = r.inScheme
           setConceptScheme((prev) => ({ ...prev, ...cs }))
+          fetch(getFilePath(cs.id, "json"))
+            .then((response) => response.json())
+            .then((res) => {
+              parseLanguages([res])
+            })
+        } else if (r.type === "Collection") {
+          // members of a collection can either be skos:Concepts or skos:Collection
+          // so we need to check each member till we find a concept
+          // from which we can derive the languages of the concept scheme
+          for (const member of r.member) {
+            fetch(getFilePath(member.id, "json"))
+              .then((response) => response.json())
+              .then((res) => {
+                if (res.type === "Concept") {
+                  console.log("found concept")
+                  const cs = res.inScheme
+                  setConceptScheme((prev) => ({ ...prev, ...cs }))
+                  fetch(getFilePath(cs.id, "json"))
+                    .then((response) => response.json())
+                    .then((res) => {
+                      parseLanguages([res])
+                    })
+                }
+              })
+          }
+        } else {
+          languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
         }
       })
-  }, [pathName])
+  }, [pathName, languages])
+
   return (
     <header css={style}>
       <div className="headerContent">
@@ -117,14 +177,14 @@ const Header = ({ siteTitle, languages, language }) => {
           {conceptScheme && conceptScheme.id && (
             <div className="conceptScheme">
               <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
-                {conceptScheme.title[language] || conceptScheme.id}
+                {conceptScheme?.title?.language || conceptScheme.id}
               </Link>
             </div>
           )}
         </div>
-        {languages && languages.length > 1 && (
+        {langs && Array.from(langs).length > 1 && (
           <ul className="language-menu">
-            {languages.map((l) => (
+            {Array.from(langs).map((l) => (
               <li key={l}>
                 {l === language ? (
                   <span className="currentLanguage">{l}</span>
