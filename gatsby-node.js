@@ -27,6 +27,10 @@ const inverses = {
     "http://www.w3.org/2004/02/skos/core#narrower",
   "http://www.w3.org/2004/02/skos/core#related":
     "http://www.w3.org/2004/02/skos/core#related",
+  "http://www.w3.org/2004/02/skos/core#hasTopConcept":
+    "http://www.w3.org/2004/02/skos/core#topConceptOf",
+  "http://www.w3.org/2004/02/skos/core#topConceptOf":
+    "http://www.w3.org/2004/02/skos/core#hasTopConcept",
 }
 
 jsonld.registerRDFParser("text/turtle", (ttlString) => {
