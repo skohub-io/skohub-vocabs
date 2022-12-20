@@ -21,10 +21,7 @@ Replaces the last part (Filepath) of a given url with the last part (Filepath) o
 @returns {string} path
 **/
 const replaceFilePathInUrl = (url, replaceId, extension) => {
-  console.log(url)
-  console.log(replaceId)
   const path = url.replace(/\/[^\/]*$/, "/" + replaceId.split("/").pop())
-  console.log(path)
   return extension ? `${path}.${extension}` : path
 }
 
@@ -112,6 +109,7 @@ const isSecured = (signature, payload, SECRET) => {
   if (signature === digest) {
     return true
   }
+  // eslint-disable-next-line no-console
   console.warn("Invalid signature", signature, digest)
   return false
 }

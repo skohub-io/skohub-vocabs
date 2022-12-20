@@ -151,7 +151,6 @@ const Header = ({ siteTitle, languages, language }) => {
               .then((response) => response.json())
               .then((res) => {
                 if (res.type === "Concept") {
-                  console.log("found concept")
                   const cs = res.inScheme
                   setConceptScheme((prev) => ({ ...prev, ...cs }))
                   const path = replaceFilePathInUrl(pathName, cs.id, "json")
