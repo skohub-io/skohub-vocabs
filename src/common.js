@@ -13,6 +13,21 @@ const getFilePath = (url, extension) => {
   return extension ? `${path}.${extension}` : path
 }
 
+/**
+Replaces the last part (Filepath) of a given url with the last part (Filepath) of another url
+@param {string} url
+@param {string} replaceId
+@param {string} [extension] - extension to be added
+@returns {string} path
+**/
+const replaceFilePathInUrl = (url, replaceId, extension) => {
+  console.log(url)
+  console.log(replaceId)
+  const path = url.replace(/\/[^\/]*$/, "/" + replaceId.split("/").pop())
+  console.log(path)
+  return extension ? `${path}.${extension}` : path
+}
+
 const getPath = (url) => url.replace(/^https?:\/\//, "")
 
 const getFragment = (url) => new URL(url).hash
@@ -176,6 +191,7 @@ module.exports = {
   i18n,
   getPath,
   getFilePath,
+  replaceFilePathInUrl,
   getFragment,
   getDomId,
   getHeaders,

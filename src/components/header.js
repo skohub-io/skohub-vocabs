@@ -3,7 +3,7 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import { getFilePath } from "../common"
+import { getFilePath, replaceFilePathInUrl } from "../common"
 
 import { colors as c } from "../styles/variables"
 import skohubsvg from "../images/skohub-signet-color.svg"
@@ -135,7 +135,8 @@ const Header = ({ siteTitle, languages, language }) => {
         } else if (r.type === "Concept") {
           const cs = r.inScheme
           setConceptScheme((prev) => ({ ...prev, ...cs }))
-          fetch(getFilePath(cs.id, "json"))
+          const path = replaceFilePathInUrl(pathName, cs.id, "json")
+          fetch(path)
             .then((response) => response.json())
             .then((res) => {
               parseLanguages([res])
@@ -145,14 +146,16 @@ const Header = ({ siteTitle, languages, language }) => {
           // so we need to check each member till we find a concept
           // from which we can derive the languages of the concept scheme
           for (const member of r.member) {
-            fetch(getFilePath(member.id, "json"))
+            const path = replaceFilePathInUrl(pathName, member.id, "json")
+            fetch(path)
               .then((response) => response.json())
               .then((res) => {
                 if (res.type === "Concept") {
                   console.log("found concept")
                   const cs = res.inScheme
                   setConceptScheme((prev) => ({ ...prev, ...cs }))
-                  fetch(getFilePath(cs.id, "json"))
+                  const path = replaceFilePathInUrl(pathName, cs.id, "json")
+                  fetch(path)
                     .then((response) => response.json())
                     .then((res) => {
                       parseLanguages([res])

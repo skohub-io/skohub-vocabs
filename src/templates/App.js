@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react"
 import { useEffect, useState } from "react"
+import { useLocation } from "@gatsbyjs/reach-router"
 
 import FlexSearch from "flexsearch"
 import escapeRegExp from "lodash.escaperegexp"
-import { i18n, getFilePath } from "../common"
+import { i18n, getFilePath, replaceFilePathInUrl } from "../common"
 import NestedList from "../components/nestedList"
 import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
@@ -19,6 +20,7 @@ const App = ({ pageContext, children }) => {
   const [tree, setTree] = useState(
     pageContext.node.type === "ConceptScheme" ? pageContext.node : null
   )
+  const pathName = useLocation().pathname.slice(0, -8)
   let showTreeControls = false
 
   if (!showTreeControls && tree && tree.hasTopConcept) {
@@ -43,7 +45,8 @@ const App = ({ pageContext, children }) => {
       // so we need to check each member till we find a concept
       // from which we can derive the languages of the concept scheme
       for (const member of pageContext.node.member) {
-        fetch(getFilePath(member.id, "json"))
+        const path = replaceFilePathInUrl(pathName, member.id, "json")
+        fetch(path)
           .then((response) => response.json())
           .then((res) => {
             if (res.type === "Concept") {
@@ -57,6 +60,7 @@ const App = ({ pageContext, children }) => {
     pageContext.node.id,
     pageContext.node.inScheme,
     pageContext.node.member,
+    pathName,
   ])
 
   // Fetch and load the serialized index
