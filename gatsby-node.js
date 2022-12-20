@@ -20,6 +20,7 @@ require("dotenv").config()
 require("graceful-fs").gracefulify(require("fs"))
 
 const languages = new Set()
+const languagesByCS = {}
 const inverses = {
   "http://www.w3.org/2004/02/skos/core#narrower":
     "http://www.w3.org/2004/02/skos/core#broader",
@@ -50,6 +51,28 @@ jsonld.registerRDFParser("text/turtle", (ttlString) => {
   })
   return store.getQuads()
 })
+
+const parseLanguages = function (cs, arrayOfObj) {
+  for (let obj of arrayOfObj) {
+    for (let k of Object.keys(obj)) {
+      if (k === "hasTopConcept" || k === "narrower") {
+        // Concept Schemes
+        obj?.title &&
+          Object.keys(obj.title).forEach((l) => languagesByCS[cs].add(l))
+        // Concepts
+        obj?.prefLabel &&
+          Object.keys(obj.prefLabel).forEach((l) => languagesByCS[cs].add(l))
+        obj?.altLabel &&
+          Object.keys(obj.altLabel).forEach((l) => languagesByCS[cs].add(l))
+        obj?.hiddenLabel &&
+          Object.keys(obj.hiddenLabel).forEach((l) => languagesByCS[cs].add(l))
+
+        obj?.hasTopConcept && parseLanguages(cs, obj?.hasTopConcept)
+        obj?.narrower && parseLanguages(cs, obj?.narrower)
+      }
+    }
+  }
+}
 
 const createData = ({ path, data }) =>
   fs.outputFile(`public${path}`, data, (err) => err && console.error(err))
@@ -83,6 +106,13 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
     const compacted = await jsonld.compact(doc, context.jsonld)
+
+    const conceptSchemeId = compacted["@graph"].find(
+      (node) => node.type === "ConceptScheme"
+    ).id
+    languagesByCS[conceptSchemeId] = new Set()
+    parseLanguages(conceptSchemeId, compacted["@graph"])
+
     await compacted["@graph"].forEach((graph) => {
       const {
         narrower,
@@ -163,20 +193,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const collections = await graphql(queries.allCollection(languages))
   await Promise.all(
     collections.data.allCollection.edges.map(async ({ node: collection }) => {
-      const indexes = Object.fromEntries(
-        [...languages].map((l) => {
-          const index = flexsearch.create({
-            tokenize: "full",
-          })
-          index.addMatcher({
-            "[Ää]": "a", // replaces all 'ä' to 'a'
-            "[Öö]": "o",
-            "[Üü]": "u",
-          })
-          return [l, index]
-        })
-      )
-
       // store collection membership for concepts
       collection.member.forEach((m) => {
         if (memberOf.hasOwnProperty(m.id)) {
@@ -194,7 +210,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           component: path.resolve(`./src/components/Collection.js`),
           context: {
             language,
-            languages: Array.from(languages),
             node: collection,
             baseURL: process.env.BASEURL || "",
           },
@@ -208,12 +223,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         path: getFilePath(collection.id, "jsonld"),
         data: JSON.stringify(jsonld, null, 2),
       })
-      languages.forEach((language) =>
-        indexes[language].add(
-          collection.id,
-          i18n(language)(collection.prefLabel)
-        )
-      )
     })
   )
 
@@ -224,8 +233,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   await Promise.all(
     conceptSchemes.data.allConceptScheme.edges.map(
       async ({ node: conceptScheme }) => {
+        const languagesOfCS = languagesByCS[conceptScheme.id]
         const indexes = Object.fromEntries(
-          [...languages].map((l) => {
+          [...languagesOfCS].map((l) => {
             const index = flexsearch.create({
               tokenize: "full",
             })
@@ -251,13 +261,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             embeddedConcepts.push({ json, jsonld })
           } else {
             // create pages and data
-            languages.forEach((language) =>
+            languagesOfCS.forEach((language) =>
               createPage({
                 path: getFilePath(concept.id, `${language}.html`),
                 component: path.resolve(`./src/components/Concept.js`),
                 context: {
                   language,
-                  languages: Array.from(languages),
                   node: concept,
                   collections: memberOf.hasOwnProperty(concept.id)
                     ? memberOf[concept.id]
@@ -275,22 +284,21 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               data: JSON.stringify(jsonld, null, 2),
             })
           }
-          languages.forEach((language) =>
+          languagesOfCS.forEach((language) =>
             indexes[language].add(concept.id, i18n(language)(concept.prefLabel))
           )
         })
 
-        languages.forEach((l) => {
+        languagesOfCS.forEach((l) => {
           console.log(`Built index for language "${l}"`, indexes[l].info())
         })
 
-        languages.forEach((language) =>
+        languagesOfCS.forEach((language) =>
           createPage({
             path: getFilePath(conceptScheme.id, `${language}.html`),
             component: path.resolve(`./src/components/ConceptScheme.js`),
             context: {
               language,
-              languages: Array.from(languages),
               node: conceptScheme,
               embed: embeddedConcepts,
               baseURL: process.env.BASEURL || "",
@@ -310,7 +318,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           ),
         })
         // create index files
-        languages.forEach((language) =>
+        languagesOfCS.forEach((language) =>
           createData({
             path: getFilePath(conceptScheme.id, `${language}.index`),
             data: JSON.stringify(indexes[language].export(), null, 2),
@@ -327,9 +335,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       component: path.resolve(`./src/components/index.js`),
       context: {
         language,
-        languages: Array.from(languages),
         conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(
           (node) => node.node
+        ),
+        languagesByCS: Object.fromEntries(
+          Object.entries(languagesByCS).map(([key, value]) => {
+            return [key, Array.from(value)]
+          })
         ),
       },
     })
