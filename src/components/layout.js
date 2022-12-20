@@ -79,9 +79,9 @@ const Layout = ({ children, languages, language }) => {
             font-family: "Ubuntu";
             font-style: normal;
             font-weight: 400;
-            src: local(""), url({ubuntu400woff2}) format("woff2"),
-              /* Super Modern Browsers */ url({ubuntu400woff}) format("woff"),
-              /* Modern Browsers */ url({ubuntu400ttf}) format("truetype"); /* Safari, Android, iOS */
+            src: local(""), url(${ubuntu400woff2}) format("woff2"),
+              /* Super Modern Browsers */ url(${ubuntu400woff}) format("woff"),
+              /* Modern Browsers */ url(${ubuntu400ttf}) format("truetype"); /* Safari, Android, iOS */
           }
 
           /* ubuntu-700 - latin */
@@ -89,9 +89,9 @@ const Layout = ({ children, languages, language }) => {
             font-family: "Ubuntu";
             font-style: normal;
             font-weight: 700;
-            src: local(""), url({ubuntu700woff2}) format("woff2"),
-              /* Super Modern Browsers */ url({ubuntu700woff}) format("woff"),
-              /* Modern Browsers */ url({ubuntu700ttf}) format("truetype"); /* Safari, Android, iOS */
+            src: local(""), url(${ubuntu700woff2}) format("woff2"),
+              /* Super Modern Browsers */ url(${ubuntu700woff}) format("woff"),
+              /* Modern Browsers */ url(${ubuntu700ttf}) format("truetype"); /* Safari, Android, iOS */
           }
 
           html {
