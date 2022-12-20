@@ -33,5 +33,6 @@ describe("Header", () => {
       )
     })
     screen.debug()
+    // TODO check for language menu
   })
 })

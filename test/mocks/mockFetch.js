@@ -1,7 +1,5 @@
-const conceptSchemeResponse = {
-  id: "https://w3id.org/kim/hcrt/scheme",
-  type: "ConceptScheme",
-}
+import { conceptScheme } from "../data/hcrt"
+const conceptSchemeResponse = conceptScheme
 
 export default async function mockFetch(url) {
   switch (url) {
