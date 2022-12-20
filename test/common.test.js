@@ -2,10 +2,13 @@
 /* global jest */
 /* global describe */
 /* global test */
+/* eslint no-console: 0 */ // --> OFF
+const { replace } = require("lodash")
 const nock = require("nock")
 const {
   i18n,
   getFilePath,
+  replaceFilePathInUrl,
   getHookGitHub,
   getHookGitLab,
   getHookSkoHub,
@@ -713,5 +716,28 @@ describe("getFilePath", () => {
     expect(
       getFilePath("http://w3id.org/class/hochschulfaecher/S393#", "html")
     ).toBe("/w3id.org/class/hochschulfaecher/S393.html")
+  })
+})
+
+describe("replaceFilePathinUrl", () => {
+  test("Should replace the file path", () => {
+    expect(
+      replaceFilePathInUrl(
+        "http://w3id.org/class/hochschulfaecher/2",
+        "http://w3id.org/class/hochschulfaecher/1"
+      )
+    ).toBe("http://w3id.org/class/hochschulfaecher/1")
+  })
+})
+
+describe("replaceFilePathinUrl", () => {
+  test("Should replace the file path and add an extension", () => {
+    expect(
+      replaceFilePathInUrl(
+        "http://w3id.org/class/hochschulfaecher/2",
+        "http://w3id.org/class/hochschulfaecher/1",
+        "json"
+      )
+    ).toBe("http://w3id.org/class/hochschulfaecher/1.json")
   })
 })
