@@ -70,6 +70,66 @@ If you want to serve your sites from another location than root, you can make us
 If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
 To fix this set `BASEURL=public` in your `.env` file.
 
+## UI Configuration
+
+The following customizations can be made:
+
+1. Changing the Logo
+1. Changing the Fonts
+1. Changing the Colors
+
+### Changing the Logo
+
+The logo consists of two parts.
+The first is a graphics file.
+And the second is simply text.
+
+If you **don't want to use the text**, just delete `<span class="skohubTitle">SkoHub Vocabs</span>` in [src/components/header.js](src/components/header.js#L115). Then the graphic logo remains.
+
+If you **don't want to use the graphics file**, just delete the `img`-Tag in [src/components/header.js](src/components/header.js#L114). 
+Then only the text remains.
+
+If you want to **change the graphics file**, you can upload a new file to [src/images](src/images).
+Then you need to change the path in [src/components/header.js](src/components/header.js#L9) at line 9 `import skohubsvg from ...`. 
+The new logo doesn't scale correctly? 
+Please check the proportions in [line 28](src/components/header.js#L28) (width and height).
+That's all.
+
+### Changing the fonts
+
+We use fonts that are self-hosted.
+
+If you want to change a font, please upload the new font to the [src/fonts](src/fonts) folder.
+You can for example get fonts from Google Fonts (download / free of charge).
+
+After that you have to adjust the CSS at [src/components/layout.js](src/components/layout.js).
+1. Change the import path at [line 19](src/components/layout.js#L19) and following.
+1. Change `@font-face` at [line 78](src/components/layout.js#L78) an following. 
+1. Change the `font-family` in the [css body tag at line 128](src/components/layout.js#L128) an following. That's all.
+
+### Changing the Colors
+
+There are no colors in the templates.
+We only use variables [src/styles/variables.js](src/styles/variables.js).
+
+We use the following default colors / variables:
+
+- `skoHubWhite: 'rgb(255, 255, 255)'`,
+- `skoHubDarkGreen: 'rgb(15, 85, 75)'`,
+- `skoHubMiddleGreen: 'rgb(20, 150, 140)'`,
+- `skoHubLightGreen: 'rgb(40, 200, 175)'`,
+- `skoHubThinGreen: 'rgb(55, 250, 210)'`,
+- `skoHubBlackGreen: 'rgb(5, 30, 30)'`,
+- `skoHubAction: 'rgb(230, 0, 125)'`,
+- `skoHubNotice: 'rgb(250, 180, 50)'`,
+- `skoHubDarkGrey: 'rgb(155, 155, 155)'`,
+- `skoHubMiddleGrey: 'rgb(200, 200, 200)'`,
+- `skoHubLightGrey: 'rgb(235, 235, 235)'`,
+
+To change a color, the RGB values can be adjusted.
+HEX codes are also possible.
+The names of variables should only be changed if you use "search and replace" to adapt the names also in the templates.
+
 ## Running the webhook server
 
 The webhook server allows to trigger a build when vocabularies are updated (i.e. changes are merged into the `master` branch) on GitHub.
