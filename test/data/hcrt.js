@@ -1,4 +1,72 @@
-export const conceptScheme = {
+export const conceptSchemeOneLang = {
+  id: "https://w3id.org/kim/hcrt/scheme",
+  type: "ConceptScheme",
+  title: {
+    de: "Hochschulcampus Ressourcentypen",
+  },
+  description: {
+    de: 'Eine Wertelliste für Typen von Lernressourcen (Learning Resource Type), entstanden im Kontext des Metadatenschemas "LOM for Higher Education OER Repositories" (https://w3id.org/dini-ag-kim/hs-oer-lom-profil/latest/).',
+  },
+  hasTopConcept: [
+    {
+      id: "https://w3id.org/kim/hcrt/application",
+      prefLabel: {
+        de: "Softwareanwendung",
+      },
+    },
+    {
+      id: "https://w3id.org/kim/hcrt/assessment",
+      prefLabel: { de: "Lernkontrolle" },
+      altLabel: { de: ["Assessment"] },
+    },
+    {
+      id: "https://w3id.org/kim/hcrt/audio",
+      prefLabel: { de: "Audio" },
+      altLabel: { de: ["Tonaufnahme"] },
+    },
+  ],
+  "@context": {
+    "@version": 1.1,
+    id: "@id",
+    type: "@type",
+    "@vocab": "http://www.w3.org/2004/02/skos/core#",
+    xsd: "http://www.w3.org/2001/XMLSchema#",
+    dct: "http://purl.org/dc/terms/",
+    schema: "http://schema.org/",
+    vann: "http://purl.org/vocab/vann/",
+    ldp: "http://www.w3.org/ns/ldp#",
+    title: { "@id": "dct:title", "@container": "@language" },
+    description: { "@id": "dct:description", "@container": "@language" },
+    issued: { "@id": "dct:issued", "@type": "xsd:date" },
+    created: { "@id": "dct:created", "@type": "xsd:date" },
+    modified: { "@id": "dct:modified", "@type": "xsd:date" },
+    creator: "dct:creator",
+    publisher: "dct:publisher",
+    preferredNamespacePrefix: "vann:preferredNamespacePrefix",
+    preferredNamespaceUri: "vann:preferredNamespaceUri",
+    isBasedOn: "schema:isBasedOn",
+    source: "dct:source",
+    prefLabel: { "@container": "@language" },
+    altLabel: { "@container": ["@language", "@set"] },
+    definition: { "@container": "@language" },
+    scopeNote: { "@container": "@language" },
+    note: { "@container": "@language" },
+    notation: { "@container": "@set" },
+    example: { "@container": "@language" },
+    narrower: { "@container": "@set" },
+    related: { "@container": "@set" },
+    relatedMatch: { "@container": "@set" },
+    narrowerTransitive: { "@container": "@set" },
+    broaderTransitive: { "@container": "@set" },
+    broadMatch: { "@container": "@set" },
+    narrowMatch: { "@container": "@set" },
+    closeMatch: { "@container": "@set" },
+    exactMatch: { "@container": "@set" },
+    hasTopConcept: { "@container": "@set" },
+  },
+}
+
+export const conceptSchemeThreeLang = {
   id: "https://w3id.org/kim/hcrt/scheme",
   type: "ConceptScheme",
   title: {

@@ -173,13 +173,13 @@ const Header = ({ siteTitle, languages, language }) => {
       <div className="headerContent">
         <div className="skohubLogo">
           <Link to={`/index.${language}.html`}>
-            <img className="skohubImg" src={skohubsvg} alt="SkoHub" />
+            <img className="skohubImg" src={skohubsvg} alt="SkoHub Logo" />
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
           {conceptScheme && conceptScheme.id && (
             <div className="conceptScheme">
               <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
-                {conceptScheme?.title?.language || conceptScheme.id}
+                {conceptScheme?.title?.[language] || conceptScheme.id}
               </Link>
             </div>
           )}
