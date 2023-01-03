@@ -1,6 +1,9 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
-import { Concept as pageContext } from "../test/data/pageContext"
+import {
+  Concept as pageContext,
+  ConceptNoPrefLabel,
+} from "../test/data/pageContext"
 import Concept from "../src/components/Concept"
 
 describe("Concept", () => {
@@ -9,5 +12,12 @@ describe("Concept", () => {
     expect(
       screen.getByRole("heading", { name: "Konstruktionstechnik" })
     ).toBeInTheDocument()
+  })
+
+  it("shows no preflabel in h1 if no pref label is provided", () => {
+    render(<Concept pageContext={ConceptNoPrefLabel} />)
+    expect(
+      screen.queryByRole("heading", { name: "Konstruktionstechnik" })
+    ).toBeNull()
   })
 })

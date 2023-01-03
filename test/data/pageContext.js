@@ -118,3 +118,39 @@ export const ConceptSchemeWithNarrower = {
   language: "de",
   baseURL: "",
 }
+
+export const ConceptSchemeNoPrefLabel = {
+  node: {
+    id: "http://w3id.org/class/hochschulfaecher/scheme#",
+    type: "ConceptScheme",
+    title: {
+      de: "Fächersystematik Hochschulbildung in Deutschland",
+    },
+    hasTopConcept: [
+      {
+        id: "http://w3id.org/class/hochschulfaecher/F1#",
+        narrower: [
+          {
+            id: "http://w3id.org/class/hochschulfaecher/B1#",
+            topConceptOf: null,
+            inScheme: {
+              id: "http://w3id.org/class/hochschulfaecher/scheme#",
+              title: {
+                de: "Fächersystematik Hochschulbildung in Deutschland",
+              },
+            },
+            prefLabel: {
+              de: "Agrarwissenschaften",
+            },
+          },
+        ],
+        broader: null,
+        prefLabel: {
+          de: "Agrar- und Forstwissenschaften",
+        },
+      },
+    ],
+  },
+  language: "en",
+  baseURL: "",
+}

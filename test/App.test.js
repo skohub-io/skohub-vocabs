@@ -10,6 +10,8 @@ import {
 import {
   ConceptSchemeNoNarrower,
   ConceptSchemeWithNarrower,
+  ConceptSchemeNoPrefLabel,
+  ConceptNoPrefLabel,
 } from "./data/pageContext"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
@@ -46,5 +48,16 @@ describe("App", () => {
     )
     expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull()
     expect(screen.queryByRole("button", { name: "Expand" })).toBeNull()
+  })
+
+  it("renders App component with no prefLabelMessage", () => {
+    render(
+      <LocationProvider history={createHistory(createMemorySource("/"))}>
+        <App pageContext={ConceptSchemeNoPrefLabel} children={null} />
+      </LocationProvider>
+    )
+    expect(
+      screen.getByRole("link", { name: 'No label for language "en" provided' })
+    ).toBeInTheDocument()
   })
 })
