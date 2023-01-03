@@ -1,12 +1,5 @@
 import React from "react"
-import {
-  render,
-  screen,
-  act,
-  within,
-  waitFor,
-  fireEvent,
-} from "@testing-library/react"
+import { render, screen, act } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import Header from "../src/components/header"
 import mockFetch from "./mocks/mockFetch"
@@ -14,7 +7,6 @@ import {
   createHistory,
   createMemorySource,
   LocationProvider,
-  navigate,
 } from "@gatsbyjs/reach-router"
 
 beforeEach(() => {
@@ -64,7 +56,6 @@ describe("Header", () => {
     const language = "de"
     const route = "test-three-languages/index.de.html"
     const history = createHistory(createMemorySource(route))
-    const user = userEvent.setup()
     await act(() => {
       render(
         <LocationProvider history={history}>
@@ -84,10 +75,6 @@ describe("Header", () => {
     expect(screen.getByRole("list")).toBeInTheDocument()
     // check for language items
     expect(screen.getAllByRole("listitem").length === 3)
-
-    fireEvent.click(screen.getByRole("link", { name: /^en$/i }))
-    navigate("test-three-languages/index.en.html")
-    screen.debug()
   })
 })
 
@@ -112,7 +99,5 @@ describe("Header", () => {
     expect(
       screen.getByRole("link", { name: "https://w3id.org/kim/hcrt/scheme" })
     ).toBeInTheDocument()
-    // TODO when switching language show title
-    // TODO this might then also be integrated in previous test
   })
 })
