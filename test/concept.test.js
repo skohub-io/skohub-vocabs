@@ -1,6 +1,6 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
-import pageContext from "../test/data/pageContext"
+import { Concept as pageContext } from "../test/data/pageContext"
 import Concept from "../src/components/Concept"
 
 describe("Concept", () => {
