@@ -11,7 +11,6 @@ import {
   ConceptSchemeNoNarrower,
   ConceptSchemeWithNarrower,
   ConceptSchemeNoPrefLabel,
-  ConceptNoPrefLabel,
 } from "./data/pageContext"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
