@@ -1,4 +1,6 @@
-export const Concept = {
+// PC Indicates PageContext
+
+export const ConceptPC = {
   node: {
     id: "http://w3id.org/class/hochschulfaecher/S99#",
     type: "Concept",
@@ -33,7 +35,7 @@ export const Concept = {
   baseURL: "",
 }
 
-export const ConceptNoPrefLabel = {
+export const ConceptNoPrefLabelPC = {
   node: {
     id: "http://w3id.org/class/hochschulfaecher/S99#",
     type: "Concept",
@@ -66,99 +68,145 @@ export const ConceptNoPrefLabel = {
 }
 
 export const ConceptSchemeNoNarrower = {
-  node: {
-    id: "http://w3id.org/class/hochschulfaecher/scheme#",
-    type: "ConceptScheme",
-    title: {
-      de: "Fächersystematik Hochschulbildung in Deutschland",
-    },
-    hasTopConcept: [
-      {
-        id: "http://w3id.org/class/hochschulfaecher/F1#",
-        broader: null,
-        prefLabel: {
-          de: "Agrar- und Forstwissenschaften",
-        },
-      },
-    ],
+  id: "http://w3id.org/class/hochschulfaecher/scheme#",
+  type: "ConceptScheme",
+  title: {
+    de: "Fächersystematik Hochschulbildung in Deutschland",
   },
+  hasTopConcept: [
+    {
+      id: "http://w3id.org/class/hochschulfaecher/F1#",
+      broader: null,
+      prefLabel: {
+        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
+      },
+    },
+  ],
+}
+
+export const ConceptSchemeNoNarrowerPC = {
+  node: ConceptSchemeNoNarrower,
   language: "de",
   baseURL: "",
 }
 
 export const ConceptSchemeWithNarrower = {
-  node: {
-    id: "http://w3id.org/class/hochschulfaecher/scheme#",
-    type: "ConceptScheme",
-    title: {
-      de: "Fächersystematik Hochschulbildung in Deutschland",
-    },
-    hasTopConcept: [
-      {
-        id: "http://w3id.org/class/hochschulfaecher/F1#",
-        narrower: [
-          {
-            id: "http://w3id.org/class/hochschulfaecher/B1#",
-            topConceptOf: null,
-            inScheme: {
-              id: "http://w3id.org/class/hochschulfaecher/scheme#",
-              title: {
-                de: "Fächersystematik Hochschulbildung in Deutschland",
-              },
-            },
-            prefLabel: {
-              de: "Agrarwissenschaften",
+  id: "http://w3id.org/class/hochschulfaecher/scheme#",
+  type: "ConceptScheme",
+  title: {
+    de: "Fächersystematik Hochschulbildung in Deutschland",
+  },
+  hasTopConcept: [
+    {
+      id: "http://w3id.org/class/hochschulfaecher/F1#",
+      broader: null,
+      prefLabel: {
+        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
+      },
+      narrower: [
+        {
+          id: "http://w3id.org/class/hochschulfaecher/B1#",
+          prefLabel: {
+            de: "Agrarwissenschaft/Landwirtschaft",
+          },
+          topConceptOf: null,
+          inScheme: {
+            id: "http://w3id.org/class/hochschulfaecher/scheme#",
+            title: {
+              de: "Fächersystematik Hochschulbildung in Deutschland",
             },
           },
-        ],
-        broader: null,
-        prefLabel: {
-          de: "Agrar- und Forstwissenschaften",
         },
-      },
-    ],
-  },
+      ],
+    },
+  ],
+}
+
+export const ConceptSchemeWithNarrowerPC = {
+  node: ConceptSchemeWithNarrower,
   language: "de",
   baseURL: "",
 }
 
-export const ConceptSchemeNoPrefLabel = {
-  node: {
-    id: "http://w3id.org/class/hochschulfaecher/scheme#",
-    type: "ConceptScheme",
-    title: {
-      de: "Fächersystematik Hochschulbildung in Deutschland",
-    },
-    hasTopConcept: [
-      {
-        id: "http://w3id.org/class/hochschulfaecher/F1#",
-        narrower: [
-          {
-            id: "http://w3id.org/class/hochschulfaecher/B1#",
-            topConceptOf: null,
-            inScheme: {
-              id: "http://w3id.org/class/hochschulfaecher/scheme#",
-              title: {
-                de: "Fächersystematik Hochschulbildung in Deutschland",
-              },
-            },
-            prefLabel: {
-              de: "Agrarwissenschaften",
+export const ConceptSchemeWithNarrowerThreeLangs = {
+  id: "http://w3id.org/class/hochschulfaecher/scheme#",
+  type: "ConceptScheme",
+  title: {
+    de: "Fächersystematik Hochschulbildung in Deutschland",
+  },
+  hasTopConcept: [
+    {
+      id: "http://w3id.org/class/hochschulfaecher/F1#",
+      broader: null,
+      prefLabel: {
+        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
+        en: "Agricultural, Forest and Nutritional Sciences, Veterinary medicine",
+        uk: "Сільськогосподарські, лісові та харчові науки, ветеринарія",
+      },
+      narrower: [
+        {
+          id: "http://w3id.org/class/hochschulfaecher/B1#",
+          prefLabel: {
+            de: "Agrarwissenschaft/Landwirtschaft",
+            en: "Agricultural Science/Agriculture",
+            uk: "Аграрні науки/Сільське господарство",
+          },
+          topConceptOf: null,
+          inScheme: {
+            id: "http://w3id.org/class/hochschulfaecher/scheme#",
+            title: {
+              de: "Fächersystematik Hochschulbildung in Deutschland",
+              en: "Destatis classification for subject groups, study areas and study subjects",
+              uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
             },
           },
-        ],
-        broader: null,
-        prefLabel: {
-          de: "Agrar- und Forstwissenschaften",
         },
-      },
-    ],
+      ],
+    },
+  ],
+}
+
+export const ConceptSchemeNoPrefLabel = {
+  id: "http://w3id.org/class/hochschulfaecher/scheme#",
+  type: "ConceptScheme",
+  title: {
+    de: "Fächersystematik Hochschulbildung in Deutschland",
   },
+  hasTopConcept: [
+    {
+      id: "http://w3id.org/class/hochschulfaecher/F1#",
+      narrower: [
+        {
+          id: "http://w3id.org/class/hochschulfaecher/B1#",
+          topConceptOf: null,
+          inScheme: {
+            id: "http://w3id.org/class/hochschulfaecher/scheme#",
+            title: {
+              de: "Fächersystematik Hochschulbildung in Deutschland",
+            },
+          },
+          prefLabel: {
+            de: "Agrarwissenschaft/Landwirtschaft",
+            en: "",
+          },
+        },
+      ],
+      broader: null,
+      prefLabel: {
+        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
+        en: "",
+      },
+    },
+  ],
+}
+
+export const ConceptSchemeNoPrefLabelPC = {
+  node: ConceptSchemeNoPrefLabel,
   language: "en",
   baseURL: "",
 }
 
-export const Collection = {
+export const CollectionPC = {
   node: {
     id: "http://w3id.org/class/hochschulfaecher/S99#",
     type: "Collection",

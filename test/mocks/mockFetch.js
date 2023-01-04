@@ -1,21 +1,53 @@
-import { conceptSchemeOneLang, conceptSchemeThreeLang } from "../data/hcrt"
-const conceptSchemeOneLangResponse = conceptSchemeOneLang
-const conceptSchemeThreeLangResponse = conceptSchemeThreeLang
+import { indexDE, indexEN } from "../data/flexsearchIndex"
+import {
+  ConceptSchemeNoNarrower,
+  ConceptSchemeNoPrefLabel,
+  ConceptSchemeWithNarrower,
+  ConceptSchemeWithNarrowerThreeLangs,
+} from "../data/pageContext"
 
 export default async function mockFetch(url) {
   switch (url) {
-    case "test-one-language/index.json": {
+    case "/w3id.org/class/hochschulfaecher/scheme.json": {
       return {
         ok: true,
         status: 200,
-        json: async () => conceptSchemeOneLangResponse,
+        json: async () => ConceptSchemeWithNarrower,
       }
     }
-    case "test-three-languages/index.json": {
+    case "/three-langs/w3id.org/class/hochschulfaecher/scheme.json": {
       return {
         ok: true,
         status: 200,
-        json: async () => conceptSchemeThreeLangResponse,
+        json: async () => ConceptSchemeWithNarrowerThreeLangs,
+      }
+    }
+    case "/no-narrower/w3id.org/class/hochschulfaecher/scheme.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ConceptSchemeNoNarrower,
+      }
+    }
+    case "/no-prefLabel/w3id.org/class/hochschulfaecher/scheme.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ConceptSchemeNoPrefLabel,
+      }
+    }
+    case "/w3id.org/class/hochschulfaecher/scheme.de.index": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => indexDE,
+      }
+    }
+    case "/w3id.org/class/hochschulfaecher/scheme.en.index": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => indexEN,
       }
     }
     default: {
