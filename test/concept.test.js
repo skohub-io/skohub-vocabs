@@ -1,10 +1,7 @@
-import React from "react"
 import { render, screen } from "@testing-library/react"
-import {
-  Concept as pageContext,
-  ConceptNoPrefLabel,
-} from "../test/data/pageContext"
+import React from "react"
 import Concept from "../src/components/Concept"
+import { Concept as pageContext, ConceptNoPrefLabel } from "./data/pageContext"
 
 describe("Concept", () => {
   it("renders concept component", () => {

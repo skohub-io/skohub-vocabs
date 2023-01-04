@@ -154,3 +154,30 @@ export const ConceptSchemeNoPrefLabel = {
   language: "en",
   baseURL: "",
 }
+
+export const Collection = {
+  node: {
+    id: "http://w3id.org/class/hochschulfaecher/S99#",
+    type: "Collection",
+    prefLabel: {
+      de: "Test-Collection",
+    },
+    definition: null,
+    member: [
+      {
+        id: "http://w3id.org/class/hochschulfaecher/B96#",
+        prefLabel: {
+          de: "Test-Member 1",
+        },
+      },
+      {
+        id: "http://w3id.org/class/hochschulfaecher/B97#",
+        prefLabel: {
+          de: "Test-Member 2",
+        },
+      },
+    ],
+  },
+  language: "de",
+  baseURL: "",
+}
