@@ -45,10 +45,20 @@ const Concept = ({
     )}
     {concept.altLabel && i18n(language)(concept.altLabel) !== "" && (
       <div>
-        <h3>Alt Label</h3>
-        <ul>
+        <h3 id="alt-label">Alt Label</h3>
+        <ul aria-labelledby="alt-label">
           {i18n(language)(concept.altLabel).map((altLabel, i) => (
             <li key={i}>{altLabel}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.hiddenLabel && i18n(language)(concept.hiddenLabel) !== "" && (
+      <div>
+        <h3 id="hidden-label">Hidden Label</h3>
+        <ul aria-labelledby="hidden-label">
+          {i18n(language)(concept.hiddenLabel).map((hiddenLabel, i) => (
+            <li key={i}>{hiddenLabel}</li>
           ))}
         </ul>
       </div>
