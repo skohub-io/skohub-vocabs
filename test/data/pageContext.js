@@ -4,8 +4,13 @@ export const Concept = {
     type: "Concept",
     hub: "https://test.skohub.io/hub",
     prefLabel: {
-      en_us: null,
       de: "Konstruktionstechnik",
+    },
+    altLabel: {
+      de: ["Alt-Label-1", "Alt-Label-2"],
+    },
+    hiddenLabel: {
+      de: ["Hidden-Label-1", "Hidden-Label-2"],
     },
     definition: null,
     scopeNote: null,
@@ -13,14 +18,12 @@ export const Concept = {
     broader: {
       id: "http://w3id.org/class/hochschulfaecher/B96#",
       prefLabel: {
-        en_us: null,
         de: "Maschinenbau",
       },
     },
     inScheme: {
       id: "http://w3id.org/class/hochschulfaecher/scheme#",
       title: {
-        en_us: null,
         de: "Fächersystematik Hochschulbildung in Deutschland",
       },
     },
