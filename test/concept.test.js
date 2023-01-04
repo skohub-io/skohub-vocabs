@@ -1,28 +1,25 @@
 import { render, screen, within } from "@testing-library/react"
 import React from "react"
 import Concept from "../src/components/Concept"
-import {
-  Concept as pageContextConcept,
-  ConceptNoPrefLabel,
-} from "./data/pageContext"
+import { ConceptPC, ConceptNoPrefLabelPC } from "./data/pageContext"
 
 describe("Concept", () => {
   it("renders concept component", () => {
-    render(<Concept pageContext={pageContextConcept} />)
+    render(<Concept pageContext={ConceptPC} />)
     expect(
       screen.getByRole("heading", { name: "Konstruktionstechnik" })
     ).toBeInTheDocument()
   })
 
   it("shows no preflabel in h1 if no pref label is provided", () => {
-    render(<Concept pageContext={ConceptNoPrefLabel} />)
+    render(<Concept pageContext={ConceptNoPrefLabelPC} />)
     expect(
       screen.queryByRole("heading", { name: "Konstruktionstechnik" })
     ).toBeNull()
   })
 
   it("renders altLabels", () => {
-    render(<Concept pageContext={pageContextConcept} />)
+    render(<Concept pageContext={ConceptPC} />)
     const list = screen.getByRole("list", {
       name: /alt label/i,
     })
@@ -31,9 +28,8 @@ describe("Concept", () => {
     expect(items.length).toBe(2)
   })
 
-  // TODO
   it("renders hidden labels", () => {
-    render(<Concept pageContext={pageContextConcept} />)
+    render(<Concept pageContext={ConceptPC} />)
     const list = screen.getByRole("list", {
       name: /hidden label/i,
     })
