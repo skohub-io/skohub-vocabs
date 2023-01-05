@@ -18,8 +18,10 @@ Get File Path for Gatsby Link component
 @param {string} path
 @param {string} extension
 @returns {string} linkPath
+@example
+// returns "../1.de.html"
+getLinkPath("http://w3id.org/class/hochschulfaecher/1", "de.html")
 **/
-
 const getLinkPath = (path, extension) => {
   const linkPath = "../" + getFilePath(path).split("/").pop() + "." + extension
   return linkPath

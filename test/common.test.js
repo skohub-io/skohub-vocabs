@@ -15,6 +15,7 @@ const {
   isValid,
   isSecured,
   getRepositoryFiles,
+  getLinkPath,
 } = require("../src/common")
 
 describe("isSecured", () => {
@@ -730,7 +731,7 @@ describe("replaceFilePathinUrl", () => {
   })
 })
 
-describe("replaceFilePathinUrl", () => {
+describe("replaceFilePathinUrl with extension", () => {
   test("Should replace the file path and add an extension", () => {
     expect(
       replaceFilePathInUrl(
@@ -739,5 +740,13 @@ describe("replaceFilePathinUrl", () => {
         "json"
       )
     ).toBe("http://w3id.org/class/hochschulfaecher/1.json")
+  })
+})
+
+describe("getLinkPath", () => {
+  test("convert file path to gatsby link", () => {
+    expect(
+      getLinkPath("http://w3id.org/class/hochschulfaecher/1", "de.html")
+    ).toBe("../1.de.html")
   })
 })
