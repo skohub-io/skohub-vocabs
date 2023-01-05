@@ -20,7 +20,7 @@ describe("Header", () => {
   it("renders header component without language tags", async () => {
     const languages = ["de"]
     const language = "de"
-    const route = "/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/one-lang/w3id.org/class/hochschulfaecher/scheme.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       render(
@@ -74,13 +74,13 @@ describe("Header", () => {
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
     // check for language items
-    expect(screen.getAllByRole("listitem").length === 3)
+    expect(screen.getAllByRole("listitem").length).toBe(3)
   })
 
   it("renders header, shows concept id if title in language is not present", async () => {
     const languages = ["de"]
     const language = "en"
-    const route = "/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/no-prefLabel/w3id.org/class/hochschulfaecher/scheme.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       render(

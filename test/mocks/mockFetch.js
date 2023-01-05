@@ -1,6 +1,7 @@
 import { indexDE, indexEN } from "../data/flexsearchIndex"
 import {
   ConceptSchemeNoNarrower,
+  ConceptSchemeNoNarrowerOneLang,
   ConceptSchemeNoPrefLabel,
   ConceptSchemeWithNarrower,
   ConceptSchemeWithNarrowerThreeLangs,
@@ -13,6 +14,13 @@ export default async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ConceptSchemeWithNarrower,
+      }
+    }
+    case "/one-lang/w3id.org/class/hochschulfaecher/scheme.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ConceptSchemeNoNarrowerOneLang,
       }
     }
     case "/three-langs/w3id.org/class/hochschulfaecher/scheme.json": {

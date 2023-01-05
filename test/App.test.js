@@ -1,6 +1,12 @@
 import React from "react"
 import * as Gatsby from "gatsby"
-import { render, screen, act } from "@testing-library/react"
+import {
+  render,
+  screen,
+  act,
+  within,
+  getAllByRole,
+} from "@testing-library/react"
 import App from "../src/templates/App"
 import {
   createHistory,
@@ -11,6 +17,7 @@ import {
   ConceptSchemeWithNarrowerPC,
   ConceptSchemeNoNarrowerPC,
   ConceptSchemeNoPrefLabelPC,
+  ConceptSchemeWithNarrowerThreeLangsPC,
 } from "./data/pageContext"
 import userEvent from "@testing-library/user-event"
 import mockFetch from "./mocks/mockFetch"
@@ -32,6 +39,48 @@ describe("App", () => {
     jest.restoreAllMocks()
   })
 
+  it("renders App component with concepts in german", async () => {
+    const route = "/three-langs/w3id.org/class/hochschulfaecher/scheme.de.html"
+    await act(() => {
+      render(
+        <LocationProvider history={createHistory(createMemorySource(route))}>
+          <App
+            pageContext={ConceptSchemeWithNarrowerThreeLangsPC}
+            children={null}
+          />
+        </LocationProvider>
+      )
+    })
+    // concepts in german
+    expect(
+      screen.getByRole("link", {
+        name: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
+      })
+    ).toBeInTheDocument()
+  })
+
+  it("renders App component with concepts in english", async () => {
+    const route = "/three-langs/w3id.org/class/hochschulfaecher/scheme.en.html"
+    await act(() => {
+      render(
+        <LocationProvider history={createHistory(createMemorySource(route))}>
+          <App
+            pageContext={{
+              ...ConceptSchemeWithNarrowerThreeLangsPC,
+              language: "en",
+            }}
+            children={null}
+          />
+        </LocationProvider>
+      )
+    })
+    expect(
+      screen.getByRole("link", {
+        name: "Agricultural, Forest and Nutritional Sciences, Veterinary medicine",
+      })
+    )
+  })
+
   it("renders App component with expand and collapse button", async () => {
     const route = "/w3id.org/class/hochschulfaecher/scheme.de.html"
     await act(() => {
@@ -45,7 +94,7 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Expand" })).toBeInTheDocument()
   })
 
-  it("renders App component without collapse and expand button", async () => {
+  it("renders App component **without** collapse and expand button", async () => {
     const route = "/no-narrower/w3id.org/class/hochschulfaecher/scheme.de.html"
     await act(() => {
       render(

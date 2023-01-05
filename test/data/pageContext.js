@@ -72,6 +72,8 @@ export const ConceptSchemeNoNarrower = {
   type: "ConceptScheme",
   title: {
     de: "Fächersystematik Hochschulbildung in Deutschland",
+    en: "Destatis classification for subject groups, study areas and study subjects",
+    uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
   },
   hasTopConcept: [
     {
@@ -90,11 +92,36 @@ export const ConceptSchemeNoNarrowerPC = {
   baseURL: "",
 }
 
+export const ConceptSchemeNoNarrowerOneLang = {
+  id: "http://w3id.org/class/hochschulfaecher/scheme#",
+  type: "ConceptScheme",
+  title: {
+    de: "Fächersystematik Hochschulbildung in Deutschland",
+  },
+  hasTopConcept: [
+    {
+      id: "http://w3id.org/class/hochschulfaecher/F1#",
+      broader: null,
+      prefLabel: {
+        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
+      },
+    },
+  ],
+}
+
+export const ConceptSchemeNoNarrowerOneLangPC = {
+  node: ConceptSchemeNoNarrowerOneLang,
+  language: "de",
+  baseURL: "",
+}
+
 export const ConceptSchemeWithNarrower = {
   id: "http://w3id.org/class/hochschulfaecher/scheme#",
   type: "ConceptScheme",
   title: {
     de: "Fächersystematik Hochschulbildung in Deutschland",
+    en: "Destatis classification for subject groups, study areas and study subjects",
+    uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
   },
   hasTopConcept: [
     {
@@ -114,6 +141,8 @@ export const ConceptSchemeWithNarrower = {
             id: "http://w3id.org/class/hochschulfaecher/scheme#",
             title: {
               de: "Fächersystematik Hochschulbildung in Deutschland",
+              en: "Destatis classification for subject groups, study areas and study subjects",
+              uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
             },
           },
         },
@@ -133,6 +162,8 @@ export const ConceptSchemeWithNarrowerThreeLangs = {
   type: "ConceptScheme",
   title: {
     de: "Fächersystematik Hochschulbildung in Deutschland",
+    en: "Destatis classification for subject groups, study areas and study subjects",
+    uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
   },
   hasTopConcept: [
     {
@@ -164,6 +195,12 @@ export const ConceptSchemeWithNarrowerThreeLangs = {
       ],
     },
   ],
+}
+
+export const ConceptSchemeWithNarrowerThreeLangsPC = {
+  node: ConceptSchemeWithNarrowerThreeLangs,
+  language: "de",
+  baseURL: "",
 }
 
 export const ConceptSchemeNoPrefLabel = {
