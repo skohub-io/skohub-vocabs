@@ -14,6 +14,18 @@ const getFilePath = (url, extension) => {
 }
 
 /**
+Get File Path for Gatsby Link component
+@param {string} path
+@param {string} extension
+@returns {string} linkPath
+**/
+
+const getLinkPath = (path, extension) => {
+  const linkPath = "../" + getFilePath(path).split("/").pop() + "." + extension
+  return linkPath
+}
+
+/**
 Replaces the last part (Filepath) of a given url with the last part (Filepath) of another url
 @param {string} url
 @param {string} replaceId
@@ -21,7 +33,10 @@ Replaces the last part (Filepath) of a given url with the last part (Filepath) o
 @returns {string} path
 **/
 const replaceFilePathInUrl = (url, replaceId, extension) => {
-  const path = url.replace(/\/[^\/]*$/, "/" + replaceId.split("/").pop())
+  const path = url
+    .replace(/\/[^\/]*$/, "/" + replaceId.split("/").pop())
+    .split("#")
+    .shift()
   return extension ? `${path}.${extension}` : path
 }
 
@@ -199,4 +214,5 @@ module.exports = {
   isValid,
   isSecured,
   getRepositoryFiles,
+  getLinkPath,
 }

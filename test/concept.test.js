@@ -37,4 +37,12 @@ describe("Concept", () => {
     const items = getAllByRole("listitem")
     expect(items.length).toBe(2)
   })
+
+  it("json link is working", () => {
+    render(<Concept pageContext={ConceptPC} />)
+    expect(screen.getByRole("link", { name: "JSON" })).toHaveAttribute(
+      "href",
+      "/w3id.org/class/hochschulfaecher/S99.json"
+    )
+  })
 })

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Implement Gatsby's Node APIs in this file.
  *
@@ -211,7 +212,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           context: {
             language,
             node: collection,
-            baseURL: process.env.BASEURL || "",
           },
         })
       )
@@ -271,7 +271,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
                   collections: memberOf.hasOwnProperty(concept.id)
                     ? memberOf[concept.id]
                     : [],
-                  baseURL: process.env.BASEURL || "",
                 },
               })
             )
@@ -301,7 +300,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               language,
               node: conceptScheme,
               embed: embeddedConcepts,
-              baseURL: process.env.BASEURL || "",
             },
           })
         )

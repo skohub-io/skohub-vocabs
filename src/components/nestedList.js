@@ -130,6 +130,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
           )}
           <div>
             {getFragment(item.id) ? (
+              // Gatsby Link Component can't handle hash URIs so we use an anchor-tag here
               <a
                 className={item.id === current ? "current" : ""}
                 href={getFragment(item.id)}

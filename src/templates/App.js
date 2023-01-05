@@ -12,6 +12,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 import { style } from "../styles/concepts.css.js"
+import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
   const [conceptSchemeId, setConceptSchemeId] = useState(null)
@@ -67,8 +68,9 @@ const App = ({ pageContext, children }) => {
   useEffect(() => {
     conceptSchemeId &&
       fetch(
-        pageContext.baseURL +
+        withPrefix(
           getFilePath(conceptSchemeId, `${pageContext.language}.index`)
+        )
       )
         .then((response) => response.json())
         .then((serialized) => {
@@ -82,16 +84,16 @@ const App = ({ pageContext, children }) => {
           idx.import(serialized)
           setIndex(idx)
         })
-  }, [conceptSchemeId, pageContext.baseURL, pageContext.language])
+  }, [conceptSchemeId, pageContext.language])
 
   // Fetch and load the tree
   useEffect(() => {
     conceptSchemeId &&
       pageContext.node.type !== "ConceptScheme" &&
-      fetch(pageContext.baseURL + getFilePath(conceptSchemeId, "json"))
+      fetch(withPrefix(getFilePath(conceptSchemeId, "json")))
         .then((response) => response.json())
         .then((tree) => setTree(tree))
-  }, [conceptSchemeId, pageContext.baseURL, pageContext.node.type])
+  }, [conceptSchemeId, pageContext.node.type])
 
   // Scroll current item into view
   useEffect(() => {

@@ -32,7 +32,6 @@ export const ConceptPC = {
     topConceptOf: null,
   },
   language: "de",
-  baseURL: "",
 }
 
 export const ConceptNoPrefLabelPC = {
@@ -64,7 +63,6 @@ export const ConceptNoPrefLabelPC = {
     topConceptOf: null,
   },
   language: "en",
-  baseURL: "",
 }
 
 export const ConceptSchemeNoNarrower = {
@@ -89,7 +87,6 @@ export const ConceptSchemeNoNarrower = {
 export const ConceptSchemeNoNarrowerPC = {
   node: ConceptSchemeNoNarrower,
   language: "de",
-  baseURL: "",
 }
 
 export const ConceptSchemeNoNarrowerOneLang = {
@@ -112,7 +109,6 @@ export const ConceptSchemeNoNarrowerOneLang = {
 export const ConceptSchemeNoNarrowerOneLangPC = {
   node: ConceptSchemeNoNarrowerOneLang,
   language: "de",
-  baseURL: "",
 }
 
 export const ConceptSchemeWithNarrower = {
@@ -154,7 +150,6 @@ export const ConceptSchemeWithNarrower = {
 export const ConceptSchemeWithNarrowerPC = {
   node: ConceptSchemeWithNarrower,
   language: "de",
-  baseURL: "",
 }
 
 export const ConceptSchemeWithNarrowerThreeLangs = {
@@ -200,7 +195,6 @@ export const ConceptSchemeWithNarrowerThreeLangs = {
 export const ConceptSchemeWithNarrowerThreeLangsPC = {
   node: ConceptSchemeWithNarrowerThreeLangs,
   language: "de",
-  baseURL: "",
 }
 
 export const ConceptSchemeNoPrefLabel = {
@@ -240,7 +234,6 @@ export const ConceptSchemeNoPrefLabel = {
 export const ConceptSchemeNoPrefLabelPC = {
   node: ConceptSchemeNoPrefLabel,
   language: "en",
-  baseURL: "",
 }
 
 export const CollectionPC = {
@@ -267,5 +260,4 @@ export const CollectionPC = {
     ],
   },
   language: "de",
-  baseURL: "",
 }

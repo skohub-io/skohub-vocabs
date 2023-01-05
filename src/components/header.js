@@ -3,7 +3,7 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import { getFilePath, replaceFilePathInUrl } from "../common"
+import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
 
 import { colors as c } from "../styles/variables"
 import skohubsvg from "../images/skohub-signet-color.svg"
@@ -166,8 +166,11 @@ const Header = ({ siteTitle, languages, language }) => {
           languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
         }
       })
+      .catch((err) => {
+        // FIXME Currently there is no general index.json, so we need to set languages hard
+        languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+      })
   }, [pathName, languages])
-
   return (
     <header css={style}>
       <div className="headerContent">
@@ -191,7 +194,7 @@ const Header = ({ siteTitle, languages, language }) => {
                 {l === language ? (
                   <span className="currentLanguage">{l}</span>
                 ) : (
-                  <a href={`${pathName}.${l}.html`}>{l}</a>
+                  <Link to={getLinkPath(pathName, `${l}.html`)}>{l}</Link>
                 )}
               </li>
             ))}
