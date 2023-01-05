@@ -26,7 +26,7 @@ const App = ({ pageContext, children }) => {
 
   if (!showTreeControls && tree && tree.hasTopConcept) {
     for (const topConcept of tree.hasTopConcept) {
-      if (topConcept.narrower) {
+      if (topConcept.narrower?.length > 0) {
         showTreeControls = true
         break
       }
