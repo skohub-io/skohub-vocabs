@@ -14,9 +14,13 @@ describe("Collection", () => {
     ).toBeInTheDocument()
   })
 
+  it("shows no prefLabel-Message if none is provided", () => {
+    render(<Collection pageContext={{ ...CollectionPC, language: "en" }} />)
+    expect(screen.queryByRole("link", { name: /test-member 1/i })).toBeNull()
+  })
+
   it("json link is working", () => {
     render(<Collection pageContext={CollectionPC} />)
-    screen.debug()
     expect(screen.getByRole("link", { name: "JSON" })).toHaveAttribute(
       "href",
       "/w3id.org/class/hochschulfaecher/S99.json"
