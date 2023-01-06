@@ -14,8 +14,19 @@ export const ConceptPC = {
     hiddenLabel: {
       de: ["Hidden-Label-1", "Hidden-Label-2"],
     },
-    definition: null,
-    scopeNote: null,
+    definition: {
+      de: "Meine Definition",
+    },
+    example: {
+      de: "Ein Beispiel",
+    },
+    scopeNote: {
+      de: "Meine Scope Note",
+    },
+    note: {
+      de: "Meine Note",
+    },
+    notation: ["1"],
     narrower: [],
     broader: {
       id: "http://w3id.org/class/hochschulfaecher/B96#",
@@ -23,6 +34,19 @@ export const ConceptPC = {
         de: "Maschinenbau",
       },
     },
+    related: [
+      {
+        id: "relatedId",
+        prefLabel: {
+          de: "Related Concept",
+        },
+      },
+    ],
+    narrowMatch: [{ id: "narrowMatchId" }],
+    broadMatch: [{ id: "broadMatchId" }],
+    exactMatch: [{ id: "exactMatchId" }],
+    closeMatch: [{ id: "closeMatchId" }],
+    relatedMatch: [{ id: "relatedMatchId" }],
     inScheme: {
       id: "http://w3id.org/class/hochschulfaecher/scheme#",
       title: {
@@ -32,37 +56,12 @@ export const ConceptPC = {
     topConceptOf: null,
   },
   language: "de",
-}
-
-export const ConceptNoPrefLabelPC = {
-  node: {
-    id: "http://w3id.org/class/hochschulfaecher/S99#",
-    type: "Concept",
-    hub: "https://test.skohub.io/hub",
-    prefLabel: {
-      en: null,
-      de: "Konstruktionstechnik",
+  collections: [
+    {
+      id: "my-id",
+      prefLabel: { de: "Collection PrefLabel" },
     },
-    definition: null,
-    scopeNote: null,
-    narrower: [],
-    broader: {
-      id: "http://w3id.org/class/hochschulfaecher/B96#",
-      prefLabel: {
-        en: null,
-        de: "Maschinenbau",
-      },
-    },
-    inScheme: {
-      id: "http://w3id.org/class/hochschulfaecher/scheme#",
-      title: {
-        en_us: null,
-        de: "Fächersystematik Hochschulbildung in Deutschland",
-      },
-    },
-    topConceptOf: null,
-  },
-  language: "en",
+  ],
 }
 
 export const ConceptSchemeNoNarrower = {
