@@ -102,21 +102,26 @@ const Header = ({ siteTitle, languages, language }) => {
           if (k === "hasTopConcept" || k === "narrower") {
             // Concept Schemes
             obj?.title &&
-              Object.keys(obj.title).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
+              Object.keys(obj.title).forEach(
+                (t) =>
+                  obj.title[t] !== null &&
+                  setLangs((prev) => new Set(prev.add(t)))
               )
             // Concepts
             obj?.prefLabel &&
-              Object.keys(obj.prefLabel).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
+              Object.keys(obj.prefLabel).forEach(
+                (t) =>
+                  obj.prefLabel[t] && setLangs((prev) => new Set(prev.add(t)))
               )
             obj?.altLabel &&
-              Object.keys(obj.altLabel).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
+              Object.keys(obj.altLabel).forEach(
+                (t) =>
+                  obj.altLabel[t] && setLangs((prev) => new Set(prev.add(t)))
               )
             obj?.hiddenLabel &&
-              Object.keys(obj.hiddenLabel).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
+              Object.keys(obj.hiddenLabel).forEach(
+                (t) =>
+                  obj.hiddenLabel[t] && setLangs((prev) => new Set(prev.add(t)))
               )
 
             obj?.hasTopConcept && parseLanguages(obj?.hasTopConcept)

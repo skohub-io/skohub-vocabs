@@ -7,11 +7,11 @@ describe("Concept", () => {
   it("renders concept component", () => {
     render(<Concept pageContext={ConceptPC} />)
     expect(
-      screen.getByRole("heading", { name: /Konstruktionstechnik/i })
+      screen.getByRole("heading", { name: /Konzept 2/i })
     ).toBeInTheDocument()
   })
 
-  it("shows no preflabel in h1 if no pref label is provided", () => {
+  it("shows no preflabel in h1 if no pref label is provided in language", () => {
     const pageContextNoPrefLabel = {
       ...ConceptPC,
       node: {
@@ -22,9 +22,7 @@ describe("Concept", () => {
       },
     }
     render(<Concept pageContext={pageContextNoPrefLabel} />)
-    expect(
-      screen.queryByRole("heading", { name: /Konstruktionstechnik/i })
-    ).toBeNull()
+    expect(screen.queryByRole("heading", { name: /concept2/i })).toBeNull()
   })
 
   it("renders definition", () => {
@@ -141,7 +139,7 @@ describe("Concept", () => {
     render(<Concept pageContext={ConceptPC} />)
     expect(screen.getByRole("link", { name: "JSON" })).toHaveAttribute(
       "href",
-      "/w3id.org/class/hochschulfaecher/S99.json"
+      "/w3id.org/c2.json"
     )
   })
 })

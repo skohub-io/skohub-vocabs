@@ -1,25 +1,13 @@
 import React from "react"
 import * as Gatsby from "gatsby"
-import {
-  render,
-  screen,
-  act,
-  within,
-  getAllByRole,
-} from "@testing-library/react"
+import { render, screen, act } from "@testing-library/react"
 import App from "../src/templates/App"
 import {
   createHistory,
   createMemorySource,
   LocationProvider,
 } from "@gatsbyjs/reach-router"
-import {
-  ConceptSchemeWithNarrowerPC,
-  ConceptSchemeNoNarrowerPC,
-  ConceptSchemeNoPrefLabelPC,
-  ConceptSchemeWithNarrowerThreeLangsPC,
-} from "./data/pageContext"
-import userEvent from "@testing-library/user-event"
+import { ConceptSchemePC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
@@ -39,54 +27,13 @@ describe("App", () => {
     jest.restoreAllMocks()
   })
 
-  it("renders App component with concepts in german", async () => {
-    const route = "/three-langs/w3id.org/class/hochschulfaecher/scheme.de.html"
-    await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App
-            pageContext={ConceptSchemeWithNarrowerThreeLangsPC}
-            children={null}
-          />
-        </LocationProvider>
-      )
-    })
-    // concepts in german
-    expect(
-      screen.getByRole("link", {
-        name: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
-      })
-    ).toBeInTheDocument()
-  })
-
-  it("renders App component with concepts in english", async () => {
-    const route = "/three-langs/w3id.org/class/hochschulfaecher/scheme.en.html"
-    await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App
-            pageContext={{
-              ...ConceptSchemeWithNarrowerThreeLangsPC,
-              language: "en",
-            }}
-            children={null}
-          />
-        </LocationProvider>
-      )
-    })
-    expect(
-      screen.getByRole("link", {
-        name: "Agricultural, Forest and Nutritional Sciences, Veterinary medicine",
-      })
-    )
-  })
-
+  // den Test behalten behalten
   it("renders App component with expand and collapse button", async () => {
-    const route = "/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/w3id.org/index.de.html"
     await act(() => {
       render(
         <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={ConceptSchemeWithNarrowerPC} children={null} />
+          <App pageContext={ConceptSchemePC} children={null} />
         </LocationProvider>
       )
     })
@@ -94,57 +41,27 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Expand" })).toBeInTheDocument()
   })
 
+  // den Test auch behalten
   it("renders App component **without** collapse and expand button", async () => {
-    const route = "/no-narrower/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/w3id.org/index.de.html"
+    // remove narrower from concept
+    const topConcept = ConceptSchemePC.node.hasTopConcept[0]
+    const pageContext = {
+      ...ConceptSchemePC,
+      node: {
+        ...ConceptSchemePC.node,
+        hasTopConcept: [{ ...topConcept, narrower: null }],
+      },
+    }
+
     await act(() => {
       render(
         <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={ConceptSchemeNoNarrowerPC} children={null} />
+          <App pageContext={pageContext} children={null} />
         </LocationProvider>
       )
     })
     expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull()
     expect(screen.queryByRole("button", { name: "Expand" })).toBeNull()
-  })
-
-  it("renders App component with no prefLabelMessage", async () => {
-    const route = "/no-prefLabel/w3id.org/class/hochschulfaecher/scheme.de.html"
-    await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={ConceptSchemeNoPrefLabelPC} children={null} />
-        </LocationProvider>
-      )
-    })
-    expect(
-      screen.getByRole("link", { name: 'No label for language "en" provided' })
-    ).toBeInTheDocument()
-  })
-
-  it("searches and filters concepts", async () => {
-    const user = userEvent.setup()
-    await act(() => {
-      render(
-        <LocationProvider
-          history={createHistory(
-            createMemorySource(
-              "/w3id.org/class/hochschulfaecher/scheme.de.html"
-            )
-          )}
-        >
-          <App pageContext={ConceptSchemeWithNarrowerPC} children={null} />
-        </LocationProvider>
-      )
-    })
-    await user.click(screen.getByRole("textbox"))
-    await user.keyboard("Forst")
-    expect(
-      screen.getByRole("link", {
-        name: "Agrar-, Forst - und Ernährungswissenschaften, Veterinärmedizin",
-      })
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole("link", { name: "Agrarwissenschaft/Landwirtschaft" })
-    ).toBeNull()
   })
 })

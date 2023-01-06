@@ -20,7 +20,7 @@ describe("Header", () => {
   it("renders header component without language tags", async () => {
     const languages = ["de"]
     const language = "de"
-    const route = "/one-lang/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/one-lang/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       render(
@@ -43,16 +43,16 @@ describe("Header", () => {
     // skohub concept scheme link
     expect(
       screen.getByRole("link", {
-        name: "Fächersystematik Hochschulbildung in Deutschland",
+        name: /test vokabular/i,
       })
     ).toBeInTheDocument()
     // check for language menu not to be present
     expect(screen.queryByRole("list")).toBeNull()
   })
   it("renders header component with multiple language tags", async () => {
-    const languages = ["de", "en", "uk"]
+    const languages = ["de", "en"]
     const language = "de"
-    const route = "/three-langs/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       render(
@@ -68,19 +68,19 @@ describe("Header", () => {
     // skohub concept scheme link
     expect(
       screen.getByRole("link", {
-        name: "Fächersystematik Hochschulbildung in Deutschland",
+        name: "Test Vokabular",
       })
     ).toBeInTheDocument()
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
     // check for language items
-    expect(screen.getAllByRole("listitem").length).toBe(3)
+    expect(screen.getAllByRole("listitem").length).toBe(2)
   })
 
   it("renders header, shows concept id if title in language is not present", async () => {
     const languages = ["de"]
     const language = "en"
-    const route = "/no-prefLabel/w3id.org/class/hochschulfaecher/scheme.de.html"
+    const route = "/no-prefLabel/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       render(
@@ -96,7 +96,7 @@ describe("Header", () => {
     // skohub concept scheme link
     expect(
       screen.getByRole("link", {
-        name: "http://w3id.org/class/hochschulfaecher/scheme#",
+        name: "http://w3id.org/",
       })
     ).toBeInTheDocument()
   })

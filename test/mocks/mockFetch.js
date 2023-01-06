@@ -1,50 +1,90 @@
 import { indexDE, indexEN } from "../data/flexsearchIndex"
-import {
-  ConceptSchemeNoNarrower,
-  ConceptSchemeNoNarrowerOneLang,
-  ConceptSchemeNoPrefLabel,
-  ConceptSchemeWithNarrower,
-  ConceptSchemeWithNarrowerThreeLangs,
-} from "../data/pageContext"
+import { ConceptScheme } from "../data/pageContext"
 
 export default async function mockFetch(url) {
   switch (url) {
-    case "/w3id.org/class/hochschulfaecher/scheme.json": {
+    case "/w3id.org/index.json": {
       return {
         ok: true,
         status: 200,
-        json: async () => ConceptSchemeWithNarrower,
+        json: async () => ConceptScheme,
       }
     }
-    case "/one-lang/w3id.org/class/hochschulfaecher/scheme.json": {
+    case "/one-lang/w3id.org/index.json": {
+      const topConcept = ConceptScheme.hasTopConcept[0]
+      const narrower = ConceptScheme.hasTopConcept[0].narrower[0]
+      const res = {
+        ...ConceptScheme,
+        title: {
+          ...ConceptScheme.title,
+          en: null,
+        },
+        hasTopConcept: {
+          ...topConcept,
+          prefLabel: {
+            ...topConcept.prefLabel,
+            en: null,
+          },
+          narrower: {
+            ...narrower,
+            prefLabel: {
+              ...narrower.prefLabel,
+              en: null,
+            },
+          },
+          broader: {
+            ...topConcept.broader,
+            prefLabel: {
+              ...topConcept.broader.prefLabel,
+              en: null,
+            },
+          },
+        },
+      }
       return {
         ok: true,
         status: 200,
-        json: async () => ConceptSchemeNoNarrowerOneLang,
+        json: async () => res,
       }
     }
-    case "/three-langs/w3id.org/class/hochschulfaecher/scheme.json": {
+    case "/no-prefLabel/w3id.org/index.json": {
+      const topConcept = ConceptScheme.hasTopConcept[0]
+      const narrower = ConceptScheme.hasTopConcept[0].narrower[0]
+      const res = {
+        ...ConceptScheme,
+        title: {
+          ...ConceptScheme.title,
+          en: null,
+        },
+        hasTopConcept: {
+          ...topConcept,
+          prefLabel: {
+            ...topConcept.prefLabel,
+            en: null,
+          },
+          narrower: {
+            ...narrower,
+            prefLabel: {
+              ...narrower.prefLabel,
+              en: null,
+            },
+          },
+          broader: {
+            ...topConcept.broader,
+            prefLabel: {
+              ...topConcept.broader.prefLabel,
+              en: null,
+            },
+          },
+        },
+      }
       return {
         ok: true,
         status: 200,
-        json: async () => ConceptSchemeWithNarrowerThreeLangs,
+        json: async () => res,
       }
     }
-    case "/no-narrower/w3id.org/class/hochschulfaecher/scheme.json": {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => ConceptSchemeNoNarrower,
-      }
-    }
-    case "/no-prefLabel/w3id.org/class/hochschulfaecher/scheme.json": {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => ConceptSchemeNoPrefLabel,
-      }
-    }
-    case "/w3id.org/class/hochschulfaecher/scheme.de.index": {
+    case "/w3id.org/index.de.index": {
       return {
         ok: true,
         status: 200,

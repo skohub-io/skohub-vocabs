@@ -1,60 +1,73 @@
 // PC Indicates PageContext
 
-export const ConceptPC = {
-  node: {
-    id: "http://w3id.org/class/hochschulfaecher/S99#",
-    type: "Concept",
-    hub: "https://test.skohub.io/hub",
-    prefLabel: {
-      de: "Konstruktionstechnik",
-    },
-    altLabel: {
-      de: ["Alt-Label-1", "Alt-Label-2"],
-    },
-    hiddenLabel: {
-      de: ["Hidden-Label-1", "Hidden-Label-2"],
-    },
-    definition: {
-      de: "Meine Definition",
-    },
-    example: {
-      de: "Ein Beispiel",
-    },
-    scopeNote: {
-      de: "Meine Scope Note",
-    },
-    note: {
-      de: "Meine Note",
-    },
-    notation: ["1"],
-    narrower: [],
-    broader: {
-      id: "http://w3id.org/class/hochschulfaecher/B96#",
-      prefLabel: {
-        de: "Maschinenbau",
-      },
-    },
-    related: [
-      {
-        id: "relatedId",
-        prefLabel: {
-          de: "Related Concept",
-        },
-      },
-    ],
-    narrowMatch: [{ id: "narrowMatchId" }],
-    broadMatch: [{ id: "broadMatchId" }],
-    exactMatch: [{ id: "exactMatchId" }],
-    closeMatch: [{ id: "closeMatchId" }],
-    relatedMatch: [{ id: "relatedMatchId" }],
-    inScheme: {
-      id: "http://w3id.org/class/hochschulfaecher/scheme#",
-      title: {
-        de: "Fächersystematik Hochschulbildung in Deutschland",
-      },
-    },
-    topConceptOf: null,
+const topConcept = {
+  id: "http://w3id.org/c2",
+  type: "Concept",
+  hub: "https://test.skohub.io/hub",
+  prefLabel: {
+    de: "Konzept 2",
+    en: "Concept 2",
   },
+  altLabel: {
+    de: ["Alt-Label-1", "Alt-Label-2"],
+  },
+  hiddenLabel: {
+    de: ["Hidden-Label-1", "Hidden-Label-2"],
+  },
+  definition: {
+    de: "Meine Definition",
+  },
+  example: {
+    de: "Ein Beispiel",
+  },
+  scopeNote: {
+    de: "Meine Scope Note",
+  },
+  note: {
+    de: "Meine Note",
+  },
+  notation: ["1"],
+  narrower: [
+    {
+      id: "http://w3id.org/c3",
+      prefLabel: {
+        de: "Konzept 3",
+        en: "Concept 3",
+      },
+    },
+  ],
+  broader: {
+    id: "http://w3id.org/c1",
+    prefLabel: {
+      de: "Konzept 1",
+      en: "Concept 1",
+    },
+  },
+  related: [
+    {
+      id: "relatedId",
+      prefLabel: {
+        de: "Related Concept",
+      },
+    },
+  ],
+  narrowMatch: [{ id: "narrowMatchId" }],
+  broadMatch: [{ id: "broadMatchId" }],
+  exactMatch: [{ id: "exactMatchId" }],
+  closeMatch: [{ id: "closeMatchId" }],
+  relatedMatch: [{ id: "relatedMatchId" }],
+  inScheme: {
+    id: "http://w3id.org/",
+    type: "ConceptScheme",
+    title: {
+      de: "Test Vokabular",
+    },
+  },
+  topConceptOf: null,
+}
+
+export const ConceptPC = {
+  node: topConcept,
   language: "de",
   collections: [
     {
@@ -64,175 +77,19 @@ export const ConceptPC = {
   ],
 }
 
-export const ConceptSchemeNoNarrower = {
-  id: "http://w3id.org/class/hochschulfaecher/scheme#",
+export const ConceptScheme = {
+  id: "http://w3id.org/",
   type: "ConceptScheme",
   title: {
-    de: "Fächersystematik Hochschulbildung in Deutschland",
-    en: "Destatis classification for subject groups, study areas and study subjects",
-    uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
+    de: "Test Vokabular",
+    en: "Test Vocabulary",
   },
-  hasTopConcept: [
-    {
-      id: "http://w3id.org/class/hochschulfaecher/F1#",
-      broader: null,
-      prefLabel: {
-        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
-      },
-    },
-  ],
+  hasTopConcept: [topConcept],
 }
 
-export const ConceptSchemeNoNarrowerPC = {
-  node: ConceptSchemeNoNarrower,
+export const ConceptSchemePC = {
+  node: ConceptScheme,
   language: "de",
-}
-
-export const ConceptSchemeNoNarrowerOneLang = {
-  id: "http://w3id.org/class/hochschulfaecher/scheme#",
-  type: "ConceptScheme",
-  title: {
-    de: "Fächersystematik Hochschulbildung in Deutschland",
-  },
-  hasTopConcept: [
-    {
-      id: "http://w3id.org/class/hochschulfaecher/F1#",
-      broader: null,
-      prefLabel: {
-        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
-      },
-    },
-  ],
-}
-
-export const ConceptSchemeNoNarrowerOneLangPC = {
-  node: ConceptSchemeNoNarrowerOneLang,
-  language: "de",
-}
-
-export const ConceptSchemeWithNarrower = {
-  id: "http://w3id.org/class/hochschulfaecher/scheme#",
-  type: "ConceptScheme",
-  title: {
-    de: "Fächersystematik Hochschulbildung in Deutschland",
-    en: "Destatis classification for subject groups, study areas and study subjects",
-    uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
-  },
-  hasTopConcept: [
-    {
-      id: "http://w3id.org/class/hochschulfaecher/F1#",
-      broader: null,
-      prefLabel: {
-        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
-      },
-      narrower: [
-        {
-          id: "http://w3id.org/class/hochschulfaecher/B1#",
-          prefLabel: {
-            de: "Agrarwissenschaft/Landwirtschaft",
-          },
-          topConceptOf: null,
-          inScheme: {
-            id: "http://w3id.org/class/hochschulfaecher/scheme#",
-            title: {
-              de: "Fächersystematik Hochschulbildung in Deutschland",
-              en: "Destatis classification for subject groups, study areas and study subjects",
-              uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
-            },
-          },
-        },
-      ],
-    },
-  ],
-}
-
-export const ConceptSchemeWithNarrowerPC = {
-  node: ConceptSchemeWithNarrower,
-  language: "de",
-}
-
-export const ConceptSchemeWithNarrowerThreeLangs = {
-  id: "http://w3id.org/class/hochschulfaecher/scheme#",
-  type: "ConceptScheme",
-  title: {
-    de: "Fächersystematik Hochschulbildung in Deutschland",
-    en: "Destatis classification for subject groups, study areas and study subjects",
-    uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
-  },
-  hasTopConcept: [
-    {
-      id: "http://w3id.org/class/hochschulfaecher/F1#",
-      broader: null,
-      prefLabel: {
-        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
-        en: "Agricultural, Forest and Nutritional Sciences, Veterinary medicine",
-        uk: "Сільськогосподарські, лісові та харчові науки, ветеринарія",
-      },
-      narrower: [
-        {
-          id: "http://w3id.org/class/hochschulfaecher/B1#",
-          prefLabel: {
-            de: "Agrarwissenschaft/Landwirtschaft",
-            en: "Agricultural Science/Agriculture",
-            uk: "Аграрні науки/Сільське господарство",
-          },
-          topConceptOf: null,
-          inScheme: {
-            id: "http://w3id.org/class/hochschulfaecher/scheme#",
-            title: {
-              de: "Fächersystematik Hochschulbildung in Deutschland",
-              en: "Destatis classification for subject groups, study areas and study subjects",
-              uk: "Destatis класифікація за предметними рубриками, спеціальностями та дисциплінами",
-            },
-          },
-        },
-      ],
-    },
-  ],
-}
-
-export const ConceptSchemeWithNarrowerThreeLangsPC = {
-  node: ConceptSchemeWithNarrowerThreeLangs,
-  language: "de",
-}
-
-export const ConceptSchemeNoPrefLabel = {
-  id: "http://w3id.org/class/hochschulfaecher/scheme#",
-  type: "ConceptScheme",
-  title: {
-    de: "Fächersystematik Hochschulbildung in Deutschland",
-  },
-  hasTopConcept: [
-    {
-      id: "http://w3id.org/class/hochschulfaecher/F1#",
-      narrower: [
-        {
-          id: "http://w3id.org/class/hochschulfaecher/B1#",
-          topConceptOf: null,
-          inScheme: {
-            id: "http://w3id.org/class/hochschulfaecher/scheme#",
-            title: {
-              de: "Fächersystematik Hochschulbildung in Deutschland",
-            },
-          },
-          prefLabel: {
-            de: "Agrarwissenschaft/Landwirtschaft",
-            en: "",
-          },
-        },
-      ],
-      broader: null,
-      prefLabel: {
-        de: "Agrar-, Forst- und Ernährungswissenschaften, Veterinärmedizin",
-        en: "",
-      },
-    },
-  ],
-}
-
-export const ConceptSchemeNoPrefLabelPC = {
-  node: ConceptSchemeNoPrefLabel,
-  language: "en",
 }
 
 export const CollectionPC = {
