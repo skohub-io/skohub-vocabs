@@ -118,6 +118,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
         <li key={item.id}>
           {item.narrower && item.narrower.length > 0 && (
             <button
+              aria-expanded="false"
               className={`treeItemIcon inputStyle${
                 filter || getNestedItems(item).some((id) => id === current)
                   ? ""
