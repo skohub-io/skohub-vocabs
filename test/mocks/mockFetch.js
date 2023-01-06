@@ -1,6 +1,11 @@
 import { indexDE, indexEN } from "../data/flexsearchIndex"
 import { ConceptScheme } from "../data/pageContext"
 
+function removeKey(obj, key) {
+  // credits: https://stackoverflow.com/a/39461077
+  return JSON.parse(JSON.stringify(obj, (k, v) => (k === key ? undefined : v)))
+}
+
 export default async function mockFetch(url) {
   switch (url) {
     case "/w3id.org/index.json": {
@@ -11,71 +16,21 @@ export default async function mockFetch(url) {
       }
     }
     case "/one-lang/w3id.org/index.json": {
-      const topConcept = ConceptScheme.hasTopConcept[0]
-      const narrower = ConceptScheme.hasTopConcept[0].narrower[0]
-      const res = {
-        ...ConceptScheme,
-        title: {
-          ...ConceptScheme.title,
-          en: null,
-        },
-        hasTopConcept: {
-          ...topConcept,
-          prefLabel: {
-            ...topConcept.prefLabel,
-            en: null,
-          },
-          narrower: {
-            ...narrower,
-            prefLabel: {
-              ...narrower.prefLabel,
-              en: null,
-            },
-          },
-          broader: {
-            ...topConcept.broader,
-            prefLabel: {
-              ...topConcept.broader.prefLabel,
-              en: null,
-            },
-          },
-        },
-      }
+      // remove all en keys so we just have one language in object
+      const res = removeKey(ConceptScheme, "en")
+
       return {
         ok: true,
         status: 200,
         json: async () => res,
       }
     }
-    case "/no-prefLabel/w3id.org/index.json": {
-      const topConcept = ConceptScheme.hasTopConcept[0]
-      const narrower = ConceptScheme.hasTopConcept[0].narrower[0]
+    case "/no-title-in-en/w3id.org/index.json": {
       const res = {
         ...ConceptScheme,
         title: {
           ...ConceptScheme.title,
           en: null,
-        },
-        hasTopConcept: {
-          ...topConcept,
-          prefLabel: {
-            ...topConcept.prefLabel,
-            en: null,
-          },
-          narrower: {
-            ...narrower,
-            prefLabel: {
-              ...narrower.prefLabel,
-              en: null,
-            },
-          },
-          broader: {
-            ...topConcept.broader,
-            prefLabel: {
-              ...topConcept.broader.prefLabel,
-              en: null,
-            },
-          },
         },
       }
       return {

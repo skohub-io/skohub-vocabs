@@ -80,7 +80,7 @@ describe("Header", () => {
   it("renders header, shows concept id if title in language is not present", async () => {
     const languages = ["de"]
     const language = "en"
-    const route = "/no-prefLabel/w3id.org/index.de.html"
+    const route = "/no-title-in-en/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       render(
