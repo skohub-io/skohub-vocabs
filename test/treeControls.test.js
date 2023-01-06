@@ -34,7 +34,7 @@ const doc = (
 )
 
 describe("TreeControls", () => {
-  it("renders tree controls", async () => {
+  it("tree controls expands and collapse buttons are setting attributes", async () => {
     const user = userEvent.setup()
     render(doc)
     expect(screen.getByRole("button", { expanded: false }))
