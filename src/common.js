@@ -35,8 +35,9 @@ Replaces the last part (Filepath) of a given url with the last part (Filepath) o
 @returns {string} path
 **/
 const replaceFilePathInUrl = (url, replaceId, extension) => {
-  const path = url
-    .replace(/\/[^\/]*$/, "/" + replaceId.split("/").pop())
+  // we use getFilePath method to add a missing "index" if necessary
+  const path = getFilePath(url)
+    .replace(/\/[^\/]*$/, "/" + getFilePath(replaceId).split("/").pop())
     .split("#")
     .shift()
   return extension ? `${path}.${extension}` : path

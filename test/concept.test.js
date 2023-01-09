@@ -7,7 +7,7 @@ describe("Concept", () => {
   it("renders concept component", () => {
     render(<Concept pageContext={ConceptPC} />)
     expect(
-      screen.getByRole("heading", { name: /Konzept 2/i })
+      screen.getByRole("heading", { name: /Konzept 1/i })
     ).toBeInTheDocument()
   })
 
@@ -139,7 +139,7 @@ describe("Concept", () => {
     render(<Concept pageContext={ConceptPC} />)
     expect(screen.getByRole("link", { name: "JSON" })).toHaveAttribute(
       "href",
-      "/w3id.org/c2.json"
+      "/w3id.org/c1.json"
     )
   })
 })

@@ -1,12 +1,26 @@
 // PC Indicates PageContext
 
-const topConcept = {
+const concept2 = {
   id: "http://w3id.org/c2",
-  type: "Concept",
-  hub: "https://test.skohub.io/hub",
   prefLabel: {
     de: "Konzept 2",
     en: "Concept 2",
+  },
+  broader: [
+    {
+      id: "http://w3id.org/c1",
+    },
+  ],
+  inScheme: "http://w3id.org/",
+}
+
+export const topConcept = {
+  id: "http://w3id.org/c1",
+  type: "Concept",
+  hub: "https://test.skohub.io/hub",
+  prefLabel: {
+    de: "Konzept 1",
+    en: "Concept 1",
   },
   altLabel: {
     de: ["Alt-Label-1", "Alt-Label-2"],
@@ -27,22 +41,7 @@ const topConcept = {
     de: "Meine Note",
   },
   notation: ["1"],
-  narrower: [
-    {
-      id: "http://w3id.org/c3",
-      prefLabel: {
-        de: "Konzept 3",
-        en: "Concept 3",
-      },
-    },
-  ],
-  broader: {
-    id: "http://w3id.org/c1",
-    prefLabel: {
-      de: "Konzept 1",
-      en: "Concept 1",
-    },
-  },
+  narrower: [concept2],
   related: [
     {
       id: "relatedId",
@@ -92,28 +91,25 @@ export const ConceptSchemePC = {
   language: "de",
 }
 
-export const CollectionPC = {
-  node: {
-    id: "http://w3id.org/class/hochschulfaecher/S99#",
-    type: "Collection",
-    prefLabel: {
-      de: "Test-Collection",
-    },
-    definition: null,
-    member: [
-      {
-        id: "http://w3id.org/class/hochschulfaecher/B96#",
-        prefLabel: {
-          de: "Test-Member 1",
-        },
-      },
-      {
-        id: "http://w3id.org/class/hochschulfaecher/B97#",
-        prefLabel: {
-          de: "Test-Member 2",
-        },
-      },
-    ],
+export const collection = {
+  id: "http://w3id.org/collection",
+  type: "Collection",
+  prefLabel: {
+    de: "Test-Collection",
   },
+  definition: null,
+  member: [
+    topConcept,
+    {
+      id: "http://w3id.org/member2",
+      prefLabel: {
+        de: "Test Mitglied 2",
+      },
+    },
+  ],
+}
+
+export const CollectionPC = {
+  node: collection,
   language: "de",
 }

@@ -727,7 +727,7 @@ describe("replaceFilePathinUrl", () => {
         "http://w3id.org/class/hochschulfaecher/2",
         "http://w3id.org/class/hochschulfaecher/1"
       )
-    ).toBe("http://w3id.org/class/hochschulfaecher/1")
+    ).toBe("/w3id.org/class/hochschulfaecher/1")
   })
 })
 
@@ -739,7 +739,7 @@ describe("replaceFilePathinUrl with extension", () => {
         "http://w3id.org/class/hochschulfaecher/1",
         "json"
       )
-    ).toBe("http://w3id.org/class/hochschulfaecher/1.json")
+    ).toBe("/w3id.org/class/hochschulfaecher/1.json")
   })
 })
 

@@ -103,9 +103,7 @@ const Header = ({ siteTitle, languages, language }) => {
             // Concept Schemes
             obj?.title &&
               Object.keys(obj.title).forEach(
-                (t) =>
-                  obj.title[t] !== null &&
-                  setLangs((prev) => new Set(prev.add(t)))
+                (t) => obj.title[t] && setLangs((prev) => new Set(prev.add(t)))
               )
             // Concepts
             obj?.prefLabel &&
@@ -133,7 +131,7 @@ const Header = ({ siteTitle, languages, language }) => {
 
     fetch(pathName + ".json")
       .then((response) => response.json())
-      .then((r) => {
+      .then(async (r) => {
         if (r.type === "ConceptScheme") {
           setConceptScheme((prev) => ({ ...prev, ...r }))
           parseLanguages([r])
@@ -152,27 +150,26 @@ const Header = ({ siteTitle, languages, language }) => {
           // from which we can derive the languages of the concept scheme
           for (const member of r.member) {
             const path = replaceFilePathInUrl(pathName, member.id, "json")
-            fetch(path)
-              .then((response) => response.json())
-              .then((res) => {
-                if (res.type === "Concept") {
-                  const cs = res.inScheme
-                  setConceptScheme((prev) => ({ ...prev, ...cs }))
-                  const path = replaceFilePathInUrl(pathName, cs.id, "json")
-                  fetch(path)
-                    .then((response) => response.json())
-                    .then((res) => {
-                      parseLanguages([res])
-                    })
-                }
-              })
+            const res = await (await fetch(path)).json()
+            const cs = res.inScheme
+            if (res.type === "Concept") {
+              setConceptScheme((prev) => ({ ...prev, ...cs }))
+              const path = replaceFilePathInUrl(pathName, cs.id, "json")
+              const res = await (await fetch(path)).json()
+              parseLanguages([res])
+              break
+            }
           }
         } else {
           languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
         }
       })
       .catch((err) => {
-        // FIXME Currently there is no general index.json, so we need to set languages hard
+        /* FIXME Currently there is no general index.json
+         * that we can use to retrieve languages when using header on the
+         * index page
+         * so we need to set languages hard
+         */
         languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
       })
   }, [pathName, languages])

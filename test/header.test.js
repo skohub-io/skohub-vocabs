@@ -100,4 +100,95 @@ describe("Header", () => {
       })
     ).toBeInTheDocument()
   })
+
+  it("render component with concept data", async () => {
+    // we reduce language array here artifically, because two languages should be found
+    const languages = ["de"]
+    const language = "de"
+    const route = "/w3id.org/c1.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
+    // check for language menu
+    expect(screen.getByRole("list")).toBeInTheDocument()
+    // check for language items
+    expect(screen.getAllByRole("listitem").length).toBe(2)
+  })
+
+  it("render component with collection data", async () => {
+    // we reduce language array here artifically, because two languages should be found
+    const languages = ["de"]
+    const language = "de"
+    const route = "/w3id.org/collection.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
+    // check for language menu
+    expect(screen.getByRole("list")).toBeInTheDocument()
+    // check for language items
+    expect(screen.getAllByRole("listitem").length).toBe(2)
+  })
+
+  it("render languages if type is neither ConceptScheme, Concept or Collection", async () => {
+    // we reduce language array here artifically, because two languages should be found
+    const languages = ["de", "en", "uk"]
+    const language = "de"
+    const route = "/no-in-scheme/w3id.org/collection.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
+    // check for language menu
+    expect(screen.getByRole("list")).toBeInTheDocument()
+    // check for language items
+    expect(screen.getAllByRole("listitem").length).toBe(3)
+  })
+  it("render languages if langs can't be received (e.g. if rendered on overview index", async () => {
+    // we reduce language array here artifically, because two languages should be found
+    const languages = ["de", "en", "uk"]
+    const language = "de"
+    const route = "/no-valid-json/not-valid.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
+    // check for language menu
+    expect(screen.getByRole("list")).toBeInTheDocument()
+    // check for language items
+    expect(screen.getAllByRole("listitem").length).toBe(3)
+  })
 })

@@ -102,6 +102,14 @@ const getNestedItems = (item) => {
   return ids
 }
 
+/**
+ * @param {array} items list of concepts
+ * @param {string} current current concept id
+ * @param {[string]|null} filter
+ * @param {RegExp|null} highlight
+ * @param {string} language
+ * @returns
+ */
 const NestedList = ({ items, current, filter, highlight, language }) => {
   const filteredItems = filter
     ? items.filter(
@@ -126,6 +134,10 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
               }`}
               onClick={(e) => {
                 e.target.classList.toggle("collapsed")
+                e.target.setAttribute(
+                  "aria-expanded",
+                  e.target.classList.contains("collapsed") ? "false" : "true"
+                )
               }}
             ></button>
           )}
