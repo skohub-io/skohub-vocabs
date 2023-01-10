@@ -129,7 +129,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
 
   const renderItemLink = (item) => {
     // checks if current item is a hash-uri */
-    // Gatsby Link Component can't handle hash URIs so we use an anchor-tag here
+    // Gatsby Link Component can't handle hash URIs so we use an anchor-tag instead
     const LinkTag = getFragment(item.id) ? "a" : GatsbyLink
     const children = (
       <>
