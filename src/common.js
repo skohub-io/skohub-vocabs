@@ -209,20 +209,28 @@ const getHeaders = (hub, self, path) =>
  * @param {array} arrayOfObj
  * @returns {array} languages - found languages
  */
-const parseLanguages = function (cs, arrayOfObj) {
+const parseLanguages = function (arrayOfObj) {
   const languages = new Set()
   for (let obj of arrayOfObj) {
     // Concept Schemes
-    obj?.title && Object.keys(obj.title).forEach((l) => languages.add(l))
+    obj?.title &&
+      Object.keys(obj.title).forEach((l) => obj.title[l] && languages.add(l))
     // Concepts
     obj?.prefLabel &&
-      Object.keys(obj.prefLabel).forEach((l) => languages.add(l))
-    obj?.altLabel && Object.keys(obj.altLabel).forEach((l) => languages.add(l))
+      Object.keys(obj.prefLabel).forEach(
+        (l) => obj.prefLabel[l] && languages.add(l)
+      )
+    obj?.altLabel &&
+      Object.keys(obj.altLabel).forEach(
+        (l) => obj.altLabel[l] && languages.add(l)
+      )
     obj?.hiddenLabel &&
-      Object.keys(obj.hiddenLabel).forEach((l) => languages.add(l))
+      Object.keys(obj.hiddenLabel).forEach(
+        (l) => obj.hiddenLabel[l] && languages.add(l)
+      )
 
-    obj?.hasTopConcept && parseLanguages(cs, obj?.hasTopConcept)
-    obj?.narrower && parseLanguages(cs, obj?.narrower)
+    obj?.hasTopConcept && parseLanguages(obj?.hasTopConcept)
+    obj?.narrower && parseLanguages(obj?.narrower)
   }
   return languages
 }

@@ -3,7 +3,12 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
+import {
+  getFilePath,
+  getLinkPath,
+  replaceFilePathInUrl,
+  parseLanguages,
+} from "../common"
 
 import { colors as c } from "../styles/variables"
 import skohubsvg from "../images/skohub-signet-color.svg"
@@ -93,48 +98,19 @@ const Header = ({ siteTitle, languages, language }) => {
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
+  const addLanguages = (r) => {
+    const languages = parseLanguages([r])
+    languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+  }
   // to display the concept scheme title in the header
   // we have to retrieve concept scheme info in this component
   useEffect(() => {
-    function parseLanguages(arrayOfObj) {
-      for (let obj of arrayOfObj) {
-        for (let k of Object.keys(obj)) {
-          if (k === "hasTopConcept" || k === "narrower") {
-            // Concept Schemes
-            obj?.title &&
-              Object.keys(obj.title).forEach(
-                (t) => obj.title[t] && setLangs((prev) => new Set(prev.add(t)))
-              )
-            // Concepts
-            obj?.prefLabel &&
-              Object.keys(obj.prefLabel).forEach(
-                (t) =>
-                  obj.prefLabel[t] && setLangs((prev) => new Set(prev.add(t)))
-              )
-            obj?.altLabel &&
-              Object.keys(obj.altLabel).forEach(
-                (t) =>
-                  obj.altLabel[t] && setLangs((prev) => new Set(prev.add(t)))
-              )
-            obj?.hiddenLabel &&
-              Object.keys(obj.hiddenLabel).forEach(
-                (t) =>
-                  obj.hiddenLabel[t] && setLangs((prev) => new Set(prev.add(t)))
-              )
-
-            obj?.hasTopConcept && parseLanguages(obj?.hasTopConcept)
-            obj?.narrower && parseLanguages(obj?.narrower)
-          }
-        }
-      }
-    }
-
     fetch(pathName + ".json")
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
           setConceptScheme((prev) => ({ ...prev, ...r }))
-          parseLanguages([r])
+          addLanguages(r)
         } else if (r.type === "Concept") {
           const cs = r.inScheme
           setConceptScheme((prev) => ({ ...prev, ...cs }))
@@ -142,7 +118,7 @@ const Header = ({ siteTitle, languages, language }) => {
           fetch(path)
             .then((response) => response.json())
             .then((res) => {
-              parseLanguages([res])
+              addLanguages(res)
             })
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
@@ -156,7 +132,7 @@ const Header = ({ siteTitle, languages, language }) => {
               setConceptScheme((prev) => ({ ...prev, ...cs }))
               const path = replaceFilePathInUrl(pathName, cs.id, "json")
               const res = await (await fetch(path)).json()
-              parseLanguages([res])
+              addLanguages(res)
               break
             }
           }
