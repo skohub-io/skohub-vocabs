@@ -167,8 +167,7 @@ const Header = ({ siteTitle, languages, language }) => {
       .catch((err) => {
         /* FIXME Currently there is no general index.json
          * that we can use to retrieve languages when using header on the
-         * index page
-         * so we need to set languages hard
+         * index page so we need to set languages hard
          */
         languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
       })
