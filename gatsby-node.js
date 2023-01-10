@@ -12,7 +12,7 @@ const path = require("path")
 const fs = require("fs-extra")
 const flexsearch = require("flexsearch")
 const omitEmpty = require("omit-empty")
-const { i18n, getFilePath } = require("./src/common")
+const { i18n, getFilePath, parseLanguages } = require("./src/common")
 const context = require("./src/context")
 const queries = require("./src/queries")
 const types = require("./src/types")
@@ -53,28 +53,6 @@ jsonld.registerRDFParser("text/turtle", (ttlString) => {
   return store.getQuads()
 })
 
-const parseLanguages = function (cs, arrayOfObj) {
-  for (let obj of arrayOfObj) {
-    for (let k of Object.keys(obj)) {
-      if (k === "hasTopConcept" || k === "narrower") {
-        // Concept Schemes
-        obj?.title &&
-          Object.keys(obj.title).forEach((l) => languagesByCS[cs].add(l))
-        // Concepts
-        obj?.prefLabel &&
-          Object.keys(obj.prefLabel).forEach((l) => languagesByCS[cs].add(l))
-        obj?.altLabel &&
-          Object.keys(obj.altLabel).forEach((l) => languagesByCS[cs].add(l))
-        obj?.hiddenLabel &&
-          Object.keys(obj.hiddenLabel).forEach((l) => languagesByCS[cs].add(l))
-
-        obj?.hasTopConcept && parseLanguages(cs, obj?.hasTopConcept)
-        obj?.narrower && parseLanguages(cs, obj?.narrower)
-      }
-    }
-  }
-}
-
 const createData = ({ path, data }) =>
   fs.outputFile(`public${path}`, data, (err) => err && console.error(err))
 
@@ -111,8 +89,10 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
     const conceptSchemeId = compacted["@graph"].find(
       (node) => node.type === "ConceptScheme"
     ).id
-    languagesByCS[conceptSchemeId] = new Set()
-    parseLanguages(conceptSchemeId, compacted["@graph"])
+    languagesByCS[conceptSchemeId] = parseLanguages(
+      conceptSchemeId,
+      compacted["@graph"]
+    )
 
     await compacted["@graph"].forEach((graph) => {
       const {
@@ -257,7 +237,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           const jsonld = omitEmpty(Object.assign({}, concept, context.jsonld))
 
           if (getFilePath(concept.id) === getFilePath(conceptScheme.id)) {
-            // embed concepts in concept scheme
+            /**
+             * embed concepts in concept scheme
+             * hashURIs have to be embedded in the concept scheme directly
+             * since we can't add a dedicated .json for them 'cause of the way their URI is structured.
+             * E.g. http://example.org/hashURIConceptScheme.de.html#concept1
+             *                                                  ^--- its always the concept scheme where
+             *                                                        we end when looking for a .json
+             */
+            // TODO hier könnten wir doch aber auch die Seiten für HasURI Konzepte erstellen?
             embeddedConcepts.push({ json, jsonld })
           } else {
             // create pages and data

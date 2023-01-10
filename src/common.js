@@ -203,6 +203,30 @@ const verifyFiles = (files) => {
 const getHeaders = (hub, self, path) =>
   `Header set Link "<${hub}>; rel=\\"hub\\", <${self}>; rel=\\"self\\"" "expr=%{REQUEST_URI} =~ m|${path}|"`
 
+/**
+ * Parses languages from a json ld graph
+ * @param {string} cs
+ * @param {array} arrayOfObj
+ * @returns {array} languages - found languages
+ */
+const parseLanguages = function (cs, arrayOfObj) {
+  const languages = new Set()
+  for (let obj of arrayOfObj) {
+    // Concept Schemes
+    obj?.title && Object.keys(obj.title).forEach((l) => languages.add(l))
+    // Concepts
+    obj?.prefLabel &&
+      Object.keys(obj.prefLabel).forEach((l) => languages.add(l))
+    obj?.altLabel && Object.keys(obj.altLabel).forEach((l) => languages.add(l))
+    obj?.hiddenLabel &&
+      Object.keys(obj.hiddenLabel).forEach((l) => languages.add(l))
+
+    obj?.hasTopConcept && parseLanguages(cs, obj?.hasTopConcept)
+    obj?.narrower && parseLanguages(cs, obj?.narrower)
+  }
+  return languages
+}
+
 module.exports = {
   i18n,
   getPath,
@@ -218,4 +242,5 @@ module.exports = {
   isSecured,
   getRepositoryFiles,
   getLinkPath,
+  parseLanguages,
 }
