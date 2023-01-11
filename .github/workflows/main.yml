@@ -45,7 +45,7 @@ jobs:
 
     - run: npm install
     - run: npm run build --if-present
-    - run: npm test:coverage
+    - run: npm run test:coverage
     - name: Generating coverage badges
       uses: jpb06/jest-badges-action@latest
       with:
