@@ -1,5 +1,5 @@
 ![https://github.com/hbz/skohub-vocabs/actions?query=workflow%3ABuild](https://github.com/hbz/skohub-vocabs/workflows/Build/badge.svg?branch=master)
-
+![Jest coverage](./badges/coverage-jest%20coverage.svg)
 
 # Static site generator for Simple Knowledge Management Systems (SKOS)
 
