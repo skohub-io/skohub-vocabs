@@ -27,7 +27,6 @@ describe("App", () => {
     jest.restoreAllMocks()
   })
 
-  // den Test behalten behalten
   it("renders App component with expand and collapse button", async () => {
     const route = "/w3id.org/index.de.html"
     await act(() => {
@@ -41,7 +40,6 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Expand" })).toBeInTheDocument()
   })
 
-  // den Test auch behalten
   it("renders App component **without** collapse and expand button", async () => {
     const route = "/w3id.org/index.de.html"
     // remove narrower from concept
