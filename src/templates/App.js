@@ -45,16 +45,16 @@ const App = ({ pageContext, children }) => {
       // members of a collection can either be skos:Concepts or skos:Collection
       // so we need to check each member till we find a concept
       // from which we can derive the languages of the concept scheme
-      for (const member of pageContext.node.member) {
-        const path = replaceFilePathInUrl(pathName, member.id, "json")
-        fetch(path)
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.type === "Concept") {
-              setConceptSchemeId(res.inScheme.id)
-            }
-          })
-      }
+      ;(async () => {
+        for await (const member of pageContext.node.member) {
+          const path = replaceFilePathInUrl(pathName, member.id, "json")
+          const res = await (await fetch(path)).json()
+          if (res.type === "Concept") {
+            setConceptSchemeId(res.inScheme.id)
+            break
+          }
+        }
+      })()
     }
   }, [
     pageContext.node.type,
