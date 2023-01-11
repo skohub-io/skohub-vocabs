@@ -45,7 +45,11 @@ jobs:
 
     - run: npm install
     - run: npm run build --if-present
-    - run: npm test
+    - run: npm test:coverage
+    - name: Generating coverage badges
+      uses: jpb06/jest-badges-action@latest
+        with:
+          branches: master,dev,233-tests
 
   docker:
     needs: [build]
