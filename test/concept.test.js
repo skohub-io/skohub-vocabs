@@ -52,6 +52,9 @@ describe("Concept", () => {
 
   it("renders hidden labels", () => {
     render(<Concept pageContext={ConceptPC} />)
+
+    expect(screen.getByText(/Verstecktes Label 1/i)).toBeInTheDocument()
+
     const list = screen.getByRole("list", {
       name: /hidden label/i,
     })
@@ -72,9 +75,7 @@ describe("Concept", () => {
     expect(
       screen.getByRole("heading", { name: /^related$/i })
     ).toBeInTheDocument()
-    expect(
-      screen.getByRole("link", { name: /related concept/i })
-    ).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /konzept 4/i })).toBeInTheDocument()
   })
 
   it("renders narrow matches", () => {

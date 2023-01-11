@@ -98,7 +98,7 @@ describe("Header", () => {
     // skohub concept scheme link
     expect(
       screen.getByRole("link", {
-        name: "Hash URI Concept Scheme",
+        name: "Hash URI Konzept Schema",
       })
     ).toBeInTheDocument()
     // check for language menu

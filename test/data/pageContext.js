@@ -23,10 +23,11 @@ export const topConcept = {
     en: "Concept 1",
   },
   altLabel: {
-    de: ["Alt-Label-1", "Alt-Label-2"],
+    de: ["Alternativbezeichnung 1", "Alternativbezeichnung 2"],
+    en: ["Alt label 1"],
   },
   hiddenLabel: {
-    de: ["Hidden-Label-1", "Hidden-Label-2"],
+    de: ["Verstecktes Label 1", "Verstecktes Label 2"],
   },
   definition: {
     de: "Meine Definition",
@@ -38,15 +39,15 @@ export const topConcept = {
     de: "Meine Scope Note",
   },
   note: {
-    de: "Meine Note",
+    de: "Meine Anmerkung",
   },
   notation: ["1"],
   narrower: [concept2],
   related: [
     {
-      id: "relatedId",
+      id: "http://w3id.org/c4",
       prefLabel: {
-        de: "Related Concept",
+        de: "Konzept 4",
       },
     },
   ],
@@ -118,13 +119,13 @@ export const hashURIConceptScheme = {
   id: "http://example.org/hashURIConceptScheme#scheme",
   type: "ConceptScheme",
   title: {
-    de: "Hash URI Concept Scheme",
+    de: "Hash URI Konzept Schema",
   },
   hasTopConcept: [
     {
       id: "http://example.org/hashURIConceptScheme#concept1",
       prefLabel: {
-        de: "Concept 1",
+        de: "Konzept 1",
       },
       narrower: [
         {
@@ -139,13 +140,13 @@ export const hashURIConceptScheme = {
     {
       id: "http://example.org/hashURIConceptScheme#concept2",
       prefLabel: {
-        de: "Concept 2",
+        de: "Konzept 2",
       },
     },
     {
       id: "http://example.org/hashURIConceptScheme#concept3",
       prefLabel: {
-        de: "Concept 3",
+        de: "Konzept 3",
       },
     },
   ],
