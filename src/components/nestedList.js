@@ -154,10 +154,6 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
         )}
       </>
     )
-    // eslint-disable-next-line no-console
-    console.log(item.id)
-    // eslint-disable-next-line no-console
-    console.log(current)
     const Link = React.createElement(
       LinkTag,
       {
