@@ -89,10 +89,7 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
     const conceptSchemeId = compacted["@graph"].find(
       (node) => node.type === "ConceptScheme"
     ).id
-    languagesByCS[conceptSchemeId] = parseLanguages(
-      conceptSchemeId,
-      compacted["@graph"]
-    )
+    languagesByCS[conceptSchemeId] = parseLanguages(compacted["@graph"])
 
     await compacted["@graph"].forEach((graph) => {
       const {
@@ -245,7 +242,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
              *                                                  ^--- its always the concept scheme where
              *                                                        we end when looking for a .json
              */
-            // TODO hier könnten wir doch aber auch die Seiten für HasURI Konzepte erstellen?
             embeddedConcepts.push({ json, jsonld })
           } else {
             // create pages and data

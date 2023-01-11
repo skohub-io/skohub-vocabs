@@ -14,13 +14,18 @@ const ConceptScheme = ({
       className="content concept block main-block"
       id={getDomId(conceptScheme.id)}
     >
-      {embed &&
-        embed.map((concept) => (
-          <Concept
-            key={concept.json.id}
-            pageContext={{ node: concept.json, language }}
-          />
-        ))}
+      {
+        /*
+        we use embed here for embedding hashURI concepts
+      */
+        embed &&
+          embed.map((concept) => (
+            <Concept
+              key={concept.json.id}
+              pageContext={{ node: concept.json, language }}
+            />
+          ))
+      }
       <div>
         <h1>{i18n(language)(conceptScheme.title)}</h1>
         <h2>{conceptScheme.id}</h2>
