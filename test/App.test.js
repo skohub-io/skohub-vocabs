@@ -9,6 +9,7 @@ import {
 } from "@gatsbyjs/reach-router"
 import { ConceptPC, ConceptSchemePC, CollectionPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
+import userEvent from "@testing-library/user-event"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
 const mockUseStaticQuery = {
@@ -96,5 +97,23 @@ describe("App", () => {
     ).toBeInTheDocument()
     // somehow the link role for Konzept 2 is not found, but it is there, so we use getByText
     expect(screen.getByText("Konzept 2")).toBeInTheDocument()
+  })
+
+  it("search is working", async () => {
+    const user = userEvent.setup()
+    const route = "/w3id.org/index.de.html"
+    await act(() => {
+      render(
+        <LocationProvider history={createHistory(createMemorySource(route))}>
+          <App pageContext={ConceptSchemePC} children={null} />
+        </LocationProvider>
+      )
+    })
+    expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
+    expect(screen.queryByText("Konzept 2")).toBeInTheDocument()
+    await user.click(screen.getByRole("textbox"))
+    await user.keyboard("Konzept 1")
+    expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
+    expect(screen.queryByText("Konzept 2")).toBeNull()
   })
 })
