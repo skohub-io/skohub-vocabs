@@ -113,3 +113,40 @@ export const CollectionPC = {
   node: collection,
   language: "de",
 }
+
+export const hashURIConceptScheme = {
+  id: "http://example.org/hashURIConceptScheme#scheme",
+  type: "ConceptScheme",
+  title: {
+    de: "Hash URI Concept Scheme",
+  },
+  hasTopConcept: [
+    {
+      id: "http://example.org/hashURIConceptScheme#concept1",
+      prefLabel: {
+        de: "Concept 1",
+      },
+      narrower: [
+        {
+          id: "http://example.org/hashURIConceptScheme#concept4",
+          prefLabel: {
+            de: "Konzept 4",
+            en: "Concept4",
+          },
+        },
+      ],
+    },
+    {
+      id: "http://example.org/hashURIConceptScheme#concept2",
+      prefLabel: {
+        de: "Concept 2",
+      },
+    },
+    {
+      id: "http://example.org/hashURIConceptScheme#concept3",
+      prefLabel: {
+        de: "Concept 3",
+      },
+    },
+  ],
+}

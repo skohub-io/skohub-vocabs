@@ -49,7 +49,7 @@ describe("Header", () => {
     // check for language menu not to be present
     expect(screen.queryByRole("list")).toBeNull()
   })
-  it("renders header component with multiple language tags", async () => {
+  it("renders header component with multiple language tags (slash URIs)", async () => {
     const languages = ["de", "en"]
     const language = "de"
     const route = "/w3id.org/index.de.html"
@@ -69,6 +69,36 @@ describe("Header", () => {
     expect(
       screen.getByRole("link", {
         name: "Test Vokabular",
+      })
+    ).toBeInTheDocument()
+    // check for language menu
+    expect(screen.getByRole("list")).toBeInTheDocument()
+    // check for language items
+    expect(screen.getAllByRole("listitem").length).toBe(2)
+  })
+
+  it("renders header component with multiple language tags (hash URIs)", async () => {
+    // setting three languages here, but we only have two in the cs
+    // so test should return only two
+    const languages = ["de", "en", "uk"]
+    const language = "de"
+    const route = "/example.org/hashURIConceptScheme.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
+    // skohub concept scheme link
+    expect(
+      screen.getByRole("link", {
+        name: "Hash URI Concept Scheme",
       })
     ).toBeInTheDocument()
     // check for language menu
@@ -169,7 +199,7 @@ describe("Header", () => {
     // check for language items
     expect(screen.getAllByRole("listitem").length).toBe(3)
   })
-  it("render languages if langs can't be received (e.g. if rendered on overview index", async () => {
+  it("render default languages if langs can't be received (e.g. if rendered on overview index", async () => {
     // we reduce language array here artifically, because two languages should be found
     const languages = ["de", "en", "uk"]
     const language = "de"

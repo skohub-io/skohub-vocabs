@@ -1,5 +1,10 @@
-import { indexDE, indexEN } from "../data/flexsearchIndex"
-import { collection, ConceptScheme, topConcept } from "../data/pageContext"
+import { indexDE } from "../data/flexsearchIndex"
+import {
+  collection,
+  ConceptScheme,
+  hashURIConceptScheme,
+  topConcept,
+} from "../data/pageContext"
 
 function removeKey(obj, key) {
   // credits: https://stackoverflow.com/a/39461077
@@ -70,11 +75,11 @@ export default async function mockFetch(url) {
         json: async () => indexDE,
       }
     }
-    case "/w3id.org/class/hochschulfaecher/scheme.en.index": {
+    case "/example.org/hashURIConceptScheme.json": {
       return {
         ok: true,
         status: 200,
-        json: async () => indexEN,
+        json: async () => hashURIConceptScheme,
       }
     }
     default: {

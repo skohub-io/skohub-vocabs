@@ -35,7 +35,7 @@ Replaces the last part (Filepath) of a given url with the last part (Filepath) o
 @returns {string} path
 **/
 const replaceFilePathInUrl = (url, replaceId, extension) => {
-  // we use getFilePath method to add a missing "index" if necessary
+  // we use getFilePath function to add a missing "index" if necessary
   const path = getFilePath(url)
     .replace(/\/[^\/]*$/, "/" + getFilePath(replaceId).split("/").pop())
     .split("#")
@@ -204,34 +204,35 @@ const getHeaders = (hub, self, path) =>
   `Header set Link "<${hub}>; rel=\\"hub\\", <${self}>; rel=\\"self\\"" "expr=%{REQUEST_URI} =~ m|${path}|"`
 
 /**
- * Parses languages from a json ld graph
- * @param {string} cs
- * @param {array} arrayOfObj
+ * Parses languages from a json ld graph (Concept or Concept Scheme)
+ * @param {array} json
  * @returns {array} languages - found languages
  */
-const parseLanguages = function (arrayOfObj) {
+const parseLanguages = (json) => {
   const languages = new Set()
-  for (let obj of arrayOfObj) {
-    // Concept Schemes
-    obj?.title &&
-      Object.keys(obj.title).forEach((l) => obj.title[l] && languages.add(l))
-    // Concepts
-    obj?.prefLabel &&
-      Object.keys(obj.prefLabel).forEach(
-        (l) => obj.prefLabel[l] && languages.add(l)
-      )
-    obj?.altLabel &&
-      Object.keys(obj.altLabel).forEach(
-        (l) => obj.altLabel[l] && languages.add(l)
-      )
-    obj?.hiddenLabel &&
-      Object.keys(obj.hiddenLabel).forEach(
-        (l) => obj.hiddenLabel[l] && languages.add(l)
-      )
-
-    obj?.hasTopConcept && parseLanguages(obj?.hasTopConcept)
-    obj?.narrower && parseLanguages(obj?.narrower)
+  const parse = (arrayOfObj) => {
+    for (let obj of arrayOfObj) {
+      // Concept Schemes
+      obj?.title &&
+        Object.keys(obj.title).forEach((l) => obj.title[l] && languages.add(l))
+      // Concepts
+      obj?.prefLabel &&
+        Object.keys(obj.prefLabel).forEach(
+          (l) => obj.prefLabel[l] && languages.add(l)
+        )
+      obj?.altLabel &&
+        Object.keys(obj.altLabel).forEach(
+          (l) => obj.altLabel[l] && languages.add(l)
+        )
+      obj?.hiddenLabel &&
+        Object.keys(obj.hiddenLabel).forEach(
+          (l) => obj.hiddenLabel[l] && languages.add(l)
+        )
+      obj?.hasTopConcept && parse(obj.hasTopConcept)
+      obj?.narrower && parse(obj.narrower)
+    }
   }
+  parse(json)
   return languages
 }
 
