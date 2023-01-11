@@ -70,7 +70,7 @@ describe("processWebhooks", () => {
       .get("/files")
       .reply(200, [
         {
-          path: "systematik.ttl",
+          path: "interactivityType.ttl",
           url: "https://fakeURL.test/interactivityType.ttl",
         },
       ])

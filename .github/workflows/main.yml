@@ -22,7 +22,7 @@ jobs:
     - run: echo Using node version $(node --version)
     - run: echo Using npm version $(npm --version)
     - run: cp .env.example .env
-    - run: cp test/data/systematik.ttl data/
+    - run: cp test/data/interactivityType.ttl data/
 
     - name: Cache node modules
       id: cache-npm
@@ -86,7 +86,7 @@ jobs:
           mkdir public
           mkdir data
           cp .env.example .env
-          cp test/data/systematik.ttl data/
+          cp test/data/interactivityType.ttl data/
           docker run --rm -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env ${{ env.TEST_TAG }}
 
       - name: Build and push
