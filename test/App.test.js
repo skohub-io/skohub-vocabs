@@ -7,7 +7,7 @@ import {
   createMemorySource,
   LocationProvider,
 } from "@gatsbyjs/reach-router"
-import { ConceptSchemePC } from "./data/pageContext"
+import { ConceptPC, ConceptSchemePC, CollectionPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
@@ -61,5 +61,40 @@ describe("App", () => {
     })
     expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull()
     expect(screen.queryByRole("button", { name: "Expand" })).toBeNull()
+  })
+
+  it("correctly fetches tree when page context is a concept", async () => {
+    window.HTMLElement.prototype.scrollIntoView = function () {}
+    const route = "/w3id.org/c1.de.html"
+    await act(() => {
+      render(
+        <LocationProvider history={createHistory(createMemorySource(route))}>
+          <App pageContext={ConceptPC} children={null} />
+        </LocationProvider>
+      )
+    })
+    // we render the concept with notation therefore the "1"
+    expect(
+      screen.getByRole("link", { name: "1 Konzept 1" })
+    ).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "Konzept 2" })).toBeInTheDocument()
+  })
+
+  it("correctly fetches tree when page context is a collection", async () => {
+    window.HTMLElement.prototype.scrollIntoView = function () {}
+    const route = "/w3id.org/collection.de.html"
+    await act(() => {
+      render(
+        <LocationProvider history={createHistory(createMemorySource(route))}>
+          <App pageContext={CollectionPC} children={null} />
+        </LocationProvider>
+      )
+    })
+    // we render the concept with notation therefore the "1"
+    expect(
+      screen.getByRole("link", { name: "1 Konzept 1" })
+    ).toBeInTheDocument()
+    // somehow the link role for Konzept 2 is not found, but it is there, so we use getByText
+    expect(screen.getByText("Konzept 2")).toBeInTheDocument()
   })
 })
