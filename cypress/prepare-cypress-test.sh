@@ -1,0 +1,1 @@
+cp test/data/slashURIConceptScheme.ttl test/data/hashURIConceptScheme.ttl test/data/interactivityType.ttl data/
