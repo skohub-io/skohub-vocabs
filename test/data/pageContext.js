@@ -71,8 +71,9 @@ export const ConceptPC = {
   language: "de",
   collections: [
     {
-      id: "my-id",
-      prefLabel: { de: "Collection PrefLabel" },
+      id: "http://w3id.org/collection",
+      prefLabel: { de: "Meine Collection", en: "My Collection" },
+      member: [topConcept, concept2],
     },
   ],
 }
