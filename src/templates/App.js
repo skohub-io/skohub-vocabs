@@ -89,6 +89,7 @@ const App = ({ pageContext, children }) => {
   // Fetch and load the tree
   useEffect(() => {
     conceptSchemeId &&
+      // if node.type would be concept scheme the tree would already have been set
       pageContext.node.type !== "ConceptScheme" &&
       fetch(withPrefix(getFilePath(conceptSchemeId, "json")))
         .then((response) => response.json())
@@ -129,15 +130,17 @@ const App = ({ pageContext, children }) => {
             autoFocus
           />
           {showTreeControls && <TreeControls />}
-          {tree && (
-            <NestedList
-              items={tree.hasTopConcept}
-              current={pageContext.node.id}
-              filter={query ? index.search(query) : null}
-              highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
-              language={pageContext.language}
-            />
-          )}
+          <div className="concepts">
+            {tree && (
+              <NestedList
+                items={tree.hasTopConcept}
+                current={pageContext.node.id}
+                filter={query ? index.search(query) : null}
+                highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
+                language={pageContext.language}
+              />
+            )}
+          </div>
         </nav>
         {children}
       </div>
