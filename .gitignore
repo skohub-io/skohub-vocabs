@@ -71,3 +71,7 @@ yarn-error.log
 
 # Badges
 badges/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
