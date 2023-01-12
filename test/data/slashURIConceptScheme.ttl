@@ -39,3 +39,7 @@
   skos:prefLabel "Konzept 4"@de ;
   skos:broader <c2> ;
   skos:inScheme <> .
+
+<collection> a skos:Collection ;
+  skos:prefLabel "Meine Collection"@de, "My Collection"@en ;
+  skos:member <c1>, <c2> .
