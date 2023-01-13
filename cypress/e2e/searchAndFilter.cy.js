@@ -1,7 +1,7 @@
 describe("search and filter", () => {
   // search and filter works
   it("search for top concept works", () => {
-    cy.visit("http://localhost:8000/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.de.html")
 
     cy.get("span").contains("Konzept 2").should("exist")
     cy.findByRole("textbox").type("Konzept 1")
@@ -10,7 +10,7 @@ describe("search and filter", () => {
   })
 
   it("search for nested concept works", () => {
-    cy.visit("http://localhost:8000/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.de.html")
 
     cy.get("span").contains("Konzept 2").should("exist")
     cy.findByRole("textbox").type("Konzept 2")
@@ -20,7 +20,7 @@ describe("search and filter", () => {
   })
 
   it("search works after switching language", () => {
-    cy.visit("http://localhost:8000/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.de.html")
 
     cy.contains("en").click()
 

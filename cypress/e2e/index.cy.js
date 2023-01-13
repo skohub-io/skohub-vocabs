@@ -1,6 +1,6 @@
 describe("Main Vocab Index page", () => {
   it("Visits index page and test language switch", () => {
-    cy.visit("http://localhost:8000/index.de.html")
+    cy.visit("/index.de.html")
 
     // three vocabs found
     cy.get(".centerPage > ul li").should("have.length", 3)
