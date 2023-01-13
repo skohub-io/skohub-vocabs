@@ -95,7 +95,8 @@ jobs:
           images: skohub/skohub-vocabs-docker
           tags: |
             # set latest tag for default branch
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable={{is_default_branch}}#
+            type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
             
       - name: Build and export to Docker
         uses: docker/build-push-action@v3
