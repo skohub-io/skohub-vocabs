@@ -1,10 +1,12 @@
-FROM node:14.21-alpine3.16
+FROM node:18.12-alpine 
 
 WORKDIR /app
 
 COPY ./package.json .
 
 COPY ./package-lock.json .
+
+COPY ./.npmrc .
 
 RUN npm install -f
 
