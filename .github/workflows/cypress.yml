@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: E2E Tests
 
 on: [push]
 
@@ -22,6 +22,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5.0.5 # use the explicit version number
         with:
-          start: npm run develop
-          wait-on: http://localhost:3000/index.de.html
-          config: baseUrl=http://localhost:3000
+          start: npm run develop -- -p 8000
+          wait-on: http://localhost:8000/index.de.html
+          config: baseUrl=http://localhost:8000
