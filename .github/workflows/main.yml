@@ -105,8 +105,8 @@ jobs:
 
       - name: Test docker image
         run: |
-          mkdir public
-          mkdir data
+          mkdir -p public
+          mkdir -p data
           cp .env.example .env
           cp test/data/interactivityType.ttl data/
           docker run --rm -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env ${{ env.TEST_TAG }}
