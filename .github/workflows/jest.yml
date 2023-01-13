@@ -1,4 +1,4 @@
-name: Build
+name: Jest Tests
 
 on: push
 
@@ -7,7 +7,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,4 +44,4 @@ jobs:
       run: npm list
 
     - run: npm install
-    - run: npm run build --if-present
+    - run: npm run test
