@@ -36,7 +36,6 @@ describe("Layout", () => {
         </Layout>
       </LocationProvider>
     )
-    screen.debug()
     // header is there
     expect(screen.getByRole("banner")).toBeInTheDocument()
     // link attribute is filled correctly

@@ -22,9 +22,10 @@ const TreeControls = () => (
       className="inputStyle"
       value="Collapse"
       onClick={() => {
-        ;[...document.querySelectorAll(".treeItemIcon")].forEach((el) =>
+        ;[...document.querySelectorAll(".treeItemIcon")].forEach((el) => {
           el.classList.add("collapsed")
-        )
+          el.setAttribute("aria-expanded", false)
+        })
       }}
     />
     <input
@@ -32,9 +33,10 @@ const TreeControls = () => (
       className="inputStyle"
       value="Expand"
       onClick={() => {
-        ;[...document.querySelectorAll(".collapsed")].forEach((el) =>
+        ;[...document.querySelectorAll(".collapsed")].forEach((el) => {
           el.classList.remove("collapsed")
-        )
+          el.setAttribute("aria-expanded", true)
+        })
       }}
     />
   </div>

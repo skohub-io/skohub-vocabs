@@ -41,6 +41,9 @@ const jsonld = {
     altLabel: {
       "@container": ["@language", "@set"],
     },
+    hiddenLabel: {
+      "@container": ["@language", "@set"],
+    },
     definition: {
       "@container": "@language",
     },

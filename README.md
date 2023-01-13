@@ -1,5 +1,4 @@
-![https://github.com/hbz/skohub-vocabs/actions?query=workflow%3ABuild](https://github.com/hbz/skohub-vocabs/workflows/Build/badge.svg?branch=master)
-
+[![Build and Tests](https://github.com/skohub-io/skohub-vocabs/actions/workflows/main.yml/badge.svg)](https://github.com/skohub-io/skohub-vocabs/actions/workflows/main.yml)
 
 # Static site generator for Simple Knowledge Management Systems (SKOS)
 

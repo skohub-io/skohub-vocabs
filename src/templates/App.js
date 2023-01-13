@@ -12,6 +12,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 import { style } from "../styles/concepts.css.js"
+import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
   const [conceptSchemeId, setConceptSchemeId] = useState(null)
@@ -25,7 +26,7 @@ const App = ({ pageContext, children }) => {
 
   if (!showTreeControls && tree && tree.hasTopConcept) {
     for (const topConcept of tree.hasTopConcept) {
-      if (topConcept.narrower) {
+      if (topConcept.narrower?.length > 0) {
         showTreeControls = true
         break
       }
@@ -44,16 +45,16 @@ const App = ({ pageContext, children }) => {
       // members of a collection can either be skos:Concepts or skos:Collection
       // so we need to check each member till we find a concept
       // from which we can derive the languages of the concept scheme
-      for (const member of pageContext.node.member) {
-        const path = replaceFilePathInUrl(pathName, member.id, "json")
-        fetch(path)
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.type === "Concept") {
-              setConceptSchemeId(res.inScheme.id)
-            }
-          })
-      }
+      ;(async () => {
+        for await (const member of pageContext.node.member) {
+          const path = replaceFilePathInUrl(pathName, member.id, "json")
+          const res = await (await fetch(path)).json()
+          if (res.type === "Concept") {
+            setConceptSchemeId(res.inScheme.id)
+            break
+          }
+        }
+      })()
     }
   }, [
     pageContext.node.type,
@@ -67,8 +68,9 @@ const App = ({ pageContext, children }) => {
   useEffect(() => {
     conceptSchemeId &&
       fetch(
-        pageContext.baseURL +
+        withPrefix(
           getFilePath(conceptSchemeId, `${pageContext.language}.index`)
+        )
       )
         .then((response) => response.json())
         .then((serialized) => {
@@ -82,16 +84,17 @@ const App = ({ pageContext, children }) => {
           idx.import(serialized)
           setIndex(idx)
         })
-  }, [conceptSchemeId, pageContext.baseURL, pageContext.language])
+  }, [conceptSchemeId, pageContext.language])
 
   // Fetch and load the tree
   useEffect(() => {
     conceptSchemeId &&
+      // if node.type would be concept scheme the tree would already have been set
       pageContext.node.type !== "ConceptScheme" &&
-      fetch(pageContext.baseURL + getFilePath(conceptSchemeId, "json"))
+      fetch(withPrefix(getFilePath(conceptSchemeId, "json")))
         .then((response) => response.json())
         .then((tree) => setTree(tree))
-  }, [conceptSchemeId, pageContext.baseURL, pageContext.node.type])
+  }, [conceptSchemeId, pageContext.node.type])
 
   // Scroll current item into view
   useEffect(() => {
@@ -127,15 +130,17 @@ const App = ({ pageContext, children }) => {
             autoFocus
           />
           {showTreeControls && <TreeControls />}
-          {tree && (
-            <NestedList
-              items={tree.hasTopConcept}
-              current={pageContext.node.id}
-              filter={query ? index.search(query) : null}
-              highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
-              language={pageContext.language}
-            />
-          )}
+          <div className="concepts">
+            {tree && (
+              <NestedList
+                items={tree.hasTopConcept}
+                current={pageContext.node.id}
+                filter={query ? index.search(query) : null}
+                highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
+                language={pageContext.language}
+              />
+            )}
+          </div>
         </nav>
         {children}
       </div>

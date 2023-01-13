@@ -1,7 +1,6 @@
 import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React from "react"
-import { useLocation } from "@gatsbyjs/reach-router"
 
 import { colors as c } from "../styles/variables"
 
@@ -45,12 +44,7 @@ const style = css`
   }
 `
 
-const Footer = ({
-  siteTitle,
-  languages,
-  language,
-  pathName = useLocation().pathname.slice(0, -8),
-}) => (
+const Footer = () => (
   <footer css={style}>
     <div className="footerContent">
       <ul>
