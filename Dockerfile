@@ -1,17 +1,19 @@
-FROM node:18.12-alpine 
+FROM node:18.13.0-alpine
+
+ENV NODE_ENV production
 
 WORKDIR /app
 
-COPY ./package.json .
+RUN chown -R node:node /app
 
-COPY ./package-lock.json .
+COPY --chown=node:node .env.example .env
+COPY --chown=node:node . .
 
-COPY ./.npmrc .
+USER node
 
-RUN npm install -f
+# don't run prepare step with husky
+RUN npm pkg delete scripts.prepare
 
-COPY . .
-
-COPY .env.example .env
+RUN npm i --only=production
 
 CMD ["npm", "run", "container-build"]
