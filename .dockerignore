@@ -7,8 +7,6 @@ data/
 logs/
 node_modules/
 public/
-scripts/
-static/
 test/
 .vscode
 eslint*
