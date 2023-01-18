@@ -28,14 +28,7 @@ nvm use 18
     $ git clone https://github.com/skohub-io/skohub-vocabs.git
     $ cd skohub-vocabs
     $ npm i
-    $ cp .env.example .env
     $ cp test/data/systematik.ttl data/
-
-The `.env` file contains configuration details used by the static site generator and the webhook server (like `PORT`, see below).
-
-After changes to your `.env` or `data/*` files, make sure to delete the `.cache` directory:
-
-    $ rm -rf .cache
 
 ## Running the static site generator
 
@@ -65,9 +58,10 @@ Use this command to build your pages with docker:
 
 ## Serving from other location than root (`/`)
 
-If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable in `.env`.
-If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
-To fix this set `BASEURL=public` in your `.env` file.
+If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable.
+E.g. if you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
+You can either `cp .env.example .env` and then set your `BASEURL` in `.env`: `BASEURL=public`
+Or you can prefix the build command: `BASEURL=public npm run build`.
 
 ## UI Configuration
 
