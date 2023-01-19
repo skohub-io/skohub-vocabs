@@ -175,7 +175,7 @@ To run E2E tests the three `.ttl` files (and just these) from the `test` folder 
 You can copy them directly there or use the `cypress/prepare-cypress-test.sh` script.
 
 After that run `npm run test:e2e:ci` for running e2e tests in the console.
-If you want to run cypress interactivley run `npm run e2e:ci`.
+If you want to run cypress interactivley run `npm run test:e2e`.
 
 ## Credits
 
