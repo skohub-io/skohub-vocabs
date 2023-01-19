@@ -4,6 +4,8 @@
 
 This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
 
+## Set up
+
 ### Install Node.js
 
 We currently support Node >= 18.
@@ -23,7 +25,7 @@ nvm install 18
 nvm use 18
 ```
 
-## Set up
+### Clone repo and install node packages
 
     $ git clone https://github.com/skohub-io/skohub-vocabs.git
     $ cd skohub-vocabs
@@ -37,7 +39,7 @@ After changes to your `.env` or `data/*` files, make sure to delete the `.cache`
 
     $ rm -rf .cache
 
-## Running the static site generator
+## Run the static site generator
 
 The static site generator will parse all turtle files in `./data` and build the vocabularies it finds:
 
@@ -51,7 +53,7 @@ You can also run the development web server:
 
 to serve the build from `http://localhost:8000/`. Again, the URL is based on the SKOS URIs, e.g. `http://localhost:8000/w3id.org/class/hochschulfaecher/scheme.html`
 
-## Running the static site generator with docker
+## Run the static site generator with docker
 
 You can also run the static site generator with docker.
 It will parse all turtle files in `./data` and build the vocabularies it finds.
@@ -63,7 +65,7 @@ Use this command to build your pages with docker:
 
 `docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:master`
 
-## Serving from other location than root (`/`)
+## Serve from other location than root (`/`)
 
 If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable in `.env`.
 If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
@@ -164,7 +166,7 @@ So if your commit errors, make sure to check the output and fix accordingly.
 We use unit, integration and E2E tests, but don't distinguish too hard between unit and integration tests, since the distinction between these are a bit blurry in component development (see [React Testing Overview](https://reactjs.org/docs/testing.html)).
 In general a behaviour driven development is favoured and for every new feature an appropriate test should be added.
 The unit and integration tests can be found in the `test` folder.
-We use [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for them.
+We use [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing.
 
 To run these tests use `npm run test` or `npm run test:coverage` to see coverage reports.
 
