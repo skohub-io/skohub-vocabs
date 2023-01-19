@@ -29,7 +29,7 @@ nvm use 18
     $ cd skohub-vocabs
     $ npm i
     $ cp .env.example .env
-    $ cp test/data/systematik.ttl data/
+    $ cp demo/systematik.ttl data/
 
 The `.env` file contains configuration details used by the static site generator and the webhook server (like `PORT`, see below).
 
