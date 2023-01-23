@@ -63,7 +63,7 @@ So in order to delete the content you might have to use `sudo rm public`
 
 Use this command to build your pages with docker:
 
-`docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:master`
+`docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:latest`
 
 ## Serve from other location than root (`/`)
 
