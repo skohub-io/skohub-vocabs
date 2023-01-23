@@ -1,9 +1,10 @@
-![https://github.com/hbz/skohub-vocabs/actions?query=workflow%3ABuild](https://github.com/hbz/skohub-vocabs/workflows/Build/badge.svg?branch=master)
-
+[![Build and Tests](https://github.com/skohub-io/skohub-vocabs/actions/workflows/main.yml/badge.svg)](https://github.com/skohub-io/skohub-vocabs/actions/workflows/main.yml)
 
 # Static site generator for Simple Knowledge Management Systems (SKOS)
 
 This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
+
+## Set up
 
 ### Install Node.js
 
@@ -24,13 +25,13 @@ nvm install 18
 nvm use 18
 ```
 
-## Set up
+### Clone repo and install node packages
 
     $ git clone https://github.com/skohub-io/skohub-vocabs.git
     $ cd skohub-vocabs
     $ npm i
     $ cp .env.example .env
-    $ cp test/data/systematik.ttl data/
+    $ cp demo/systematik.ttl data/
 
 The `.env` file contains configuration details used by the static site generator and the webhook server (like `PORT`, see below).
 
@@ -38,7 +39,7 @@ After changes to your `.env` or `data/*` files, make sure to delete the `.cache`
 
     $ rm -rf .cache
 
-## Running the static site generator
+## Run the static site generator
 
 The static site generator will parse all turtle files in `./data` and build the vocabularies it finds:
 
@@ -52,7 +53,7 @@ You can also run the development web server:
 
 to serve the build from `http://localhost:8000/`. Again, the URL is based on the SKOS URIs, e.g. `http://localhost:8000/w3id.org/class/hochschulfaecher/scheme.html`
 
-## Running the static site generator with docker
+## Run the static site generator with docker
 
 You can also run the static site generator with docker.
 It will parse all turtle files in `./data` and build the vocabularies it finds.
@@ -64,7 +65,7 @@ Use this command to build your pages with docker:
 
 `docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:master`
 
-## Serving from other location than root (`/`)
+## Serve from other location than root (`/`)
 
 If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable in `.env`.
 If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
@@ -159,6 +160,24 @@ To improve code quality we currently use [Prettier](https://prettier.io/) and [E
 Pre-Commit hooks are implemented using [lint-staged](https://github.com/okonet/lint-staged) and [husky](https://github.com/typicode/husky).
 This will format the code and check for linting errors with each commit.
 So if your commit errors, make sure to check the output and fix accordingly.
+
+### Testing
+
+We use unit, integration and E2E tests, but don't distinguish too hard between unit and integration tests, since the distinction between these are a bit blurry in component development (see [React Testing Overview](https://reactjs.org/docs/testing.html)).
+In general a behaviour driven development is favoured and for every new feature an appropriate test should be added.
+The unit and integration tests can be found in the `test` folder.
+We use [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing.
+
+To run these tests use `npm run test` or `npm run test:coverage` to see coverage reports.
+
+For E2E tests we use [Cypress](https://www.cypress.io/). The tests can be found in `cypress/e2e`.
+The E2E tests should generally test the interaction with the app like a typical user would.
+
+To run E2E tests the three `.ttl` files (and just these) from the `test` folder must be present in the data folder.
+You can copy them directly there or use the `cypress/prepare-cypress-test.sh` script.
+
+After that run `npm run test:e2e:ci` for running e2e tests in the console.
+If you want to run cypress interactivley run `npm run test:e2e`.
 
 ## Credits
 
