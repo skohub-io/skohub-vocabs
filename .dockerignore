@@ -1,4 +1,5 @@
 __mocks__/
+.cache/
 .git/
 .github/
 .husky/
