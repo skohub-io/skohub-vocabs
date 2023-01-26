@@ -65,7 +65,6 @@
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --verbose --coverage",
-    "listen": "node src/webHookServer.js",
     "prepare": "husky install",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
