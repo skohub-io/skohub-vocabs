@@ -55,7 +55,12 @@ The build can then be found in the `public/` folder.
 Since docker creates the content of this folder it will have root permissions.
 So in order to delete the content you might have to use `sudo rm public`
 
-Use this command to build your pages with docker:
+Before running docker make sure there is the `.env` file and some data to process:
+
+    $ cp .env.example .env
+    $ cp demo/systematik.ttl data/
+
+The use this command to build your pages with docker:
 
 `docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:latest`
 
