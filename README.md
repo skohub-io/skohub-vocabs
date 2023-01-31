@@ -6,16 +6,14 @@ This part of the [SkoHub](http://skohub.io) project covers the need to easily pu
 
 ## Supported URIs
 
-SkoHub Vocabs parses slash URIs as well as hash URIs.
-However, slash URIs are better supported than hash URIs.
-Using slash URIs you will get full rendered concept pages with information about all its SKOS attributes as well as a machine readable JSON-LD version of each concept.
-With hash URIs you will just get a basic concept page with information regarding `id`, `skos:notation`, `skos:prefLabel`, `skos:altLabel` and `skos:narrower`.
+SkoHub Vocabs both parses SKOS vocabularies that use slash URIs (e.g. `https://w3id.org/kim/hcrt/web_page`) and hash URIs (`https://nwbib.de/spatial#Q365`) for separating the vocabulary namespace from the local name. However, slash URIs are better supported than hash URIs.
+
+Using slash URIs, you will get full rendered concept pages with information about all its SKOS attributes as well as a machine readable JSON-LD version of each concept.
+With hash URIs you will – currently – just get a basic concept page with information regarding `id`, `skos:notation`, `skos:prefLabel`, `skos:altLabel` and `skos:narrower`.
 Since hash URIs by their very nature live mostly in one document, SkoHub Vocabs does not split them, but will also return one JSON-LD document for the concept scheme with information about the above mentioned attributes.
 There is not one machine readable version per concept as for slash URIs.
 
-For more information about the debate "Hash VS Slash URIs" see also https://www.w3.org/wiki/HashVsSlash
-
-In general we advise the use of slash URIs.
+In general we advise the use of slash URIs for SKOS vocabularies.
 
 If you would like more support of hash URIs for SkoHub Vocabs, [please open an issue](https://github.com/skohub-io/skohub-vocabs/issues/new/choose).
 
