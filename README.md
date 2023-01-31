@@ -46,12 +46,6 @@ The static site generator will parse all turtle files in `./data` and build the 
 
 The build can be found in `public/` and be served e.g. by Apache. The directory structure is derived from the URIs of the SKOS concepts, e.g. `https://w3id.org/class/hochschulfaecher/scheme` will be available from `public/w3id.org/class/hochschulfaecher/scheme(.html|.json)`.
 
-You can also run the development web server:
-
-    $ npm run develop
-
-to serve the build from `http://localhost:8000/`. Again, the URL is based on the SKOS URIs, e.g. `http://localhost:8000/w3id.org/class/hochschulfaecher/scheme.html`
-
 ## Running the static site generator with docker
 
 You can also run the static site generator with docker.
@@ -152,6 +146,14 @@ Depending on special circumstances you may get errors in the log files, e.g.
 `EMFILE: too many open files`. [Search our issues for solutions](https://github.com/skohub-io/skohub-vocabs/issues?q=is%3Aissue) or feel encouraged to open a new issue if you can't find a solution.
 
 ## Development
+
+For development on your local machine you can use Docker compose: 
+
+    $ docker compose up
+
+to spin up a docker container as configured in `Dockerfile.dev`. Inside the container, the web server is running in development mode. The build is served via the `host` network mode the host machine at `http://localhost:8000/`.
+
+Your project folder will be mounted into the container, with exceptions defined in `.dockerignore`. Fast refresh aka hot reloading is kept so changes to the source files should affect the generated static sites instantly.
 
 ### Code formatting and styling
 
