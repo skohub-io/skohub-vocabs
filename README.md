@@ -151,7 +151,7 @@ For development on your local machine you can use Docker compose:
 
     $ docker compose up
 
-to spin up a docker container as configured in `Dockerfile.dev`. Inside the container, the web server is running in development mode. The build is served via the `host` network mode the host machine at `http://localhost:8000/`.
+to spin up a docker container as configured in `Dockerfile.dev`. Inside the container, the web server is running in development mode. The build is accessible on the host via port mapping at `http://localhost:8000/`.
 
 Your project folder will be mounted into the container, with exceptions defined in `.dockerignore`. Fast refresh aka hot reloading is kept so changes to the source files should affect the generated static sites instantly.
 

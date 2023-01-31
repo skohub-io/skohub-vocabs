@@ -7,4 +7,5 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - .:/app # Links the source files to the running container
-    network_mode: host # Shares container's network with host
+    ports:
+      - "8000:8000"
