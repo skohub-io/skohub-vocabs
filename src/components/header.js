@@ -3,7 +3,12 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import { getFilePath, replaceFilePathInUrl } from "../common"
+import {
+  getFilePath,
+  getLinkPath,
+  replaceFilePathInUrl,
+  parseLanguages,
+} from "../common"
 
 import { colors as c } from "../styles/variables"
 import skohubsvg from "../images/skohub-signet-color.svg"
@@ -93,45 +98,19 @@ const Header = ({ siteTitle, languages, language }) => {
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
+  const addLanguages = (r) => {
+    const languages = parseLanguages([r])
+    languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+  }
   // to display the concept scheme title in the header
   // we have to retrieve concept scheme info in this component
   useEffect(() => {
-    function parseLanguages(arrayOfObj) {
-      for (let obj of arrayOfObj) {
-        for (let k of Object.keys(obj)) {
-          if (k === "hasTopConcept" || k === "narrower") {
-            // Concept Schemes
-            obj?.title &&
-              Object.keys(obj.title).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
-              )
-            // Concepts
-            obj?.prefLabel &&
-              Object.keys(obj.prefLabel).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
-              )
-            obj?.altLabel &&
-              Object.keys(obj.altLabel).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
-              )
-            obj?.hiddenLabel &&
-              Object.keys(obj.hiddenLabel).forEach((t) =>
-                setLangs((prev) => new Set(prev.add(t)))
-              )
-
-            obj?.hasTopConcept && parseLanguages(obj?.hasTopConcept)
-            obj?.narrower && parseLanguages(obj?.narrower)
-          }
-        }
-      }
-    }
-
     fetch(pathName + ".json")
       .then((response) => response.json())
-      .then((r) => {
+      .then(async (r) => {
         if (r.type === "ConceptScheme") {
           setConceptScheme((prev) => ({ ...prev, ...r }))
-          parseLanguages([r])
+          addLanguages(r)
         } else if (r.type === "Concept") {
           const cs = r.inScheme
           setConceptScheme((prev) => ({ ...prev, ...cs }))
@@ -139,7 +118,7 @@ const Header = ({ siteTitle, languages, language }) => {
           fetch(path)
             .then((response) => response.json())
             .then((res) => {
-              parseLanguages([res])
+              addLanguages(res)
             })
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
@@ -147,39 +126,40 @@ const Header = ({ siteTitle, languages, language }) => {
           // from which we can derive the languages of the concept scheme
           for (const member of r.member) {
             const path = replaceFilePathInUrl(pathName, member.id, "json")
-            fetch(path)
-              .then((response) => response.json())
-              .then((res) => {
-                if (res.type === "Concept") {
-                  const cs = res.inScheme
-                  setConceptScheme((prev) => ({ ...prev, ...cs }))
-                  const path = replaceFilePathInUrl(pathName, cs.id, "json")
-                  fetch(path)
-                    .then((response) => response.json())
-                    .then((res) => {
-                      parseLanguages([res])
-                    })
-                }
-              })
+            const res = await (await fetch(path)).json()
+            const cs = res.inScheme
+            if (res.type === "Concept") {
+              setConceptScheme((prev) => ({ ...prev, ...cs }))
+              const path = replaceFilePathInUrl(pathName, cs.id, "json")
+              const res = await (await fetch(path)).json()
+              addLanguages(res)
+              break
+            }
           }
         } else {
           languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
         }
       })
+      .catch((err) => {
+        /* FIXME Currently there is no general index.json
+         * that we can use to retrieve languages when using header on the
+         * index page so we need to set languages hard
+         */
+        languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+      })
   }, [pathName, languages])
-
   return (
     <header css={style}>
       <div className="headerContent">
         <div className="skohubLogo">
           <Link to={`/index.${language}.html`}>
-            <img className="skohubImg" src={skohubsvg} alt="SkoHub" />
+            <img className="skohubImg" src={skohubsvg} alt="SkoHub Logo" />
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
           {conceptScheme && conceptScheme.id && (
             <div className="conceptScheme">
               <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
-                {conceptScheme?.title?.language || conceptScheme.id}
+                {conceptScheme?.title?.[language] || conceptScheme.id}
               </Link>
             </div>
           )}
@@ -191,7 +171,7 @@ const Header = ({ siteTitle, languages, language }) => {
                 {l === language ? (
                   <span className="currentLanguage">{l}</span>
                 ) : (
-                  <a href={`${pathName}.${l}.html`}>{l}</a>
+                  <Link to={getLinkPath(pathName, `${l}.html`)}>{l}</Link>
                 )}
               </li>
             ))}

@@ -4,20 +4,27 @@
 
 :scheme
   a skos:ConceptScheme ;
-  dct:title "Hash URI Concept Scheme"@de ;
+  dct:title "Hash URI Konzept Schema"@de ;
   skos:hasTopConcept :concept1, :concept2, :concept3 .
 
 :concept1
   a skos:Concept ;
   skos:topConceptOf :scheme ;
-  skos:prefLabel "Concept 1"@de .
+  skos:prefLabel "Konzept 1"@de ;
+  skos:narrower :concept4 .
 
 :concept2
   a skos:Concept ;
   skos:topConceptOf :scheme ;
-  skos:prefLabel "Concept 2"@de .
+  skos:prefLabel "Konzept 2"@de .
 
 :concept3
   a skos:Concept ;
   skos:topConceptOf :scheme ;
-  skos:prefLabel "Concept 3"@de .
+  skos:prefLabel "Konzept 3"@de .
+
+:concept4
+  a skos:Concept ;
+  skos:inScheme :scheme ;
+  skos:broader: :concept1 ;
+  skos:prefLabel "Konzept 4"@de .

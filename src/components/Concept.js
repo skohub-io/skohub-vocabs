@@ -6,16 +6,14 @@ import JsonLink from "./JsonLink"
 
 import { i18n, getDomId, getFilePath } from "../common"
 
-const Concept = ({
-  pageContext: { node: concept, language, collections, baseURL },
-}) => (
+const Concept = ({ pageContext: { node: concept, language, collections } }) => (
   <div className="content block main-block" id={getDomId(concept.id)}>
     <h1>
       {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
       {i18n(language)(concept.prefLabel)}
     </h1>
     <h2>{concept.id}</h2>
-    <JsonLink to={baseURL + getFilePath(concept.id, "json")} />
+    <JsonLink to={getFilePath(concept.id, "json")} />
     {concept.definition && (
       <div className="markdown">
         <h3>Definition</h3>
@@ -45,10 +43,20 @@ const Concept = ({
     )}
     {concept.altLabel && i18n(language)(concept.altLabel) !== "" && (
       <div>
-        <h3>Alt Label</h3>
-        <ul>
+        <h3 id="alt-label">Alt Label</h3>
+        <ul aria-labelledby="alt-label">
           {i18n(language)(concept.altLabel).map((altLabel, i) => (
             <li key={i}>{altLabel}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {concept.hiddenLabel && i18n(language)(concept.hiddenLabel) !== "" && (
+      <div>
+        <h3 id="hidden-label">Hidden Label</h3>
+        <ul aria-labelledby="hidden-label">
+          {i18n(language)(concept.hiddenLabel).map((hiddenLabel, i) => (
+            <li key={i}>{hiddenLabel}</li>
           ))}
         </ul>
       </div>

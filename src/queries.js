@@ -41,6 +41,9 @@ module.exports.allConcept = (inScheme, languages) => `
           altLabel {
             ${[...languages].join(" ")}
           }
+          hiddenLabel {
+            ${[...languages].join(" ")}
+          }
           definition {
             ${[...languages].join(" ")}
           }

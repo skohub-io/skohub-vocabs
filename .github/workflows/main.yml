@@ -5,6 +5,7 @@ on: push
 env:
   REGISTRY: 
   IMAGE_NAME: ${{ github.repository }}
+  TEST_TAG: user/app:test
 
 jobs:
   build:
@@ -14,7 +15,7 @@ jobs:
         node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -22,16 +23,62 @@ jobs:
     - run: echo Using node version $(node --version)
     - run: echo Using npm version $(npm --version)
     - run: cp .env.example .env
-    - run: cp test/data/systematik.ttl data/
-    - run: npm ci
+    - run: cp test/data/interactivityType.ttl data/
+
+    - name: Cache node modules
+      id: cache-npm
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-node-modules
+      with:
+        # npm cache files are stored in `~/.npm` on Linux/macOS
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      name: List the state of node modules
+      continue-on-error: true
+      run: npm list
+
+    - run: npm install
     - run: npm run build --if-present
-    - run: npm test
+    - run: npm run test
+
+  e2e:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    container: cypress/base:18.12.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: echo Using node version $(node --version)
+      - run: echo Using npm version $(npm --version)
+      - run: cypress/prepare-cypress-test.sh
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.0.5
+        with:
+          start: npm run develop -- -p 8000
+          wait-on: http://localhost:8000/index.de.html
+          config: baseUrl=http://localhost:8000
 
   docker:
-    needs: [build]
+    needs: [build, e2e]
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -46,6 +93,25 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: skohub/skohub-vocabs-docker
+          tags: |
+            # set latest tag for default branch
+            type=raw,value=latest,enable={{is_default_branch}}#
+            type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
+            
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Test docker image
+        run: |
+          mkdir -p public
+          mkdir -p data
+          cp .env.example .env
+          cp test/data/interactivityType.ttl data/
+          docker run --rm -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env ${{ env.TEST_TAG }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
