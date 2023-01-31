@@ -4,6 +4,21 @@
 
 This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
 
+## Supported URIs
+
+SkoHub Vocabs parses slash URIs as well as hash URIs.
+However, slash URIs are better supported than hash URIs.
+Using slash URIs you will get full rendered concept pages with information about all its SKOS attributes as well as a machine readable JSON-LD version of each concept.
+With hash URIs you will just get a basic concept page with information regarding `id`, `skos:notation`, `skos:prefLabel`, `skos:altLabel` and `skos:narrower`.
+Since hash URIs by their very nature live mostly in one document, SkoHub Vocabs does not split them, but will also return one JSON-LD document for the concept scheme with information about the above mentioned attributes.
+There is not one machine readable version per concept as for slash URIs.
+
+For more information about the debate "Hash VS Slash URIs" see also https://www.w3.org/wiki/HashVsSlash
+
+In general we advise the use of slash URIs.
+
+If you would like more support of hash URIs for SkoHub Vocabs, [please open an issue](https://github.com/skohub-io/skohub-vocabs/issues/new/choose).
+
 ## Set up
 
 ### Install Node.js
