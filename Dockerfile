@@ -16,4 +16,7 @@ RUN npm pkg delete scripts.prepare
 
 RUN npm i --only=production
 
+# disable notifier warning
+RUN npm config set update-notifier false
+
 CMD ["npm", "run", "container-build"]
