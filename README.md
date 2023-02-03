@@ -186,7 +186,7 @@ To run these tests use `npm run test` or `npm run test:coverage` to see coverage
 For E2E tests we use [Cypress](https://www.cypress.io/). The tests can be found in `cypress/e2e`.
 The E2E tests should generally test the interaction with the app like a typical user would.
 
-To run E2E tests the three `.ttl` files (and just these) from the `test` folder must be present in the data folder.
+To run E2E tests the `*.ttl` files from `./test/data` must be present in `./data`.
 You can copy them directly there or use the `cypress/prepare-cypress-test.sh` script.
 
 After that run `npm run test:e2e:ci` for running e2e tests in the console.

@@ -3,7 +3,7 @@ describe("Main Vocab Index page", () => {
     cy.visit("/index.de.html")
 
     // three vocabs found
-    cy.get(".centerPage > ul li").should("have.length", 3)
+    cy.get(".centerPage > ul li").should("have.length", 4)
 
     // interactivity Type should display concept scheme ID since no german label present
     cy.findByRole("link", {
@@ -15,9 +15,12 @@ describe("Main Vocab Index page", () => {
     cy.findByRole("link", {
       name: "Hash URI Konzept Schema",
     }).should("exist")
+    cy.findByRole("link", {
+      name: "Destatis-Systematik der Fächergruppen, Studienbereiche und Studienfächer",
+    }).should("exist")
 
     // switch language
-    cy.contains("en").click()
+    cy.get(".language-menu").contains("en").click()
     cy.findByRole("link", {
       name: "Test Vocabulary",
     }).should("exist")
