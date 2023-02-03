@@ -113,7 +113,7 @@ That's all.
 
 We use fonts that are self-hosted.
 
-If you want to change a font, please upload the new font to the [src/fonts](src/fonts) folder.
+If you want to change a font, please upload the new font to the [static/fonts](static/fonts) folder.
 You can for example get fonts from Google Fonts (download / free of charge).
 
 After that you have to adjust the CSS at [src/components/layout.js](src/components/layout.js).
