@@ -4,4 +4,8 @@
 # and then copies the test files there
 
 find data/ -type f -not -name '.gitignore' -delete
-cp test/data/slashURIConceptScheme.ttl test/data/hashURIConceptScheme.ttl test/data/interactivityType.ttl data/
+cp test/data/slashURIConceptScheme.ttl \
+   test/data/hashURIConceptScheme.ttl \
+   test/data/interactivityType.ttl \
+   test/data/systematik.ttl \
+   data/

@@ -28,13 +28,16 @@ export const style = css`
     }
   }
 
+  .concepts {
+    overflow: auto;
+  }
+
   .nav-block {
     flex: 1;
 
     @media only screen and (max-width: 800px) {
       display: block;
       height: 45vh;
-      overflow: auto;
       padding: 15px 15px 30px 15px;
       width: 100%;
     }
@@ -52,7 +55,7 @@ export const style = css`
   & > nav {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
 
     input[type="text"] {
       margin-bottom: 10px;
