@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app # Links the source files to the running container
+    ports:
+      - "8000:8000"
