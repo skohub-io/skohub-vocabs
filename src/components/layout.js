@@ -8,21 +8,12 @@
 import React from "react"
 import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, withPrefix } from "gatsby"
 
 import { colors as c } from "../styles/variables"
 
 import Header from "./header"
 import Footer from "./footer"
-
-/* eslint-disable no-unused-vars */
-import ubuntu400woff from "../fonts/ubuntu-v20-latin-regular.woff"
-import ubuntu400woff2 from "../fonts/ubuntu-v20-latin-regular.woff2"
-import ubuntu400ttf from "../fonts/ubuntu-v20-latin-700.ttf"
-import ubuntu700woff from "../fonts/ubuntu-v20-latin-700.woff"
-import ubuntu700woff2 from "../fonts/ubuntu-v20-latin-700.woff2"
-import ubuntu700ttf from "../fonts/ubuntu-v20-latin-700.ttf"
-/* eslint-enable no-unused-vars */
 
 const style = css`
   height: 100vh;
@@ -79,9 +70,12 @@ const Layout = ({ children, languages, language }) => {
             font-family: "Ubuntu";
             font-style: normal;
             font-weight: 400;
-            src: local(""), url(${ubuntu400woff2}) format("woff2"),
-              /* Super Modern Browsers */ url(${ubuntu400woff}) format("woff"),
-              /* Modern Browsers */ url(${ubuntu400ttf}) format("truetype"); /* Safari, Android, iOS */
+            src: url(${withPrefix("/fonts/ubuntu-v20-latin-regular.woff2")})
+                format("woff2"),
+              url(${withPrefix("/fonts/ubuntu-v20-latin-regular.woff")})
+                format("woff"),
+              url(${withPrefix("/fonts/ubuntu-v20-latin-regular.ttf")})
+                format("truetype");
           }
 
           /* ubuntu-700 - latin */
@@ -89,9 +83,12 @@ const Layout = ({ children, languages, language }) => {
             font-family: "Ubuntu";
             font-style: normal;
             font-weight: 700;
-            src: local(""), url(${ubuntu700woff2}) format("woff2"),
-              /* Super Modern Browsers */ url(${ubuntu700woff}) format("woff"),
-              /* Modern Browsers */ url(${ubuntu700ttf}) format("truetype"); /* Safari, Android, iOS */
+            src: url(${withPrefix("/fonts/ubuntu-v20-latin-700.woff2")})
+                format("woff2"),
+              url(${withPrefix("/fonts/ubuntu-v20-latin-700.woff")})
+                format("woff"),
+              url(${withPrefix("/fonts/ubuntu-v20-latin-700.ttf")})
+                format("truetype");
           }
 
           html {
