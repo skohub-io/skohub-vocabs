@@ -156,6 +156,8 @@ to spin up a docker container as configured in `Dockerfile.dev`. Inside the cont
 
 Your project folder will be mounted into the container, with exceptions defined in `.dockerignore`. Fast refresh aka hot reloading is kept so changes to the source files should affect the generated static sites instantly.
 
+If you added packages with `npm i <package_name>` make sure to rebuild the container with `docker compose up --build --force-recreate`.
+
 ### Code formatting and styling
 
 To improve code quality we currently use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/) for formatting and linting.
