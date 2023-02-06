@@ -20,6 +20,7 @@
     "gatsby-source-filesystem": "^5.0.0",
     "gatsby-transformer-sharp": "^5.0.0",
     "graceful-fs": "^4.2.8",
+    "js-yaml": "^4.1.0",
     "jsonld": "^5.2.0",
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.3.0",
