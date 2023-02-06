@@ -259,7 +259,7 @@ const loadConfig = (configFile, defaultFile) => {
   }
 
   // check if all relevant colors are contained, otherwise use default colors
-  const parseColors = () => {
+  const checkColors = () => {
     const neededColors = [
       "skoHubWhite",
       "skoHubDarkGreen",
@@ -282,17 +282,37 @@ const loadConfig = (configFile, defaultFile) => {
     }
   }
 
-  if (!parseColors()) {
+  const checkFonts = () => {
+    const neededProps = ["font_family", "font_style", "font_weight", "name"]
+    if (
+      neededProps.every((r) => Object.keys(config.fonts.regular).includes(r)) &&
+      neededProps.every((r) => Object.keys(config.fonts.bold).includes(r))
+    ) {
+      return true
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(
+        "Some necessary font props were not given, using default fonts"
+      )
+      return false
+    }
+  }
+
+  if (!checkColors()) {
     config.colors = defaults.ui.colors
+  }
+
+  if (!checkFonts()) {
+    config.fonts = defaults.ui.fonts
   }
 
   // eslint-disable-next-line no-console
   console.log(`Starting up with config: 
-  title: ${config.title}
-  logo: ${config.logo}
-  tokenizer: ${config.tokenizer},
-  colors: ${JSON.stringify(userConfig.colors, null, 2)}
-  fonts: ${JSON.stringify(userConfig.fonts, null, 2)}
+    title: ${config.title}
+    logo: ${config.logo}
+    tokenizer: ${config.tokenizer},
+    colors: ${JSON.stringify(userConfig.colors, null, 2)}
+    fonts: ${JSON.stringify(userConfig.fonts, null, 2)}
 `)
   return config
 }

@@ -68,7 +68,7 @@ describe("Config Parsing", () => {
     ).toMatchObject({ tokenizer: "full" })
   })
 
-  it("does replace colors with default colors, if none are provided", () => {
+  it("does replace colors with default colors, if none or not all attributes are provided", () => {
     expect(
       loadConfig(
         "./test/data/config/config-not-all-colors.yaml",
@@ -87,6 +87,30 @@ describe("Config Parsing", () => {
         skoHubDarkGrey: "rgb(155, 155, 155)",
         skoHubMiddleGrey: "rgb(200, 200, 200)",
         skoHubLightGrey: "rgb(235, 235, 235)",
+      },
+    })
+  })
+
+  it("does replace fonts with default fonts, if none or not all attributes are provided", () => {
+    expect(
+      loadConfig(
+        "./test/data/config/config-not-all-fonts.yaml",
+        "./test/data/config/config.example.yaml"
+      )
+    ).toMatchObject({
+      fonts: {
+        regular: {
+          font_family: "Ubuntu",
+          font_style: "normal",
+          font_weight: 400,
+          name: "ubuntu-v20-latin-regular",
+        },
+        bold: {
+          font_family: "Ubuntu",
+          font_style: "normal",
+          font_weight: 700,
+          name: "ubuntu-v20-latin-700",
+        },
       },
     })
   })
