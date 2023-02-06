@@ -239,8 +239,17 @@ const parseLanguages = (json) => {
 }
 
 const loadConfig = (configFile, defaultFile) => {
-  const userConfig = yaml.load(fs.readFileSync(configFile, "utf8"))
+  let userConfig
   const defaults = yaml.load(fs.readFileSync(defaultFile, "utf8"))
+
+  try {
+    const userConfig = yaml.load(fs.readFileSync(configFile, "utf8"))
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log("no user config provided, using default config")
+    userConfig = defaults
+  }
+
   if (!userConfig.ui.title) {
     throw Error("A Title has to be provided! Please check your config.yaml")
   }
