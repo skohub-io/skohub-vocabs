@@ -9,20 +9,15 @@ import {
 } from "@gatsbyjs/reach-router"
 import { ConceptPC, ConceptSchemePC, CollectionPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
+import { mockConfig } from "./mocks/mockConfig"
 import userEvent from "@testing-library/user-event"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
-const mockUseStaticQuery = {
-  site: {
-    siteMetadata: {
-      title: "Default Title",
-    },
-  },
-}
+
 describe("App", () => {
   beforeEach(() => {
     jest.spyOn(window, "fetch").mockImplementation(mockFetch)
-    useStaticQuery.mockImplementation(() => mockUseStaticQuery)
+    useStaticQuery.mockImplementation(() => mockConfig)
   })
   afterEach(() => {
     jest.restoreAllMocks()

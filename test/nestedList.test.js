@@ -3,8 +3,15 @@ import React from "react"
 import NestedList from "../src/components/nestedList"
 import { ConceptScheme } from "./data/pageContext"
 import userEvent from "@testing-library/user-event"
+import * as Gatsby from "gatsby"
+import { mockConfig } from "./mocks/mockConfig"
+
+const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
 
 describe("Nested List", () => {
+  beforeEach(() => {
+    useStaticQuery.mockImplementation(() => mockConfig)
+  })
   it("renders nested list component with two concepts", () => {
     render(
       <NestedList
