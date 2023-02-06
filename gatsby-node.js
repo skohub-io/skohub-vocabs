@@ -203,6 +203,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     })
   )
 
+  const {
+    data: {
+      site: {
+        siteMetadata: { tokenizer },
+      },
+    },
+  } = await graphql(queries.tokenizer)
   const conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
@@ -214,7 +221,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         const indexes = Object.fromEntries(
           [...languagesOfCS].map((l) => {
             const index = flexsearch.create({
-              tokenize: "full",
+              tokenize: tokenizer,
             })
             index.addMatcher({
               "[Ää]": "a", // replaces all 'ä' to 'a'
@@ -334,6 +341,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
       fallback: {
+        fs: false,
         crypto: require.resolve("crypto-browserify"),
         stream: require.resolve("stream-browserify"),
       },

@@ -4,95 +4,8 @@ import { css, jsx } from "@emotion/react"
 import { i18n, getFilePath, getFragment } from "../common"
 import { Link as GatsbyLink } from "gatsby"
 
-import { colors as c } from "../styles/variables"
+import { useConfig } from "../hooks/config"
 
-const style = css`
-  list-style-type: none;
-  padding: 0;
-  word-wrap: break-word;
-  position: relative;
-
-  li {
-    display: flex;
-    margin-bottom: 0;
-
-    & a {
-      display: block;
-      padding-bottom: 10px;
-    }
-
-    > button + div {
-      margin-bottom: 10px;
-    }
-
-    > div {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &::before {
-    content: "";
-    position: absolute;
-    height: 100%;
-    background-color: ${c.skoHubMiddleGrey};
-    width: 1px;
-    left: -16px;
-  }
-
-  .notation {
-    font-weight: bold;
-  }
-
-  span {
-    word-break: normal;
-  }
-
-  span > strong {
-    display: inline-flex;
-    color: ${c.skoHubDarkGreen};
-  }
-
-  .treeItemIcon {
-    display: inline-flex;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    font-weight: bold;
-    position: relative;
-    top: -1px;
-
-    &:before {
-      content: "";
-      background-color: ${c.skoHubDarkGreen};
-      position: absolute;
-      width: 60%;
-      height: 3px;
-      left: 50%;
-      top: 50%;
-      transform: translateY(-50%) translateX(-50%);
-    }
-
-    &.collapsed {
-      &:after {
-        content: "";
-        background-color: ${c.skoHubDarkGreen};
-        position: absolute;
-        width: 3px;
-        height: 60%;
-        left: 50%;
-        top: 50%;
-        transform: translateX(-50%) translateY(-50%);
-      }
-
-      & + div > a + ul {
-        display: none;
-      }
-    }
-  }
-`
 const getNestedItems = (item) => {
   let ids = [item.id]
   if (item.narrower) {
@@ -111,7 +24,96 @@ const getNestedItems = (item) => {
  * @param {string} language
  * @returns
  */
+
 const NestedList = ({ items, current, filter, highlight, language }) => {
+  const { colors } = useConfig()
+  const style = css`
+    list-style-type: none;
+    padding: 0;
+    word-wrap: break-word;
+    position: relative;
+
+    li {
+      display: flex;
+      margin-bottom: 0;
+
+      & a {
+        display: block;
+        padding-bottom: 10px;
+      }
+
+      > button + div {
+        margin-bottom: 10px;
+      }
+
+      > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      background-color: ${colors.skoHubMiddleGrey};
+      width: 1px;
+      left: -16px;
+    }
+
+    .notation {
+      font-weight: bold;
+    }
+
+    span {
+      word-break: normal;
+    }
+
+    span > strong {
+      display: inline-flex;
+      color: ${colors.skoHubDarkGreen};
+    }
+
+    .treeItemIcon {
+      display: inline-flex;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      font-weight: bold;
+      position: relative;
+      top: -1px;
+
+      &:before {
+        content: "";
+        background-color: ${colors.skoHubDarkGreen};
+        position: absolute;
+        width: 60%;
+        height: 3px;
+        left: 50%;
+        top: 50%;
+        transform: translateY(-50%) translateX(-50%);
+      }
+
+      &.collapsed {
+        &:after {
+          content: "";
+          background-color: ${colors.skoHubDarkGreen};
+          position: absolute;
+          width: 3px;
+          height: 60%;
+          left: 50%;
+          top: 50%;
+          transform: translateX(-50%) translateY(-50%);
+        }
+
+        & + div > a + ul {
+          display: none;
+        }
+      }
+    }
+  `
   const filteredItems = filter
     ? items.filter(
         (item) =>

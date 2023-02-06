@@ -1,4 +1,4 @@
-import { Link } from "gatsby"
+import { Link, withPrefix } from "gatsby"
 import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
@@ -10,90 +10,90 @@ import {
   parseLanguages,
 } from "../common"
 
-import { colors as c } from "../styles/variables"
-import skohubsvg from "../images/skohub-signet-color.svg"
-
-const style = css`
-  background: ${c.skoHubWhite};
-
-  .headerContent {
-    padding: 20px 20px 0 20px;
-    display: flex;
-  }
-
-  .skohubLogo {
-    margin: 0;
-    display: inline-block;
-    width: calc(100% - 80px);
-
-    a {
-      text-decoration: none;
-      color: ${c.skoHubDarkGreen};
-    }
-
-    .skohubImg {
-      display: inline-block;
-      vertical-align: middle;
-      width: 30px;
-      height: 30px;
-    }
-
-    .skohubTitle {
-      display: inline-block;
-      vertical-align: middle;
-      padding: 0 0 0 15px;
-      font-size: 24px;
-      line-height: 24px;
-      font-weight: 700;
-
-      @media only screen and (max-width: 800px) {
-        padding: 0 0 0 8px;
-        font-size: 18px;
-      }
-    }
-    .conceptScheme {
-      padding: 15px 0 0 0;
-      font-size: 24px;
-    }
-  }
-
-  ul.language-menu {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: inline-block;
-    width: 80px;
-    text-align: right;
-
-    li {
-      margin: 0 0 0 5px;
-      display: inline;
-
-      a {
-        display: inline-block;
-        padding: 5px;
-        color: ${c.skoHubMiddleGrey};
-        border: 1px solid ${c.skoHubMiddleGrey};
-        border-radius: 30px;
-
-        &:hover {
-          color: ${c.skoHubAction};
-          border: 1px solid ${c.skoHubAction};
-        }
-      }
-
-      .currentLanguage {
-        font-weight: bold;
-        display: inline-block;
-        padding: 5px;
-        border: 1px solid ${c.skoHubLightGreen};
-        border-radius: 30px;
-      }
-    }
-  }
-`
+import { useConfig } from "../hooks/config"
 
 const Header = ({ siteTitle, languages, language }) => {
+  const { colors, logo } = useConfig()
+  const style = css`
+    background: ${colors.skoHubWhite};
+
+    .headerContent {
+      padding: 20px 20px 0 20px;
+      display: flex;
+    }
+
+    .skohubLogo {
+      margin: 0;
+      display: inline-block;
+      width: calc(100% - 80px);
+
+      a {
+        text-decoration: none;
+        color: ${colors.skoHubDarkGreen};
+      }
+
+      .skohubImg {
+        display: inline-block;
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+      }
+
+      .skohubTitle {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0 0 15px;
+        font-size: 24px;
+        line-height: 24px;
+        font-weight: 700;
+
+        @media only screen and (max-width: 800px) {
+          padding: 0 0 0 8px;
+          font-size: 18px;
+        }
+      }
+      .conceptScheme {
+        padding: 15px 0 0 0;
+        font-size: 24px;
+      }
+    }
+
+    ul.language-menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: inline-block;
+      width: 80px;
+      text-align: right;
+
+      li {
+        margin: 0 0 0 5px;
+        display: inline;
+
+        a {
+          display: inline-block;
+          padding: 5px;
+          color: ${colors.skoHubMiddleGrey};
+          border: 1px solid ${colors.skoHubMiddleGrey};
+          border-radius: 30px;
+
+          &:hover {
+            color: ${colors.skoHubAction};
+            border: 1px solid ${colors.skoHubAction};
+          }
+        }
+
+        .currentLanguage {
+          font-weight: bold;
+          display: inline-block;
+          padding: 5px;
+          border: 1px solid ${colors.skoHubLightGreen};
+          border-radius: 30px;
+        }
+      }
+    }
+  `
+
   const [conceptScheme, setConceptScheme] = useState({})
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
@@ -153,7 +153,13 @@ const Header = ({ siteTitle, languages, language }) => {
       <div className="headerContent">
         <div className="skohubLogo">
           <Link to={`/index.${language}.html`}>
-            <img className="skohubImg" src={skohubsvg} alt="SkoHub Logo" />
+            {logo && (
+              <img
+                className="skohubImg"
+                src={`${withPrefix("/images/" + logo)}`}
+                alt="SkoHub Logo"
+              />
+            )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
           {conceptScheme && conceptScheme.id && (

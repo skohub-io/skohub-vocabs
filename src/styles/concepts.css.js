@@ -1,8 +1,6 @@
 import { css } from "@emotion/react"
 
-import { colors as c } from "../styles/variables"
-
-export const style = css`
+export const conceptStyle = (colors) => css`
   display: flex;
   height: 100%;
 
@@ -13,13 +11,13 @@ export const style = css`
   }
 
   a.current {
-    color: ${c.skoHubMiddleGreen};
+    color: ${colors.skoHubMiddleGreen};
     font-weight: 700;
   }
 
   .block {
-    background-color: ${c.skoHubWhite};
-    box-shadow: 0px 10px 20px ${c.skoHubMiddleGrey};
+    background-color: ${colors.skoHubWhite};
+    box-shadow: 0px 10px 20px ${colors.skoHubMiddleGrey};
     padding: 30px;
     border-radius: 30px;
 
@@ -141,11 +139,11 @@ export const style = css`
     }
 
     a {
-      color: ${c.skoHubAction};
+      color: ${colors.skoHubAction};
       text-decoration: underline;
 
       &:hover {
-        color: ${c.skoHubMiddleGreen};
+        color: ${colors.skoHubMiddleGreen};
       }
     }
   }
@@ -155,4 +153,4 @@ export const style = css`
   }
 `
 
-export default style
+export default conceptStyle

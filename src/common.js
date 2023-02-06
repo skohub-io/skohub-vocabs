@@ -1,6 +1,8 @@
 const maybe = require("mjn")
 const crypto = require("crypto")
 const fetch = require("node-fetch")
+const yaml = require("js-yaml")
+const fs = require("fs")
 
 const i18n = (lang) => (localized) => localized[lang] || ""
 
@@ -236,6 +238,65 @@ const parseLanguages = (json) => {
   return languages
 }
 
+const loadConfig = (configFile, defaultFile) => {
+  const userConfig = yaml.load(fs.readFileSync(configFile, "utf8"))
+  const defaults = yaml.load(fs.readFileSync(defaultFile, "utf8"))
+  if (!userConfig.ui.title) {
+    throw Error("A Title has to be provided! Please check your config.yaml")
+  }
+
+  /* the values for these attributes are necessary
+  for SkoHub Vocabs to work correctly. Therefore we use
+  default values from config.example.yaml if there are 
+  no values provided
+  */
+  const config = {
+    title: userConfig.ui.title,
+    logo: userConfig.ui.logo || "",
+    tokenizer: userConfig.tokenizer || defaults.tokenizer,
+    colors: userConfig.ui.colors || defaults.ui.colors,
+    fonts: userConfig.ui.fonts || defaults.ui.fonts,
+  }
+
+  // check if all relevant colors are contained, otherwise use default colors
+  const parseColors = () => {
+    const neededColors = [
+      "skoHubWhite",
+      "skoHubDarkGreen",
+      "skoHubMiddleGreen",
+      "skoHubLightGreen",
+      "skoHubThinGreen",
+      "skoHubBlackGreen",
+      "skoHubAction",
+      "skoHubNotice",
+      "skoHubDarkGrey",
+      "skoHubMiddleGrey",
+      "skoHubLightGrey",
+    ]
+    if (neededColors.every((r) => Object.keys(config.colors).includes(r))) {
+      return true
+    } else {
+      // eslint-disable-next-line no-console
+      console.log("some needed colors are not defined, using default colors")
+      return false
+    }
+  }
+
+  if (!parseColors()) {
+    config.colors = defaults.ui.colors
+  }
+
+  // eslint-disable-next-line no-console
+  console.log(`Starting up with config: 
+  title: ${config.title}
+  logo: ${config.logo}
+  tokenizer: ${config.tokenizer},
+  colors: ${JSON.stringify(userConfig.colors, null, 2)}
+  fonts: ${JSON.stringify(userConfig.fonts, null, 2)}
+`)
+  return config
+}
+
 module.exports = {
   i18n,
   getPath,
@@ -252,4 +313,5 @@ module.exports = {
   getRepositoryFiles,
   getLinkPath,
   parseLanguages,
+  loadConfig,
 }

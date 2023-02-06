@@ -10,48 +10,48 @@ import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, withPrefix } from "gatsby"
 
-import { colors as c } from "../styles/variables"
+import { useConfig } from "../hooks/config"
 
 import Header from "./header"
 import Footer from "./footer"
 
-const style = css`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-
-  main {
-    flex: 1;
-    overflow: auto;
-    padding: 20px;
-
-    @media only screen and (max-width: 1024px) {
-      overflow: visible;
-    }
-  }
-
-  .centerPage {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .forkMe {
-    position: fixed;
-    background-color: ${c.skoHubDarkGreen};
-    color: ${c.skoHubWhite};
-    padding: 0 60px;
-    height: 40px;
-    transform: rotate(45deg);
-    font-size: 14px;
-    line-height: 40px;
-    font-weight: 700;
-    bottom: 60px;
-    left: -60px;
-    box-shadow: 0 10px 20px ${c.skoHubBlackGreen};
-  }
-`
-
 const Layout = ({ children, languages, language }) => {
+  const { colors, fonts } = useConfig()
+  const style = css`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    main {
+      flex: 1;
+      overflow: auto;
+      padding: 20px;
+
+      @media only screen and (max-width: 1024px) {
+        overflow: visible;
+      }
+    }
+
+    .centerPage {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .forkMe {
+      position: fixed;
+      background-color: ${colors.skoHubDarkGreen};
+      color: ${colors.skoHubWhite};
+      padding: 0 60px;
+      height: 40px;
+      transform: rotate(45deg);
+      font-size: 14px;
+      line-height: 40px;
+      font-weight: 700;
+      bottom: 60px;
+      left: -60px;
+      box-shadow: 0 10px 20px ${colors.skoHubBlackGreen};
+    }
+  `
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -64,31 +64,28 @@ const Layout = ({ children, languages, language }) => {
   return (
     <div className="wrapper" css={style}>
       <Global
+        // prettier-ignore
         styles={css`
           /* ubuntu-regular - latin */
           @font-face {
-            font-family: "Ubuntu";
-            font-style: normal;
-            font-weight: 400;
-            src: url(${withPrefix("/fonts/ubuntu-v20-latin-regular.woff2")})
-                format("woff2"),
-              url(${withPrefix("/fonts/ubuntu-v20-latin-regular.woff")})
-                format("woff"),
-              url(${withPrefix("/fonts/ubuntu-v20-latin-regular.ttf")})
-                format("truetype");
+            font-family: ${fonts.regular.font_family};
+            font-style: ${fonts.regular.font_style};
+            font-weight: ${fonts.regular.font_weight};
+            src: 
+              url(${withPrefix("/fonts/" + fonts.regular.name + ".woff2")}) format("woff2"),
+              url(${withPrefix("/fonts/" + fonts.regular.name + ".woff")}) format("woff"),
+              url(${withPrefix("/fonts/" + fonts.regular.name + ".ttf")}) format("truetype");
           }
 
           /* ubuntu-700 - latin */
           @font-face {
-            font-family: "Ubuntu";
-            font-style: normal;
-            font-weight: 700;
-            src: url(${withPrefix("/fonts/ubuntu-v20-latin-700.woff2")})
-                format("woff2"),
-              url(${withPrefix("/fonts/ubuntu-v20-latin-700.woff")})
-                format("woff"),
-              url(${withPrefix("/fonts/ubuntu-v20-latin-700.ttf")})
-                format("truetype");
+            font-family: ${fonts.bold.font_family};
+            font-style: ${fonts.bold.font_style};
+            font-weight: ${fonts.bold.font_weight};
+            src: 
+              url(${withPrefix("/fonts/" + fonts.bold.name + ".woff2")}) format("woff2"),
+              url(${withPrefix("/fonts/" + fonts.bold.name + ".woff")}) format("woff"),
+              url(${withPrefix("/fonts/" + fonts.bold.name + ".ttf")}) format("truetype");
           }
 
           html {
@@ -121,13 +118,13 @@ const Layout = ({ children, languages, language }) => {
             margin: 0;
             border: 0 none;
             overflow: hidden;
-            background-color: ${c.skoHubWhite};
-            font-family: "Ubuntu", sans-serif;
+            background-color: ${colors.skoHubWhite};
+            font-family: ${fonts.regular.font_family}, ${fonts.bold.font_family}, sans-serif;
             font-weight: 400;
             word-wrap: break-word;
             font-size: 16px;
             line-height: 20px;
-            color: ${c.skoHubDarkGreen};
+            color: ${colors.skoHubDarkGreen};
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
 
@@ -148,34 +145,34 @@ const Layout = ({ children, languages, language }) => {
 
           a {
             text-decoration: none;
-            color: ${c.skoHubDarkGreen};
+            color: ${colors.skoHubDarkGreen};
 
             &:hover {
-              color: ${c.skoHubAction};
+              color: ${colors.skoHubAction};
             }
           }
 
           .inputStyle {
-            background-color: ${c.skoHubWhite};
+            background-color: ${colors.skoHubWhite};
             cursor: pointer;
-            border: 1px solid ${c.skoHubDarkGrey};
+            border: 1px solid ${colors.skoHubDarkGrey};
             border-radius: 30px;
-            color: ${c.skoHubDarkGreen};
+            color: ${colors.skoHubDarkGreen};
 
             &:hover,
             &:focus {
-              background-color: ${c.skoHubLightGrey};
+              background-color: ${colors.skoHubLightGrey};
             }
 
             &[type="button"] {
-              background: ${c.skoHubLightGrey};
-              border: 1px solid ${c.skoHubLightGrey};
+              background: ${colors.skoHubLightGrey};
+              border: 1px solid ${colors.skoHubLightGrey};
               font-weight: 700;
 
               &:hover {
-                background: ${c.skoHubMiddleGreen};
-                border: 1px solid ${c.skoHubMiddleGreen};
-                color: ${c.skoHubWhite};
+                background: ${colors.skoHubMiddleGreen};
+                border: 1px solid ${colors.skoHubMiddleGreen};
+                color: ${colors.skoHubWhite};
               }
             }
           }
