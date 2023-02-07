@@ -4,7 +4,7 @@ describe("Config Parsing", () => {
   it("Parses valid config file", () => {
     expect(
       loadConfig(
-        "./test/data/config/config.yaml",
+        "./test/data/config/config.test.yaml",
         "./test/data/config/config.default.yaml"
       )
     ).toStrictEqual({
