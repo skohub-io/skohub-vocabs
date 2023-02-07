@@ -238,12 +238,20 @@ const parseLanguages = (json) => {
   return languages
 }
 
+/**
+ * Loads and parses the config file.
+ * If no configFile is provided it will use the default config file.
+ * @param {string} configFile
+ * @param {string} defaultFile
+ * @returns {object} config
+ */
+
 const loadConfig = (configFile, defaultFile) => {
   let userConfig
   const defaults = yaml.load(fs.readFileSync(defaultFile, "utf8"))
 
   try {
-    const userConfig = yaml.load(fs.readFileSync(configFile, "utf8"))
+    userConfig = yaml.load(fs.readFileSync(configFile, "utf8"))
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log("no user config provided, using default config")
@@ -271,11 +279,11 @@ const loadConfig = (configFile, defaultFile) => {
   const checkColors = () => {
     const neededColors = [
       "skoHubWhite",
-      "skoHubDarkGreen",
-      "skoHubMiddleGreen",
-      "skoHubLightGreen",
-      "skoHubThinGreen",
-      "skoHubBlackGreen",
+      "skoHubDarkColor",
+      "skoHubMiddleColor",
+      "skoHubLightColor",
+      "skoHubThinColor",
+      "skoHubBlackColor",
       "skoHubAction",
       "skoHubNotice",
       "skoHubDarkGrey",
@@ -320,8 +328,8 @@ const loadConfig = (configFile, defaultFile) => {
     title: ${config.title}
     logo: ${config.logo}
     tokenizer: ${config.tokenizer},
-    colors: ${JSON.stringify(userConfig.colors, null, 2)}
-    fonts: ${JSON.stringify(userConfig.fonts, null, 2)}
+    colors: ${JSON.stringify(config.colors, null, 2)}
+    fonts: ${JSON.stringify(config.fonts, null, 2)}
 `)
   return config
 }
