@@ -163,3 +163,10 @@ module.exports.allConceptScheme = (languages) => `
     }
   }
 `
+module.exports.tokenizer = `{
+  site {
+    siteMetadata {
+      tokenizer
+    }
+  }
+}`

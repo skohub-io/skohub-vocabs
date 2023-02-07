@@ -11,10 +11,13 @@ import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-import { style } from "../styles/concepts.css.js"
+import { conceptStyle } from "../styles/concepts.css.js"
+import { useConfig } from "../hooks/config"
 import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
+  const colors = useConfig()
+  const style = conceptStyle(colors)
   const [conceptSchemeId, setConceptSchemeId] = useState(null)
   const [index, setIndex] = useState(FlexSearch.create())
   const [query, setQuery] = useState(null)

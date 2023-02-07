@@ -70,7 +70,38 @@ So in order to delete the content you might have to use `sudo rm public`
 
 Use this command to build your pages with docker:
 
-`docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:latest`
+```bash
+docker run \
+-v $(pwd)/public:/app/public \
+-v $(pwd)/data:/app/data \
+-v $(pwd)/.env:/app/.env \
+skohub/skohub-vocabs-docker:latest
+```
+
+To run with a **custom config** you have to mount your config file into the container:
+
+```bash
+docker run \
+-v $(pwd)/public:/app/public \
+-v $(pwd)/data:/app/data \
+-v $(pwd)/.env:/app/.env \
+-v $(pwd)/config.yaml:/app/config.yaml \
+skohub/skohub-vocabs-docker:latest
+```
+
+If you are using a custom logo or font, remember to mount these as well, e.g.
+
+
+```bash
+docker run \
+-v $(pwd)/public:/app/public \
+-v $(pwd)/data:/app/data \
+-v $(pwd)/.env:/app/.env \
+-v $(pwd)/config.yaml:/app/config.yaml \
+-v $(pwd)/static/fonts:/app/static/fonts \
+skohub/skohub-vocabs-docker:latest
+```
+
 
 ## Serve from other location than root (`/`)
 
@@ -78,56 +109,60 @@ If you want to serve your sites from another location than root, you can make us
 If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
 To fix this set `BASEURL=public` in your `.env` file.
 
-## UI Configuration
+## Configuration
+
+Configurations can be made via a `config.yaml` file.
+To start configuring copy the default file `cp config.default.yaml config.yaml`.
+
+You can configure the following settings:
+
+- Tokenizer used for searching
+- UI Configurations
+    - Title
+    - Logo
+    - Colors
+    - Fonts
+
+The settings are explained in the following sections.
+
+### Tokenizer
+
+SkoHub Vocabs uses Flexsearch v0.6.32 for its searching capabilities.
+Flexsearch offers [different tokenizers](https://github.com/nextapps-de/flexsearch/tree/0.6.32#tokenizer) for indexing your vocabularies.
+The chosen tokenizer directly affects the required memory and size of your index file.
+SkoHub Vocabs defaults to `full` tokenizer.
+
+### UI
 
 The following customizations can be made:
 
+1. Title
 1. Changing the Logo
-1. Changing the Fonts
 1. Changing the Colors
+1. Changing the Fonts
 
-### Changing the Logo
+#### Changing the Title
 
-The logo consists of two parts.
-The first is a graphics file.
-And the second is simply text.
+The Title is mandatory and SkoHub Vocabs will throw an error if it is left empty.
 
-If you **don't want to use the text**, just delete `<span class="skohubTitle">SkoHub Vocabs</span>` in [src/components/header.js](src/components/header.js#L115). Then the graphic logo remains.
+#### Changing the Logo
 
-If you **don't want to use the graphics file**, just delete the `img`-Tag in [src/components/header.js](src/components/header.js#L114). 
-Then only the text remains.
+The logo is served from `static/images`.
+To use another logo, put it in there and update the name of the file in the config.
 
-If you want to **change the graphics file**, you can upload a new file to [src/images](src/images).
-Then you need to change the path in [src/components/header.js](src/components/header.js#L9) at line 9 `import skohubsvg from ...`. 
 The new logo doesn't scale correctly? 
-Please check the proportions in [line 28](src/components/header.js#L28) (width and height).
-That's all.
+Please check the proportions in [line 38](src/components/header.js#L38) and [line 39](src/components/header.js#L39) (width and height).
 
-### Changing the fonts
-
-We use fonts that are self-hosted.
-
-If you want to change a font, please upload the new font to the [static/fonts](static/fonts) folder.
-You can for example get fonts from Google Fonts (download / free of charge).
-
-After that you have to adjust the CSS at [src/components/layout.js](src/components/layout.js).
-1. Change the import path at [line 19](src/components/layout.js#L19) and following.
-1. Change `@font-face` at [line 78](src/components/layout.js#L78) an following. 
-1. Change the `font-family` in the [css body tag at line 128](src/components/layout.js#L128) an following. That's all.
-
-### Changing the Colors
-
-There are no colors in the templates.
-We only use variables [src/styles/variables.js](src/styles/variables.js).
+#### Changing the Colors
 
 We use the following default colors / variables:
 
 - `skoHubWhite: 'rgb(255, 255, 255)'`,
-- `skoHubDarkGreen: 'rgb(15, 85, 75)'`,
-- `skoHubMiddleGreen: 'rgb(20, 150, 140)'`,
-- `skoHubLightGreen: 'rgb(40, 200, 175)'`,
-- `skoHubThinGreen: 'rgb(55, 250, 210)'`,
-- `skoHubBlackGreen: 'rgb(5, 30, 30)'`,
+- `skoHubDarkColor: 'rgb(15, 85, 75)'`,
+- `skoHubMiddleColor: 'rgb(20, 150, 140)'`,
+- `skoHubLightColor: 'rgb(40, 200, 175)'`,
+- `skoHubThinColor: 'rgb(55, 250, 210)'`,
+- `skoHubBlackColor: 'rgb(5, 30, 30)'`,
 - `skoHubAction: 'rgb(230, 0, 125)'`,
 - `skoHubNotice: 'rgb(250, 180, 50)'`,
 - `skoHubDarkGrey: 'rgb(155, 155, 155)'`,
@@ -136,7 +171,22 @@ We use the following default colors / variables:
 
 To change a color, the RGB values can be adjusted.
 HEX codes are also possible.
-The names of variables should only be changed if you use "search and replace" to adapt the names also in the templates.
+
+You need to provide all colors in your config.
+Otherwise SkoHub Vocabs will use the default colors.
+
+#### Changing the Fonts
+
+We use fonts that are self-hosted.
+If you want to change a font, please upload the new font to the [static/fonts](static/fonts) folder.
+You can for example get fonts from Google Fonts (download / free of charge).
+
+We need the font as `ttf`, `woff` and `woff2` and use a regular and a bold font.
+After that you have to adjust the config with the appropriate settings for `font_family`, `font_style`, `font_weight` and `name`. 
+`name` is the file name of your font (without extension).
+
+You need to provide all settings for `regular` as well as `bold`.
+Otherwise SkoHub Vocabs will use the default fonts.
 
 ## Running the webhook server
 
@@ -170,6 +220,9 @@ to spin up a docker container as configured in `Dockerfile.dev`. Inside the cont
 Your project folder will be mounted into the container, with exceptions defined in `.dockerignore`. Fast refresh aka hot reloading is kept so changes to the source files should affect the generated static sites instantly.
 
 If you added packages with `npm i <package_name>` make sure to rebuild the container with `docker compose up --build --force-recreate`.
+
+If you run into permission errors when starting the container, it might be that the `public` folder got created with root permissions, when you built yor vocabulary with docker.
+Run `sudo rm -rf public` to delete the folder and then run docker compose again.
 
 ### Code formatting and styling
 

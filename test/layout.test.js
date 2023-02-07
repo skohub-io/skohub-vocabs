@@ -7,28 +7,19 @@ import {
   LocationProvider,
 } from "@gatsbyjs/reach-router"
 import Layout from "../src/components/layout"
+import { mockConfig } from "./mocks/mockConfig"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
-const title = `Gatsby Default Starter`
-const mockUseStaticQuery = {
-  site: {
-    siteMetadata: {
-      title: title,
-    },
-  },
-}
-
 const data = {}
 
 describe("Layout", () => {
   beforeEach(() => {
-    useStaticQuery.mockImplementation(() => mockUseStaticQuery)
+    useStaticQuery.mockImplementation(() => mockConfig)
   })
   afterEach(() => {
     jest.restoreAllMocks()
   })
   it("renders layout component", () => {
-    const reTitle = new RegExp(title, "i")
     render(
       <LocationProvider history={createHistory(createMemorySource("/"))}>
         <Layout data={data}>
@@ -39,7 +30,9 @@ describe("Layout", () => {
     // header is there
     expect(screen.getByRole("banner")).toBeInTheDocument()
     // link attribute is filled correctly
-    expect(screen.getByRole("link", { name: reTitle })).toBeInTheDocument()
+    expect(
+      screen.getByRole("link", { name: /SkoHub Vocabs/ })
+    ).toBeInTheDocument()
     // Test Layout <-- is the child that is passed
     expect(screen.getByText(/test layout/i)).toBeInTheDocument()
     // footer

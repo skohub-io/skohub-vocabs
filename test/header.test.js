@@ -1,15 +1,21 @@
 import React from "react"
 import { render, screen, act } from "@testing-library/react"
+import * as Gatsby from "gatsby"
 import Header from "../src/components/header"
 import mockFetch from "./mocks/mockFetch"
+import { mockConfig } from "./mocks/mockConfig"
+
 import {
   createHistory,
   createMemorySource,
   LocationProvider,
 } from "@gatsbyjs/reach-router"
 
+const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+
 beforeEach(() => {
   jest.spyOn(window, "fetch").mockImplementation(mockFetch)
+  useStaticQuery.mockImplementation(() => mockConfig)
 })
 
 afterEach(() => {
