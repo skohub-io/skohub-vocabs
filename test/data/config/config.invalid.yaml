@@ -6,11 +6,11 @@ ui:
   logo: "" # Path
   colors:
     skoHubWhite: "rgb(255, 170, 170)"
-    skoHubDarkGreen: "rgb(85, 0, 0)"
-    skoHubMiddleGreen: "rgb(128, 21, 21)"
-    skoHubLightGreen: "rgb(212, 106, 106)"
-    skoHubThinGreen: "rgb(55, 250, 210)"
-    skoHubBlackGreen: "rgb(5, 30, 30)"
+    skoHubDarkColor: "rgb(85, 0, 0)"
+    skoHubMiddleColor: "rgb(128, 21, 21)"
+    skoHubLightColor: "rgb(212, 106, 106)"
+    skoHubThinColor: "rgb(55, 250, 210)"
+    skoHubBlackColor: "rgb(5, 30, 30)"
     skoHubAction: "rgb(230, 0, 125)"
     skoHubNotice: "rgb(250, 180, 50)"
     skoHubDarkGrey: "rgb(155, 155, 155)"

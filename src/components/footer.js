@@ -8,7 +8,7 @@ const Footer = () => {
   const { colors } = useConfig()
 
   const style = css`
-    background: ${colors.skoHubMiddleGreen};
+    background: ${colors.skoHubMiddleColor};
     color: ${colors.skoHubWhite};
 
     .footerContent {

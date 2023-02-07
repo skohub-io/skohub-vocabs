@@ -5,7 +5,7 @@ describe("Config Parsing", () => {
     expect(
       loadConfig(
         "./test/data/config/config.yaml",
-        "./test/data/config/config.example.yaml"
+        "./test/data/config/config.default.yaml"
       )
     ).toStrictEqual({
       title: "Hello World",
@@ -13,11 +13,11 @@ describe("Config Parsing", () => {
       tokenizer: "full",
       colors: {
         skoHubWhite: "rgb(255, 170, 170)",
-        skoHubDarkGreen: "rgb(85, 0, 0)",
-        skoHubMiddleGreen: "rgb(128, 21, 21)",
-        skoHubLightGreen: "rgb(212, 106, 106)",
-        skoHubThinGreen: "rgb(55, 250, 210)",
-        skoHubBlackGreen: "rgb(5, 30, 30)",
+        skoHubDarkColor: "rgb(85, 0, 0)",
+        skoHubMiddleColor: "rgb(128, 21, 21)",
+        skoHubLightColor: "rgb(212, 106, 106)",
+        skoHubThinColor: "rgb(55, 250, 210)",
+        skoHubBlackColor: "rgb(5, 30, 30)",
         skoHubAction: "rgb(230, 0, 125)",
         skoHubNotice: "rgb(250, 180, 50)",
         skoHubDarkGrey: "rgb(155, 155, 155)",
@@ -45,7 +45,7 @@ describe("Config Parsing", () => {
     expect(() =>
       loadConfig(
         "./test/data/config/config.invalid.yaml",
-        "./test/data/config/config.example.yaml"
+        "./test/data/config/config.default.yaml"
       )
     ).toThrow("A Title has to be provided! Please check your config.yaml")
   })
@@ -54,7 +54,7 @@ describe("Config Parsing", () => {
     expect(
       loadConfig(
         "./test/data/config/config-no-logo.yaml",
-        "./test/data/config/config.example.yaml"
+        "./test/data/config/config.default.yaml"
       )
     ).toMatchObject({ logo: "" })
   })
@@ -63,7 +63,7 @@ describe("Config Parsing", () => {
     expect(
       loadConfig(
         "./test/data/config/config-no-logo.yaml",
-        "./test/data/config/config.example.yaml"
+        "./test/data/config/config.default.yaml"
       )
     ).toMatchObject({ tokenizer: "full" })
   })
@@ -72,16 +72,16 @@ describe("Config Parsing", () => {
     expect(
       loadConfig(
         "./test/data/config/config-not-all-colors.yaml",
-        "./test/data/config/config.example.yaml"
+        "./test/data/config/config.default.yaml"
       )
     ).toMatchObject({
       colors: {
         skoHubWhite: "rgb(255, 255, 255)",
-        skoHubDarkGreen: "rgb(15, 85, 75)",
-        skoHubMiddleGreen: "rgb(20, 150, 140)",
-        skoHubLightGreen: "rgb(40, 200, 175)",
-        skoHubThinGreen: "rgb(55, 250, 210)",
-        skoHubBlackGreen: "rgb(5, 30, 30)",
+        skoHubDarkColor: "rgb(15, 85, 75)",
+        skoHubMiddleColor: "rgb(20, 150, 140)",
+        skoHubLightColor: "rgb(40, 200, 175)",
+        skoHubThinColor: "rgb(55, 250, 210)",
+        skoHubBlackColor: "rgb(5, 30, 30)",
         skoHubAction: "rgb(230, 0, 125)",
         skoHubNotice: "rgb(250, 180, 50)",
         skoHubDarkGrey: "rgb(155, 155, 155)",
@@ -95,7 +95,7 @@ describe("Config Parsing", () => {
     expect(
       loadConfig(
         "./test/data/config/config-not-all-fonts.yaml",
-        "./test/data/config/config.example.yaml"
+        "./test/data/config/config.default.yaml"
       )
     ).toMatchObject({
       fonts: {

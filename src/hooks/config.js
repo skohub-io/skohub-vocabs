@@ -7,11 +7,11 @@ export const useConfig = () => {
         siteMetadata {
           colors {
             skoHubWhite
-            skoHubDarkGreen
-            skoHubMiddleGreen
-            skoHubLightGreen
-            skoHubThinGreen
-            skoHubBlackGreen
+            skoHubDarkColor
+            skoHubMiddleColor
+            skoHubLightColor
+            skoHubThinColor
+            skoHubBlackColor
             skoHubAction
             skoHubNotice
             skoHubDarkGrey

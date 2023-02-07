@@ -11,7 +11,7 @@ export const conceptStyle = (colors) => css`
   }
 
   a.current {
-    color: ${colors.skoHubMiddleGreen};
+    color: ${colors.skoHubMiddleColor};
     font-weight: 700;
   }
 
@@ -143,7 +143,7 @@ export const conceptStyle = (colors) => css`
       text-decoration: underline;
 
       &:hover {
-        color: ${colors.skoHubMiddleGreen};
+        color: ${colors.skoHubMiddleColor};
       }
     }
   }

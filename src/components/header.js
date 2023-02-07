@@ -29,7 +29,7 @@ const Header = ({ siteTitle, languages, language }) => {
 
       a {
         text-decoration: none;
-        color: ${colors.skoHubDarkGreen};
+        color: ${colors.skoHubDarkColor};
       }
 
       .skohubImg {
@@ -87,7 +87,7 @@ const Header = ({ siteTitle, languages, language }) => {
           font-weight: bold;
           display: inline-block;
           padding: 5px;
-          border: 1px solid ${colors.skoHubLightGreen};
+          border: 1px solid ${colors.skoHubLightColor};
           border-radius: 30px;
         }
       }

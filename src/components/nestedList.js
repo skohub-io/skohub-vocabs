@@ -72,7 +72,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
 
     span > strong {
       display: inline-flex;
-      color: ${colors.skoHubDarkGreen};
+      color: ${colors.skoHubDarkColor};
     }
 
     .treeItemIcon {
@@ -87,7 +87,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
 
       &:before {
         content: "";
-        background-color: ${colors.skoHubDarkGreen};
+        background-color: ${colors.skoHubDarkColor};
         position: absolute;
         width: 60%;
         height: 3px;
@@ -99,7 +99,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
       &.collapsed {
         &:after {
           content: "";
-          background-color: ${colors.skoHubDarkGreen};
+          background-color: ${colors.skoHubDarkColor};
           position: absolute;
           width: 3px;
           height: 60%;

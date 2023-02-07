@@ -39,7 +39,7 @@ const Layout = ({ children, languages, language }) => {
 
     .forkMe {
       position: fixed;
-      background-color: ${colors.skoHubDarkGreen};
+      background-color: ${colors.skoHubDarkColor};
       color: ${colors.skoHubWhite};
       padding: 0 60px;
       height: 40px;
@@ -49,7 +49,7 @@ const Layout = ({ children, languages, language }) => {
       font-weight: 700;
       bottom: 60px;
       left: -60px;
-      box-shadow: 0 10px 20px ${colors.skoHubBlackGreen};
+      box-shadow: 0 10px 20px ${colors.skoHubBlackColor};
     }
   `
   const data = useStaticQuery(graphql`
@@ -124,7 +124,7 @@ const Layout = ({ children, languages, language }) => {
             word-wrap: break-word;
             font-size: 16px;
             line-height: 20px;
-            color: ${colors.skoHubDarkGreen};
+            color: ${colors.skoHubDarkColor};
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
 
@@ -145,7 +145,7 @@ const Layout = ({ children, languages, language }) => {
 
           a {
             text-decoration: none;
-            color: ${colors.skoHubDarkGreen};
+            color: ${colors.skoHubDarkColor};
 
             &:hover {
               color: ${colors.skoHubAction};
@@ -157,7 +157,7 @@ const Layout = ({ children, languages, language }) => {
             cursor: pointer;
             border: 1px solid ${colors.skoHubDarkGrey};
             border-radius: 30px;
-            color: ${colors.skoHubDarkGreen};
+            color: ${colors.skoHubDarkColor};
 
             &:hover,
             &:focus {
@@ -170,8 +170,8 @@ const Layout = ({ children, languages, language }) => {
               font-weight: 700;
 
               &:hover {
-                background: ${colors.skoHubMiddleGreen};
-                border: 1px solid ${colors.skoHubMiddleGreen};
+                background: ${colors.skoHubMiddleColor};
+                border: 1px solid ${colors.skoHubMiddleColor};
                 color: ${colors.skoHubWhite};
               }
             }
