@@ -1,7 +1,7 @@
 require("dotenv").config()
 const { loadConfig } = require("./src/common")
 
-const config = loadConfig("./config.yaml", "./config.example.yaml")
+const config = loadConfig("./config.yaml", "./config.default.yaml")
 
 module.exports = {
   siteMetadata: {
