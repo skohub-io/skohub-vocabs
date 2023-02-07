@@ -151,7 +151,7 @@ The logo is served from `static/images`.
 To use another logo, put it in there and update the name of the file in the config.
 
 The new logo doesn't scale correctly? 
-Please check the proportions in [line 38](src/components/header.js#L28) and [line 39](src/components/header.js#L39) (width and height).
+Please check the proportions in [line 38](src/components/header.js#L38) and [line 39](src/components/header.js#L39) (width and height).
 
 #### Changing the Colors
 
