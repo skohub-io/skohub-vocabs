@@ -73,6 +73,7 @@ Provide the following information:
 
 We use, where possible and sensible, a test-driven approach.
 So please add tests or adjust tests if you are contributing code.
+In general we favour tests that test behaviour rather than implementation details.
 
 The overall code contribution process is:
 
@@ -197,7 +198,8 @@ We delete feature branches after merging.
 
 The *Definition of Ready* describes a list of criteria which issues have to meet to move from column 'Backlog' to 'Ready':
 
-* The person who will implement the issue is assigned and has every information to work on this issue. Only the assignee can move the issue to Ready.
+* The person who will implement the issue is assigned and has every information to work on this issue. This includes a detailed description of the bug or the feature that should be implemented. Only the assignee can move the issue to Ready.
+* For features: If possible add a small user story, which tells us, how this feature is going to be used. The detailed description should contain a checklist that describes the feature, so that it is clear, when the feature is fully implemented.
 * The person who will do code review is mentioned in the issue, e.g. in a comment like "code could be reviewed by ..." (functional review will typically be done by the person reporting the issue when they verify the fix).
 * There are no blocking dependencies. Dependencies are expressed through simple referencing of the blocking issue (e.g. depends on #111), see details on [autolinked references and URLs](https://docs.github.com/en/github/writing-on-github/autolinked-references-and-urls).
 
