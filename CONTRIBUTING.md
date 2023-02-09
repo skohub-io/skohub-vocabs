@@ -184,6 +184,7 @@ If everything works as expected, the reviewer posts a +1 comment on the issue, r
 ##### Code Review
 
 In code review, the technical implementation of the bugfix or the new feature is reviewed.
+The reviewer needs to check if tests were implemented that test the new behavior.
 Changes during the review process are created in additional commits which are pushed to the feature branch.
 They are added to the existing pull request automatically.
 At the end of the code review, the reviewer approves the pull request and cancels its assignment.
