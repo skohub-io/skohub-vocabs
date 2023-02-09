@@ -73,7 +73,7 @@ jobs:
 
   docker:
     needs: [build, e2e]
-    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
