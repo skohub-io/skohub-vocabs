@@ -86,10 +86,12 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
     const compacted = await jsonld.compact(doc, context.jsonld)
 
-    const conceptSchemeId = compacted["@graph"].find(
-      (node) => node.type === "ConceptScheme"
-    ).id
-    languagesByCS[conceptSchemeId] = parseLanguages(compacted["@graph"])
+    const conceptSchemeIds = compacted["@graph"]
+      .filter((node) => node.type === "ConceptScheme")
+      .map((n) => n.id)
+    conceptSchemeIds.forEach((id) => {
+      languagesByCS[id] = parseLanguages(compacted["@graph"])
+    })
 
     await compacted["@graph"].forEach((graph) => {
       const {
