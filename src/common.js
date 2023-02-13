@@ -245,7 +245,6 @@ const parseLanguages = (json) => {
  * @param {string} defaultFile
  * @returns {object} config
  */
-
 const loadConfig = (configFile, defaultFile) => {
   let userConfig
   const defaults = yaml.load(fs.readFileSync(defaultFile, "utf8"))
@@ -254,7 +253,8 @@ const loadConfig = (configFile, defaultFile) => {
     userConfig = yaml.load(fs.readFileSync(configFile, "utf8"))
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.log("no user config provided, using default config")
+    // TODO when #253 is further investigated this might be turned on again
+    // console.log("no user config provided, using default config")
     userConfig = defaults
   }
 
@@ -294,7 +294,7 @@ const loadConfig = (configFile, defaultFile) => {
       return true
     } else {
       // eslint-disable-next-line no-console
-      console.log("some needed colors are not defined, using default colors")
+      // console.log("some needed colors are not defined, using default colors")
       return false
     }
   }
@@ -308,9 +308,9 @@ const loadConfig = (configFile, defaultFile) => {
       return true
     } else {
       // eslint-disable-next-line no-console
-      console.log(
-        "Some necessary font props were not given, using default fonts"
-      )
+      // console.log(
+      //   "Some necessary font props were not given, using default fonts"
+      // )
       return false
     }
   }
@@ -322,15 +322,6 @@ const loadConfig = (configFile, defaultFile) => {
   if (!checkFonts()) {
     config.fonts = defaults.ui.fonts
   }
-
-  // eslint-disable-next-line no-console
-  console.log(`Starting up with config: 
-    title: ${config.title}
-    logo: ${config.logo}
-    tokenizer: ${config.tokenizer},
-    colors: ${JSON.stringify(config.colors, null, 2)}
-    fonts: ${JSON.stringify(config.fonts, null, 2)}
-`)
   return config
 }
 
