@@ -169,6 +169,32 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => (
         </ul>
       </div>
     )}
+    <div>
+      <h3>In Scheme</h3>
+      <ul>
+        {concept.inScheme.map((inScheme) => (
+          <li key={inScheme.id}>
+            <a target="_blank" rel="noreferrer" href={inScheme.id}>
+              {i18n(language)(inScheme.title) || inScheme.id}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    {concept.topConceptOf && concept.topConceptOf.length > 0 && (
+      <div>
+        <h3>Top Concept Of</h3>
+        <ul>
+          {concept.topConceptOf.map((topConceptOf) => (
+            <li key={topConceptOf.id}>
+              <a target="_blank" rel="noreferrer" href={topConceptOf.id}>
+                {i18n(language)(topConceptOf.title) || topConceptOf.id}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
   </div>
 )
 

@@ -125,11 +125,13 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
           (narrower) => narrower.id
         ),
         parent: (broader && broader.id) || null,
+        // topConceptOf nodes are also set to inScheme to facilitate parsing and filtering later
         inScheme___NODE:
-          (inScheme && inScheme.id) ||
-          (topConceptOf && topConceptOf.id) ||
-          null,
-        topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
+          ([...(inScheme || []), ...(topConceptOf || [])] || []).map(
+            (inScheme) => inScheme.id
+          ) || null,
+        topConceptOf___NODE:
+          (topConceptOf || []).map((topConceptOf) => topConceptOf.id) || null,
         narrower___NODE: (narrower || []).map((narrower) => narrower.id),
         narrowerTransitive___NODE: (narrowerTransitive || []).map(
           (narrowerTransitive) => narrowerTransitive.id
