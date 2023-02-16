@@ -46,4 +46,13 @@ describe("Main Vocab Index page", () => {
       name: "Test Vokabular",
     }).should("exist")
   })
+
+  it("checks if concept data is present for concepts", () => {
+    cy.visit("/example.org/hashURIConceptScheme.de.html")
+    cy.contains("Konzept 1").click()
+    cy.findByRole("heading", { name: "Konzept 1" }).should("exist")
+
+    cy.visit("/purl.org/dcx/lrmi-vocabs/interactivityType/index.en.html")
+    // cy.findByRole("heading", {name: "active"}).should("exist")
+  })
 })
