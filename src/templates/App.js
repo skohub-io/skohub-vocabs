@@ -43,7 +43,8 @@ const App = ({ pageContext, children }) => {
     if (pageContext.node.type === "ConceptScheme") {
       setConceptSchemeId(pageContext.node.id)
     } else if (pageContext.node.type === "Concept") {
-      setConceptSchemeId(pageContext.node.inScheme.id)
+      // FIXME how to handle inScheme as array?
+      setConceptSchemeId(pageContext.node.inScheme[0].id)
     } else if (pageContext.node.type === "Collection") {
       // members of a collection can either be skos:Concepts or skos:Collection
       // so we need to check each member till we find a concept
@@ -53,7 +54,8 @@ const App = ({ pageContext, children }) => {
           const path = replaceFilePathInUrl(pathName, member.id, "json")
           const res = await (await fetch(path)).json()
           if (res.type === "Concept") {
-            setConceptSchemeId(res.inScheme.id)
+            // FIXME how to handle inScheme as array?
+            setConceptSchemeId(res.inScheme[0].id)
             break
           }
         }

@@ -10,9 +10,11 @@ export const compactedSlashURI = {
       definition: {
         de: "Die Agrarwissenschaften beschäftigen sich mit der Produktion von Nahrungs- und Futtermitteln durch die wirtschaftliche Nutzung und Pflege des Bodens sowie den ökonomischen und ökologischen Rahmenbedingungen des landwirtschaftlichen Produktionsprozesses. Zu den Agrarwissenschaften zählen u.a. die Agrarwirtschaft, die Landwirtschaft, der Gartenbau, der Landbau und der Weinbau. Dieser Studienbereich steht in enger Beziehung zu den Forstwissenschaften. ([Quelle](https://www.hochschulkompass.de/agrar-und-forstwissenschaften/agrarwissenschaften.html))",
       },
-      inScheme: {
-        id: "http://w3id.org/class/hochschulfaecher/scheme#",
-      },
+      inScheme: [
+        {
+          id: "http://w3id.org/class/hochschulfaecher/scheme#",
+        },
+      ],
       prefLabel: {
         de: "Agrarwissenschaft/Landwirtschaft",
         en: "Agricultural Science/Agriculture",
@@ -113,9 +115,11 @@ export const compactedHashURI = {
       broader: {
         id: "http://example.org/hashURIConceptScheme#concept1",
       },
-      inScheme: {
-        id: "http://example.org/hashURIConceptScheme#scheme",
-      },
+      inScheme: [
+        {
+          id: "http://example.org/hashURIConceptScheme#scheme",
+        },
+      ],
       prefLabel: {
         de: "Konzept 4",
         en: "Concept4",

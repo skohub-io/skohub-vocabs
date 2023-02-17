@@ -11,7 +11,7 @@ const concept2 = {
       id: "http://w3id.org/c1",
     },
   ],
-  inScheme: "http://w3id.org/",
+  inScheme: [{ id: "http://w3id.org/" }],
 }
 
 export const topConcept = {
@@ -56,13 +56,15 @@ export const topConcept = {
   exactMatch: [{ id: "exactMatchId" }],
   closeMatch: [{ id: "closeMatchId" }],
   relatedMatch: [{ id: "relatedMatchId" }],
-  inScheme: {
-    id: "http://w3id.org/",
-    type: "ConceptScheme",
-    title: {
-      de: "Test Vokabular",
+  inScheme: [
+    {
+      id: "http://w3id.org/",
+      type: "ConceptScheme",
+      title: {
+        de: "Test Vokabular",
+      },
     },
-  },
+  ],
   topConceptOf: null,
 }
 

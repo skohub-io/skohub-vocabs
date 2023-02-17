@@ -112,7 +112,8 @@ const Header = ({ siteTitle, languages, language }) => {
           setConceptScheme((prev) => ({ ...prev, ...r }))
           addLanguages(r)
         } else if (r.type === "Concept") {
-          const cs = r.inScheme
+          // FIXME how to handle inScheme as array?
+          const cs = r.inScheme[0]
           setConceptScheme((prev) => ({ ...prev, ...cs }))
           const path = replaceFilePathInUrl(pathName, cs.id, "json")
           fetch(path)
@@ -127,7 +128,7 @@ const Header = ({ siteTitle, languages, language }) => {
           for (const member of r.member) {
             const path = replaceFilePathInUrl(pathName, member.id, "json")
             const res = await (await fetch(path)).json()
-            const cs = res.inScheme
+            const cs = res.inScheme[0]
             if (res.type === "Concept") {
               setConceptScheme((prev) => ({ ...prev, ...cs }))
               const path = replaceFilePathInUrl(pathName, cs.id, "json")
