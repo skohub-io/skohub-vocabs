@@ -71,8 +71,8 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
   return arrayOfFiles
 }
 
-exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
-  const { createNode } = actions
+exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
+  const { createNode, createNodeField } = actions
   const ttlFiles = getTurtleFiles("./data", [])
   if (ttlFiles.length === 0)
     throw new Error(`
@@ -161,6 +161,16 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
         createNode(node)
     })
   }
+  // add language information to concept schemes
+  Object.keys(languagesByCS).forEach((id) => {
+    const node = getNode(id)
+    console.log(id)
+    createNodeField({
+      node,
+      name: "languages",
+      value: Array.from(languagesByCS[id]),
+    })
+  })
 }
 
 exports.sourceNodes = async ({ actions }) => {

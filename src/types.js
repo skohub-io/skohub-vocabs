@@ -10,7 +10,8 @@ module.exports = (languages) => `
     type: String,
     title: LanguageMap,
     description: LanguageMap,
-    hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE")
+    hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE"),
+    languages: [String]
   }
 
   type Concept implements Node {
