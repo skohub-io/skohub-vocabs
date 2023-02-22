@@ -1,7 +1,7 @@
 import { useStaticQuery, graphql } from "gatsby"
 
-export const useConfig = () => {
-  const { site } = useStaticQuery(graphql`
+export const getConfigAndConceptSchemes = () => {
+  const { site, allConceptScheme } = useStaticQuery(graphql`
     query Colors {
       site {
         siteMetadata {
@@ -36,7 +36,22 @@ export const useConfig = () => {
           }
         }
       }
+      allConceptScheme {
+        edges {
+          node {
+            id
+            fields {
+              languages
+            }
+          }
+        }
+      }
     }
   `)
-  return site.siteMetadata
+  const conceptSchemes = allConceptScheme.edges
+    .map(({ node }) => ({
+      [node.id]: { languages: node.fields.languages },
+    }))
+    .reduce((prev, curr) => ({ ...prev, ...curr }), {})
+  return { config: site.siteMetadata, conceptSchemes }
 }

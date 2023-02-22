@@ -12,11 +12,11 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 import { conceptStyle } from "../styles/concepts.css.js"
-import { useConfig } from "../hooks/config"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
-  const colors = useConfig()
+  const colors = getConfigAndConceptSchemes()
   const style = conceptStyle(colors)
   const [conceptSchemeId, setConceptSchemeId] = useState(null)
   const [index, setIndex] = useState(FlexSearch.create())
@@ -37,8 +37,8 @@ const App = ({ pageContext, children }) => {
   }
 
   // get concept scheme id
-  // things would be alot easier if skos would require collections
-  // to belong to a Concept Scheme. Unfortunatley this is not the case.
+  // things would be a lot easier if skos would require collections
+  // to belong to a Concept Scheme. Unfortunately this is not the case.
   useEffect(() => {
     if (pageContext.node.type === "ConceptScheme") {
       setConceptSchemeId(pageContext.node.id)

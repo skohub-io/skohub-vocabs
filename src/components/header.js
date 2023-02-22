@@ -3,19 +3,15 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import {
-  getFilePath,
-  getLinkPath,
-  replaceFilePathInUrl,
-  parseLanguages,
-} from "../common"
+import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
 
-import { useConfig } from "../hooks/config"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const Header = ({ siteTitle, languages, language }) => {
-  const { colors, logo } = useConfig()
+  const { config, conceptSchemes } = getConfigAndConceptSchemes()
+
   const style = css`
-    background: ${colors.skoHubWhite};
+    background: ${config.colors.skoHubWhite};
 
     .headerContent {
       padding: 20px 20px 0 20px;
@@ -29,7 +25,7 @@ const Header = ({ siteTitle, languages, language }) => {
 
       a {
         text-decoration: none;
-        color: ${colors.skoHubDarkColor};
+        color: ${config.colors.skoHubDarkColor};
       }
 
       .skohubImg {
@@ -73,13 +69,13 @@ const Header = ({ siteTitle, languages, language }) => {
         a {
           display: inline-block;
           padding: 5px;
-          color: ${colors.skoHubMiddleGrey};
-          border: 1px solid ${colors.skoHubMiddleGrey};
+          color: ${config.colors.skoHubMiddleGrey};
+          border: 1px solid ${config.colors.skoHubMiddleGrey};
           border-radius: 30px;
 
           &:hover {
-            color: ${colors.skoHubAction};
-            border: 1px solid ${colors.skoHubAction};
+            color: ${config.colors.skoHubAction};
+            border: 1px solid ${config.colors.skoHubAction};
           }
         }
 
@@ -87,7 +83,7 @@ const Header = ({ siteTitle, languages, language }) => {
           font-weight: bold;
           display: inline-block;
           padding: 5px;
-          border: 1px solid ${colors.skoHubLightColor};
+          border: 1px solid ${config.colors.skoHubLightColor};
           border-radius: 30px;
         }
       }
@@ -98,29 +94,24 @@ const Header = ({ siteTitle, languages, language }) => {
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
-  const addLanguages = (r) => {
-    const languages = parseLanguages([r])
-    languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
-  }
-  // to display the concept scheme title in the header
-  // we have to retrieve concept scheme info in this component
+  /**
+   * To display the concept scheme title in the header
+   * we have to retrieve concept scheme info in this component.
+   * We do this by getting the path of the component and looking up
+   * its information in the JSON data
+   * */
   useEffect(() => {
     fetch(pathName + ".json")
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
           setConceptScheme((prev) => ({ ...prev, ...r }))
-          addLanguages(r)
+          setLangs(() => new Set(conceptSchemes[r.id].languages))
         } else if (r.type === "Concept") {
           // FIXME how to handle inScheme as array?
           const cs = r.inScheme[0]
           setConceptScheme((prev) => ({ ...prev, ...cs }))
-          const path = replaceFilePathInUrl(pathName, cs.id, "json")
-          fetch(path)
-            .then((response) => response.json())
-            .then((res) => {
-              addLanguages(res)
-            })
+          setLangs(() => new Set(conceptSchemes[cs.id].languages))
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
           // so we need to check each member till we find a concept
@@ -131,9 +122,7 @@ const Header = ({ siteTitle, languages, language }) => {
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
               setConceptScheme((prev) => ({ ...prev, ...cs }))
-              const path = replaceFilePathInUrl(pathName, cs.id, "json")
-              const res = await (await fetch(path)).json()
-              addLanguages(res)
+              setLangs(() => new Set(conceptSchemes[cs.id].languages))
               break
             }
           }
@@ -154,10 +143,10 @@ const Header = ({ siteTitle, languages, language }) => {
       <div className="headerContent">
         <div className="skohubLogo">
           <Link to={`/index.${language}.html`}>
-            {logo && (
+            {config.logo && (
               <img
                 className="skohubImg"
-                src={`${withPrefix("/images/" + logo)}`}
+                src={`${withPrefix("/images/" + config.logo)}`}
                 alt="SkoHub Logo"
               />
             )}

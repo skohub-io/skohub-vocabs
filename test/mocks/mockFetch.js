@@ -24,7 +24,11 @@ export default async function mockFetch(url) {
       // remove all en keys so we just have one language in object
       let res = removeKey(ConceptScheme, "en")
       // add one key to check if null values gets filtered out correctly
-      res = { ...res, title: { ...res.title, en: null } }
+      res = {
+        ...res,
+        id: "http://one-lang/w3id.org/",
+        title: { ...res.title, en: null },
+      }
 
       return {
         ok: true,
