@@ -78,8 +78,8 @@
     "prepare": "husky install",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test:e2e": "start-server-and-test develop http://localhost:8000/index.de.html cy:open",
-    "test:e2e:ci": "start-server-and-test develop http://localhost:8000/index.de.html cy:run"
+    "test:e2e": "cypress/prepare-cypress-test.sh && start-server-and-test develop http://localhost:8000/index.de.html cy:open",
+    "test:e2e:ci": "cypress/prepare-cypress-test.sh && start-server-and-test develop http://localhost:8000/index.de.html cy:run"
   },
   "repository": {
     "type": "git",
