@@ -55,7 +55,7 @@ describe("Header", () => {
     // check for language menu not to be present
     expect(screen.queryByRole("list")).toBeNull()
   })
-  it("renders header component with multiple language tags (slash URIs)", async () => {
+  it(`renders header component with link to concept scheme (slash URIs)`, async () => {
     const languages = ["de", "en"]
     const language = "de"
     const route = "/w3id.org/index.de.html"
@@ -77,6 +77,24 @@ describe("Header", () => {
         name: "Test Vokabular",
       })
     ).toBeInTheDocument()
+  })
+
+  it(`renders header component with multiple language tags (slash URIs)`, async () => {
+    const languages = ["de", "en"]
+    const language = "de"
+    const route = "/w3id.org/index.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
     // check for language items
