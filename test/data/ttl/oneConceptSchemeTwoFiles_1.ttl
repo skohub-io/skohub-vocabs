@@ -1,0 +1,12 @@
+@base <http://w3id.org/cs-splitted-two-files/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix schema: <http://schema.org/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+<> a skos:ConceptScheme ;
+  dct:title "Test Vokabular in zwei Dateien"@de, "Test Vocabulary split in two files"@en ;
+  dct:description "Test Beschreibung"@de, "Test Description"@en ;
+  dct:issued "2019-12-11" ;
+  dct:publisher <https://oerworldmap.org/resource/urn:uuid:fd06253e-fe67-4910-b923-51db9d27e59f> ;
+  skos:hasTopConcept  <c1> .

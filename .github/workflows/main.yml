@@ -23,7 +23,7 @@ jobs:
     - run: echo Using node version $(node --version)
     - run: echo Using npm version $(npm --version)
     - run: cp .env.example .env
-    - run: cp test/data/interactivityType.ttl data/
+    - run: cp test/data/ttl/interactivityType.ttl data/
 
     - name: Cache node modules
       id: cache-npm
@@ -73,7 +73,7 @@ jobs:
 
   docker:
     needs: [build, e2e]
-    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

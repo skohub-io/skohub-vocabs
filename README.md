@@ -4,6 +4,19 @@
 
 This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. You can also make use of a webhook server that will trigger builds of your vocabulary from GitHub or GitLab. For usage & implementation details see [SkoHub Webhook](https://github.com/skohub-io/skohub-webhook) and this [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
 
+## Supported URIs
+
+SkoHub Vocabs both parses SKOS vocabularies that use slash URIs (e.g. `https://w3id.org/kim/hcrt/web_page`) and hash URIs (`https://nwbib.de/spatial#Q365`) for separating the vocabulary namespace from the local name. However, slash URIs are better supported than hash URIs.
+
+Using slash URIs, you will get full rendered concept pages with information about all its SKOS attributes as well as a machine readable JSON-LD version of each concept.
+With hash URIs you will – currently – just get a basic concept page with information regarding `id`, `skos:notation`, `skos:prefLabel`, `skos:altLabel` and `skos:narrower`.
+Since hash URIs by their very nature live mostly in one document, SkoHub Vocabs does not split them, but will also return one JSON-LD document for the concept scheme with information about the above mentioned attributes.
+There is not one machine readable version per concept as for slash URIs.
+
+In general we advise the use of slash URIs for SKOS vocabularies.
+
+If you would like more support of hash URIs for SkoHub Vocabs, [please open an issue](https://github.com/skohub-io/skohub-vocabs/issues/new/choose).
+
 ## Set up
 
 ### Install Node.js
@@ -41,13 +54,7 @@ The static site generator will parse all turtle files in `./data` and build the 
 
 The build can be found in `public/` and be served e.g. by Apache. The directory structure is derived from the URIs of the SKOS concepts, e.g. `https://w3id.org/class/hochschulfaecher/scheme` will be available from `public/w3id.org/class/hochschulfaecher/scheme(.html|.json)`.
 
-You can also run the development web server:
-
-    $ npm run develop
-
-to serve the build from `http://localhost:8000/`. Again, the URL is based on the SKOS URIs, e.g. `http://localhost:8000/w3id.org/class/hochschulfaecher/scheme.html`
-
-## Run the static site generator with docker
+## Running the static site generator with docker
 
 You can also run the static site generator with docker.
 It will parse all turtle files in `./data` and build the vocabularies it finds.
@@ -62,7 +69,38 @@ Before running docker make sure there is the `.env` file and some data to proces
 
 The use this command to build your pages with docker:
 
-`docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env skohub/skohub-vocabs-docker:latest`
+```bash
+docker run \
+-v $(pwd)/public:/app/public \
+-v $(pwd)/data:/app/data \
+-v $(pwd)/.env:/app/.env \
+skohub/skohub-vocabs-docker:latest
+```
+
+To run with a **custom config** you have to mount your config file into the container:
+
+```bash
+docker run \
+-v $(pwd)/public:/app/public \
+-v $(pwd)/data:/app/data \
+-v $(pwd)/.env:/app/.env \
+-v $(pwd)/config.yaml:/app/config.yaml \
+skohub/skohub-vocabs-docker:latest
+```
+
+If you are using a custom logo or font, remember to mount these as well, e.g.
+
+
+```bash
+docker run \
+-v $(pwd)/public:/app/public \
+-v $(pwd)/data:/app/data \
+-v $(pwd)/.env:/app/.env \
+-v $(pwd)/config.yaml:/app/config.yaml \
+-v $(pwd)/static/fonts:/app/static/fonts \
+skohub/skohub-vocabs-docker:latest
+```
+
 
 ## Serve from other location than root (`/`)
 
@@ -71,56 +109,60 @@ E.g. if you are using a VS Code plugin like [Vscode Live Server](https://github.
 You can either `cp .env.example .env` and then set your `BASEURL` in `.env`: `BASEURL=public`
 Or you can prefix the build command: `BASEURL=public npm run build`.
 
-## UI Configuration
+## Configuration
+
+Configurations can be made via a `config.yaml` file.
+To start configuring copy the default file `cp config.default.yaml config.yaml`.
+
+You can configure the following settings:
+
+- Tokenizer used for searching
+- UI Configurations
+    - Title
+    - Logo
+    - Colors
+    - Fonts
+
+The settings are explained in the following sections.
+
+### Tokenizer
+
+SkoHub Vocabs uses Flexsearch v0.6.32 for its searching capabilities.
+Flexsearch offers [different tokenizers](https://github.com/nextapps-de/flexsearch/tree/0.6.32#tokenizer) for indexing your vocabularies.
+The chosen tokenizer directly affects the required memory and size of your index file.
+SkoHub Vocabs defaults to `full` tokenizer.
+
+### UI
 
 The following customizations can be made:
 
+1. Title
 1. Changing the Logo
-1. Changing the Fonts
 1. Changing the Colors
+1. Changing the Fonts
 
-### Changing the Logo
+#### Changing the Title
 
-The logo consists of two parts.
-The first is a graphics file.
-And the second is simply text.
+The Title is mandatory and SkoHub Vocabs will throw an error if it is left empty.
 
-If you **don't want to use the text**, just delete `<span class="skohubTitle">SkoHub Vocabs</span>` in [src/components/header.js](src/components/header.js#L115). Then the graphic logo remains.
+#### Changing the Logo
 
-If you **don't want to use the graphics file**, just delete the `img`-Tag in [src/components/header.js](src/components/header.js#L114). 
-Then only the text remains.
+The logo is served from `static/images`.
+To use another logo, put it in there and update the name of the file in the config.
 
-If you want to **change the graphics file**, you can upload a new file to [src/images](src/images).
-Then you need to change the path in [src/components/header.js](src/components/header.js#L9) at line 9 `import skohubsvg from ...`. 
 The new logo doesn't scale correctly? 
-Please check the proportions in [line 28](src/components/header.js#L28) (width and height).
-That's all.
+Please check the proportions in [line 38](src/components/header.js#L38) and [line 39](src/components/header.js#L39) (width and height).
 
-### Changing the fonts
-
-We use fonts that are self-hosted.
-
-If you want to change a font, please upload the new font to the [src/fonts](src/fonts) folder.
-You can for example get fonts from Google Fonts (download / free of charge).
-
-After that you have to adjust the CSS at [src/components/layout.js](src/components/layout.js).
-1. Change the import path at [line 19](src/components/layout.js#L19) and following.
-1. Change `@font-face` at [line 78](src/components/layout.js#L78) an following. 
-1. Change the `font-family` in the [css body tag at line 128](src/components/layout.js#L128) an following. That's all.
-
-### Changing the Colors
-
-There are no colors in the templates.
-We only use variables [src/styles/variables.js](src/styles/variables.js).
+#### Changing the Colors
 
 We use the following default colors / variables:
 
 - `skoHubWhite: 'rgb(255, 255, 255)'`,
-- `skoHubDarkGreen: 'rgb(15, 85, 75)'`,
-- `skoHubMiddleGreen: 'rgb(20, 150, 140)'`,
-- `skoHubLightGreen: 'rgb(40, 200, 175)'`,
-- `skoHubThinGreen: 'rgb(55, 250, 210)'`,
-- `skoHubBlackGreen: 'rgb(5, 30, 30)'`,
+- `skoHubDarkColor: 'rgb(15, 85, 75)'`,
+- `skoHubMiddleColor: 'rgb(20, 150, 140)'`,
+- `skoHubLightColor: 'rgb(40, 200, 175)'`,
+- `skoHubThinColor: 'rgb(55, 250, 210)'`,
+- `skoHubBlackColor: 'rgb(5, 30, 30)'`,
 - `skoHubAction: 'rgb(230, 0, 125)'`,
 - `skoHubNotice: 'rgb(250, 180, 50)'`,
 - `skoHubDarkGrey: 'rgb(155, 155, 155)'`,
@@ -129,7 +171,22 @@ We use the following default colors / variables:
 
 To change a color, the RGB values can be adjusted.
 HEX codes are also possible.
-The names of variables should only be changed if you use "search and replace" to adapt the names also in the templates.
+
+You need to provide all colors in your config.
+Otherwise SkoHub Vocabs will use the default colors.
+
+#### Changing the Fonts
+
+We use fonts that are self-hosted.
+If you want to change a font, please upload the new font to the [static/fonts](static/fonts) folder.
+You can for example get fonts from Google Fonts (download / free of charge).
+
+We need the font as `ttf`, `woff` and `woff2` and use a regular and a bold font.
+After that you have to adjust the config with the appropriate settings for `font_family`, `font_style`, `font_weight` and `name`. 
+`name` is the file name of your font (without extension).
+
+You need to provide all settings for `regular` as well as `bold`.
+Otherwise SkoHub Vocabs will use the default fonts.
 
 ## Troubleshooting
 
@@ -137,6 +194,19 @@ Depending on special circumstances you may get errors in the log files, e.g.
 `EMFILE: too many open files`. [Search our issues for solutions](https://github.com/skohub-io/skohub-vocabs/issues?q=is%3Aissue) or feel encouraged to open a new issue if you can't find a solution.
 
 ## Development
+
+For development on your local machine you can use Docker compose: 
+
+    $ docker compose up
+
+to spin up a docker container as configured in `Dockerfile.dev`. Inside the container, the web server is running in development mode. The build is accessible on the host via port mapping at `http://localhost:8000/`.
+
+Your project folder will be mounted into the container, with exceptions defined in `.dockerignore`. Fast refresh aka hot reloading is kept so changes to the source files should affect the generated static sites instantly.
+
+If you added packages with `npm i <package_name>` make sure to rebuild the container with `docker compose up --build --force-recreate`.
+
+If you run into permission errors when starting the container, it might be that the `public` folder got created with root permissions, when you built yor vocabulary with docker.
+Run `sudo rm -rf public` to delete the folder and then run docker compose again.
 
 ### Code formatting and styling
 
@@ -157,7 +227,7 @@ To run these tests use `npm run test` or `npm run test:coverage` to see coverage
 For E2E tests we use [Cypress](https://www.cypress.io/). The tests can be found in `cypress/e2e`.
 The E2E tests should generally test the interaction with the app like a typical user would.
 
-To run E2E tests the three `.ttl` files (and just these) from the `test` folder must be present in the data folder.
+To run E2E tests the `*.ttl` files from `./test/data` must be present in `./data`.
 You can copy them directly there or use the `cypress/prepare-cypress-test.sh` script.
 
 After that run `npm run test:e2e:ci` for running e2e tests in the console.
@@ -167,4 +237,4 @@ If you want to run cypress interactivley run `npm run test:e2e`.
 
 The project to create a stable beta version of SkoHub has been funded by the North-Rhine Westphalian Library Service Centre (hbz) and carried out in cooperation with [graphthinking GmbH](https://graphthinking.com/) in 2019/2020.
 
-<a target="_blank" href="https://www.hbz-nrw.de"><img src="https://raw.githubusercontent.com/skohub-io/skohub.io/master/img/logo-hbz-color.svg" width="120px"></a>
+<a target="_blank" href="https://www.hbz-nrw.de"><img src="https://raw.githubusercontent.com/skohub-io/skohub.io/main/img/logo-hbz-color.svg" width="120px"></a>

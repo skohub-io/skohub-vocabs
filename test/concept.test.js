@@ -30,6 +30,7 @@ describe("Concept", () => {
     expect(
       screen.getByRole("heading", { name: "Definition" })
     ).toBeInTheDocument()
+    expect(screen.getByText("Meine Definition")).toBeInTheDocument()
   })
 
   it("renders no definition if not provided in language", () => {

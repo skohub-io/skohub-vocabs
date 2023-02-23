@@ -1,10 +1,17 @@
 require("dotenv").config()
+const { loadConfig } = require("./src/common")
+
+const config = loadConfig("./config.yaml", "./config.default.yaml")
 
 module.exports = {
   siteMetadata: {
-    title: `SkoHub Vocabs`,
+    title: `${config.title}`,
     description: `Static site generator for Simple Knowledge Management Systems (SKOS)`,
-    author: `@gatsbyjs`,
+    author: `Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)`,
+    tokenizer: config.tokenizer,
+    colors: config.colors,
+    logo: config.logo,
+    fonts: config.fonts,
   },
   pathPrefix: `${process.env.BASEURL || ""}`,
   plugins: [

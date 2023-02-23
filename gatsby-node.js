@@ -86,10 +86,12 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
     const compacted = await jsonld.compact(doc, context.jsonld)
 
-    const conceptSchemeId = compacted["@graph"].find(
-      (node) => node.type === "ConceptScheme"
-    ).id
-    languagesByCS[conceptSchemeId] = parseLanguages(compacted["@graph"])
+    const conceptSchemeIds = compacted["@graph"]
+      .filter((node) => node.type === "ConceptScheme")
+      .map((n) => n.id)
+    conceptSchemeIds.forEach((id) => {
+      languagesByCS[id] = parseLanguages(compacted["@graph"])
+    })
 
     await compacted["@graph"].forEach((graph) => {
       const {
@@ -203,6 +205,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     })
   )
 
+  const {
+    data: {
+      site: {
+        siteMetadata: { tokenizer },
+      },
+    },
+  } = await graphql(queries.tokenizer)
   const conceptSchemes = await graphql(queries.allConceptScheme(languages))
 
   conceptSchemes.errors && console.error(conceptSchemes.errors)
@@ -214,7 +223,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         const indexes = Object.fromEntries(
           [...languagesOfCS].map((l) => {
             const index = flexsearch.create({
-              tokenize: "full",
+              tokenize: tokenizer,
             })
             index.addMatcher({
               "[Ää]": "a", // replaces all 'ä' to 'a'
@@ -334,6 +343,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
       fallback: {
+        fs: false,
         crypto: require.resolve("crypto-browserify"),
         stream: require.resolve("stream-browserify"),
       },

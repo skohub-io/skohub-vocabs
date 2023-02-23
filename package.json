@@ -19,6 +19,7 @@
     "gatsby-source-filesystem": "^5.0.0",
     "gatsby-transformer-sharp": "^5.0.0",
     "graceful-fs": "^4.2.8",
+    "js-yaml": "^4.1.0",
     "jsonld": "^5.2.0",
     "lodash.escaperegexp": "^4.1.2",
     "markdown-to-jsx": "^7.1.8",
@@ -56,7 +57,7 @@
   "scripts": {
     "build": "gatsby clean && gatsby build --prefix-paths",
     "container-build": "gatsby build --prefix-paths",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -H 0.0.0.0",
     "format": "prettier --write **/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",

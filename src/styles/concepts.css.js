@@ -1,8 +1,6 @@
 import { css } from "@emotion/react"
 
-import { colors as c } from "../styles/variables"
-
-export const style = css`
+export const conceptStyle = (colors) => css`
   display: flex;
   height: 100%;
 
@@ -13,13 +11,13 @@ export const style = css`
   }
 
   a.current {
-    color: ${c.skoHubMiddleGreen};
+    color: ${colors.skoHubMiddleColor};
     font-weight: 700;
   }
 
   .block {
-    background-color: ${c.skoHubWhite};
-    box-shadow: 0px 10px 20px ${c.skoHubMiddleGrey};
+    background-color: ${colors.skoHubWhite};
+    box-shadow: 0px 10px 20px ${colors.skoHubMiddleGrey};
     padding: 30px;
     border-radius: 30px;
 
@@ -28,13 +26,16 @@ export const style = css`
     }
   }
 
+  .concepts {
+    overflow: auto;
+  }
+
   .nav-block {
     flex: 1;
 
     @media only screen and (max-width: 800px) {
       display: block;
       height: 45vh;
-      overflow: auto;
       padding: 15px 15px 30px 15px;
       width: 100%;
     }
@@ -52,7 +53,7 @@ export const style = css`
   & > nav {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
 
     input[type="text"] {
       margin-bottom: 10px;
@@ -138,11 +139,11 @@ export const style = css`
     }
 
     a {
-      color: ${c.skoHubAction};
+      color: ${colors.skoHubAction};
       text-decoration: underline;
 
       &:hover {
-        color: ${c.skoHubMiddleGreen};
+        color: ${colors.skoHubMiddleColor};
       }
     }
   }
@@ -152,4 +153,4 @@ export const style = css`
   }
 `
 
-export default style
+export default conceptStyle
