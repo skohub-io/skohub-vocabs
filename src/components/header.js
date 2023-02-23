@@ -4,12 +4,15 @@ import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
 import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
-
+import { useSkoHubContext } from "../context/Context"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const Header = ({ siteTitle, languages, language }) => {
-  const { config, conceptSchemes } = getConfigAndConceptSchemes()
-
+  const { config, conceptSchemes: conceptSchemesData } =
+    getConfigAndConceptSchemes()
+  const { data } = useSkoHubContext()
+  // eslint-disable-next-line no-console
+  console.log(data)
   const style = css`
     background: ${config.colors.skoHubWhite};
 
@@ -106,12 +109,12 @@ const Header = ({ siteTitle, languages, language }) => {
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
           setConceptScheme((prev) => ({ ...prev, ...r }))
-          setLangs(() => new Set(conceptSchemes[r.id].languages))
+          setLangs(() => new Set(conceptSchemesData[r.id].languages))
         } else if (r.type === "Concept") {
           // FIXME how to handle inScheme as array?
           const cs = r.inScheme[0]
           setConceptScheme((prev) => ({ ...prev, ...cs }))
-          setLangs(() => new Set(conceptSchemes[cs.id].languages))
+          setLangs(() => new Set(conceptSchemesData[cs.id].languages))
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
           // so we need to check each member till we find a concept
@@ -122,7 +125,7 @@ const Header = ({ siteTitle, languages, language }) => {
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
               setConceptScheme((prev) => ({ ...prev, ...cs }))
-              setLangs(() => new Set(conceptSchemes[cs.id].languages))
+              setLangs(() => new Set(conceptSchemesData[cs.id].languages))
               break
             }
           }

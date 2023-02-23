@@ -245,4 +245,35 @@ describe("Header", () => {
     // check for language items
     expect(screen.getAllByRole("listitem").length).toBe(3)
   })
+
+  it(`shows multiple Concept Scheme links in header, 
+  if a concept is present in multiple concept schemes`, async () => {
+    const languages = ["de", "en"]
+    const language = "de"
+    const route = "/w3id.org/index.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      render(
+        <LocationProvider history={history}>
+          <Header
+            siteTitle="Test Title"
+            languages={languages}
+            language={language}
+          />
+        </LocationProvider>
+      )
+    })
+    // skohub concept scheme link
+    expect(
+      screen.getByRole("link", {
+        name: "Test Vokabular",
+      })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole("link", {
+        name: "http://w3id.org/cs2",
+      })
+    ).toBeInTheDocument()
+    screen.debug()
+  })
 })
