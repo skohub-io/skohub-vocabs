@@ -2,6 +2,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 export const getConceptSchemes = () => {
   const { allConceptScheme } = useStaticQuery(graphql`
+    query ConceptSchemes {
       allConceptScheme {
         edges {
           node {
