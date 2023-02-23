@@ -64,6 +64,13 @@ export const topConcept = {
         de: "Test Vokabular",
       },
     },
+    {
+      id: "http://w3id.org/cs2/",
+      type: "ConceptScheme",
+      title: {
+        en: "Concept Scheme 2",
+      },
+    },
   ],
   topConceptOf: null,
 }
@@ -93,6 +100,20 @@ export const ConceptScheme = {
 export const ConceptSchemePC = {
   node: ConceptScheme,
   language: "de",
+}
+
+export const ConceptScheme2 = {
+  id: "http://w3id.org/cs2/",
+  type: "ConceptScheme",
+  title: {
+    en: "Concept Scheme 2",
+  },
+  hasTopConcept: [topConcept],
+}
+
+export const ConceptScheme2PC = {
+  node: ConceptScheme2,
+  language: "en",
 }
 
 export const collection = {

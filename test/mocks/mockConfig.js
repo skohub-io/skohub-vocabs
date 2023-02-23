@@ -44,6 +44,14 @@ export const mockConfig = {
       },
       {
         node: {
+          id: "http://w3id.org/cs2/",
+          fields: {
+            languages: ["en"],
+          },
+        },
+      },
+      {
+        node: {
           id: "http://example.org/hashURIConceptScheme#scheme",
           fields: {
             languages: ["de", "en"],

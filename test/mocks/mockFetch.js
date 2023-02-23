@@ -2,6 +2,7 @@ import { indexDE } from "../data/flexsearchIndex"
 import {
   collection,
   ConceptScheme,
+  ConceptScheme2,
   hashURIConceptScheme,
   topConcept,
 } from "../data/pageContext"
@@ -18,6 +19,13 @@ export default async function mockFetch(url) {
         ok: true,
         status: 200,
         json: async () => ConceptScheme,
+      }
+    }
+    case "/w3id.org/cs2/index.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ConceptScheme2,
       }
     }
     case "/one-lang/w3id.org/index.json": {

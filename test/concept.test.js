@@ -1,7 +1,22 @@
 import { render, screen, within } from "@testing-library/react"
+import * as Gatsby from "gatsby"
+
 import React from "react"
 import Concept from "../src/components/Concept"
 import { ConceptPC } from "./data/pageContext"
+import mockFetch from "./mocks/mockFetch"
+import { mockConfig } from "./mocks/mockConfig"
+
+const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+
+beforeEach(() => {
+  jest.spyOn(window, "fetch").mockImplementation(mockFetch)
+  useStaticQuery.mockImplementation(() => mockConfig)
+})
+
+afterEach(() => {
+  jest.restoreAllMocks()
+})
 
 describe("Concept", () => {
   it("renders concept component", () => {
@@ -143,5 +158,29 @@ describe("Concept", () => {
       "href",
       "/w3id.org/c1.json"
     )
+  })
+
+  it("renders multiple in Scheme information", () => {
+    render(<Concept pageContext={ConceptPC} />)
+    expect(
+      screen.getByRole("heading", { name: /in Scheme/i })
+    ).toBeInTheDocument()
+
+    const list = screen.getByRole("list", {
+      name: /in scheme/i,
+    })
+    const { getAllByRole } = within(list)
+    const items = getAllByRole("listitem")
+    expect(items.length).toBe(2)
+
+    /**
+     * concept scheme 2 links to an "en" scheme beside we
+     * are currently in "de", because there is no "de" in cs2
+     *
+     * check that the link is pointing to en
+     */
+    expect(
+      screen.getByRole("link", { name: "http://w3id.org/cs2/" })
+    ).toHaveAttribute("href", "/w3id.org/cs2/index.en.html")
   })
 })
