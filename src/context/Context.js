@@ -1,8 +1,9 @@
+import React from "react"
 import { createContext, useContext, useState } from "react"
 
 const defaultState = {
   data: {
-    hello: "world",
+    currentScheme: {},
   },
 }
 const Context = createContext(defaultState)
@@ -22,9 +23,7 @@ export const ContextProvider = ({ children }) => {
 export const useSkoHubContext = () => {
   const context = useContext(Context)
   if (context === undefined || context === null) {
-    throw new Error(
-      `useSkoHubContext must be called within SimpleContextProvider`
-    )
+    throw new Error(`useSkoHubContext must be called within ContextProvider`)
   }
   return context
 }

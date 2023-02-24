@@ -1,11 +1,10 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react"
 import { useEffect, useState } from "react"
-import { useLocation } from "@gatsbyjs/reach-router"
 
 import FlexSearch from "flexsearch"
 import escapeRegExp from "lodash.escaperegexp"
-import { i18n, getFilePath, replaceFilePathInUrl } from "../common"
+import { i18n, getFilePath } from "../common"
 import NestedList from "../components/nestedList"
 import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
@@ -17,18 +16,17 @@ import { useSkoHubContext } from "../context/Context"
 import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
+  const { data } = useSkoHubContext()
   const colors = getConfigAndConceptSchemes()
   const style = conceptStyle(colors)
-  const [conceptSchemeId, setConceptSchemeId] = useState(null)
-  const { data } = useSkoHubContext()
-  // eslint-disable-next-line no-console
-  console.log(data)
+  const [conceptSchemeId, setConceptSchemeId] = useState(
+    data?.currentScheme?.id
+  )
   const [index, setIndex] = useState(FlexSearch.create())
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(
     pageContext.node.type === "ConceptScheme" ? pageContext.node : null
   )
-  const pathName = useLocation().pathname.slice(0, -8)
   let showTreeControls = false
 
   if (!showTreeControls && tree && tree.hasTopConcept) {
@@ -40,38 +38,12 @@ const App = ({ pageContext, children }) => {
     }
   }
 
-  // get concept scheme id
-  // things would be a lot easier if skos would require collections
-  // to belong to a Concept Scheme. Unfortunately this is not the case.
+  // get concept scheme id from context
   useEffect(() => {
-    if (pageContext.node.type === "ConceptScheme") {
-      setConceptSchemeId(pageContext.node.id)
-    } else if (pageContext.node.type === "Concept") {
-      // FIXME how to handle inScheme as array?
-      setConceptSchemeId(pageContext.node.inScheme[0].id)
-    } else if (pageContext.node.type === "Collection") {
-      // members of a collection can either be skos:Concepts or skos:Collection
-      // so we need to check each member till we find a concept
-      // from which we can derive the languages of the concept scheme
-      ;(async () => {
-        for await (const member of pageContext.node.member) {
-          const path = replaceFilePathInUrl(pathName, member.id, "json")
-          const res = await (await fetch(path)).json()
-          if (res.type === "Concept") {
-            // FIXME how to handle inScheme as array?
-            setConceptSchemeId(res.inScheme[0].id)
-            break
-          }
-        }
-      })()
+    if (data?.currentScheme?.id) {
+      setConceptSchemeId(data.currentScheme.id)
     }
-  }, [
-    pageContext.node.type,
-    pageContext.node.id,
-    pageContext.node.inScheme,
-    pageContext.node.member,
-    pathName,
-  ])
+  }, [data])
 
   // Fetch and load the serialized index
   useEffect(() => {

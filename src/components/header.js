@@ -1,8 +1,7 @@
-import { Link, withPrefix } from "gatsby"
 import { css } from "@emotion/react"
-import PropTypes from "prop-types"
-import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
+import { Link, withPrefix } from "gatsby"
+import React, { useEffect, useState } from "react"
 import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
 import { useSkoHubContext } from "../context/Context"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
@@ -11,8 +10,6 @@ const Header = ({ siteTitle, languages, language }) => {
   const { config, conceptSchemes: conceptSchemesData } =
     getConfigAndConceptSchemes()
   const { data, updateState } = useSkoHubContext()
-  // eslint-disable-next-line no-console
-  console.log(data)
   const style = css`
     background: ${config.colors.skoHubWhite};
 
@@ -103,7 +100,6 @@ const Header = ({ siteTitle, languages, language }) => {
     }
   `
 
-  const [conceptScheme, setConceptScheme] = useState({})
   const [conceptSchemes, setConceptSchemes] = useState([])
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
@@ -119,13 +115,14 @@ const Header = ({ siteTitle, languages, language }) => {
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
-          setConceptScheme(() => ({ ...r }))
           setConceptSchemes([r])
+          updateState({ currentScheme: r })
           setLangs(() => new Set(conceptSchemesData[r.id].languages))
         } else if (r.type === "Concept") {
-          // FIXME how to handle inScheme as array?
+          // FIXME how to handle inScheme as array? Currently we fetch the first scheme
+          // this could also be cached in local storage but that might also be a bit overkill
           const cs = r.inScheme[0]
-          !data.currentScheme && setConceptScheme(() => ({ ...cs }))
+          updateState({ currentScheme: cs })
           setConceptSchemes(r.inScheme)
           setLangs(() => new Set(conceptSchemesData[cs.id].languages))
         } else if (r.type === "Collection") {
@@ -137,7 +134,7 @@ const Header = ({ siteTitle, languages, language }) => {
             const res = await (await fetch(path)).json()
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
-              setConceptScheme((prev) => ({ ...prev, ...cs }))
+              updateState({ currentScheme: cs })
               setConceptSchemes(res.inScheme)
               setLangs(() => new Set(conceptSchemesData[cs.id].languages))
               break
@@ -152,13 +149,10 @@ const Header = ({ siteTitle, languages, language }) => {
          * that we can use to retrieve languages when using header on the
          * index page so we need to set languages hard
          */
-
-        setLangs(
-          () => new Set(conceptSchemesData[data.currentScheme.id].languages)
-        )
-        // languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+        languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
       })
   }, [pathName, languages])
+
   return (
     <header css={style}>
       <div className="headerContent">
@@ -173,27 +167,22 @@ const Header = ({ siteTitle, languages, language }) => {
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {/* {conceptScheme && conceptScheme.id && (
-            <div className="conceptScheme">
-              <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
-                {conceptScheme?.title?.[language] || conceptScheme.id}
-              </Link>
-            </div>
-          )} */}
           {conceptSchemes && (
             <div className="conceptSchemes">
               {conceptSchemes.map((cs) => (
                 <div
                   key={cs.id}
-                  className={`conceptScheme ${
-                    cs.id === conceptScheme.id ? "active" : ""
-                  }`}
-                  onClick={({ target }) => {
-                    setConceptScheme(cs)
+                  className="conceptScheme"
+                  onClick={() => {
                     updateState({ currentScheme: cs })
                   }}
                 >
-                  <Link to={getFilePath(cs.id, `${language}.html`)}>
+                  <Link
+                    className={`${
+                      cs.id === data.currentScheme.id ? "active" : ""
+                    }`}
+                    to={getFilePath(cs.id, `${language}.html`)}
+                  >
                     {cs?.title?.[language] || cs.id}
                   </Link>
                 </div>
@@ -217,14 +206,6 @@ const Header = ({ siteTitle, languages, language }) => {
       </div>
     </header>
   )
-}
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
 }
 
 export default Header
