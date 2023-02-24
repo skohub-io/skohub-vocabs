@@ -211,6 +211,5 @@ describe("Header", () => {
         name: "http://w3id.org/cs2/",
       })
     ).toBeInTheDocument()
-    screen.debug()
   })
 })
