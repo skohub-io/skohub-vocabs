@@ -93,6 +93,7 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
       languagesByCS[id] = parseLanguages(compacted["@graph"])
     })
 
+    // eslint-disable-next-line no-loop-func
     await compacted["@graph"].forEach((graph) => {
       const {
         narrower,
@@ -118,6 +119,13 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
             "Collection",
           ])
         : properties.type
+
+      const inSchemeNodes = [...(inScheme || []), ...(topConceptOf || [])]
+
+      const nodeIds = inSchemeNodes.map((o) => o.id)
+      const inSchemeFiltered = inSchemeNodes.filter(
+        ({ id }, index) => !nodeIds.includes(id, index + 1)
+      )
       const node = {
         ...properties,
         type,
@@ -127,9 +135,7 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
         parent: (broader && broader.id) || null,
         // topConceptOf nodes are also set to inScheme to facilitate parsing and filtering later
         inScheme___NODE:
-          ([...(inScheme || []), ...(topConceptOf || [])] || []).map(
-            (inScheme) => inScheme.id
-          ) || null,
+          inSchemeFiltered.map((inScheme) => inScheme.id) || null,
         topConceptOf___NODE:
           (topConceptOf || []).map((topConceptOf) => topConceptOf.id) || null,
         narrower___NODE: (narrower || []).map((narrower) => narrower.id),

@@ -13,12 +13,16 @@ import SEO from "../components/seo"
 
 import { conceptStyle } from "../styles/concepts.css.js"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
+import { useSkoHubContext } from "../context/Context"
 import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
   const colors = getConfigAndConceptSchemes()
   const style = conceptStyle(colors)
   const [conceptSchemeId, setConceptSchemeId] = useState(null)
+  const { data } = useSkoHubContext()
+  // eslint-disable-next-line no-console
+  console.log(data)
   const [index, setIndex] = useState(FlexSearch.create())
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(
