@@ -3,7 +3,7 @@
 Welcome! Thank you for contributing to SkoHub.
 
 The following is a set of guidelines for contributing to SkoHub and how to work together in an efficient and goal-oriented way.
-We use the simple GitHub workflow: the master branch is always in a working state. New features are developed in feature branches which are merged into the master after review in pull requests.
+We use the simple GitHub workflow: the `main` branch is always in a working state. New features are developed in feature branches which are merged into `main` after review in pull requests.
 See details on the [GitHub flow](https://guides.github.com/introduction/flow/). 
 The agile methods we use are inspired by the [Scrum Guide](https://www.scrum.org/resources/scrum-guide).
 
@@ -212,7 +212,7 @@ The *Definition of Done* describes a list of criteria which issues have to meet 
 * Documentation exists (external documentation must be linked)
 * GitHub Actions / CI passed (contains tests)
 * Pull request is reviewed and approved
-* Functionality is merged into the master branch
+* Functionality is merged into the `main` branch
 
 ### Releasing SkoHub
 
