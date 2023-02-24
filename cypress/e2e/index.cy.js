@@ -5,7 +5,12 @@ describe("Main Vocab Index page", () => {
     // vocabs are found
     cy.get(".centerPage > ul li").should("have.length", 7)
 
-    // interactivity Type should display concept scheme ID since no german label present
+    /**
+     * What is tested by the existence of these links:
+     * - interactivity Type should display concept scheme ID since no german label present
+     * - Concept Schemes that are splitted in two files are present
+     * - Multiple Concept Schemes in one file are also present
+     *  */
     cy.findByRole("link", {
       name: "http://purl.org/dcx/lrmi-vocabs/interactivityType/",
     }).should("exist")

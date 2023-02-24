@@ -4,7 +4,7 @@ import { css, jsx } from "@emotion/react"
 import { i18n, getFilePath, getFragment } from "../common"
 import { Link as GatsbyLink } from "gatsby"
 
-import { useConfig } from "../hooks/config"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const getNestedItems = (item) => {
   let ids = [item.id]
@@ -26,7 +26,7 @@ const getNestedItems = (item) => {
  */
 
 const NestedList = ({ items, current, filter, highlight, language }) => {
-  const { colors } = useConfig()
+  const { config } = getConfigAndConceptSchemes()
   const style = css`
     list-style-type: none;
     padding: 0;
@@ -57,7 +57,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
       content: "";
       position: absolute;
       height: 100%;
-      background-color: ${colors.skoHubMiddleGrey};
+      background-color: ${config.colors.skoHubMiddleGrey};
       width: 1px;
       left: -16px;
     }
@@ -72,7 +72,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
 
     span > strong {
       display: inline-flex;
-      color: ${colors.skoHubDarkColor};
+      color: ${config.colors.skoHubDarkColor};
     }
 
     .treeItemIcon {
@@ -87,7 +87,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
 
       &:before {
         content: "";
-        background-color: ${colors.skoHubDarkColor};
+        background-color: ${config.colors.skoHubDarkColor};
         position: absolute;
         width: 60%;
         height: 3px;
@@ -99,7 +99,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
       &.collapsed {
         &:after {
           content: "";
-          background-color: ${colors.skoHubDarkColor};
+          background-color: ${config.colors.skoHubDarkColor};
           position: absolute;
           width: 3px;
           height: 60%;

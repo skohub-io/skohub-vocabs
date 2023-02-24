@@ -228,10 +228,10 @@ For E2E tests we use [Cypress](https://www.cypress.io/). The tests can be found 
 The E2E tests should generally test the interaction with the app like a typical user would.
 
 To run E2E tests the `*.ttl` files from `./test/data` must be present in `./data`.
-You can copy them directly there or use the `cypress/prepare-cypress-test.sh` script.
+They will be automatically copied there if you run the below mentioned commands making use of the `cypress/prepare-cypress-test.sh` script.
 
-After that run `npm run test:e2e:ci` for running e2e tests in the console.
-If you want to run cypress interactivley run `npm run test:e2e`.
+Run `npm run test:e2e:ci` for running e2e tests in the console.
+If you want to run cypress interactively run `npm run test:e2e`.
 
 ## Credits
 

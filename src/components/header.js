@@ -1,21 +1,17 @@
-import { Link, withPrefix } from "gatsby"
 import { css } from "@emotion/react"
-import PropTypes from "prop-types"
-import React, { useEffect, useState } from "react"
 import { useLocation } from "@gatsbyjs/reach-router"
-import {
-  getFilePath,
-  getLinkPath,
-  replaceFilePathInUrl,
-  parseLanguages,
-} from "../common"
-
-import { useConfig } from "../hooks/config"
+import { Link, withPrefix } from "gatsby"
+import React, { useEffect, useState } from "react"
+import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
+import { useSkoHubContext } from "../context/Context"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const Header = ({ siteTitle, languages, language }) => {
-  const { colors, logo } = useConfig()
+  const { config, conceptSchemes: conceptSchemesData } =
+    getConfigAndConceptSchemes()
+  const { data, updateState } = useSkoHubContext()
   const style = css`
-    background: ${colors.skoHubWhite};
+    background: ${config.colors.skoHubWhite};
 
     .headerContent {
       padding: 20px 20px 0 20px;
@@ -29,7 +25,7 @@ const Header = ({ siteTitle, languages, language }) => {
 
       a {
         text-decoration: none;
-        color: ${colors.skoHubDarkColor};
+        color: ${config.colors.skoHubDarkColor};
       }
 
       .skohubImg {
@@ -52,9 +48,19 @@ const Header = ({ siteTitle, languages, language }) => {
           font-size: 18px;
         }
       }
+      .conceptSchemes {
+        display: flex;
+      }
+
       .conceptScheme {
-        padding: 15px 0 0 0;
+        padding: 15px 15px 0 0;
         font-size: 24px;
+      }
+      .active {
+        font-weight: bold;
+      }
+      .conceptScheme:not(:last-child):after {
+        content: ", ";
       }
     }
 
@@ -73,13 +79,13 @@ const Header = ({ siteTitle, languages, language }) => {
         a {
           display: inline-block;
           padding: 5px;
-          color: ${colors.skoHubMiddleGrey};
-          border: 1px solid ${colors.skoHubMiddleGrey};
+          color: ${config.colors.skoHubMiddleGrey};
+          border: 1px solid ${config.colors.skoHubMiddleGrey};
           border-radius: 30px;
 
           &:hover {
-            color: ${colors.skoHubAction};
-            border: 1px solid ${colors.skoHubAction};
+            color: ${config.colors.skoHubAction};
+            border: 1px solid ${config.colors.skoHubAction};
           }
         }
 
@@ -87,39 +93,38 @@ const Header = ({ siteTitle, languages, language }) => {
           font-weight: bold;
           display: inline-block;
           padding: 5px;
-          border: 1px solid ${colors.skoHubLightColor};
+          border: 1px solid ${config.colors.skoHubLightColor};
           border-radius: 30px;
         }
       }
     }
   `
 
-  const [conceptScheme, setConceptScheme] = useState({})
+  const [conceptSchemes, setConceptSchemes] = useState([])
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
-  const addLanguages = (r) => {
-    const languages = parseLanguages([r])
-    languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
-  }
-  // to display the concept scheme title in the header
-  // we have to retrieve concept scheme info in this component
+  /**
+   * To display the concept scheme title in the header
+   * we have to retrieve concept scheme info in this component.
+   * We do this by getting the path of the component and looking up
+   * its information in the JSON data
+   * */
   useEffect(() => {
     fetch(pathName + ".json")
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
-          setConceptScheme((prev) => ({ ...prev, ...r }))
-          addLanguages(r)
+          setConceptSchemes([r])
+          updateState({ currentScheme: r })
+          setLangs(() => new Set(conceptSchemesData[r.id].languages))
         } else if (r.type === "Concept") {
-          const cs = r.inScheme
-          setConceptScheme((prev) => ({ ...prev, ...cs }))
-          const path = replaceFilePathInUrl(pathName, cs.id, "json")
-          fetch(path)
-            .then((response) => response.json())
-            .then((res) => {
-              addLanguages(res)
-            })
+          // FIXME how to handle inScheme as array? Currently we fetch the first scheme
+          // this could also be cached in local storage but that might also be a bit overkill
+          const cs = r.inScheme[0]
+          updateState({ currentScheme: cs })
+          setConceptSchemes(r.inScheme)
+          setLangs(() => new Set(conceptSchemesData[cs.id].languages))
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
           // so we need to check each member till we find a concept
@@ -127,12 +132,11 @@ const Header = ({ siteTitle, languages, language }) => {
           for (const member of r.member) {
             const path = replaceFilePathInUrl(pathName, member.id, "json")
             const res = await (await fetch(path)).json()
-            const cs = res.inScheme
+            const cs = res.inScheme[0]
             if (res.type === "Concept") {
-              setConceptScheme((prev) => ({ ...prev, ...cs }))
-              const path = replaceFilePathInUrl(pathName, cs.id, "json")
-              const res = await (await fetch(path)).json()
-              addLanguages(res)
+              updateState({ currentScheme: cs })
+              setConceptSchemes(res.inScheme)
+              setLangs(() => new Set(conceptSchemesData[cs.id].languages))
               break
             }
           }
@@ -148,25 +152,41 @@ const Header = ({ siteTitle, languages, language }) => {
         languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
       })
   }, [pathName, languages])
+
   return (
     <header css={style}>
       <div className="headerContent">
         <div className="skohubLogo">
           <Link to={`/index.${language}.html`}>
-            {logo && (
+            {config.logo && (
               <img
                 className="skohubImg"
-                src={`${withPrefix("/images/" + logo)}`}
+                src={`${withPrefix("/images/" + config.logo)}`}
                 alt="SkoHub Logo"
               />
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {conceptScheme && conceptScheme.id && (
-            <div className="conceptScheme">
-              <Link to={getFilePath(conceptScheme.id, `${language}.html`)}>
-                {conceptScheme?.title?.[language] || conceptScheme.id}
-              </Link>
+          {conceptSchemes && (
+            <div className="conceptSchemes">
+              {conceptSchemes.map((cs) => (
+                <div
+                  key={cs.id}
+                  className="conceptScheme"
+                  onClick={() => {
+                    updateState({ currentScheme: cs })
+                  }}
+                >
+                  <Link
+                    className={`${
+                      cs.id === data.currentScheme.id ? "active" : ""
+                    }`}
+                    to={getFilePath(cs.id, `${language}.html`)}
+                  >
+                    {cs?.title?.[language] || cs.id}
+                  </Link>
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -186,14 +206,6 @@ const Header = ({ siteTitle, languages, language }) => {
       </div>
     </header>
   )
-}
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
 }
 
 export default Header

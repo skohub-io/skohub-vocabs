@@ -10,7 +10,8 @@ module.exports = (languages) => `
     type: String,
     title: LanguageMap,
     description: LanguageMap,
-    hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE")
+    hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE"),
+    languages: [String]
   }
 
   type Concept implements Node {
@@ -23,7 +24,7 @@ module.exports = (languages) => `
     note: LanguageMap,
     notation: [String],
     example: LanguageMap,
-    topConceptOf: ConceptScheme @link(from: "topConceptOf___NODE"),
+    topConceptOf: [ConceptScheme] @link(from: "topConceptOf___NODE"),
     narrower: [Concept] @link(from: "narrower___NODE"),
     narrowerTransitive: [Concept] @link(from: "narrowerTransitive___NODE"),
     narrowMatch: [Concept],
@@ -34,7 +35,7 @@ module.exports = (languages) => `
     relatedMatch: [Concept],
     closeMatch: [Concept],
     exactMatch: [Concept],
-    inScheme: ConceptScheme! @link(from: "inScheme___NODE"),
+    inScheme: [ConceptScheme] @link(from: "inScheme___NODE"),
     hub: String
   }
 

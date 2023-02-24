@@ -32,4 +32,40 @@ export const mockConfig = {
       },
     },
   },
+  allConceptScheme: {
+    edges: [
+      {
+        node: {
+          id: "http://w3id.org/",
+          fields: {
+            languages: ["de", "en"],
+          },
+        },
+      },
+      {
+        node: {
+          id: "http://w3id.org/cs2/",
+          fields: {
+            languages: ["en"],
+          },
+        },
+      },
+      {
+        node: {
+          id: "http://example.org/hashURIConceptScheme#scheme",
+          fields: {
+            languages: ["de", "en"],
+          },
+        },
+      },
+      {
+        node: {
+          id: "http://one-lang/w3id.org/",
+          fields: {
+            languages: ["de"],
+          },
+        },
+      },
+    ],
+  },
 }
