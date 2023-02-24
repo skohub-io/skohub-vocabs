@@ -1,6 +1,3 @@
-const maybe = require("mjn")
-const crypto = require("crypto")
-const fetch = require("node-fetch")
 const yaml = require("js-yaml")
 const fs = require("fs")
 
