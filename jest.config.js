@@ -18,4 +18,5 @@ module.exports = {
   testEnvironment: `jsdom`,
   setupFilesAfterEnv: ["<rootDir>/setup-test-env.js", "./jest.setup.js"],
   // coverageReporters: ["json-summary"],
+  setupFiles: [`<rootDir>/loadershim.js`],
 }
