@@ -7,5 +7,10 @@ module.exports = {
     "node/no-path-concat": "off",
     "react-hooks/rules-of-hooks": "off",
     "no-console": "error",
+    "testing-library/await-async-query": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debugging-utils": "warn",
+    "testing-library/no-dom-import": "off",
   },
+  plugins: ["testing-library"],
 }
