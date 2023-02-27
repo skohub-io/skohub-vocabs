@@ -40,7 +40,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "babel-jest": "^29.0.0",
     "cypress": "^12.3.0",
@@ -70,7 +70,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "lint:js": "eslint src --ext .jsx,.js --quiet",
-    "test": "jest --verbose --forceExit",
+    "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --verbose --coverage",
