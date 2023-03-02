@@ -110,7 +110,7 @@ jobs:
           mkdir -p public
           mkdir -p data
           cp .env.example .env
-          cp test/data/interactivityType.ttl data/
+          cp test/data/ttl/interactivityType.ttl data/
           docker run --rm -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env ${{ env.TEST_TAG }}
 
       - name: Build and push
