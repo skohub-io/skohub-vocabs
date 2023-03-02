@@ -161,7 +161,7 @@ const Header = ({ siteTitle, languages, language }) => {
             {config.logo && (
               <img
                 className="skohubImg"
-                src={`${withPrefix("/images/" + config.logo)}`}
+                src={`${withPrefix("/img/" + config.logo)}`}
                 alt="SkoHub Logo"
               />
             )}

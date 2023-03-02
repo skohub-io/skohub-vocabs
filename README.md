@@ -147,7 +147,7 @@ The Title is mandatory and SkoHub Vocabs will throw an error if it is left empty
 
 #### Changing the Logo
 
-The logo is served from `static/images`.
+The logo is served from `static/img`.
 To use another logo, put it in there and update the name of the file in the config.
 
 The new logo doesn't scale correctly? 
