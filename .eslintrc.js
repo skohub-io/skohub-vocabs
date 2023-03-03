@@ -13,4 +13,12 @@ module.exports = {
     "testing-library/no-dom-import": "off",
   },
   plugins: ["testing-library"],
+  overrides: [
+    {
+      files: ["**/cypress/**/*.cy.js"],
+      rules: {
+        "testing-library/await-async-query": 0,
+      },
+    },
+  ],
 }

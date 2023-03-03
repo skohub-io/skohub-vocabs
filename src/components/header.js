@@ -161,7 +161,7 @@ const Header = ({ siteTitle, languages, language }) => {
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {data.currentScheme.id && (
+          {data?.currentScheme?.id && (
             <div className="conceptSchemes">
               <div
                 key={data.currentScheme.id}
