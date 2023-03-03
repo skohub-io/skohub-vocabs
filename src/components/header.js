@@ -116,13 +116,14 @@ const Header = ({ siteTitle, languages, language }) => {
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
           setConceptSchemes([r])
-          updateState({ currentScheme: r })
+          updateState({ ...data, currentScheme: r })
           setLangs(() => new Set(conceptSchemesData[r.id].languages))
         } else if (r.type === "Concept") {
           // FIXME how to handle inScheme as array? Currently we fetch the first scheme
           // this could also be cached in local storage but that might also be a bit overkill
           const cs = r.inScheme[0]
-          updateState({ currentScheme: cs })
+          Object.keys(data.currentScheme).length === 0 &&
+            updateState({ ...data, currentScheme: cs })
           setConceptSchemes(r.inScheme)
           setLangs(() => new Set(conceptSchemesData[cs.id].languages))
         } else if (r.type === "Collection") {
@@ -134,7 +135,7 @@ const Header = ({ siteTitle, languages, language }) => {
             const res = await (await fetch(path)).json()
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
-              updateState({ currentScheme: cs })
+              updateState({ ...data, currentScheme: cs })
               setConceptSchemes(res.inScheme)
               setLangs(() => new Set(conceptSchemesData[cs.id].languages))
               break
@@ -174,7 +175,7 @@ const Header = ({ siteTitle, languages, language }) => {
                   key={cs.id}
                   className="conceptScheme"
                   onClick={() => {
-                    updateState({ currentScheme: cs })
+                    updateState({ ...data, currentScheme: cs })
                   }}
                 >
                   <Link
