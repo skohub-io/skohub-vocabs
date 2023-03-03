@@ -181,6 +181,6 @@ describe("Concept", () => {
      */
     expect(
       screen.getByRole("link", { name: "http://w3id.org/cs2/" })
-    ).toHaveAttribute("href", "/w3id.org/cs2/index.en.html")
+    ).toHaveAttribute("href", "http://w3id.org/cs2/")
   })
 })

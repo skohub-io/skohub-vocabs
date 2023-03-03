@@ -37,7 +37,6 @@ const App = ({ pageContext, children }) => {
       }
     }
   }
-
   // get concept scheme id from context
   useEffect(() => {
     if (data?.currentScheme?.id) {
