@@ -29,7 +29,7 @@
   skos:relatedMatch <c4> ;
   skos:narrower <c2> ;
   skos:notation "1" ;
-  skos:topConceptOf <> .
+  skos:topConceptOf <>, <http://just-another-scheme.org/> .
 
 <c2> a skos:Concept ;
   skos:prefLabel "Konzept 2"@de, "Concept 2"@en ;
