@@ -172,29 +172,32 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
           </ul>
         </div>
       )}
-      {concept.inScheme && concept.inScheme.length > 0 && (
+      {concept.inSchemeAll && (
         <div>
           <h3 id="in-scheme">In Scheme</h3>
           <ul aria-labelledby="in-scheme">
-            {concept.inScheme.map((inScheme) => (
+            {concept.inSchemeAll.map((inScheme) => (
               <li key={inScheme.id}>
                 {/* 
               check if the concept scheme in that language is present
               otherwise link to first present language
               */}
-                <Link
-                  to={getFilePath(
-                    inScheme.id,
-                    `${
-                      conceptSchemes[inScheme.id].languages.includes(language)
-                        ? language
-                        : conceptSchemes[inScheme.id].languages[0]
-                    }.html`
-                  )}
-                >
-                  {/* {i18n(language)(inScheme.prefLabel) || inScheme.id} */}
-                  {inScheme.id}
-                </Link>
+                {Object.keys(conceptSchemes).includes(inScheme.id) ? (
+                  <Link
+                    to={getFilePath(
+                      inScheme.id,
+                      `${
+                        conceptSchemes[inScheme.id].languages.includes(language)
+                          ? language
+                          : conceptSchemes[inScheme.id].languages[0]
+                      }.html`
+                    )}
+                  >
+                    {inScheme.id}
+                  </Link>
+                ) : (
+                  <a href={inScheme.id}>{inScheme.id}</a>
+                )}
               </li>
             ))}
           </ul>

@@ -171,7 +171,7 @@ describe("Concept", () => {
     })
     const { getAllByRole } = within(list)
     const items = getAllByRole("listitem")
-    expect(items.length).toBe(2)
+    expect(items.length).toBe(3)
 
     /**
      * concept scheme 2 links to an "en" scheme beside we
@@ -182,5 +182,9 @@ describe("Concept", () => {
     expect(
       screen.getByRole("link", { name: "http://w3id.org/cs2/" })
     ).toHaveAttribute("href", "/w3id.org/cs2/index.en.html")
+
+    expect(
+      screen.getByRole("link", { name: /just-another-scheme/i })
+    ).toHaveAttribute("href", "http://just-another-scheme.org/")
   })
 })

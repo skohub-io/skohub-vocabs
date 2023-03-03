@@ -56,9 +56,6 @@ const Header = ({ siteTitle, languages, language }) => {
         padding: 15px 15px 0 0;
         font-size: 24px;
       }
-      .active {
-        font-weight: bold;
-      }
       .conceptScheme:not(:last-child):after {
         content: ", ";
       }
@@ -100,7 +97,6 @@ const Header = ({ siteTitle, languages, language }) => {
     }
   `
 
-  const [conceptSchemes, setConceptSchemes] = useState([])
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
@@ -115,15 +111,14 @@ const Header = ({ siteTitle, languages, language }) => {
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
-          setConceptSchemes([r])
-          updateState({ currentScheme: r })
+          updateState({ ...data, currentScheme: r })
           setLangs(() => new Set(conceptSchemesData[r.id].languages))
         } else if (r.type === "Concept") {
           // FIXME how to handle inScheme as array? Currently we fetch the first scheme
           // this could also be cached in local storage but that might also be a bit overkill
           const cs = r.inScheme[0]
-          updateState({ currentScheme: cs })
-          setConceptSchemes(r.inScheme)
+          Object.keys(data.currentScheme).length === 0 &&
+            updateState({ ...data, currentScheme: cs })
           setLangs(() => new Set(conceptSchemesData[cs.id].languages))
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
@@ -134,8 +129,7 @@ const Header = ({ siteTitle, languages, language }) => {
             const res = await (await fetch(path)).json()
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
-              updateState({ currentScheme: cs })
-              setConceptSchemes(res.inScheme)
+              updateState({ ...data, currentScheme: cs })
               setLangs(() => new Set(conceptSchemesData[cs.id].languages))
               break
             }
@@ -167,26 +161,22 @@ const Header = ({ siteTitle, languages, language }) => {
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {conceptSchemes && (
+          {data.currentScheme.id && (
             <div className="conceptSchemes">
-              {conceptSchemes.map((cs) => (
-                <div
-                  key={cs.id}
-                  className="conceptScheme"
-                  onClick={() => {
-                    updateState({ currentScheme: cs })
-                  }}
+              <div
+                key={data.currentScheme.id}
+                className="conceptScheme"
+                onClick={() => {
+                  updateState({ ...data, currentScheme: data.currentScheme })
+                }}
+              >
+                <Link
+                  to={getFilePath(data.currentScheme.id, `${language}.html`)}
                 >
-                  <Link
-                    className={`${
-                      cs.id === data.currentScheme.id ? "active" : ""
-                    }`}
-                    to={getFilePath(cs.id, `${language}.html`)}
-                  >
-                    {cs?.title?.[language] || cs.id}
-                  </Link>
-                </div>
-              ))}
+                  {data.currentScheme?.title?.[language] ||
+                    data.currentScheme.id}
+                </Link>
+              </div>
             </div>
           )}
         </div>

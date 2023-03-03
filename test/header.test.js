@@ -190,7 +190,7 @@ describe("Header", () => {
     expect(screen.getAllByRole("listitem").length).toBe(3)
   })
 
-  it(`shows multiple Concept Scheme links in header, 
+  it(`shows only one Concept Scheme link in header, 
   if a concept is present in multiple concept schemes.
   Defaults to concept scheme id if no title in language provided.`, async () => {
     const languages = ["de", "en"]
@@ -204,11 +204,6 @@ describe("Header", () => {
     expect(
       screen.getByRole("link", {
         name: "Test Vokabular",
-      })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole("link", {
-        name: "http://w3id.org/cs2/",
       })
     ).toBeInTheDocument()
   })

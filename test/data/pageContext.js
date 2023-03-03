@@ -72,6 +72,17 @@ export const topConcept = {
       },
     },
   ],
+  inSchemeAll: [
+    {
+      id: "http://w3id.org/",
+    },
+    {
+      id: "http://w3id.org/cs2/",
+    },
+    {
+      id: "http://just-another-scheme.org/",
+    },
+  ],
   topConceptOf: null,
 }
 
