@@ -110,6 +110,9 @@ module.exports.allConcept = (inScheme, languages) => `
               ${[...languages].join(" ")}
             }
           }
+          inSchemeAll {
+            id
+          }
           topConceptOf {
             id
             title {

@@ -36,6 +36,7 @@ module.exports = (languages) => `
     closeMatch: [Concept],
     exactMatch: [Concept],
     inScheme: [ConceptScheme] @link(from: "inScheme___NODE"),
+    inSchemeAll: [ConceptScheme],
     hub: String
   }
 

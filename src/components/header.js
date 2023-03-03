@@ -56,9 +56,6 @@ const Header = ({ siteTitle, languages, language }) => {
         padding: 15px 15px 0 0;
         font-size: 24px;
       }
-      .active {
-        font-weight: bold;
-      }
       .conceptScheme:not(:last-child):after {
         content: ", ";
       }
@@ -100,7 +97,6 @@ const Header = ({ siteTitle, languages, language }) => {
     }
   `
 
-  const [conceptSchemes, setConceptSchemes] = useState([])
   const [langs, setLangs] = useState(new Set())
   const pathName = useLocation().pathname.slice(0, -8)
 
@@ -115,7 +111,6 @@ const Header = ({ siteTitle, languages, language }) => {
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
-          setConceptSchemes([r])
           updateState({ ...data, currentScheme: r })
           setLangs(() => new Set(conceptSchemesData[r.id].languages))
         } else if (r.type === "Concept") {
@@ -124,7 +119,6 @@ const Header = ({ siteTitle, languages, language }) => {
           const cs = r.inScheme[0]
           Object.keys(data.currentScheme).length === 0 &&
             updateState({ ...data, currentScheme: cs })
-          setConceptSchemes(r.inScheme)
           setLangs(() => new Set(conceptSchemesData[cs.id].languages))
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
@@ -136,7 +130,6 @@ const Header = ({ siteTitle, languages, language }) => {
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
               updateState({ ...data, currentScheme: cs })
-              setConceptSchemes(res.inScheme)
               setLangs(() => new Set(conceptSchemesData[cs.id].languages))
               break
             }
@@ -168,26 +161,22 @@ const Header = ({ siteTitle, languages, language }) => {
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {conceptSchemes && (
+          {data.currentScheme.id && (
             <div className="conceptSchemes">
-              {conceptSchemes.map((cs) => (
-                <div
-                  key={cs.id}
-                  className="conceptScheme"
-                  onClick={() => {
-                    updateState({ ...data, currentScheme: cs })
-                  }}
+              <div
+                key={data.currentScheme.id}
+                className="conceptScheme"
+                onClick={() => {
+                  updateState({ ...data, currentScheme: data.currentScheme })
+                }}
+              >
+                <Link
+                  to={getFilePath(data.currentScheme.id, `${language}.html`)}
                 >
-                  <Link
-                    className={`${
-                      cs.id === data.currentScheme.id ? "active" : ""
-                    }`}
-                    to={getFilePath(cs.id, `${language}.html`)}
-                  >
-                    {cs?.title?.[language] || cs.id}
-                  </Link>
-                </div>
-              ))}
+                  {data.currentScheme?.title?.[language] ||
+                    data.currentScheme.id}
+                </Link>
+              </div>
             </div>
           )}
         </div>

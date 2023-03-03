@@ -106,8 +106,11 @@ describe("App", () => {
     expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
     expect(screen.queryByText("Konzept 2")).toBeInTheDocument()
     await user.click(screen.getByRole("textbox"))
-    await user.keyboard("Konzept 1")
-    expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
-    expect(screen.queryByText("Konzept 2")).toBeNull()
+    await act(async () => {
+      await user.keyboard("Konzept 1")
+
+      expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
+      expect(screen.queryByText("Konzept 2")).toBeNull()
+    })
   })
 })
