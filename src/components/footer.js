@@ -2,14 +2,14 @@ import { css } from "@emotion/react"
 import PropTypes from "prop-types"
 import React from "react"
 
-import { useConfig } from "../hooks/config"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const Footer = () => {
-  const { colors } = useConfig()
+  const { config } = getConfigAndConceptSchemes()
 
   const style = css`
-    background: ${colors.skoHubMiddleColor};
-    color: ${colors.skoHubWhite};
+    background: ${config.colors.skoHubMiddleColor};
+    color: ${config.colors.skoHubWhite};
 
     .footerContent {
       padding: 20px;
@@ -37,7 +37,7 @@ const Footer = () => {
       }
 
       a {
-        color: ${colors.skoHubWhite};
+        color: ${config.colors.skoHubWhite};
         font-weight: 700;
 
         &:hover {

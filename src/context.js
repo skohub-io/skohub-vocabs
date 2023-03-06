@@ -89,6 +89,12 @@ const jsonld = {
     hasTopConcept: {
       "@container": "@set",
     },
+    inScheme: {
+      "@container": "@set",
+    },
+    topConceptOf: {
+      "@container": "@set",
+    },
   },
 }
 

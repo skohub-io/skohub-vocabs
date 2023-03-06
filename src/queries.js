@@ -25,8 +25,10 @@ module.exports.allConcept = (inScheme, languages) => `
     allConcept(
       filter: {
         inScheme: {
-          id: {
-            eq: "${inScheme}"
+          elemMatch: {
+            id: {
+              eq: "${inScheme}"
+            }
           }
         }
       }
@@ -108,8 +110,14 @@ module.exports.allConcept = (inScheme, languages) => `
               ${[...languages].join(" ")}
             }
           }
+          inSchemeAll {
+            id
+          }
           topConceptOf {
             id
+            title {
+              ${[...languages].join(" ")}
+            }
           }
         }
       }

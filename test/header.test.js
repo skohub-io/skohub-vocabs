@@ -10,6 +10,7 @@ import {
   createMemorySource,
   LocationProvider,
 } from "@gatsbyjs/reach-router"
+import { ContextProvider } from "../src/context/Context"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
 
@@ -22,22 +23,30 @@ afterEach(() => {
   jest.restoreAllMocks()
 })
 
+function renderHeader(history, siteTitle, languages, language) {
+  return render(
+    <ContextProvider>
+      <LocationProvider history={history}>
+        <Header
+          siteTitle={siteTitle}
+          languages={languages}
+          language={language}
+        />
+      </LocationProvider>
+    </ContextProvider>
+  )
+}
+
 describe("Header", () => {
+  const siteTitle = "Test Title"
+
   it("renders header component without language tags", async () => {
     const languages = ["de"]
     const language = "de"
     const route = "/one-lang/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     expect(screen.getByRole("banner")).toBeInTheDocument()
     // skohub logo
@@ -55,21 +64,14 @@ describe("Header", () => {
     // check for language menu not to be present
     expect(screen.queryByRole("list")).toBeNull()
   })
-  it("renders header component with multiple language tags (slash URIs)", async () => {
+
+  it(`renders header component with link to concept scheme (slash URIs)`, async () => {
     const languages = ["de", "en"]
     const language = "de"
     const route = "/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // skohub concept scheme link
     expect(
@@ -77,6 +79,16 @@ describe("Header", () => {
         name: "Test Vokabular",
       })
     ).toBeInTheDocument()
+  })
+
+  it(`renders header component with multiple language tags (slash URIs)`, async () => {
+    const languages = ["de", "en"]
+    const language = "de"
+    const route = "/w3id.org/index.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      renderHeader(history, siteTitle, languages, language)
+    })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
     // check for language items
@@ -91,15 +103,7 @@ describe("Header", () => {
     const route = "/example.org/hashURIConceptScheme.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // skohub concept scheme link
     expect(
@@ -119,15 +123,7 @@ describe("Header", () => {
     const route = "/no-title-in-en/w3id.org/index.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // skohub concept scheme link
     expect(
@@ -144,15 +140,7 @@ describe("Header", () => {
     const route = "/w3id.org/c1.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -167,15 +155,7 @@ describe("Header", () => {
     const route = "/w3id.org/collection.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -184,21 +164,12 @@ describe("Header", () => {
   })
 
   it("render languages if type is neither ConceptScheme, Concept or Collection", async () => {
-    // we reduce language array here artifically, because two languages should be found
     const languages = ["de", "en", "uk"]
     const language = "de"
     const route = "/no-in-scheme/w3id.org/collection.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -206,25 +177,34 @@ describe("Header", () => {
     expect(screen.getAllByRole("listitem").length).toBe(3)
   })
   it("render default languages if langs can't be received (e.g. if rendered on overview index", async () => {
-    // we reduce language array here artifically, because two languages should be found
     const languages = ["de", "en", "uk"]
     const language = "de"
     const route = "/no-valid-json/not-valid.de.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={history}>
-          <Header
-            siteTitle="Test Title"
-            languages={languages}
-            language={language}
-          />
-        </LocationProvider>
-      )
+      renderHeader(history, siteTitle, languages, language)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
     // check for language items
     expect(screen.getAllByRole("listitem").length).toBe(3)
+  })
+
+  it(`shows only one Concept Scheme link in header, 
+  if a concept is present in multiple concept schemes.
+  Defaults to concept scheme id if no title in language provided.`, async () => {
+    const languages = ["de", "en"]
+    const language = "de"
+    const route = "/w3id.org/c1.de.html"
+    const history = createHistory(createMemorySource(route))
+    await act(() => {
+      renderHeader(history, siteTitle, languages, language)
+    })
+    // skohub concept scheme link
+    expect(
+      screen.getByRole("link", {
+        name: "Test Vokabular",
+      })
+    ).toBeInTheDocument()
   })
 })

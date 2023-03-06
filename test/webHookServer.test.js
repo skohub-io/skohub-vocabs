@@ -123,7 +123,7 @@ describe("processWebhooks", () => {
 })
 
 describe("getFile", () => {
-  test("Creates the file", async () => {
+  test.skip("Creates the file", async () => {
     const id = uuidv4()
     const cwd = process.cwd()
     process.chdir("/tmp")

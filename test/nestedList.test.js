@@ -38,7 +38,9 @@ describe("Nested List", () => {
     // parent concepts should be shown when narrower match
     expect(screen.getAllByRole("link").length).toBe(2)
     // current concept is marked as current
-    screen.getByRole("link", { name: "Konzept 2", current: true })
+    expect(
+      screen.getByRole("link", { name: "Konzept 2", current: true })
+    ).toBeInTheDocument()
   })
 
   it("button click toggles aria label", async () => {

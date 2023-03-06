@@ -71,8 +71,8 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
   return arrayOfFiles
 }
 
-exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
-  const { createNode } = actions
+exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
+  const { createNode, createNodeField } = actions
   const ttlFiles = getTurtleFiles("./data", [])
   if (ttlFiles.length === 0)
     throw new Error(`
@@ -86,11 +86,14 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
     const compacted = await jsonld.compact(doc, context.jsonld)
 
-    const conceptSchemeId = compacted["@graph"].find(
-      (node) => node.type === "ConceptScheme"
-    ).id
-    languagesByCS[conceptSchemeId] = parseLanguages(compacted["@graph"])
+    const conceptSchemeIds = compacted["@graph"]
+      .filter((node) => node.type === "ConceptScheme")
+      .map((n) => n.id)
+    conceptSchemeIds.forEach((id) => {
+      languagesByCS[id] = parseLanguages(compacted["@graph"])
+    })
 
+    // eslint-disable-next-line no-loop-func
     await compacted["@graph"].forEach((graph) => {
       const {
         narrower,
@@ -116,6 +119,13 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
             "Collection",
           ])
         : properties.type
+
+      const inSchemeNodes = [...(inScheme || []), ...(topConceptOf || [])]
+
+      const nodeIds = inSchemeNodes.map((o) => o.id)
+      const inSchemeFiltered = inSchemeNodes.filter(
+        ({ id }, index) => !nodeIds.includes(id, index + 1)
+      )
       const node = {
         ...properties,
         type,
@@ -123,11 +133,20 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
           (narrower) => narrower.id
         ),
         parent: (broader && broader.id) || null,
+        /**
+         * to also display concept schemes outside of skohub vocabs we need a dedicated
+         * field. This field is inSchemeAll.
+         * inScheme___NODE is linked in types.js with ConceptScheme type. Therefore
+         * a concept scheme not present in the graphql data layer would not be found and not
+         * be shown on the concepts page.
+         */
+        inSchemeAll:
+          inSchemeFiltered.map((inScheme) => ({ id: inScheme.id })) || null,
+        // topConceptOf nodes are also set to inScheme to facilitate parsing and filtering later
         inScheme___NODE:
-          (inScheme && inScheme.id) ||
-          (topConceptOf && topConceptOf.id) ||
-          null,
-        topConceptOf___NODE: (topConceptOf && topConceptOf.id) || null,
+          inSchemeFiltered.map((inScheme) => inScheme.id) || null,
+        topConceptOf___NODE:
+          (topConceptOf || []).map((topConceptOf) => topConceptOf.id) || null,
         narrower___NODE: (narrower || []).map((narrower) => narrower.id),
         narrowerTransitive___NODE: (narrowerTransitive || []).map(
           (narrowerTransitive) => narrowerTransitive.id
@@ -157,6 +176,15 @@ exports.onPreBootstrap = async ({ createContentDigest, actions }) => {
         createNode(node)
     })
   }
+  // add language information to concept schemes
+  Object.keys(languagesByCS).forEach((id) => {
+    const node = getNode(id)
+    createNodeField({
+      node,
+      name: "languages",
+      value: Array.from(languagesByCS[id]),
+    })
+  })
 }
 
 exports.sourceNodes = async ({ actions }) => {

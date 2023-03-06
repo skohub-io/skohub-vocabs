@@ -2,6 +2,7 @@ import { indexDE } from "../data/flexsearchIndex"
 import {
   collection,
   ConceptScheme,
+  ConceptScheme2,
   hashURIConceptScheme,
   topConcept,
 } from "../data/pageContext"
@@ -20,11 +21,22 @@ export default async function mockFetch(url) {
         json: async () => ConceptScheme,
       }
     }
+    case "/w3id.org/cs2/index.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ConceptScheme2,
+      }
+    }
     case "/one-lang/w3id.org/index.json": {
       // remove all en keys so we just have one language in object
       let res = removeKey(ConceptScheme, "en")
       // add one key to check if null values gets filtered out correctly
-      res = { ...res, title: { ...res.title, en: null } }
+      res = {
+        ...res,
+        id: "http://one-lang/w3id.org/",
+        title: { ...res.title, en: null },
+      }
 
       return {
         ok: true,

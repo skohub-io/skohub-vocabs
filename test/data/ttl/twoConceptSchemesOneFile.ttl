@@ -1,0 +1,52 @@
+@base <http://w3id.org/two-concepts-one-file/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix schema: <http://schema.org/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+<> a skos:ConceptScheme ;
+  dct:title "Test Vokabular 1"@de, "Test Vocabulary 1"@en ;
+  dct:description "Test Beschreibung"@de, "Test Description"@en ;
+  dct:issued "2019-12-11" ;
+  dct:publisher <https://oerworldmap.org/resource/urn:uuid:fd06253e-fe67-4910-b923-51db9d27e59f> ;
+  skos:hasTopConcept  <c1> .
+
+<cs1> a skos:ConceptScheme ;
+  dct:title "Test Vokabular 2"@de, "Test Vocabulary 2"@en ;
+  dct:description "Test Beschreibung"@de, "Test Description"@en ;
+  dct:issued "2019-12-11" ;
+  dct:publisher <https://oerworldmap.org/resource/urn:uuid:fd06253e-fe67-4910-b923-51db9d27e59f> ;
+  skos:hasTopConcept  <c1> .
+
+<c1> a skos:Concept ;
+  skos:prefLabel "Konzept 1"@de, "Concept 1"@en ;
+  skos:altLabel "Alternativbezeichnung 1"@de, "Alternativbezeichnung 2"@de, "Alt Label 1"@en ;
+  skos:hiddenLabel "Verstecktes Label 1"@de, "Verstecktes Label 2"@de ;
+  skos:definition "Meine Definition"@de ;
+  skos:example "Ein Beispiel"@de ;
+  skos:scopeNote "Meine Scope Note"@de ;
+  skos:note "Meine Anmerkung"@de ;
+  skos:relatedMatch <c4> ;
+  skos:narrower <c2> ;
+  skos:notation "1" ;
+  skos:topConceptOf <>, <http://just-another-scheme.org/> .
+
+<c2> a skos:Concept ;
+  skos:prefLabel "Konzept 2"@de, "Concept 2"@en ;
+  skos:narrower <c3> ;
+  skos:broader <n1> ;
+  skos:inScheme <> .
+
+<c3> a skos:Concept ;
+  skos:prefLabel "Konzept 3"@de ;
+  skos:broader <c2> ;
+  skos:inScheme <> .
+
+<c4> a skos:Concept ;
+  skos:prefLabel "Konzept 4"@de ;
+  skos:broader <c2> ;
+  skos:inScheme <> .
+
+<collection> a skos:Collection ;
+  skos:prefLabel "Meine Collection"@de, "My Collection"@en ;
+  skos:member <c1>, <c2> .

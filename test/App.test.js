@@ -11,8 +11,19 @@ import { ConceptPC, ConceptSchemePC, CollectionPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
 import userEvent from "@testing-library/user-event"
+import { ContextProvider } from "../src/context/Context"
 
 const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+
+function renderApp(history, pageContext, children = null) {
+  return render(
+    <ContextProvider>
+      <LocationProvider history={history}>
+        <App pageContext={pageContext} children={children} />
+      </LocationProvider>
+    </ContextProvider>
+  )
+}
 
 describe("App", () => {
   beforeEach(() => {
@@ -25,12 +36,9 @@ describe("App", () => {
 
   it("renders App component with expand and collapse button", async () => {
     const route = "/w3id.org/index.de.html"
+    const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={ConceptSchemePC} children={null} />
-        </LocationProvider>
-      )
+      renderApp(history, ConceptSchemePC)
     })
     expect(screen.getByRole("button", { name: "Collapse" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Expand" })).toBeInTheDocument()
@@ -38,6 +46,8 @@ describe("App", () => {
 
   it("renders App component **without** collapse and expand button", async () => {
     const route = "/w3id.org/index.de.html"
+    const history = createHistory(createMemorySource(route))
+
     // remove narrower from concept
     const topConcept = ConceptSchemePC.node.hasTopConcept[0]
     const pageContext = {
@@ -49,11 +59,7 @@ describe("App", () => {
     }
 
     await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={pageContext} children={null} />
-        </LocationProvider>
-      )
+      renderApp(history, pageContext)
     })
     expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull()
     expect(screen.queryByRole("button", { name: "Expand" })).toBeNull()
@@ -62,12 +68,10 @@ describe("App", () => {
   it("correctly fetches tree when page context is a concept", async () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
     const route = "/w3id.org/c1.de.html"
+    const history = createHistory(createMemorySource(route))
+
     await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={ConceptPC} children={null} />
-        </LocationProvider>
-      )
+      renderApp(history, ConceptPC)
     })
     // we render the concept with notation therefore the "1"
     expect(
@@ -79,12 +83,10 @@ describe("App", () => {
   it("correctly fetches tree when page context is a collection", async () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
     const route = "/w3id.org/collection.de.html"
+    const history = createHistory(createMemorySource(route))
+
     await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={CollectionPC} children={null} />
-        </LocationProvider>
-      )
+      renderApp(history, CollectionPC)
     })
     // we render the concept with notation therefore the "1"
     expect(
@@ -97,18 +99,18 @@ describe("App", () => {
   it("search is working", async () => {
     const user = userEvent.setup()
     const route = "/w3id.org/index.de.html"
+    const history = createHistory(createMemorySource(route))
     await act(() => {
-      render(
-        <LocationProvider history={createHistory(createMemorySource(route))}>
-          <App pageContext={ConceptSchemePC} children={null} />
-        </LocationProvider>
-      )
+      renderApp(history, ConceptSchemePC)
     })
     expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
     expect(screen.queryByText("Konzept 2")).toBeInTheDocument()
     await user.click(screen.getByRole("textbox"))
-    await user.keyboard("Konzept 1")
-    expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
-    expect(screen.queryByText("Konzept 2")).toBeNull()
+    await act(async () => {
+      await user.keyboard("Konzept 1")
+
+      expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
+      expect(screen.queryByText("Konzept 2")).toBeNull()
+    })
   })
 })

@@ -10,13 +10,13 @@ import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, withPrefix } from "gatsby"
 
-import { useConfig } from "../hooks/config"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 import Header from "./header"
 import Footer from "./footer"
 
 const Layout = ({ children, languages, language }) => {
-  const { colors, fonts } = useConfig()
+  const { config } = getConfigAndConceptSchemes()
   const style = css`
     height: 100vh;
     display: flex;
@@ -39,8 +39,8 @@ const Layout = ({ children, languages, language }) => {
 
     .forkMe {
       position: fixed;
-      background-color: ${colors.skoHubDarkColor};
-      color: ${colors.skoHubWhite};
+      background-color: ${config.colors.skoHubDarkColor};
+      color: ${config.colors.skoHubWhite};
       padding: 0 60px;
       height: 40px;
       transform: rotate(45deg);
@@ -49,7 +49,7 @@ const Layout = ({ children, languages, language }) => {
       font-weight: 700;
       bottom: 60px;
       left: -60px;
-      box-shadow: 0 10px 20px ${colors.skoHubBlackColor};
+      box-shadow: 0 10px 20px ${config.colors.skoHubBlackColor};
     }
   `
   const data = useStaticQuery(graphql`
@@ -68,24 +68,24 @@ const Layout = ({ children, languages, language }) => {
         styles={css`
           /* ubuntu-regular - latin */
           @font-face {
-            font-family: ${fonts.regular.font_family};
-            font-style: ${fonts.regular.font_style};
-            font-weight: ${fonts.regular.font_weight};
+            font-family: ${config.fonts.regular.font_family};
+            font-style: ${config.fonts.regular.font_style};
+            font-weight: ${config.fonts.regular.font_weight};
             src: 
-              url(${withPrefix("/fonts/" + fonts.regular.name + ".woff2")}) format("woff2"),
-              url(${withPrefix("/fonts/" + fonts.regular.name + ".woff")}) format("woff"),
-              url(${withPrefix("/fonts/" + fonts.regular.name + ".ttf")}) format("truetype");
+              url(${withPrefix("/fonts/" + config.fonts.regular.name + ".woff2")}) format("woff2"),
+              url(${withPrefix("/fonts/" + config.fonts.regular.name + ".woff")}) format("woff"),
+              url(${withPrefix("/fonts/" + config.fonts.regular.name + ".ttf")}) format("truetype");
           }
 
           /* ubuntu-700 - latin */
           @font-face {
-            font-family: ${fonts.bold.font_family};
-            font-style: ${fonts.bold.font_style};
-            font-weight: ${fonts.bold.font_weight};
+            font-family: ${config.fonts.bold.font_family};
+            font-style: ${config.fonts.bold.font_style};
+            font-weight: ${config.fonts.bold.font_weight};
             src: 
-              url(${withPrefix("/fonts/" + fonts.bold.name + ".woff2")}) format("woff2"),
-              url(${withPrefix("/fonts/" + fonts.bold.name + ".woff")}) format("woff"),
-              url(${withPrefix("/fonts/" + fonts.bold.name + ".ttf")}) format("truetype");
+              url(${withPrefix("/fonts/" + config.fonts.bold.name + ".woff2")}) format("woff2"),
+              url(${withPrefix("/fonts/" + config.fonts.bold.name + ".woff")}) format("woff"),
+              url(${withPrefix("/fonts/" + config.fonts.bold.name + ".ttf")}) format("truetype");
           }
 
           html {
@@ -118,13 +118,13 @@ const Layout = ({ children, languages, language }) => {
             margin: 0;
             border: 0 none;
             overflow: hidden;
-            background-color: ${colors.skoHubWhite};
-            font-family: ${fonts.regular.font_family}, ${fonts.bold.font_family}, sans-serif;
+            background-color: ${config.colors.skoHubWhite};
+            font-family: ${config.fonts.regular.font_family}, ${config.fonts.bold.font_family}, sans-serif;
             font-weight: 400;
             word-wrap: break-word;
             font-size: 16px;
             line-height: 20px;
-            color: ${colors.skoHubDarkColor};
+            color: ${config.colors.skoHubDarkColor};
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
 
@@ -145,34 +145,34 @@ const Layout = ({ children, languages, language }) => {
 
           a {
             text-decoration: none;
-            color: ${colors.skoHubDarkColor};
+            color: ${config.colors.skoHubDarkColor};
 
             &:hover {
-              color: ${colors.skoHubAction};
+              color: ${config.colors.skoHubAction};
             }
           }
 
           .inputStyle {
-            background-color: ${colors.skoHubWhite};
+            background-color: ${config.colors.skoHubWhite};
             cursor: pointer;
-            border: 1px solid ${colors.skoHubDarkGrey};
+            border: 1px solid ${config.colors.skoHubDarkGrey};
             border-radius: 30px;
-            color: ${colors.skoHubDarkColor};
+            color: ${config.colors.skoHubDarkColor};
 
             &:hover,
             &:focus {
-              background-color: ${colors.skoHubLightGrey};
+              background-color: ${config.colors.skoHubLightGrey};
             }
 
             &[type="button"] {
-              background: ${colors.skoHubLightGrey};
-              border: 1px solid ${colors.skoHubLightGrey};
+              background: ${config.colors.skoHubLightGrey};
+              border: 1px solid ${config.colors.skoHubLightGrey};
               font-weight: 700;
 
               &:hover {
-                background: ${colors.skoHubMiddleColor};
-                border: 1px solid ${colors.skoHubMiddleColor};
-                color: ${colors.skoHubWhite};
+                background: ${config.colors.skoHubMiddleColor};
+                border: 1px solid ${config.colors.skoHubMiddleColor};
+                color: ${config.colors.skoHubWhite};
               }
             }
           }

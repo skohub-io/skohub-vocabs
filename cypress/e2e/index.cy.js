@@ -2,10 +2,15 @@ describe("Main Vocab Index page", () => {
   it("Visits index page and test language switch", () => {
     cy.visit("/index.de.html")
 
-    // three vocabs found
-    cy.get(".centerPage > ul li").should("have.length", 4)
+    // vocabs are found
+    cy.get(".centerPage > ul li").should("have.length", 7)
 
-    // interactivity Type should display concept scheme ID since no german label present
+    /**
+     * What is tested by the existence of these links:
+     * - interactivity Type should display concept scheme ID since no german label present
+     * - Concept Schemes that are splitted in two files are present
+     * - Multiple Concept Schemes in one file are also present
+     *  */
     cy.findByRole("link", {
       name: "http://purl.org/dcx/lrmi-vocabs/interactivityType/",
     }).should("exist")
@@ -17,6 +22,15 @@ describe("Main Vocab Index page", () => {
     }).should("exist")
     cy.findByRole("link", {
       name: "Destatis-Systematik der Fächergruppen, Studienbereiche und Studienfächer",
+    }).should("exist")
+    cy.findByRole("link", {
+      name: "Test Vokabular 1",
+    }).should("exist")
+    cy.findByRole("link", {
+      name: "Test Vokabular 2",
+    }).should("exist")
+    cy.findByRole("link", {
+      name: "Test Vokabular in zwei Dateien",
     }).should("exist")
 
     // switch language
