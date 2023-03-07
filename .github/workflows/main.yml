@@ -107,11 +107,10 @@ jobs:
 
       - name: Test docker image
         run: |
-          mkdir -p public
           mkdir -p data
           cp .env.example .env
           cp test/data/ttl/interactivityType.ttl data/
-          docker run --rm -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env ${{ env.TEST_TAG }}
+          docker run --rm -v $(pwd)/data:/app/data -v $(pwd)/.env:/app/.env ${{ env.TEST_TAG }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
