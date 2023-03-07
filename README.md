@@ -2,7 +2,7 @@
 
 # Static site generator for Simple Knowledge Management Systems (SKOS)
 
-This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. It consists of two parts: the actual static site generator and a webhook server that allows to trigger a build from GitHub. For usage & implementation details see the [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
+This part of the [SkoHub](http://skohub.io) project covers the need to easily publish a controlled vocabulary as a SKOS file, with a basic lookup API and a nice HTML view. You can also make use of a webhook server that will trigger builds of your vocabulary from GitHub or GitLab. For usage & implementation details see [SkoHub Webhook](https://github.com/skohub-io/skohub-webhook) and this [blog post](https://blog.lobid.org/2019/09/27/presenting-skohub-vocabs.html).
 
 ## Supported URIs
 
@@ -46,12 +46,6 @@ nvm use 18
     $ cp .env.example .env
     $ cp demo/systematik.ttl data/
 
-The `.env` file contains configuration details used by the static site generator and the webhook server (like `PORT`, see below).
-
-After changes to your `.env` or `data/*` files, make sure to delete the `.cache` directory:
-
-    $ rm -rf .cache
-
 ## Run the static site generator
 
 The static site generator will parse all turtle files in `./data` and build the vocabularies it finds:
@@ -68,7 +62,12 @@ The build can then be found in the `public/` folder.
 Since docker creates the content of this folder it will have root permissions.
 So in order to delete the content you might have to use `sudo rm public`
 
-Use this command to build your pages with docker:
+Before running docker make sure there is the `.env` file and some data to process:
+
+    $ cp .env.example .env
+    $ cp demo/systematik.ttl data/
+
+The use this command to build your pages with docker:
 
 ```bash
 docker run \
@@ -105,9 +104,10 @@ skohub/skohub-vocabs-docker:latest
 
 ## Serve from other location than root (`/`)
 
-If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable in `.env`.
-If you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
-To fix this set `BASEURL=public` in your `.env` file.
+If you want to serve your sites from another location than root, you can make use of the `BASEURL`-variable.
+E.g. if you are using a VS Code plugin like [Vscode Live Server](https://github.com/ritwickdey/vscode-live-server-plus-plus) or `python -m http.server` to preview the built pages, you might get errors when clicking links, because the files are in the `public/` folder.
+You can either `cp .env.example .env` and then set your `BASEURL` in `.env`: `BASEURL=public`
+Or you can prefix the build command: `BASEURL=public npm run build`.
 
 ## Configuration
 
@@ -147,7 +147,7 @@ The Title is mandatory and SkoHub Vocabs will throw an error if it is left empty
 
 #### Changing the Logo
 
-The logo is served from `static/images`.
+The logo is served from `static/img`.
 To use another logo, put it in there and update the name of the file in the config.
 
 The new logo doesn't scale correctly? 
@@ -187,22 +187,6 @@ After that you have to adjust the config with the appropriate settings for `font
 
 You need to provide all settings for `regular` as well as `bold`.
 Otherwise SkoHub Vocabs will use the default fonts.
-
-## Running the webhook server
-
-The webhook server allows to trigger a build when vocabularies are updated (i.e. changes are merged into the `main` branch) on GitHub.
-
-Running `npm run listen` will start the server on the defined `PORT` and expose a `build` endpoint. In order to wire this up with GitHub, this has to be available to the public. You can then configure the webhook in your GitHub repositories settings:
-
-![image](https://user-images.githubusercontent.com/149825/62695510-c756b880-b9d6-11e9-86a9-0c4dcd6bc2cd.png)
-
-## Connecting to our webhook server
-
-Feel free to clone https://github.com/literarymachine/skos.git to poke around. Go to https://github.com/YOUR_GITHUB_USER/skos/settings/hooks/new to set up the web hook (get in touch to receive the secret). Edit https://github.com/YOUR_GITHUB_USER/skos/edit/master/hochschulfaecher.ttl and commit the changes to master. This will trigger a build and expose it at https://test.skohub.io/YOUR_GITHUB_USER/skos/w3id.org/class/hochschulfaecher/scheme.
-
-## Use start scripts and monit
-
-You may want to use the start scripts in `scripts/` to manage via init and to monitor with `monit`.
 
 ## Troubleshooting
 

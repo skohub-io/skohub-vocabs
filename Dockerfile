@@ -1,17 +1,22 @@
-FROM node:18.12-alpine 
+FROM node:18.13.0-buster-slim
+
+ENV NODE_ENV production
 
 WORKDIR /app
 
-COPY ./package.json .
+RUN chown -R node:node /app
 
-COPY ./package-lock.json .
+COPY --chown=node:node .env.example .env
+COPY --chown=node:node . .
 
-COPY ./.npmrc .
+USER node
 
-RUN npm install -f
+# don't run prepare step with husky
+RUN npm pkg delete scripts.prepare
 
-COPY . .
+RUN npm i --only=production
 
-COPY .env.example .env
+# disable notifier warning
+RUN npm config set update-notifier false
 
 CMD ["npm", "run", "container-build"]

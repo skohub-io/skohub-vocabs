@@ -7,7 +7,6 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@gatsbyjs/reach-router": "^2.0.0",
-    "colors": "^1.4.0",
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.0.3",
     "flexsearch": "^0.6.32",
@@ -22,20 +21,15 @@
     "graceful-fs": "^4.2.8",
     "js-yaml": "^4.1.0",
     "jsonld": "^5.2.0",
-    "koa": "^2.14.1",
-    "koa-bodyparser": "^4.3.0",
-    "koa-router": "^12.0.0",
     "lodash.escaperegexp": "^4.1.2",
     "markdown-to-jsx": "^7.1.8",
-    "mjn": "^0.2.6",
     "n3": "^1.16.3",
     "omit-empty": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-helmet": "^6.1.0",
-    "stream-browserify": "^3.0.0",
-    "uuid": "^9.0.0"
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
     "@testing-library/cypress": "^9.0.0",
@@ -54,10 +48,8 @@
     "jest": "^28.0.0",
     "jest-environment-jsdom": "^28.0.0",
     "lint-staged": "^13.1.0",
-    "nock": "^13.2.0",
     "prettier": "^2.8.1",
     "start-server-and-test": "^1.15.2",
-    "supertest": "^6.3.3",
     "whatwg-fetch": "^3.6.2"
   },
   "keywords": [
@@ -73,11 +65,10 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "lint:js": "eslint src --ext .jsx,.js --quiet",
-    "test": "jest",
+    "test": "jest --verbose --forceExit",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --verbose",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --verbose --coverage",
-    "listen": "node src/webHookServer.js",
     "prepare": "husky install",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
