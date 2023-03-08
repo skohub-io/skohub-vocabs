@@ -73,7 +73,7 @@ Provide the following information:
 
 We use, where possible and sensible, a test-driven approach.
 So please add tests or adjust tests if you are contributing code.
-In general we favour tests that test behaviour rather than implementation details.
+In general we favour tests that test behavior rather than implementation details.
 
 The overall code contribution process is:
 
@@ -167,8 +167,11 @@ Ideally, every person should only work on one issue at a time.
 That way the working column provides an overview of who is currently working on what.
 Issues are only moved into or out of the working column by the person who is assigned.
 Issues in working are only reassigned by the person who is currently assigned.
-If the assignee thinks the issue is ready for review they add instructions and links for testing the changed behavior in the issue, move it to the *Review* column, assigns the previously announced functional reviewer (see [Definition of Ready](#definition-of-ready)), and open an pull request for the feature branch.
-The assignee of the pull request is the original assignee of the issue.
+Such a reassignment may happen if the person responsible for working on the issue changes.
+If the assignee thinks the issue is ready for review they move it to the *Review* column, assign the previously announced functional reviewer (see [Definition of Ready](#definition-of-ready)), and open an pull request for the feature branch.
+They also add instructions and links in the PR for testing the changed behavior.
+The assignee of the pull request is the original assignee of the issue together with the functional reviewer.
+This makes sure that one person is always assigned on the PR and has a focus on the progress.
 For details, see the above section on [contributing code](#contributing-code).
 
 #### Review
@@ -178,8 +181,10 @@ There are two kinds of reviews: first, a functional review (which happens on the
 ##### Functional Review
 
 In functional review, the actual behavior of the bugfix or the new feature is reviewed.
-If the reviewer finds problems, these should be described by providing links, examples, or screenshots that show the behavior, and then reassigns the team member that assigned the issue for review, leaving the issue in the review column.
-If everything works as expected, the reviewer posts a +1 comment on the issue, removes their assignment and makes the suggested code reviewer both assignee and reviewer of the linked pull request.
+If the reviewer finds problems, these should be described by providing links, examples, or screenshots that show the behavior.
+After leaving those comments the reviewer removes their own assignment and lets the person responsible for the issue fix them.
+After that the reviewer might be reassigned for a new review.
+If everything works as expected, the reviewer posts a +1 comment on the issue, approves the PR, removes their assignment and adds the suggested code reviewer as assignee and reviewer of the linked pull request.
 
 ##### Code Review
 
