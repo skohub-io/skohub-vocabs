@@ -216,24 +216,3 @@ The *Definition of Done* describes a list of criteria which issues have to meet 
 * GitHub Actions / CI passed (contains tests)
 * Pull request is reviewed and approved
 * Functionality is merged into the `main` branch
-
-### Releasing SkoHub
-
-We use semantic versioning in release numbers `A`.`B`.`C`, i.e. increase `A` when it's a major release breaking backward compatibility; increase `B` when it got new features; increase `C` indicating bug-fixes.
-
-#### Build and publish to GitHub
-
-The following commands trigger a release build.
-
-1. Create a signed tag:
-   ```
-   git tag -s skohub-vocabs-A.B.C
-   ```
-1. When prompted, add a sensible commit message. For instance, something like:
-   ```
-   Publish first release of the SkoHub A line
-   ```
-1. Finally, push the new tag to GitHub to trigger the actual release build:
-   ```
-   git push --follow-tags skohub-vocabs-A.B.C
-   ```
