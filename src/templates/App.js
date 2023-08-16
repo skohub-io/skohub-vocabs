@@ -2,7 +2,7 @@
 import { jsx } from "@emotion/react"
 import { useEffect, useState } from "react"
 
-import FlexSearch from "flexsearch"
+import Index from "flexsearch/dist/module"
 import escapeRegExp from "lodash.escaperegexp"
 import { i18n, getFilePath } from "../common"
 import NestedList from "../components/nestedList"
@@ -22,7 +22,7 @@ const App = ({ pageContext, children }) => {
   const [conceptSchemeId, setConceptSchemeId] = useState(
     data?.currentScheme?.id
   )
-  const [index, setIndex] = useState(FlexSearch.create())
+  const [index, setIndex] = useState(new Index())
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(
     pageContext.node.type === "ConceptScheme" ? pageContext.node : null
@@ -37,6 +37,28 @@ const App = ({ pageContext, children }) => {
       }
     }
   }
+
+  const importIndex = async () => {
+    const idx = new Index()
+    const keys = ["cfg", "ctx", "map", "reg"]
+
+    for (let i = 0, key; i < keys.length; i += 1) {
+      key = keys[i]
+      const data = await fetch(
+        withPrefix(
+          getFilePath(
+            conceptSchemeId + `/search/${pageContext.language}/${key}`,
+            `json`
+          )
+        )
+      )
+      const jsonData = await data.json()
+      idx.import(key, jsonData ?? null)
+    }
+
+    setIndex(idx)
+  }
+
   // get concept scheme id from context
   useEffect(() => {
     if (data?.currentScheme?.id) {
@@ -46,24 +68,7 @@ const App = ({ pageContext, children }) => {
 
   // Fetch and load the serialized index
   useEffect(() => {
-    conceptSchemeId &&
-      fetch(
-        withPrefix(
-          getFilePath(conceptSchemeId, `${pageContext.language}.index`)
-        )
-      )
-        .then((response) => response.json())
-        .then((serialized) => {
-          const idx = FlexSearch.create()
-          // add custom matcher to match umlaute at beginning of string
-          idx.addMatcher({
-            "[Ää]": "a", // replaces all 'ä' to 'a'
-            "[Öö]": "o",
-            "[Üü]": "u",
-          })
-          idx.import(serialized)
-          setIndex(idx)
-        })
+    conceptSchemeId && importIndex()
   }, [conceptSchemeId, pageContext.language])
 
   // Fetch and load the tree
