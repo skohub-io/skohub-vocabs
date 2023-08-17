@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest"
 import React from "react"
 import * as Gatsby from "gatsby"
 import { render, screen, act } from "@testing-library/react"
@@ -10,22 +11,17 @@ import Layout from "../src/components/layout"
 import { mockConfig } from "./mocks/mockConfig"
 import { ContextProvider } from "../src/context/Context"
 
-const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
-const data = {}
+const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
+const languages = ["de", "en"]
 
 describe("Layout", () => {
-  beforeEach(() => {
-    useStaticQuery.mockImplementation(() => mockConfig)
-  })
-  afterEach(() => {
-    jest.restoreAllMocks()
-  })
+  useStaticQuery.mockImplementation(() => mockConfig)
   it("renders layout component", async () => {
     await act(() => {
       render(
         <ContextProvider>
           <LocationProvider history={createHistory(createMemorySource("/"))}>
-            <Layout data={data}>
+            <Layout languages={languages}>
               <div>Test Layout</div>
             </Layout>
           </LocationProvider>

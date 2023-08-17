@@ -237,7 +237,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       languages.forEach((language) =>
         createPage({
           path: getFilePath(collection.id, `${language}.html`),
-          component: path.resolve(`./src/components/Collection.js`),
+          component: path.resolve(`./src/components/Collection.jsx`),
           context: {
             language,
             node: collection,
@@ -303,7 +303,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             languagesOfCS.forEach((language) =>
               createPage({
                 path: getFilePath(concept.id, `${language}.html`),
-                component: path.resolve(`./src/components/Concept.js`),
+                component: path.resolve(`./src/components/Concept.jsx`),
                 context: {
                   language,
                   node: concept,
@@ -330,7 +330,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         languagesOfCS.forEach((language) =>
           createPage({
             path: getFilePath(conceptScheme.id, `${language}.html`),
-            component: path.resolve(`./src/components/ConceptScheme.js`),
+            component: path.resolve(`./src/components/ConceptScheme.jsx`),
             context: {
               language,
               node: conceptScheme,
@@ -362,7 +362,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   languages.forEach((language) =>
     createPage({
       path: `/index.${language}.html`,
-      component: path.resolve(`./src/components/index.js`),
+      component: path.resolve(`./src/components/index.jsx`),
       context: {
         language,
         conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(

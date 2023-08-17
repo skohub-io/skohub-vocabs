@@ -3,7 +3,6 @@ name: Build
 on: push
 
 env:
-  REGISTRY: 
   IMAGE_NAME: ${{ github.repository }}
   TEST_TAG: user/app:test
 

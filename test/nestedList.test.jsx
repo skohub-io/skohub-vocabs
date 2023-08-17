@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { render, screen } from "@testing-library/react"
 import React from "react"
 import NestedList from "../src/components/nestedList"
@@ -6,7 +7,7 @@ import userEvent from "@testing-library/user-event"
 import * as Gatsby from "gatsby"
 import { mockConfig } from "./mocks/mockConfig"
 
-const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
 describe("Nested List", () => {
   beforeEach(() => {
@@ -20,7 +21,7 @@ describe("Nested List", () => {
         filter={null}
         highlight={null}
         language={"de"}
-      />
+      ></NestedList>
     )
     expect(screen.getAllByRole("link").length).toBe(2)
   })

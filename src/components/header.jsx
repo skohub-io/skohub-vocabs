@@ -1,9 +1,9 @@
+import React, { useEffect, useState } from "react"
 import { css } from "@emotion/react"
 import { useLocation } from "@gatsbyjs/reach-router"
 import { Link, withPrefix } from "gatsby"
-import React, { useEffect, useState } from "react"
 import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
-import { useSkoHubContext } from "../context/Context"
+import { useSkoHubContext } from "../context/Context.jsx"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const Header = ({ siteTitle, languages, language }) => {

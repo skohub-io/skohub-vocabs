@@ -1,8 +1,5 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
-import { useEffect, useState } from "react"
-
-import Index from "flexsearch/dist/module"
+import React, { useEffect, useState } from "react"
+import Index from "flexsearch/dist/module/index.js"
 import escapeRegExp from "lodash.escaperegexp"
 import { i18n, getFilePath } from "../common"
 import NestedList from "../components/nestedList"
@@ -12,7 +9,7 @@ import SEO from "../components/seo"
 
 import { conceptStyle } from "../styles/concepts.css.js"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
-import { useSkoHubContext } from "../context/Context"
+import { useSkoHubContext } from "../context/Context.jsx"
 import { withPrefix } from "gatsby"
 
 const App = ({ pageContext, children }) => {
@@ -47,7 +44,9 @@ const App = ({ pageContext, children }) => {
       const data = await fetch(
         withPrefix(
           getFilePath(
-            conceptSchemeId + `/search/${pageContext.language}/${key}`,
+            (conceptSchemeId.endsWith("/")
+              ? conceptSchemeId.slice(0, -1)
+              : conceptSchemeId) + `/search/${pageContext.language}/${key}`,
             `json`
           )
         )

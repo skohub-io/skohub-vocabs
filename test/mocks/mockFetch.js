@@ -1,4 +1,5 @@
 import { indexDE } from "../data/flexsearchIndex"
+import { cfg, ctx, map, reg } from "../data/search"
 import {
   collection,
   ConceptScheme,
@@ -80,11 +81,32 @@ export default async function mockFetch(url) {
         json: async () => res,
       }
     }
-    case "/w3id.org/index.de.index": {
+    case "/w3id.org/search/de/cfg.json": {
       return {
         ok: true,
         status: 200,
-        json: async () => indexDE,
+        json: async () => cfg,
+      }
+    }
+    case "/w3id.org/search/de/ctx.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ctx,
+      }
+    }
+    case "/w3id.org/search/de/map.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => map,
+      }
+    }
+    case "/w3id.org/search/de/reg.json": {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => reg,
       }
     }
     case "/example.org/hashURIConceptScheme.json": {
