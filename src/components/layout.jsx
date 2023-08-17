@@ -4,7 +4,6 @@
  *
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
-
 import React from "react"
 import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
@@ -12,8 +11,8 @@ import { useStaticQuery, graphql, withPrefix } from "gatsby"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
-import Header from "./header"
-import Footer from "./footer"
+import Header from "./header.jsx"
+import Footer from "./footer.jsx"
 
 const Layout = ({ children, languages, language }) => {
   const { config } = getConfigAndConceptSchemes()

@@ -10,7 +10,7 @@ const { DataFactory } = n3
 const { namedNode } = DataFactory
 const path = require("path")
 const fs = require("fs-extra")
-const flexsearch = require("flexsearch")
+const { Index } = require("flexsearch")
 const omitEmpty = require("omit-empty")
 const { i18n, getFilePath, parseLanguages } = require("./src/common")
 const context = require("./src/context")
@@ -69,6 +69,30 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
     }
   })
   return arrayOfFiles
+}
+
+/**
+ * Exports an index and saves it
+ * @param {object} index
+ * @param {object} conceptScheme
+ * @param {string} language
+ *
+ **/
+const exportIndex = (index, conceptScheme, language) => {
+  index.export(function (key, data) {
+    const path = getFilePath(
+      conceptScheme.id + `/search/${language}/${key}`,
+      `json`
+    )
+    createData({
+      path,
+      data: data !== undefined ? data : "",
+    })
+    // fs.writeFileSync(
+    //   `${searchIndexPath}${key}.json`,
+    //   data !== undefined ? (data) : ""
+    // );
+  })
 }
 
 exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
@@ -213,7 +237,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       languages.forEach((language) =>
         createPage({
           path: getFilePath(collection.id, `${language}.html`),
-          component: path.resolve(`./src/components/Collection.js`),
+          component: path.resolve(`./src/components/Collection.jsx`),
           context: {
             language,
             node: collection,
@@ -248,13 +272,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         const languagesOfCS = languagesByCS[conceptScheme.id]
         const indexes = Object.fromEntries(
           [...languagesOfCS].map((l) => {
-            const index = flexsearch.create({
+            const index = new Index({
               tokenize: tokenizer,
-            })
-            index.addMatcher({
-              "[Ää]": "a", // replaces all 'ä' to 'a'
-              "[Öö]": "o",
-              "[Üü]": "u",
+              charset: "latin",
             })
             return [l, index]
           })
@@ -283,7 +303,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             languagesOfCS.forEach((language) =>
               createPage({
                 path: getFilePath(concept.id, `${language}.html`),
-                component: path.resolve(`./src/components/Concept.js`),
+                component: path.resolve(`./src/components/Concept.jsx`),
                 context: {
                   language,
                   node: concept,
@@ -307,14 +327,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           )
         })
 
-        languagesOfCS.forEach((l) => {
-          console.log(`Built index for language "${l}"`, indexes[l].info())
-        })
-
         languagesOfCS.forEach((language) =>
           createPage({
             path: getFilePath(conceptScheme.id, `${language}.html`),
-            component: path.resolve(`./src/components/ConceptScheme.js`),
+            component: path.resolve(`./src/components/ConceptScheme.jsx`),
             context: {
               language,
               node: conceptScheme,
@@ -336,10 +352,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         })
         // create index files
         languagesOfCS.forEach((language) =>
-          createData({
-            path: getFilePath(conceptScheme.id, `${language}.index`),
-            data: JSON.stringify(indexes[language].export(), null, 2),
-          })
+          exportIndex(indexes[language], conceptScheme, language)
         )
       }
     )
@@ -349,7 +362,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   languages.forEach((language) =>
     createPage({
       path: `/index.${language}.html`,
-      component: path.resolve(`./src/components/index.js`),
+      component: path.resolve(`./src/components/index.jsx`),
       context: {
         language,
         conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(

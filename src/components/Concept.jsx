@@ -1,8 +1,6 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
 import Markdown from "markdown-to-jsx"
 import { Link } from "gatsby"
-import JsonLink from "./JsonLink"
+import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
 import { i18n, getDomId, getFilePath } from "../common"
 

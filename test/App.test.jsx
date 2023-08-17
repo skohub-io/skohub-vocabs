@@ -1,7 +1,8 @@
+import { describe, expect, it, vi } from "vitest"
 import React from "react"
 import * as Gatsby from "gatsby"
 import { render, screen, act } from "@testing-library/react"
-import App from "../src/templates/App"
+import App from "../src/templates/App.jsx"
 import {
   createHistory,
   createMemorySource,
@@ -13,7 +14,13 @@ import { mockConfig } from "./mocks/mockConfig"
 import userEvent from "@testing-library/user-event"
 import { ContextProvider } from "../src/context/Context"
 
-const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+vi.mock("flexsearch/dist/module/index.js", async () => {
+  const { Index } = await vi.importActual("flexsearch")
+  return {
+    default: Index,
+  }
+})
+const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
 function renderApp(history, pageContext, children = null) {
   return render(
@@ -26,13 +33,8 @@ function renderApp(history, pageContext, children = null) {
 }
 
 describe("App", () => {
-  beforeEach(() => {
-    jest.spyOn(window, "fetch").mockImplementation(mockFetch)
-    useStaticQuery.mockImplementation(() => mockConfig)
-  })
-  afterEach(() => {
-    jest.restoreAllMocks()
-  })
+  vi.spyOn(window, "fetch").mockImplementation(mockFetch)
+  useStaticQuery.mockImplementation(() => mockConfig)
 
   it("renders App component with expand and collapse button", async () => {
     const route = "/w3id.org/index.de.html"
