@@ -220,7 +220,7 @@ So if your commit errors, make sure to check the output and fix accordingly.
 We use unit, integration and E2E tests, but don't distinguish too hard between unit and integration tests, since the distinction between these are a bit blurry in component development (see [React Testing Overview](https://reactjs.org/docs/testing.html)).
 In general a behaviour driven development is favoured and for every new feature an appropriate test should be added.
 The unit and integration tests can be found in the `test` folder.
-We use [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing.
+We use [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing.
 
 To run these tests use `npm run test` or `npm run test:coverage` to see coverage reports.
 

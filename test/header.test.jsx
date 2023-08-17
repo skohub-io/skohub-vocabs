@@ -1,27 +1,19 @@
+import { describe, expect, it, vi } from "vitest"
 import React from "react"
-import { render, screen, act } from "@testing-library/react"
 import * as Gatsby from "gatsby"
-import Header from "../src/components/header"
+import { render, screen, act } from "@testing-library/react"
+import Header from "../src/components/header.jsx"
 import mockFetch from "./mocks/mockFetch"
-import { mockConfig } from "./mocks/mockConfig"
+import { mockConfig } from "./mocks/mockConfig.js"
 
 import {
   createHistory,
   createMemorySource,
   LocationProvider,
 } from "@gatsbyjs/reach-router"
-import { ContextProvider } from "../src/context/Context"
+import { ContextProvider } from "../src/context/Context.jsx"
 
-const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
-
-beforeEach(() => {
-  jest.spyOn(window, "fetch").mockImplementation(mockFetch)
-  useStaticQuery.mockImplementation(() => mockConfig)
-})
-
-afterEach(() => {
-  jest.restoreAllMocks()
-})
+const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
 function renderHeader(history, siteTitle, languages, language) {
   return render(
@@ -31,13 +23,16 @@ function renderHeader(history, siteTitle, languages, language) {
           siteTitle={siteTitle}
           languages={languages}
           language={language}
-        />
+        ></Header>
       </LocationProvider>
     </ContextProvider>
   )
 }
 
 describe("Header", () => {
+  vi.spyOn(window, "fetch").mockImplementation(mockFetch)
+  useStaticQuery.mockImplementation(() => mockConfig)
+
   const siteTitle = "Test Title"
 
   it("renders header component without language tags", async () => {
@@ -98,6 +93,7 @@ describe("Header", () => {
   it("renders header component with multiple language tags (hash URIs)", async () => {
     // setting three languages here, but we only have two in the cs
     // so test should return only two
+
     const languages = ["de", "en", "uk"]
     const language = "de"
     const route = "/example.org/hashURIConceptScheme.de.html"

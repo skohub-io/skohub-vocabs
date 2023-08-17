@@ -13,5 +13,4 @@ test/
 eslint*
 .prettier*
 cypress.config.js
-jest*
 config.yaml

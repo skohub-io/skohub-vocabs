@@ -1,6 +1,5 @@
-/** @jsx jsx */
 import React from "react"
-import { css, jsx } from "@emotion/react"
+import { css } from "@emotion/react"
 import { i18n, getFilePath, getFragment } from "../common"
 import { Link as GatsbyLink } from "gatsby"
 

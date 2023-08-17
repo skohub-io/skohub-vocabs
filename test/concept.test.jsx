@@ -1,32 +1,29 @@
+import { describe, expect, it, vi } from "vitest"
 import { render, screen, within } from "@testing-library/react"
 import * as Gatsby from "gatsby"
 
 import React from "react"
-import Concept from "../src/components/Concept"
+import Concept from "../src/components/Concept.jsx"
 import { ConceptPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
 
-const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`)
+const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
-beforeEach(() => {
-  jest.spyOn(window, "fetch").mockImplementation(mockFetch)
+describe.concurrent("Concept", () => {
+  vi.spyOn(window, "fetch").mockImplementation(mockFetch)
   useStaticQuery.mockImplementation(() => mockConfig)
-})
 
-afterEach(() => {
-  jest.restoreAllMocks()
-})
-
-describe("Concept", () => {
   it("renders concept component", () => {
-    render(<Concept pageContext={ConceptPC} />)
+    render(<Concept pageContext={ConceptPC}></Concept>)
     expect(
       screen.getByRole("heading", { name: /Konzept 1/i })
     ).toBeInTheDocument()
   })
 
   it("shows no preflabel in h1 if no pref label is provided in language", () => {
+    vi.spyOn(window, "fetch").mockImplementation(mockFetch)
+    useStaticQuery.mockImplementation(() => mockConfig)
     const pageContextNoPrefLabel = {
       ...ConceptPC,
       node: {
@@ -41,6 +38,9 @@ describe("Concept", () => {
   })
 
   it("renders definition", () => {
+    vi.spyOn(window, "fetch").mockImplementation(mockFetch)
+    useStaticQuery.mockImplementation(() => mockConfig)
+
     render(<Concept pageContext={ConceptPC} />)
     expect(
       screen.getByRole("heading", { name: "Definition" })

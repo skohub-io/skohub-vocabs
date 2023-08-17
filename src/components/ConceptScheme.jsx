@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
 import Markdown from "markdown-to-jsx"
 
 import Concept from "./Concept"

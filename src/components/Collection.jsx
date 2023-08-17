@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
 import { Link } from "gatsby"
 import { i18n, getFilePath } from "../common"
 import JsonLink from "./JsonLink"
