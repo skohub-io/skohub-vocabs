@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Index from "flexsearch/dist/module/index.js"
+import Document from "flexsearch/dist/module/document.js"
 import escapeRegExp from "lodash.escaperegexp"
 import { i18n, getFilePath } from "../common"
 import NestedList from "../components/nestedList"
@@ -19,7 +19,7 @@ const App = ({ pageContext, children }) => {
   const [conceptSchemeId, setConceptSchemeId] = useState(
     data?.currentScheme?.id
   )
-  const [index, setIndex] = useState(new Index())
+  const [index, setIndex] = useState({})
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(
     pageContext.node.type === "ConceptScheme" ? pageContext.node : null
@@ -36,9 +36,30 @@ const App = ({ pageContext, children }) => {
   }
 
   const importIndex = async () => {
-    const idx = new Index()
-    const keys = ["cfg", "ctx", "map", "reg"]
-
+    /** FIXME the document options need to be imported from somewhere
+      * maybe store them in a separate file and create it in gatsby-node.js ? 
+      * maybe along with all the necessary keys
+      **/
+    const idx = new Document({
+      tokenize: "full",
+      charset: "latin",
+      id: "id",
+      index: [
+        "prefLabel",
+        "altLabel"
+      ]
+    })
+    const keys = [
+      "altLabel.cfg",
+      "altLabel.ctx",
+      "altLabel.map",
+      // "altLabel.store",
+      "prefLabel.cfg",
+      "prefLabel.ctx",
+      "prefLabel.map",
+      "reg"
+    ]
+    console.log(conceptSchemeId)
     for (let i = 0, key; i < keys.length; i += 1) {
       key = keys[i]
       const data = await fetch(
@@ -56,6 +77,8 @@ const App = ({ pageContext, children }) => {
     }
 
     setIndex(idx)
+    console.log(idx.search("Konzept"))
+    console.log(idx.search("Alternativ"))
   }
 
   // get concept scheme id from context

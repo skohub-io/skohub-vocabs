@@ -25,6 +25,9 @@ const getNestedItems = (item) => {
  */
 
 const NestedList = ({ items, current, filter, highlight, language }) => {
+  console.log(filter && filter.length && filter.map(f => f.result))
+  // TODO put this in App.jsx and pass here just the ids as before
+  const filteredIds = filter && filter.length && filter.map(f => f.result)[0]
   const { config } = getConfigAndConceptSchemes()
   const style = css`
     list-style-type: none;
@@ -115,11 +118,12 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
   `
   const filteredItems = filter
     ? items.filter(
-        (item) =>
-          !filter ||
-          filter.some((filter) => getNestedItems(item).includes(filter))
-      )
+      (item) =>
+        !filter ||
+        filteredIds.some((filter) => getNestedItems(item).includes(filter))
+    )
     : items
+  console.log(filteredItems)
   const t = i18n(language)
 
   const isExpanded = (item, truthy, falsy) => {
@@ -142,9 +146,9 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
             dangerouslySetInnerHTML={{
               __html: highlight
                 ? t(item.prefLabel).replace(
-                    highlight,
-                    (str) => `<strong>${str}</strong>`
-                  )
+                  highlight,
+                  (str) => `<strong>${str}</strong>`
+                )
                 : t(item.prefLabel),
             }}
           />
