@@ -6,6 +6,7 @@ import NestedList from "../components/nestedList"
 import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import LabelFilter from "../components/LabelFilter"
 
 import { conceptStyle } from "../styles/concepts.css.js"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
@@ -21,10 +22,17 @@ const App = ({ pageContext, children }) => {
   )
   const [index, setIndex] = useState({})
   const [query, setQuery] = useState(null)
+  console.log(query)
   const [tree, setTree] = useState(
     pageContext.node.type === "ConceptScheme" ? pageContext.node : null
   )
   let showTreeControls = false
+
+  const [labels, setLabels] = useState({
+    "notation": false,
+    "prefLabel": true,
+    "altLabel": false
+  })
 
   if (!showTreeControls && tree && tree.hasTopConcept) {
     for (const topConcept of tree.hasTopConcept) {
@@ -49,36 +57,39 @@ const App = ({ pageContext, children }) => {
         "altLabel"
       ]
     })
-    const keys = [
-      "altLabel.cfg",
-      "altLabel.ctx",
-      "altLabel.map",
-      // "altLabel.store",
-      "prefLabel.cfg",
-      "prefLabel.ctx",
-      "prefLabel.map",
-      "reg"
-    ]
-    console.log(conceptSchemeId)
+    // filter from labels object the selected entries
+    // and append the needed keys
+    // add reg, which is not specific to a key
+    const keys = Object.entries(labels)
+      .filter(label => label[1] === true)
+      .flatMap(label => ([
+        `${label[0]}.cfg`,
+        `${label[0]}.ctx`,
+        `${label[0]}.map`,
+      ]))
+      .concat("reg")
     for (let i = 0, key; i < keys.length; i += 1) {
       key = keys[i]
-      const data = await fetch(
-        withPrefix(
-          getFilePath(
-            (conceptSchemeId.endsWith("/")
-              ? conceptSchemeId.slice(0, -1)
-              : conceptSchemeId) + `/search/${pageContext.language}/${key}`,
-            `json`
+      let data;
+      try {
+        data = await fetch(
+          withPrefix(
+            getFilePath(
+              (conceptSchemeId.endsWith("/")
+                ? conceptSchemeId.slice(0, -1)
+                : conceptSchemeId) + `/search/${pageContext.language}/${key}`,
+              `json`
+            )
           )
         )
-      )
-      const jsonData = await data.json()
-      idx.import(key, jsonData ?? null)
+        const jsonData = await data.json()
+        idx.import(key, jsonData ?? null)
+      }
+      catch (e) {
+        console.log(e)
+      }
     }
-
     setIndex(idx)
-    console.log(idx.search("Konzept"))
-    console.log(idx.search("Alternativ"))
   }
 
   // get concept scheme id from context
@@ -91,7 +102,7 @@ const App = ({ pageContext, children }) => {
   // Fetch and load the serialized index
   useEffect(() => {
     conceptSchemeId && importIndex()
-  }, [conceptSchemeId, pageContext.language])
+  }, [conceptSchemeId, pageContext.language, labels])
 
   // Fetch and load the tree
   useEffect(() => {
@@ -114,6 +125,7 @@ const App = ({ pageContext, children }) => {
       })
   })
 
+  const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
   return (
     <Layout languages={pageContext.languages} language={pageContext.language}>
       <SEO
@@ -136,15 +148,18 @@ const App = ({ pageContext, children }) => {
             placeholder="Search"
             autoFocus
           />
+          {/* filter languages to search */}
+          <LabelFilter labels={labels} toggleClick={(e) => toggleClick(e)} />
           {showTreeControls && <TreeControls />}
           <div className="concepts">
             {tree && (
               <NestedList
                 items={tree.hasTopConcept}
                 current={pageContext.node.id}
-                filter={query ? index.search(query) : null}
+                queryFilter={query ? index.search(query) : null}
                 highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
                 language={pageContext.language}
+                topLevel={true}
               />
             )}
           </div>

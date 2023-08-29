@@ -53,10 +53,10 @@ const getDomId = (url) => {
 
 /**
  * Parses languages from a json ld graph (Concept or Concept Scheme)
- * @param {array} json
+ * @param {array} graph
  * @returns {array} languages - found languages
  */
-const parseLanguages = (json) => {
+const parseLanguages = (graph) => {
   const languages = new Set()
   const parse = (arrayOfObj) => {
     for (let obj of arrayOfObj) {
@@ -80,7 +80,7 @@ const parseLanguages = (json) => {
       obj?.narrower && parse(obj.narrower)
     }
   }
-  parse(json)
+  parse(graph)
   return languages
 }
 

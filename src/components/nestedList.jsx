@@ -16,18 +16,17 @@ const getNestedItems = (item) => {
 }
 
 /**
- * @param {array} items list of concepts
- * @param {string} current current concept id
- * @param {[string]|null} filter
+ * Building the tree view for the vocabs
+ * @param {Array} items - list of concepts
+ * @param {string} current - current concept id
+ * @param {Object|null} queryFilter
+ * @param {string} queryFilter.field
+ * @param {Array} queryFilter.result
  * @param {RegExp|null} highlight
  * @param {string} language
  * @returns
  */
-
-const NestedList = ({ items, current, filter, highlight, language }) => {
-  console.log(filter && filter.length && filter.map(f => f.result))
-  // TODO put this in App.jsx and pass here just the ids as before
-  const filteredIds = filter && filter.length && filter.map(f => f.result)[0]
+const NestedList = ({ items, current, queryFilter, highlight, language, topLevel = false }) => {
   const { config } = getConfigAndConceptSchemes()
   const style = css`
     list-style-type: none;
@@ -116,18 +115,33 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
       }
     }
   `
-  const filteredItems = filter
-    ? items.filter(
-      (item) =>
-        !filter ||
-        filteredIds.some((filter) => getNestedItems(item).includes(filter))
-    )
-    : items
+  console.log("highlight", highlight)
+  console.log("filter", queryFilter)
+  const filteredIds = queryFilter && queryFilter.length ? queryFilter.flatMap(f => f.result) : []
+  console.log("filteredIds", filteredIds)
+  console.log("items", items)
+
+  const getFilteredItems = () => {
+    if (!queryFilter) {
+      console.log("all items")
+      return items
+    } else if (filteredIds.length) {
+      return items.filter(
+        (item) =>
+          !queryFilter ||
+          filteredIds.some((filter) => getNestedItems(item).includes(filter))
+      )
+    } else {
+      return []
+    }
+  }
+
+  const filteredItems = getFilteredItems()
   console.log(filteredItems)
   const t = i18n(language)
 
   const isExpanded = (item, truthy, falsy) => {
-    return filter || getNestedItems(item).some((id) => id === current)
+    return queryFilter || getNestedItems(item).some((id) => id === current)
       ? truthy
       : falsy
   }
@@ -173,6 +187,10 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
     return Link
   }
 
+  // only return nothing found for topLevel nestedList
+  if (!filteredItems.length && topLevel)
+    return (<p>Nothing found!</p>)
+
   return (
     <ul css={style}>
       {(filteredItems || []).map((item) => (
@@ -200,7 +218,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
               <NestedList
                 items={item.narrower}
                 current={current}
-                filter={filter}
+                queryFilter={queryFilter}
                 highlight={highlight}
                 language={language}
               />
