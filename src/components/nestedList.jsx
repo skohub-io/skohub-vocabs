@@ -191,23 +191,31 @@ const NestedList = ({
 
       const matchHint = () => {
         const hints = []
-        matchingLabels.forEach((labelAttribute) => {
-          if (Array.isArray(item[labelAttribute][language])) {
-            item[labelAttribute][language].forEach((label) =>
-              hints.push(
-                `${capitalize(labelAttribute)}: ${handleHighlight(
-                  label,
-                  highlight
-                )}`
-              )
-            )
-          } else {
+        const testLabelAndPush = (label, labelAttribute) => {
+          if (highlight.test(label)) {
             hints.push(
               `${capitalize(labelAttribute)}: ${handleHighlight(
-                item[labelAttribute].toString(),
+                label,
                 highlight
               )}`
             )
+          }
+        }
+
+        matchingLabels.forEach((labelAttribute) => {
+          // for attributes that are languageMapsArrays, e.g. skos:altLabel
+          if (Array.isArray(item[labelAttribute][language])) {
+            item[labelAttribute][language].forEach((label) =>
+              testLabelAndPush(label, labelAttribute)
+            )
+            // for attributes that are arrays, e.g. skos:notation
+          } else if (Array.isArray(item[labelAttribute])) {
+            item[labelAttribute].forEach((label) =>
+              testLabelAndPush(label, labelAttribute)
+            )
+            // for attributes that are LanguageMaps, e.g. skos:definition
+          } else {
+            testLabelAndPush(item[labelAttribute][language], labelAttribute)
           }
         })
         return hints

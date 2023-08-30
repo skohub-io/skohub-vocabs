@@ -276,11 +276,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
                 id: "id",
                 // store: ["prefLabel", "altLabel"], /*  not working when importing, bug in flexsearch */
                 index: [
+                  "notation",
                   "prefLabel",
                   "altLabel",
-                  "notation",
                   "hiddenLabel",
                   "definition",
+                  "example",
                 ],
               },
             })
@@ -346,6 +347,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               ...(concept.definition &&
                 Object.hasOwn(concept.definition, language) && {
                   definition: i18n(language)(concept.definition),
+                }),
+              ...(concept.example &&
+                Object.hasOwn(concept.example, language) && {
+                  example: i18n(language)(concept.example),
                 }),
               notation: concept.notation,
             }

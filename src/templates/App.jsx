@@ -58,11 +58,12 @@ const App = ({ pageContext, children }) => {
         id: "id",
         // store: ["prefLabel", "altLabel"], /* not working flexsearchside  */
         index: [
+          "notation",
           "prefLabel",
           "altLabel",
-          "notation",
           "hiddenLabel",
           "definition",
+          "example",
         ],
       },
     })

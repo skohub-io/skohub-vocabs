@@ -2,7 +2,12 @@
 # see https://github.com/nextapps-de/flexsearch/tree/0.6.32#tokenizer for options
 tokenizer: "full" # strict, forward, reverse, full
 searchableAttributes:
-  - "prefLabel"
+  - "prefLabel" # you should not delete this one
+  - "notation"
+  - "altLabel"
+  - "hiddenLabel"
+  - "example"
+  - "definition"
 ui:
   title: "SkoHub Vocabs" # Title is mandatory
   logo: "skohub-signet-color.svg" # Path
