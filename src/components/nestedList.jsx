@@ -22,11 +22,18 @@ const getNestedItems = (item) => {
  * @param {Object|null} queryFilter
  * @param {string} queryFilter.field
  * @param {Array} queryFilter.result
- * @param {RegExp|null} highlight
+ * @param {RegExp|null} highlight - RegExp of the search term
  * @param {string} language
  * @returns
  */
-const NestedList = ({ items, current, queryFilter, highlight, language, topLevel = false }) => {
+const NestedList = ({
+  items,
+  current,
+  queryFilter,
+  highlight,
+  language,
+  topLevel = false,
+}) => {
   const { config } = getConfigAndConceptSchemes()
   const style = css`
     list-style-type: none;
@@ -115,15 +122,13 @@ const NestedList = ({ items, current, queryFilter, highlight, language, topLevel
       }
     }
   `
-  console.log("highlight", highlight)
-  console.log("filter", queryFilter)
-  const filteredIds = queryFilter && queryFilter.length ? queryFilter.flatMap(f => f.result) : []
-  console.log("filteredIds", filteredIds)
-  console.log("items", items)
+  const filteredIds =
+    queryFilter && queryFilter.length
+      ? queryFilter.flatMap((f) => f.result)
+      : []
 
   const getFilteredItems = () => {
     if (!queryFilter) {
-      console.log("all items")
       return items
     } else if (filteredIds.length) {
       return items.filter(
@@ -137,7 +142,6 @@ const NestedList = ({ items, current, queryFilter, highlight, language, topLevel
   }
 
   const filteredItems = getFilteredItems()
-  console.log(filteredItems)
   const t = i18n(language)
 
   const isExpanded = (item, truthy, falsy) => {
@@ -146,31 +150,105 @@ const NestedList = ({ items, current, queryFilter, highlight, language, topLevel
       : falsy
   }
 
+  function associateLabelsByIds(queryFilter) {
+    const labelsByIds = {}
+
+    queryFilter &&
+      queryFilter.forEach((item) => {
+        item.result.forEach((id) => {
+          if (!labelsByIds[id]) {
+            labelsByIds[id] = []
+          }
+          if (item.field !== "prefLabel") labelsByIds[id].push(item.field)
+        })
+      })
+    return labelsByIds
+  }
+  const labelsByIds = associateLabelsByIds(queryFilter)
+
+  const capitalize = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1)
+  }
+
   const renderItemLink = (item) => {
     // checks if current item is a hash-uri */
     // Gatsby Link Component can't handle hash URIs so we use an anchor-tag instead
     const LinkTag = getFragment(item.id) ? "a" : GatsbyLink
-    const children = (
-      <>
-        {item.notation && (
-          <span className="notation">{item.notation.join(",")}&nbsp;</span>
-        )}
-        {t(item.prefLabel) ? (
-          <span
-            dangerouslySetInnerHTML={{
-              __html: highlight
-                ? t(item.prefLabel).replace(
-                  highlight,
-                  (str) => `<strong>${str}</strong>`
-                )
-                : t(item.prefLabel),
-            }}
-          />
+
+    const notation = item.notation && (
+      <span className="notation">{item.notation.join(",")}&nbsp;</span>
+    )
+    const renderPrefLabel = () => {
+      // Function for handling highlighting
+      function handleHighlight(text, highlight) {
+        if (highlight) {
+          return text.replace(highlight, (str) => `<strong>${str}</strong>`)
+        } else {
+          return text
+        }
+      }
+      const matchingLabels = labelsByIds[item.id]
+
+      const matchHint = () => {
+        const hints = []
+        matchingLabels.forEach((labelAttribute) => {
+          if (Array.isArray(item[labelAttribute][language])) {
+            item[labelAttribute][language].forEach((label) =>
+              hints.push(
+                `${capitalize(labelAttribute)}: ${handleHighlight(
+                  label,
+                  highlight
+                )}`
+              )
+            )
+          } else {
+            hints.push(
+              `${capitalize(labelAttribute)}: ${handleHighlight(
+                item[labelAttribute].toString(),
+                highlight
+              )}`
+            )
+          }
+        })
+        return hints
+      }
+      matchingLabels && matchHint()
+      // Function for rendering HTML
+      function renderHtml(text) {
+        // add info about other matching labels
+        // if its not the prefLabel that matches
+        return matchingLabels?.length ? (
+          <>
+            <span dangerouslySetInnerHTML={{ __html: text }} />
+            <span> (</span>
+            <span
+              dangerouslySetInnerHTML={{ __html: matchHint().join(", ") }}
+            />
+            <span> )</span>
+          </>
         ) : (
+          <>
+            <span dangerouslySetInnerHTML={{ __html: text }} />
+          </>
+        )
+      }
+
+      // give a warning if no prefLabel in selected language is provided
+      if (!t(item.prefLabel)) {
+        return (
           <i style={{ color: "red" }}>
             No label for language "{language}" provided
           </i>
-        )}
+        )
+      } else {
+        const htmlText = handleHighlight(t(item.prefLabel), highlight)
+        return renderHtml(htmlText)
+      }
+    }
+    const children = (
+      <>
+        {notation}
+        {renderPrefLabel()}
       </>
     )
     const Link = React.createElement(
@@ -188,8 +266,7 @@ const NestedList = ({ items, current, queryFilter, highlight, language, topLevel
   }
 
   // only return nothing found for topLevel nestedList
-  if (!filteredItems.length && topLevel)
-    return (<p>Nothing found!</p>)
+  if (!filteredItems.length && topLevel) return <p>Nothing found!</p>
 
   return (
     <ul css={style}>

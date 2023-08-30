@@ -56,11 +56,11 @@ jsonld.registerRDFParser("text/turtle", (ttlString) => {
 const createData = ({ path, data }) =>
   fs.outputFile(`public${path}`, data, (err) => err && console.error(err))
 
-const getTurtleFiles = function(dirPath, arrayOfFiles) {
+const getTurtleFiles = function (dirPath, arrayOfFiles) {
   const files = fs.readdirSync(dirPath)
   arrayOfFiles = arrayOfFiles || []
 
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     if (fs.statSync(dirPath + "/" + file).isDirectory()) {
       arrayOfFiles = getTurtleFiles(dirPath + "/" + file, arrayOfFiles)
     } else {
@@ -79,7 +79,7 @@ const getTurtleFiles = function(dirPath, arrayOfFiles) {
  *
  **/
 const exportIndex = (index, conceptScheme, language) => {
-  index.export(function(key, data) {
+  index.export(function (key, data) {
     const path = getFilePath(
       conceptScheme.id + `/search/${language}/${key}`,
       `json`
@@ -88,10 +88,6 @@ const exportIndex = (index, conceptScheme, language) => {
       path,
       data: data !== undefined ? data : "",
     })
-    // fs.writeFileSync(
-    //   `${searchIndexPath}${key}.json`,
-    //   data !== undefined ? (data) : ""
-    // );
   })
 }
 
@@ -138,10 +134,10 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
       } = graph
       const type = Array.isArray(properties.type)
         ? properties.type.find((t) => [
-          "Concept",
-          "ConceptScheme",
-          "Collection",
-        ])
+            "Concept",
+            "ConceptScheme",
+            "Collection",
+          ])
         : properties.type
 
       const inSchemeNodes = [...(inScheme || []), ...(topConceptOf || [])]
@@ -276,10 +272,17 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               tokenize: tokenizer,
               charset: "latin",
               id: "id",
-              index: [
-                "prefLabel",
-                "altLabel"
-              ]
+              document: {
+                id: "id",
+                // store: ["prefLabel", "altLabel"], /*  not working when importing, bug in flexsearch */
+                index: [
+                  "prefLabel",
+                  "altLabel",
+                  "notation",
+                  "hiddenLabel",
+                  "definition",
+                ],
+              },
             })
             return [l, index]
           })
@@ -332,16 +335,23 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             const document = {
               id: concept.id,
               prefLabel: i18n(language)(concept.prefLabel),
-              ...(concept.altLabel && Object.hasOwn(concept.altLabel, language) && { altLabel: i18n(language)(concept.altLabel) }),
+              ...(concept.altLabel &&
+                Object.hasOwn(concept.altLabel, language) && {
+                  altLabel: i18n(language)(concept.altLabel),
+                }),
+              ...(concept.hiddenLabel &&
+                Object.hasOwn(concept.hiddenLabel, language) && {
+                  hiddenLabel: i18n(language)(concept.hiddenLabel),
+                }),
+              ...(concept.definition &&
+                Object.hasOwn(concept.definition, language) && {
+                  definition: i18n(language)(concept.definition),
+                }),
+              notation: concept.notation,
             }
-            console.log(document)
             indexes[language].add(document)
           })
         })
-        console.log(indexes["de"].search("Konzept"))
-        console.log(indexes["de"].search("Konzept", ["prefLabel"]))
-        console.log(indexes["de"].search("Alterna"))
-
         languagesOfCS.forEach((language) =>
           createPage({
             path: getFilePath(conceptScheme.id, `${language}.html`),

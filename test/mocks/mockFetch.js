@@ -81,21 +81,21 @@ export default async function mockFetch(url) {
         json: async () => res,
       }
     }
-    case "/w3id.org/search/de/cfg.json": {
+    case "/w3id.org/search/de/prefLabel.cfg.json": {
       return {
         ok: true,
         status: 200,
         json: async () => cfg,
       }
     }
-    case "/w3id.org/search/de/ctx.json": {
+    case "/w3id.org/search/de/prefLabel.ctx.json": {
       return {
         ok: true,
         status: 200,
         json: async () => ctx,
       }
     }
-    case "/w3id.org/search/de/map.json": {
+    case "/w3id.org/search/de/prefLabel.map.json": {
       return {
         ok: true,
         status: 200,

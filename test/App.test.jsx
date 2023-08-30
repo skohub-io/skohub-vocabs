@@ -14,10 +14,10 @@ import { mockConfig } from "./mocks/mockConfig"
 import userEvent from "@testing-library/user-event"
 import { ContextProvider } from "../src/context/Context"
 
-vi.mock("flexsearch/dist/module/index.js", async () => {
-  const { Index } = await vi.importActual("flexsearch")
+vi.mock("flexsearch/dist/module/document.js", async () => {
+  const { Document } = await vi.importActual("flexsearch")
   return {
-    default: Index,
+    default: Document,
   }
 })
 const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
