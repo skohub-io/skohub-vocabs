@@ -1,21 +1,26 @@
+import { css } from "@emotion/react"
+
 const LabelFilter = ({ labels, toggleClick }) => {
-  console.log(labels)
+  const style = css`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px 30px;
+  `
   const handleClick = (e) => {
     toggleClick(e)
   }
   const labelBoxes = Object.entries(labels).map((label) => (
-    <label>
-      <input type="checkbox" checked={label[1]} onClick={() => handleClick(label[0])} />
+    <label className="item" key={label[0]}>
+      <input
+        type="checkbox"
+        checked={label[1]}
+        onChange={() => handleClick(label[0])}
+      />
       {label[0]}
     </label>
   ))
 
-
-  return (
-    <div>
-      {labelBoxes}
-    </div>
-  )
+  return <div css={style}>{labelBoxes}</div>
 }
 
 export default LabelFilter
