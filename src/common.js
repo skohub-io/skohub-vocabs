@@ -119,6 +119,8 @@ const loadConfig = (configFile, defaultFile) => {
     tokenizer: userConfig.tokenizer || defaults.tokenizer,
     colors: userConfig.ui.colors || defaults.ui.colors,
     fonts: userConfig.ui.fonts || defaults.ui.fonts,
+    searchableAttributes:
+      userConfig.searchableAttributes || defaults.searchableAttributes,
   }
 
   // check if all relevant colors are contained, otherwise use default colors
