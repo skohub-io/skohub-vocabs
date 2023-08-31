@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import Document from "flexsearch/dist/module/document.js"
 import escapeRegExp from "lodash.escaperegexp"
 import { i18n, getFilePath } from "../common"
 import NestedList from "../components/nestedList"
@@ -12,6 +11,7 @@ import { conceptStyle } from "../styles/concepts.css.js"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { withPrefix } from "gatsby"
+import { handleKeypresses, importIndex } from "./helpers"
 
 const App = ({ pageContext, children }) => {
   const { data } = useSkoHubContext()
@@ -36,6 +36,8 @@ const App = ({ pageContext, children }) => {
     )
   )
 
+  handleKeypresses(labels, setLabels)
+
   if (!showTreeControls && tree && tree.hasTopConcept) {
     for (const topConcept of tree.hasTopConcept) {
       if (topConcept.narrower?.length > 0) {
@@ -43,64 +45,6 @@ const App = ({ pageContext, children }) => {
         break
       }
     }
-  }
-
-  const importIndex = async () => {
-    /** FIXME the document options need to be imported from somewhere
-     * maybe store them in a separate file and create it in gatsby-node.js ?
-     * maybe along with all the necessary keys
-     **/
-    const idx = new Document({
-      tokenize: "full",
-      charset: "latin",
-      id: "id",
-      document: {
-        id: "id",
-        // store: ["prefLabel", "altLabel"], /* not working flexsearchside  */
-        index: [
-          "notation",
-          "prefLabel",
-          "altLabel",
-          "hiddenLabel",
-          "definition",
-          "example",
-        ],
-      },
-    })
-    // filter from labels object the selected entries
-    // and append the needed keys
-    // add reg, which is not specific to a key
-    const keys = Object.entries(labels)
-      .filter((label) => label[1] === true)
-      .flatMap((label) => [
-        `${label[0]}.cfg`,
-        `${label[0]}.ctx`,
-        `${label[0]}.map`,
-        `${label[0]}.store` /* might be useful later, when importing with stores works in flexsearch */,
-        `${label[0]}.tag`,
-      ])
-      .concat(["reg"])
-    for (let i = 0, key; i < keys.length; i += 1) {
-      key = keys[i]
-      let data
-      try {
-        data = await fetch(
-          withPrefix(
-            getFilePath(
-              (conceptSchemeId.endsWith("/")
-                ? conceptSchemeId.slice(0, -1)
-                : conceptSchemeId) + `/search/${pageContext.language}/${key}`,
-              `json`
-            )
-          )
-        )
-        const jsonData = await data.json()
-        idx.import(key, jsonData ?? null)
-      } catch (e) {
-        console.log(e) // eslint-disable-line no-console
-      }
-    }
-    setIndex(idx)
   }
 
   // get concept scheme id from context
@@ -112,7 +56,8 @@ const App = ({ pageContext, children }) => {
 
   // Fetch and load the serialized index
   useEffect(() => {
-    conceptSchemeId && importIndex()
+    conceptSchemeId &&
+      importIndex(conceptSchemeId, labels, setIndex, pageContext.language)
   }, [conceptSchemeId, pageContext.language, labels])
 
   // Fetch and load the tree
@@ -137,6 +82,7 @@ const App = ({ pageContext, children }) => {
   })
 
   const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
+
   return (
     <Layout languages={pageContext.languages} language={pageContext.language}>
       <SEO
@@ -153,13 +99,14 @@ const App = ({ pageContext, children }) => {
       <div className="Concept" css={style}>
         <nav className="block nav-block">
           <input
+            id="searchInput"
             type="text"
             className="inputStyle"
             onChange={(e) => setQuery(e.target.value || null)}
-            placeholder="Search"
+            placeholder="Search (Ctrl-k)"
             autoFocus
           />
-          {/* filter languages to search */}
+          {/* filter labels to search */}
           <LabelFilter labels={labels} toggleClick={(e) => toggleClick(e)} />
           {showTreeControls && <TreeControls />}
           <div className="concepts">

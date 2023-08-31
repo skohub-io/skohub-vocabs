@@ -1,10 +1,15 @@
 import { css } from "@emotion/react"
 
+function UnderlinedText(props) {
+  return <span style={{ textDecoration: "underline" }}>{props.children}</span>
+}
+
 const LabelFilter = ({ labels, toggleClick }) => {
   const style = css`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2px 30px;
+    padding: 2px;
   `
   const handleClick = (e) => {
     toggleClick(e)
@@ -16,7 +21,8 @@ const LabelFilter = ({ labels, toggleClick }) => {
         checked={label[1]}
         onChange={() => handleClick(label[0])}
       />
-      {label[0]}
+      <UnderlinedText>{label[0][0]}</UnderlinedText>
+      {label[0].slice(1)}
     </label>
   ))
 
