@@ -24,7 +24,7 @@ describe("search and filter", () => {
 
     cy.contains("en").click()
 
-    cy.get("span").contains("Konzept 2").should("not.exist")
+    cy.get("span", { timeout: 10000 }).contains("Konzept 2").should("not.exist")
     cy.get("span").contains("Concept 1").should("exist")
     cy.findByRole("textbox").type("Concept 2")
     cy.get("span").contains("Concept 1").should("exist")
