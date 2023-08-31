@@ -169,6 +169,12 @@ module.exports.allConceptScheme = (languages) => `
     altLabel {
       ${[...languages].join(" ")}
     }
+    definition {
+      ${[...languages].join(" ")}
+    }
+    example {
+      ${[...languages].join(" ")}
+    }
   }
 `
 module.exports.tokenizer = `{

@@ -34,6 +34,7 @@ export const getConfigAndConceptSchemes = () => {
               name
             }
           }
+          searchableAttributes
         }
       }
       allConceptScheme {

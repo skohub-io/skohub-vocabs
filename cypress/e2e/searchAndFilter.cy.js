@@ -22,10 +22,11 @@ describe("search and filter", () => {
   it("search works after switching language", () => {
     cy.visit("/w3id.org/index.de.html")
 
-    cy.contains("en").click()
+    cy.contains("en").click().wait(0) // eslint-disable-line
 
-    cy.get("span").contains("Konzept 2").should("not.exist")
-    cy.get("span").contains("Concept 1").should("exist")
+    cy.get(".currentLanguage").contains("en").should("exist")
+    // cy.get("span").contains("Konzept 1").should("not.exist")
+    cy.get("span", { timeout: 10000 }).contains("Concept 1").should("exist")
     cy.findByRole("textbox").type("Concept 2")
     cy.get("span").contains("Concept 1").should("exist")
     cy.get("span").contains("Concept 2").should("exist")

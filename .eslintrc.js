@@ -7,8 +7,8 @@ module.exports = {
     "node/no-path-concat": "off",
     "react-hooks/rules-of-hooks": "off",
     "no-console": "error",
-    "testing-library/await-async-query": "error",
-    "testing-library/no-await-sync-query": "error",
+    "testing-library/await-async-queries": "error",
+    "testing-library/no-await-sync-queries": "error",
     "testing-library/no-debugging-utils": "warn",
     "testing-library/no-dom-import": "off",
   },
@@ -17,7 +17,7 @@ module.exports = {
     {
       files: ["**/cypress/**/*.cy.js"],
       rules: {
-        "testing-library/await-async-query": 0,
+        "testing-library/await-async-queries": 0,
       },
     },
   ],
