@@ -167,7 +167,9 @@ const App = ({ pageContext, children }) => {
               <NestedList
                 items={tree.hasTopConcept}
                 current={pageContext.node.id}
-                queryFilter={query ? index.search(query) : null}
+                queryFilter={
+                  query && index?.search ? index.search(query) : null
+                }
                 highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
                 language={pageContext.language}
                 topLevel={true}
