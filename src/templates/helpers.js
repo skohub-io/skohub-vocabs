@@ -106,7 +106,7 @@ export const importIndex = async (
       const jsonData = await data.json()
       idx.import(key, jsonData ?? null)
     } catch (e) {
-      console.log(e) // eslint-disable-line no-console
+      // console.log(e) // eslint-disable-line no-console
     }
   }
   setIndex(idx)
