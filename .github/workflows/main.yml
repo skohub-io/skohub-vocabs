@@ -64,8 +64,9 @@ jobs:
       - run: echo Using npm version $(npm --version)
       - run: cypress/prepare-cypress-test.sh
       - name: Cypress run
-        uses: cypress-io/github-action@v5.0.5
+        uses: cypress-io/github-action@v5
         with:
+          browser: firefox
           start: npm run develop -- -p 8000
           wait-on: http://localhost:8000/index.de.html
           config: baseUrl=http://localhost:8000
