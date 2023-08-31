@@ -23,7 +23,7 @@ describe("search and filter", () => {
     cy.visit("/w3id.org/index.de.html")
 
     cy.contains("en").click()
-
+    cy.wait(4000) // eslint-disable-line
     cy.get("span", { timeout: 10000 }).contains("Konzept 2").should("not.exist")
     cy.get("span").contains("Concept 1").should("exist")
     cy.findByRole("textbox").type("Concept 2")
