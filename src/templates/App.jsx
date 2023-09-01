@@ -17,9 +17,6 @@ const App = ({ pageContext, children }) => {
   const { data } = useSkoHubContext()
   const { config } = getConfigAndConceptSchemes()
   const style = conceptStyle(config.colors)
-  const [conceptSchemeId, setConceptSchemeId] = useState(
-    data?.currentScheme?.id
-  )
   const [index, setIndex] = useState({})
   const [query, setQuery] = useState(null)
   const [tree, setTree] = useState(
@@ -47,28 +44,20 @@ const App = ({ pageContext, children }) => {
     }
   }
 
-  // get concept scheme id from context
-  useEffect(() => {
-    if (data?.currentScheme?.id) {
-      setConceptSchemeId(data.currentScheme.id)
-    }
-  }, [data])
-
   // Fetch and load the serialized index
   useEffect(() => {
-    conceptSchemeId &&
-      importIndex(conceptSchemeId, labels, setIndex, pageContext.language)
-  }, [conceptSchemeId, pageContext.language, labels])
+    importIndex(data?.currentScheme?.id, labels, pageContext.language, setIndex)
+  }, [data, pageContext.language, labels])
 
   // Fetch and load the tree
   useEffect(() => {
-    conceptSchemeId &&
+    data?.currentScheme?.id &&
       // if node.type would be concept scheme the tree would already have been set
       pageContext.node.type !== "ConceptScheme" &&
-      fetch(withPrefix(getFilePath(conceptSchemeId, "json")))
+      fetch(withPrefix(getFilePath(data?.currentScheme?.id, "json")))
         .then((response) => response.json())
         .then((tree) => setTree(tree))
-  }, [conceptSchemeId, pageContext.node.type])
+  }, [data, pageContext.node.type])
 
   // Scroll current item into view
   useEffect(() => {

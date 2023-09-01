@@ -143,7 +143,9 @@ const Header = ({ siteTitle, languages, language }) => {
          * that we can use to retrieve languages when using header on the
          * index page so we need to set languages hard
          */
-        languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+        if (typeof languages !== "undefined") {
+          languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+        }
       })
   }, [pathName, languages])
 
