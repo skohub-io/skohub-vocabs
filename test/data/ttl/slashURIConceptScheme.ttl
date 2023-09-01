@@ -21,7 +21,7 @@
   skos:note "Meine Anmerkung"@de ;
   skos:relatedMatch <c4> ;
   skos:narrower <c2> ;
-  skos:notation "1" ;
+  skos:notation "1", "notation" ;
   skos:topConceptOf <> .
 
 <c2> a skos:Concept ;
