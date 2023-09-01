@@ -48,29 +48,29 @@ jobs:
     - run: npm run test
 
   # disables because the action fails on github action but tests works locally
-  e2e:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: echo Using node version $(node --version)
-      - run: echo Using npm version $(npm --version)
-      - run: cypress/prepare-cypress-test.sh
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        with:
-          browser: chrome
-          headed: true
-          start: npm run develop -- -p 8000
-          wait-on: http://localhost:8000/index.de.html
-          config: baseUrl=http://localhost:8000
+  # e2e:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [18.x]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - run: echo Using node version $(node --version)
+  #     - run: echo Using npm version $(npm --version)
+  #     - run: cypress/prepare-cypress-test.sh
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v5
+  #       with:
+  #         browser: chrome
+  #         headed: true
+  #         start: npm run develop -- -p 8000
+  #         wait-on: http://localhost:8000/index.de.html
+  #         config: baseUrl=http://localhost:8000
 
   docker:
     needs: [build]
