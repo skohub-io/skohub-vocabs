@@ -56,9 +56,10 @@ export const handleKeypresses = (labels, setLabels) => {
 export const importIndex = async (
   conceptSchemeId,
   labels,
-  setIndex,
-  language
+  language,
+  setIndex
 ) => {
+  if (!conceptSchemeId) return
   const idx = new Document({
     tokenize: "full",
     charset: "latin",
@@ -106,7 +107,7 @@ export const importIndex = async (
       const jsonData = await data.json()
       idx.import(key, jsonData ?? null)
     } catch (e) {
-      // console.log(e) // eslint-disable-line no-console
+      // console.log(e)
     }
   }
   setIndex(idx)
