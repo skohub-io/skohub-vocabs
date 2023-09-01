@@ -18,6 +18,7 @@ const LabelFilter = ({ labels, toggleClick }) => {
     <label className="item" key={label[0]}>
       <input
         type="checkbox"
+        id={label[0] + "CheckBox"}
         checked={label[1]}
         onChange={() => handleClick(label[0])}
       />
