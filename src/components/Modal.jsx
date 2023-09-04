@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { css } from "@emotion/react"
 
-function Modal({ openModal, closeModal, children }) {
+const Modal = ({ openModal, closeModal, children }) => {
   const style = css`
     dialog {
       border: none;
