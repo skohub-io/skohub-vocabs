@@ -34,6 +34,11 @@ function renderApp(history, pageContext, children = null) {
 
 describe("App", () => {
   vi.spyOn(window, "fetch").mockImplementation(mockFetch)
+  vi.mock("../src/components/Modal.jsx", async () => {
+    return {
+      default: () => <div></div>,
+    }
+  })
   useStaticQuery.mockImplementation(() => mockConfig)
 
   it("renders App component with expand and collapse button", async () => {
