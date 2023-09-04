@@ -5,7 +5,6 @@ import NestedList from "../components/nestedList"
 import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import LabelFilter from "../components/LabelFilter"
 import Search from "../components/Search"
 
 import { conceptStyle } from "../styles/concepts.css.js"
