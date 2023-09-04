@@ -49,7 +49,7 @@ const Search = ({ handleQueryInput, labels, onLabelClick }) => {
           <GearIcon />
         </button>
         <Modal openModal={modal} closeModal={() => setModal(false)}>
-          Which labels do you want to include in the search?
+          <p>Which labels do you want to include in the search?</p>
           <LabelFilter labels={labels} toggleClick={onLabelClick} />
         </Modal>
       </div>
