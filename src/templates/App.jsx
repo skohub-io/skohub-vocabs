@@ -6,6 +6,7 @@ import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import LabelFilter from "../components/LabelFilter"
+import Search from "../components/Search"
 
 import { conceptStyle } from "../styles/concepts.css.js"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
@@ -87,16 +88,11 @@ const App = ({ pageContext, children }) => {
       />
       <div className="Concept" css={style}>
         <nav className="block nav-block">
-          <input
-            id="searchInput"
-            type="text"
-            className="inputStyle"
-            onChange={(e) => setQuery(e.target.value || null)}
-            placeholder="Search (Ctrl-k)"
-            autoFocus
+          <Search
+            handleQueryInput={(e) => setQuery(e.target.value || null)}
+            labels={labels}
+            onLabelClick={(e) => toggleClick(e)}
           />
-          {/* filter labels to search */}
-          <LabelFilter labels={labels} toggleClick={(e) => toggleClick(e)} />
           {showTreeControls && <TreeControls />}
           <div className="concepts">
             {tree && (

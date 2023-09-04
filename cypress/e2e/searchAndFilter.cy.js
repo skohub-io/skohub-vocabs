@@ -47,19 +47,18 @@ describe("search and filter", () => {
   it("turning on altLabel checkbox returns altLabel matches", () => {
     cy.visit("/w3id.org/index.de.html")
     cy.findByRole("textbox").type("Alternat")
-
     cy.get("p").contains("Nothing found").should("exist")
-
+    cy.get("#settings").click()
     cy.get("#altLabelCheckBox").click()
+    cy.get("#closeModal").click()
     cy.get("span").contains("Konzept 1").should("exist")
   })
 
   it("turning on hiddenLabel checkbox returns hiddenLabel matches", () => {
     cy.visit("/w3id.org/index.de.html")
     cy.findByRole("textbox").type("Verstecktes")
-
     cy.get("p").contains("Nothing found").should("exist")
-
+    cy.get("#settings").click()
     cy.get("#hiddenLabelCheckBox").click()
     cy.get("span").contains("Konzept 1").should("exist")
   })
@@ -67,30 +66,30 @@ describe("search and filter", () => {
   it("turning on notation checkbox returns notation matches", () => {
     cy.visit("/w3id.org/index.de.html")
     cy.findByRole("textbox").type("Notat")
-
     cy.get("p").contains("Nothing found").should("exist")
-
+    cy.get("#settings").click()
     cy.get("#notationCheckBox").click()
+    cy.get("#closeModal").click()
     cy.get("span").contains("Konzept 1").should("exist")
   })
 
   it("turning on definition checkbox returns definition matches", () => {
     cy.visit("/w3id.org/index.de.html")
     cy.findByRole("textbox").type("Meine Defi")
-
     cy.get("p").contains("Nothing found").should("exist")
-
+    cy.get("#settings").click()
     cy.get("#definitionCheckBox").click()
+    cy.get("#closeModal").click()
     cy.get("span").contains("Konzept 1").should("exist")
   })
 
   it("turning on example checkbox returns example matches", () => {
     cy.visit("/w3id.org/index.de.html")
     cy.findByRole("textbox").type("Beis")
-
     cy.get("p").contains("Nothing found").should("exist")
-
+    cy.get("#settings").click()
     cy.get("#exampleCheckBox").click()
+    cy.get("#closeModal").click()
     cy.get("span").contains("Konzept 1").should("exist")
   })
 })
