@@ -86,10 +86,9 @@ const LabelFilter = ({ labels, toggleClick }) => {
   }
   const labelBoxes = Object.entries(labels).map((label) => (
     <div className="slider-wrapper" key={label[0]}>
-      <label className="switch">
+      <label className="switch" id={label[0] + "CheckBox"}>
         <input
           type="checkbox"
-          id={label[0] + "CheckBox"}
           checked={label[1]}
           onChange={() => handleClick(label[0])}
         />
