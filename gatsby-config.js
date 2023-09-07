@@ -12,6 +12,7 @@ module.exports = {
     colors: config.colors,
     logo: config.logo,
     fonts: config.fonts,
+    searchableAttributes: config.searchableAttributes,
   },
   pathPrefix: `${process.env.BASEURL || ""}`,
   plugins: [

@@ -1,6 +1,8 @@
 ---
 # see https://github.com/nextapps-de/flexsearch/tree/0.6.32#tokenizer for options
 tokenizer: "full" # strict, forward, reverse, full
+searchableAttributes:
+  - "prefLabel"
 ui:
   colors:
     skoHubWhite: "rgb(255, 255, 255)"

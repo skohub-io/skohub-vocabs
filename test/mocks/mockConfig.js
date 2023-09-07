@@ -1,6 +1,7 @@
 export const mockConfig = {
   site: {
     siteMetadata: {
+      searchableAttributes: ["prefLabel"],
       colors: {
         skoHubWhite: "rgb(255, 255, 255)",
         skoHubDarkColor: "rgb(15, 85, 75)",

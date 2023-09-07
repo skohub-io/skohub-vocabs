@@ -16,15 +16,24 @@ const getNestedItems = (item) => {
 }
 
 /**
- * @param {array} items list of concepts
- * @param {string} current current concept id
- * @param {[string]|null} filter
- * @param {RegExp|null} highlight
+ * Building the tree view for the vocabs
+ * @param {Array} items - list of concepts
+ * @param {string} current - current concept id
+ * @param {Object|null} queryFilter
+ * @param {string} queryFilter.field
+ * @param {Array} queryFilter.result
+ * @param {RegExp|null} highlight - RegExp of the search term
  * @param {string} language
  * @returns
  */
-
-const NestedList = ({ items, current, filter, highlight, language }) => {
+const NestedList = ({
+  items,
+  current,
+  queryFilter,
+  highlight,
+  language,
+  topLevel = false,
+}) => {
   const { config } = getConfigAndConceptSchemes()
   const style = css`
     list-style-type: none;
@@ -113,46 +122,141 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
       }
     }
   `
-  const filteredItems = filter
-    ? items.filter(
+  const filteredIds =
+    queryFilter && queryFilter.length
+      ? queryFilter.flatMap((f) => f.result)
+      : []
+
+  const getFilteredItems = () => {
+    if (!queryFilter) {
+      return items
+    } else if (filteredIds.length) {
+      return items.filter(
         (item) =>
-          !filter ||
-          filter.some((filter) => getNestedItems(item).includes(filter))
+          !queryFilter ||
+          filteredIds.some((filter) => getNestedItems(item).includes(filter))
       )
-    : items
+    } else {
+      return []
+    }
+  }
+
+  const filteredItems = getFilteredItems()
   const t = i18n(language)
 
   const isExpanded = (item, truthy, falsy) => {
-    return filter || getNestedItems(item).some((id) => id === current)
+    return queryFilter || getNestedItems(item).some((id) => id === current)
       ? truthy
       : falsy
+  }
+
+  function associateLabelsByIds(queryFilter) {
+    const labelsByIds = {}
+
+    queryFilter &&
+      queryFilter.forEach((item) => {
+        item.result.forEach((id) => {
+          if (!labelsByIds[id]) {
+            labelsByIds[id] = []
+          }
+          if (item.field !== "prefLabel") labelsByIds[id].push(item.field)
+        })
+      })
+    return labelsByIds
+  }
+  const labelsByIds = associateLabelsByIds(queryFilter)
+
+  const capitalize = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1)
   }
 
   const renderItemLink = (item) => {
     // checks if current item is a hash-uri */
     // Gatsby Link Component can't handle hash URIs so we use an anchor-tag instead
     const LinkTag = getFragment(item.id) ? "a" : GatsbyLink
-    const children = (
-      <>
-        {item.notation && (
-          <span className="notation">{item.notation.join(",")}&nbsp;</span>
-        )}
-        {t(item.prefLabel) ? (
-          <span
-            dangerouslySetInnerHTML={{
-              __html: highlight
-                ? t(item.prefLabel).replace(
-                    highlight,
-                    (str) => `<strong>${str}</strong>`
-                  )
-                : t(item.prefLabel),
-            }}
-          />
+
+    const notation = item.notation && (
+      <span className="notation">{item.notation.join(",")}&nbsp;</span>
+    )
+    const renderPrefLabel = () => {
+      // Function for handling highlighting
+      function handleHighlight(text, highlight) {
+        if (highlight) {
+          return text.replace(highlight, (str) => `<strong>${str}</strong>`)
+        } else {
+          return text
+        }
+      }
+      const matchingLabels = labelsByIds[item.id]
+
+      const matchHint = () => {
+        const hints = []
+        const testLabelAndPush = (label, labelAttribute) => {
+          if (highlight.test(label)) {
+            hints.push(
+              `${capitalize(labelAttribute)}: ${handleHighlight(
+                label,
+                highlight
+              )}`
+            )
+          }
+        }
+
+        matchingLabels.forEach((labelAttribute) => {
+          // for attributes that are languageMapsArrays, e.g. skos:altLabel
+          if (Array.isArray(item[labelAttribute][language])) {
+            item[labelAttribute][language].forEach((label) =>
+              testLabelAndPush(label, labelAttribute)
+            )
+            // for attributes that are arrays, e.g. skos:notation
+          } else if (Array.isArray(item[labelAttribute])) {
+            item[labelAttribute].forEach((label) =>
+              testLabelAndPush(label, labelAttribute)
+            )
+            // for attributes that are LanguageMaps, e.g. skos:definition
+          } else {
+            testLabelAndPush(item[labelAttribute][language], labelAttribute)
+          }
+        })
+        return hints
+      }
+      matchingLabels && matchHint()
+      // Function for rendering HTML
+      function renderHtml(text) {
+        // add info about other matching labels
+        // if its not the prefLabel that matches
+        return matchingLabels?.length ? (
+          <>
+            <span dangerouslySetInnerHTML={{ __html: text }} />
+            <span> (</span>
+            <span
+              dangerouslySetInnerHTML={{ __html: matchHint().join(", ") }}
+            />
+            <span> )</span>
+          </>
         ) : (
+          <>
+            <span dangerouslySetInnerHTML={{ __html: text }} />
+          </>
+        )
+      }
+
+      // give a warning if no prefLabel in selected language is provided
+      if (!t(item.prefLabel)) {
+        return (
           <i style={{ color: "red" }}>
             No label for language "{language}" provided
           </i>
-        )}
+        )
+      } else {
+        const htmlText = handleHighlight(t(item.prefLabel), highlight)
+        return renderHtml(htmlText)
+      }
+    }
+    const children = (
+      <>
+        {notation}
+        {renderPrefLabel()}
       </>
     )
     const Link = React.createElement(
@@ -168,6 +272,9 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
     )
     return Link
   }
+
+  // only return nothing found for topLevel nestedList
+  if (!filteredItems.length && topLevel) return <p>Nothing found!</p>
 
   return (
     <ul css={style}>
@@ -196,7 +303,7 @@ const NestedList = ({ items, current, filter, highlight, language }) => {
               <NestedList
                 items={item.narrower}
                 current={current}
-                filter={filter}
+                queryFilter={queryFilter}
                 highlight={highlight}
                 language={language}
               />

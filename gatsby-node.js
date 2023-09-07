@@ -10,7 +10,7 @@ const { DataFactory } = n3
 const { namedNode } = DataFactory
 const path = require("path")
 const fs = require("fs-extra")
-const { Index } = require("flexsearch")
+const { Index, Document } = require("flexsearch")
 const omitEmpty = require("omit-empty")
 const { i18n, getFilePath, parseLanguages } = require("./src/common")
 const context = require("./src/context")
@@ -88,10 +88,6 @@ const exportIndex = (index, conceptScheme, language) => {
       path,
       data: data !== undefined ? data : "",
     })
-    // fs.writeFileSync(
-    //   `${searchIndexPath}${key}.json`,
-    //   data !== undefined ? (data) : ""
-    // );
   })
 }
 
@@ -272,9 +268,22 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         const languagesOfCS = languagesByCS[conceptScheme.id]
         const indexes = Object.fromEntries(
           [...languagesOfCS].map((l) => {
-            const index = new Index({
+            const index = new Document({
               tokenize: tokenizer,
               charset: "latin",
+              id: "id",
+              document: {
+                id: "id",
+                // store: ["prefLabel", "altLabel"], /*  not working when importing, bug in flexsearch */
+                index: [
+                  "notation",
+                  "prefLabel",
+                  "altLabel",
+                  "hiddenLabel",
+                  "definition",
+                  "example",
+                ],
+              },
             })
             return [l, index]
           })
@@ -322,11 +331,32 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               data: JSON.stringify(jsonld, null, 2),
             })
           }
-          languagesOfCS.forEach((language) =>
-            indexes[language].add(concept.id, i18n(language)(concept.prefLabel))
-          )
+          // add labels to index
+          languagesOfCS.forEach((language) => {
+            const document = {
+              id: concept.id,
+              prefLabel: i18n(language)(concept.prefLabel),
+              ...(concept.altLabel &&
+                Object.hasOwn(concept.altLabel, language) && {
+                  altLabel: i18n(language)(concept.altLabel),
+                }),
+              ...(concept.hiddenLabel &&
+                Object.hasOwn(concept.hiddenLabel, language) && {
+                  hiddenLabel: i18n(language)(concept.hiddenLabel),
+                }),
+              ...(concept.definition &&
+                Object.hasOwn(concept.definition, language) && {
+                  definition: i18n(language)(concept.definition),
+                }),
+              ...(concept.example &&
+                Object.hasOwn(concept.example, language) && {
+                  example: i18n(language)(concept.example),
+                }),
+              notation: concept.notation,
+            }
+            indexes[language].add(document)
+          })
         })
-
         languagesOfCS.forEach((language) =>
           createPage({
             path: getFilePath(conceptScheme.id, `${language}.html`),

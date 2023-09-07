@@ -55,12 +55,6 @@ export const conceptStyle = (colors) => css`
     flex-direction: column;
     overflow: auto;
 
-    input[type="text"] {
-      margin-bottom: 10px;
-      width: 100%;
-      padding: 10px;
-    }
-
     & > ul {
       overflow: auto;
       margin: 0;

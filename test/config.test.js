@@ -10,6 +10,7 @@ describe("Config Parsing", () => {
     ).toStrictEqual({
       title: "Hello World",
       logo: "my-logo.png",
+      searchableAttributes: ["prefLabel"],
       tokenizer: "full",
       colors: {
         skoHubWhite: "rgb(255, 170, 170)",

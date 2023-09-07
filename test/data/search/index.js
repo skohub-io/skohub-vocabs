@@ -1,6 +1,6 @@
-import cfg from "./cfg.json"
-import ctx from "./ctx.json"
-import map from "./map.json"
+import cfg from "./prefLabel.cfg.json"
+import ctx from "./prefLabel.ctx.json"
+import map from "./prefLabel.map.json"
 import reg from "./reg.json"
 
 export { cfg, ctx, map, reg }
