@@ -83,7 +83,7 @@ const exportIndex = (index, conceptScheme, language) => {
     const path = getFilePath(
       (conceptScheme.id.endsWith("/")
         ? conceptScheme.id.slice(0, -1)
-        : conceptScheme.id) + `/cs/search/${language}/${key}`,
+        : conceptScheme.id) + `-cs/search/${language}/${key}`,
       `json`
     )
     createData({

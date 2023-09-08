@@ -81,28 +81,28 @@ export default async function mockFetch(url) {
         json: async () => res,
       }
     }
-    case "/w3id.org/cs/search/de/prefLabel.cfg.json": {
+    case "/w3id.org-cs/search/de/prefLabel.cfg.json": {
       return {
         ok: true,
         status: 200,
         json: async () => cfg,
       }
     }
-    case "/w3id.org/cs/search/de/prefLabel.ctx.json": {
+    case "/w3id.org-cs/search/de/prefLabel.ctx.json": {
       return {
         ok: true,
         status: 200,
         json: async () => ctx,
       }
     }
-    case "/w3id.org/cs/search/de/prefLabel.map.json": {
+    case "/w3id.org-cs/search/de/prefLabel.map.json": {
       return {
         ok: true,
         status: 200,
         json: async () => map,
       }
     }
-    case "/w3id.org/cs/search/de/reg.json": {
+    case "/w3id.org-cs/search/de/reg.json": {
       return {
         ok: true,
         status: 200,

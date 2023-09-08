@@ -97,7 +97,7 @@ export const importIndex = async (
       const path =
         (conceptSchemeId.endsWith("/")
           ? conceptSchemeId.slice(0, -1)
-          : conceptSchemeId) + `/cs/search/${language}/${key}`
+          : conceptSchemeId) + `-cs/search/${language}/${key}`
 
       data = await fetch(withPrefix(getFilePath(path, `json`)))
       const jsonData = await data.json()
