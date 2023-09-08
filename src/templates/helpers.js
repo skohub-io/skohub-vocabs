@@ -94,16 +94,12 @@ export const importIndex = async (
     key = keys[i]
     let data
     try {
-      data = await fetch(
-        withPrefix(
-          getFilePath(
-            (conceptSchemeId.endsWith("/")
-              ? conceptSchemeId.slice(0, -1)
-              : conceptSchemeId) + `/search/${language}/${key}`,
-            `json`
-          )
-        )
-      )
+      const path =
+        (conceptSchemeId.endsWith("/")
+          ? conceptSchemeId.slice(0, -1)
+          : conceptSchemeId) + `/cs/search/${language}/${key}`
+
+      data = await fetch(withPrefix(getFilePath(path, `json`)))
       const jsonData = await data.json()
       idx.import(key, jsonData ?? null)
     } catch (e) {
