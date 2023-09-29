@@ -33,6 +33,7 @@ const NestedList = ({
   highlight,
   language,
   topLevel = false,
+  customDomain,
 }) => {
   const { config } = getConfigAndConceptSchemes()
   const style = css`
@@ -266,7 +267,7 @@ const NestedList = ({
         "aria-current": item.id === current ? "true" : "false",
         ...(LinkTag === "a"
           ? { href: getFragment(item.id) }
-          : { to: getFilePath(item.id, `${language}.html`) }),
+          : { to: getFilePath(item.id, `${language}.html`, customDomain) }),
       },
       children
     )
@@ -306,6 +307,7 @@ const NestedList = ({
                 queryFilter={queryFilter}
                 highlight={highlight}
                 language={language}
+                customDomain={customDomain}
               />
             )}
           </div>

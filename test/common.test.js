@@ -25,6 +25,24 @@ describe("getFilePath", () => {
       getFilePath("http://w3id.org/class/hochschulfaecher/S393#", "html")
     ).toBe("/w3id.org/class/hochschulfaecher/S393.html")
   })
+  it("Returns a valid file path when extension and pattern is given", () => {
+    expect(
+      getFilePath(
+        "http://localhost:8000/kim/hcrt/index",
+        "html",
+        "http://localhost:8000"
+      )
+    ).toBe("/kim/hcrt/index.html")
+  })
+  it("Returns a valid file path when no extension, but pattern is given", () => {
+    expect(
+      getFilePath(
+        "http://localhost:8000/kim/hcrt/index",
+        "",
+        "http://localhost:8000"
+      )
+    ).toBe("/kim/hcrt/index")
+  })
 })
 
 describe("replaceFilePathinUrl", () => {

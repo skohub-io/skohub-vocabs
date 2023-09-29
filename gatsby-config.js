@@ -13,6 +13,7 @@ module.exports = {
     logo: config.logo,
     fonts: config.fonts,
     searchableAttributes: config.searchableAttributes,
+    customDomain: config.customDomain,
   },
   pathPrefix: `${process.env.BASEURL || ""}`,
   plugins: [

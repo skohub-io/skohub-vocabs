@@ -25,6 +25,7 @@ describe("Config Parsing", () => {
         skoHubMiddleGrey: "rgb(200, 200, 200)",
         skoHubLightGrey: "rgb(235, 235, 235)",
       },
+      customDomain: "",
       fonts: {
         regular: {
           font_family: "Aladin",

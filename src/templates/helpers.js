@@ -57,7 +57,8 @@ export const importIndex = async (
   conceptSchemeId,
   labels,
   language,
-  setIndex
+  setIndex,
+  customDomain
 ) => {
   if (!conceptSchemeId) return
   const idx = new Document({
@@ -99,7 +100,7 @@ export const importIndex = async (
           ? conceptSchemeId.slice(0, -1)
           : conceptSchemeId) + `-cs/search/${language}/${key}`
 
-      data = await fetch(withPrefix(getFilePath(path, `json`)))
+      data = await fetch(withPrefix(getFilePath(path, `json`, customDomain)))
       const jsonData = await data.json()
       idx.import(key, jsonData ?? null)
     } catch (e) {

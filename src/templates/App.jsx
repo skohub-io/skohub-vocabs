@@ -46,7 +46,13 @@ const App = ({ pageContext, children }) => {
 
   // Fetch and load the serialized index
   useEffect(() => {
-    importIndex(data?.currentScheme?.id, labels, pageContext.language, setIndex)
+    importIndex(
+      data?.currentScheme?.id,
+      labels,
+      pageContext.language,
+      setIndex,
+      config.customDomain
+    )
   }, [data, pageContext.language, labels])
 
   // Fetch and load the tree
@@ -54,7 +60,11 @@ const App = ({ pageContext, children }) => {
     data?.currentScheme?.id &&
       // if node.type would be concept scheme the tree would already have been set
       pageContext.node.type !== "ConceptScheme" &&
-      fetch(withPrefix(getFilePath(data?.currentScheme?.id, "json")))
+      fetch(
+        withPrefix(
+          getFilePath(data?.currentScheme?.id, "json", config.customDomain)
+        )
+      )
         .then((response) => response.json())
         .then((tree) => setTree(tree))
   }, [data, pageContext.node.type])
@@ -104,6 +114,7 @@ const App = ({ pageContext, children }) => {
                 highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
                 language={pageContext.language}
                 topLevel={true}
+                customDomain={config.customDomain}
               />
             )}
           </div>

@@ -125,7 +125,12 @@ const Header = ({ siteTitle, languages, language }) => {
           // so we need to check each member till we find a concept
           // from which we can derive the languages of the concept scheme
           for (const member of r.member) {
-            const path = replaceFilePathInUrl(pathName, member.id, "json")
+            const path = replaceFilePathInUrl(
+              pathName,
+              member.id,
+              "json",
+              config.customDomain
+            )
             const res = await (await fetch(path)).json()
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
@@ -173,7 +178,11 @@ const Header = ({ siteTitle, languages, language }) => {
                 }}
               >
                 <Link
-                  to={getFilePath(data.currentScheme.id, `${language}.html`)}
+                  to={getFilePath(
+                    data.currentScheme.id,
+                    `${language}.html`,
+                    config.customDomain
+                  )}
                 >
                   {data.currentScheme?.title?.[language] ||
                     data.currentScheme.id}
@@ -189,7 +198,11 @@ const Header = ({ siteTitle, languages, language }) => {
                 {l === language ? (
                   <span className="currentLanguage">{l}</span>
                 ) : (
-                  <Link to={getLinkPath(pathName, `${l}.html`)}>{l}</Link>
+                  <Link
+                    to={getLinkPath(pathName, `${l}.html`, config.customDomain)}
+                  >
+                    {l}
+                  </Link>
                 )}
               </li>
             ))}

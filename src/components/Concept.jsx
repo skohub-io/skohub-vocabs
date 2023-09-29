@@ -4,7 +4,9 @@ import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
 import { i18n, getDomId, getFilePath } from "../common"
 
-const Concept = ({ pageContext: { node: concept, language, collections } }) => {
+const Concept = ({
+  pageContext: { node: concept, language, collections, customDomain },
+}) => {
   const conceptSchemes = getConceptSchemes()
 
   return (
@@ -14,7 +16,7 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
         {i18n(language)(concept.prefLabel)}
       </h1>
       <h2>{concept.id}</h2>
-      <JsonLink to={getFilePath(concept.id, "json")} />
+      <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
       {concept.definition && (
         <div className="markdown">
           <h3>Definition</h3>
@@ -77,7 +79,9 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
           <ul>
             {concept.related.map((related) => (
               <li key={related.id}>
-                <Link to={getFilePath(related.id, `${language}.html`)}>
+                <Link
+                  to={getFilePath(related.id, `${language}.html`, customDomain)}
+                >
                   {i18n(language)(related.prefLabel) || related.id}
                 </Link>
               </li>
@@ -161,7 +165,13 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
           <ul>
             {collections.map((collection) => (
               <li key={collection.id}>
-                <Link to={getFilePath(collection.id, `${language}.html`)}>
+                <Link
+                  to={getFilePath(
+                    collection.id,
+                    `${language}.html`,
+                    customDomain
+                  )}
+                >
                   {i18n(language)(collection.prefLabel) ||
                     `*No label in language "${language}" provided.*`}
                 </Link>
@@ -188,7 +198,8 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
                         conceptSchemes[inScheme.id].languages.includes(language)
                           ? language
                           : conceptSchemes[inScheme.id].languages[0]
-                      }.html`
+                      }.html`,
+                      customDomain
                     )}
                   >
                     {inScheme.id}
