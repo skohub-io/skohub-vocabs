@@ -121,12 +121,12 @@
     sh:class skos:Concept ;
     sh:severity sh:Violation ;
     sh:message "Target class of skos:narrower should be a skos:Concept" ;
-    sh:classkos:Concept ;
+  ] ;
+  sh:property [
+    sh:path skos:narrowerTransitive ;
+    sh:class skos:Concept ;
     sh:severity sh:Violation ;
     sh:message "Target class of skos:narrowerTransitive should be a skos:Concept" ;
-  ] ;
-  sh:propert 
-    sh:path os:narrowerTransitive ;
   ] ;
   sh:property [
     sh:path skos:narrowMatch ;
