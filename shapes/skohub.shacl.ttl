@@ -1,0 +1,217 @@
+@prefix : <http://skohub.io/skohub-shacl> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sdo: <https://schema.org> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+# ConceptScheme
+:ConceptSchemeShape
+  a sh:NodeShape ;
+  sh:targetClass skos:ConceptScheme ;
+  sh:property [
+    sh:path dct:title ;
+    sh:minCount 1;
+    sh:datatype rdf:langString ;
+    sh:message "Concept Scheme has no dct:title with a language tag!" ;
+    sh:severity sh:Violation ;
+    rdfs:comment "This is SkoHub specific" ;
+  ] ;
+  sh:property [
+    sh:path skos:hasTopConcept ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A SKOS Concept Scheme should at least have one top Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:hasTopConcept ;
+    sh:class skos:Concept ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "The target class for hasTopConcept should be skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path dct:description ;
+    sh:datatype rdf:langString ;
+    sh:severity sh:Warning ;
+    sh:minCount 1 ;
+    sh:message: "A description of the Concept Scheme should be provided."
+  ] ;
+  sh:property [
+    sh:path dct:license ;
+    sh:datatype xsd:anyURI ;
+    sh:severity sh:Warning ;
+    sh:message "A provided license increases reusability of a vocabulary." ;
+  ] ;
+  sh:property [
+    sh:path vann:preferredNamespaceUri ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Warning ;
+    sh:message "A preferred Namespace URI should be given, especially if you want to use your vocabulary in reconciliation services."
+  ] ;
+  .
+
+# Concept
+:ConceptShape
+  a sh:NodeShape ;
+  sh:targetClass skos:Concept ;
+  sh:property [
+    sh:path skos:prefLabel ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:uniqueLang true ;
+    sh:message "Each skos:Concept has to provide a skos:prefLabel in a unique language" ;
+    sh:severity: sh:Warning ;
+  ] ;
+  sh:property [
+    sh:path skos:prefLabel ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Preferred label should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:altLabel ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Alternative label should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:hiddenLabel ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Hidden label should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:definition ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Definition should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:scopeNote ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Scope Note should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:note ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Note should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:notation ;
+    sh:severity sh:Violation ;
+    sh:datatype xsd:string ;
+    sh:message "Notation should be provided as a string." ;
+  ] ;
+  sh:property [
+    sh:path skos:example ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Example should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:narrower ;
+    sh:class skos:Concept ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:narrower should be a skos:Concept" ;
+    sh:classkos:Concept ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:narrowerTransitive should be a skos:Concept" ;
+  ] ;
+  sh:propert 
+    sh:path os:narrowerTransitive ;
+  ] ;
+  sh:property [
+    sh:path skos:narrowMatch ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:narrowMatch should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:broader ;
+    sh:class skos:Concept ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:broader should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:broaderTransitive ;
+    sh:class skos:Concept ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:broaderTransitive should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:broadMatch ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:broadMatch should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:related ;
+    sh:class skos:Concept ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:related should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:relatedMatch ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:relatedMatch should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:closeMatch ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:closeMatch should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:exactMatch ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:exactMatch should be a skos:Concept" ;
+  ] ;
+  sh:property [
+    sh:path skos:inScheme ;
+    sh:class skos:ConceptScheme ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:inScheme should be a skos:ConceptScheme" ;
+  ] ;
+  sh:property [
+    sh:path skos:hasTopConcept ;
+    sh:class skos:ConceptScheme ;
+    sh:severity sh:Violation ;
+    sh:message "Target class of skos:hasTopConcept should be a skos:ConceptScheme" ;
+  ] ;
+  .
+
+:CollectionShape
+  a sh:NodeShape ;
+  sh:targetClass skos:Collection ;
+  sh:property [
+    sh:path skos:prefLabel ;
+    sh:severity sh:Violation ;
+    sh:datatype rdf:langString ;
+    sh:message "Preferred label should be provided with a language tag." ;
+  ] ;
+  sh:property [
+    sh:path skos:prefLabel ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:uniqueLang true ;
+    sh:message "Each skos:Collection has to provide a skos:prefLabel in a unique language" ;
+    sh:severity: sh:Warning ;
+  ] ;
+  sh:property [
+    sh:path skos:member ;
+    sh:class: skos:Concept ;
+    sh:severity sh:Violation ;
+    sh:message "The object of skos:member should be a skos:Concept" ;
+  ]
+  .
+
