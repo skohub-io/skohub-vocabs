@@ -217,6 +217,22 @@ url
 ...
 ```
 
+If the property you are adding is a resource (i.e. has a URI), you need to specify that you want its `id`:
+
+```graphql
+...
+topConceptOf {
+    id
+    title {
+      ${[...languages].join(" ")}
+    }
+  }
+url {
+  id
+}
+...
+```
+
 * (Only necessary if you want to interact with that attribute on the built pages. E.g. for displaying it on concept pages) [`types.js`](./src/types.js), add the GraphQL type:
 
 ```graphql
