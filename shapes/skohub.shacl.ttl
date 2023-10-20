@@ -44,15 +44,17 @@
   ] ;
   sh:property [
     sh:path dct:license ;
-    sh:datatype xsd:anyURI ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
     sh:severity sh:Warning ;
-    sh:message "A provided license increases reusability of a vocabulary." ;
+    sh:message "A provided license increases reusability of a vocabulary. Should be an URI." ;
   ] ;
   sh:property [
     sh:path vann:preferredNamespaceUri ;
+    sh:minCount 1 ;
     sh:datatype xsd:string ;
     sh:severity sh:Warning ;
-    sh:message "A preferred Namespace URI should be given, especially if you want to use your vocabulary in reconciliation services."
+    sh:message "A preferred Namespace URI should be given as a string, especially if you want to use your vocabulary in reconciliation services."
   ] ;
   .
 
@@ -89,8 +91,9 @@
   sh:property [
     sh:path skos:definition ;
     sh:severity sh:Violation ;
+    sh:uniqueLang true ;
     sh:datatype rdf:langString ;
-    sh:message "Definition should be provided with a language tag." ;
+    sh:message "Definition should be provided with a unique language tag." ;
   ] ;
   sh:property [
     sh:path skos:scopeNote ;
@@ -122,9 +125,9 @@
     sh:severity sh:Violation ;
     sh:message "Target class of skos:narrower should be a skos:Concept" ;
   ] ;
-  sh:property [
-    sh:path skos:narrowerTransitive ;
+  sh:property [ 
     sh:class skos:Concept ;
+    sh:path skos:narrowerTransitive ;
     sh:severity sh:Violation ;
     sh:message "Target class of skos:narrowerTransitive should be a skos:Concept" ;
   ] ;
@@ -132,7 +135,7 @@
     sh:path skos:narrowMatch ;
     sh:nodeKind sh:IRI ;
     sh:severity sh:Violation ;
-    sh:message "Target class of skos:narrowMatch should be a skos:Concept" ;
+    sh:message "Target class of skos:narrowMatch should be a skos:Concept (IRI)" ;
   ] ;
   sh:property [
     sh:path skos:broader ;
@@ -162,19 +165,19 @@
     sh:path skos:relatedMatch ;
     sh:nodeKind sh:IRI ;
     sh:severity sh:Violation ;
-    sh:message "Target class of skos:relatedMatch should be a skos:Concept" ;
+    sh:message "Target class of skos:relatedMatch should be a skos:Concept (IRI)" ;
   ] ;
   sh:property [
     sh:path skos:closeMatch ;
     sh:nodeKind sh:IRI ;
     sh:severity sh:Violation ;
-    sh:message "Target class of skos:closeMatch should be a skos:Concept" ;
+    sh:message "Target class of skos:closeMatch should be a skos:Concept (IRI)" ;
   ] ;
   sh:property [
     sh:path skos:exactMatch ;
     sh:nodeKind sh:IRI ;
     sh:severity sh:Violation ;
-    sh:message "Target class of skos:exactMatch should be a skos:Concept" ;
+    sh:message "Target class of skos:exactMatch should be a skos:Concept (IRI)" ;
   ] ;
   sh:property [
     sh:path skos:inScheme ;
@@ -209,7 +212,7 @@
   ] ;
   sh:property [
     sh:path skos:member ;
-    sh:class: skos:Concept ;
+    sh:class skos:Concept ;
     sh:severity sh:Violation ;
     sh:message "The object of skos:member should be a skos:Concept" ;
   ]
