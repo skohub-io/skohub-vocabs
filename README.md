@@ -188,6 +188,44 @@ After that you have to adjust the config with the appropriate settings for `font
 You need to provide all settings for `regular` as well as `bold`.
 Otherwise SkoHub Vocabs will use the default fonts.
 
+## Adding additional properties to SkoHub Vocabs
+
+If you need additional properties beside SKOS, here is how you add them:
+
+E.g. add `https://schema.org/url`
+
+* [`context.js`](./src/context.js), add the property you want to add:
+
+```json
+url: {
+  "@id": "schema:url",
+  "@container": "@set"
+}
+```
+
+* [`queries.js`](./src/queries.js), add the property:
+
+```graphql
+...
+topConceptOf {
+    id
+    title {
+      ${[...languages].join(" ")}
+    }
+  }
+url
+...
+```
+
+* (Only necessary if you want to interact with that attribute on the built pages. E.g. for displaying it on concept pages) [`types.js`](./src/types.js), add the GraphQL type:
+
+```graphql
+url: [String]
+```
+
+This will add the `url` field, being an array of strings.
+For other types, compare with already existing properties and just copy as you need.
+
 ## Troubleshooting
 
 Depending on special circumstances you may get errors in the log files, e.g.
