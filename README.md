@@ -192,7 +192,7 @@ Otherwise SkoHub Vocabs will use the default fonts.
 
 If you need additional properties beside SKOS, here is how you add them:
 
-E.g. add `https://schema.org/url`
+E.g. add `https://schema.org/url` with a value of type string (see below if it is a resource / URI)
 
 * [`context.js`](./src/context.js), add the property you want to add:
 
