@@ -101,6 +101,13 @@ docker run \
 skohub/skohub-vocabs-docker:latest
 ```
 
+## Validation of SKOS files
+
+During the build the provided SKOS files are validated against this [SkoHub SHACL shape](https://github.com/skohub-io/shapes/blob/main/skohub.shacl.ttl).
+The SkoHub SHACL shape is an opinionated and more restrictive version of the generic SKOS shape you can find in the same repo: https://github.com/skohub-io/shapes
+
+If the SKOS file violates the shape, the build will error and stop.
+If you just hit warnings you will see them in the console output.
 
 ## Serve from other location than root (`/`)
 
