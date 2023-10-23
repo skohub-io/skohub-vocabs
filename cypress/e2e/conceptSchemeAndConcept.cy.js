@@ -24,4 +24,13 @@ describe("Concept Scheme and Concept", () => {
     cy.get(".nav-block").scrollTo("bottom")
     cy.scrollTo("bottom")
   })
+
+  it("Copying URI works", () => {
+    cy.visit("/w3id.org/kim/hochschulfaechersystematik/n1.de.html")
+    cy.get(".tooltip > button").click()
+    cy.window()
+      .its("navigator.clipboard")
+      .then((clip) => clip.readText())
+      .should("equal", "https://w3id.org/kim/hochschulfaechersystematik/n1")
+  })
 })

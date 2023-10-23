@@ -3,6 +3,7 @@ import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
 import { i18n, getDomId, getFilePath } from "../common"
+import ConceptURI from "./ConceptURI.jsx"
 
 const Concept = ({ pageContext: { node: concept, language, collections } }) => {
   const conceptSchemes = getConceptSchemes()
@@ -13,7 +14,7 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
         {i18n(language)(concept.prefLabel)}
       </h1>
-      <h2>{concept.id}</h2>
+      <ConceptURI id={concept.id} />
       <JsonLink to={getFilePath(concept.id, "json")} />
       {concept.definition && (
         <div className="markdown">
