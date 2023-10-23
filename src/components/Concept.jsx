@@ -3,9 +3,22 @@ import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
 import { i18n, getDomId, getFilePath } from "../common"
+import CopyIcon from "../icons/Copy.jsx"
+import { useState } from "react"
 
 const Concept = ({ pageContext: { node: concept, language, collections } }) => {
   const conceptSchemes = getConceptSchemes()
+
+  const [isCopied, setIsCopied] = useState(false)
+
+  async function copyToClipBoard() {
+    await navigator.clipboard.writeText(concept.id)
+
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 2000)
+  }
 
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
@@ -13,7 +26,17 @@ const Concept = ({ pageContext: { node: concept, language, collections } }) => {
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
         {i18n(language)(concept.prefLabel)}
       </h1>
-      <h2>{concept.id}</h2>
+      <div className="conceptURI">
+        <h2>{concept.id}</h2>
+        <div className="tooltip">
+          <span className="tooltiptext">
+            {!isCopied ? "Copy URI" : "Copied!"}
+          </span>
+          <button onClick={() => copyToClipBoard()} type="button">
+            <CopyIcon />
+          </button>
+        </div>
+      </div>
       <JsonLink to={getFilePath(concept.id, "json")} />
       {concept.definition && (
         <div className="markdown">
