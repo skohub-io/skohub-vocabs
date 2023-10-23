@@ -16,6 +16,7 @@ async function loadDataset(filePath) {
  * @param {string} shapePath - Path to shape file
  * @param {string} filePath - Path to file to validate
  * @returns {boolean} Validation result
+ * @throws {Error} Throws an error if the validation fails
  */
 async function validate(shapePath, filePath) {
   const factory = await f
@@ -31,6 +32,7 @@ async function validate(shapePath, filePath) {
   // Check conformance: `true` or `false`
   console.info("Validation result: ", report.conforms) // eslint-disable-line no-console
 
+  let violation = false
   if (report.conforms) {
     return true
   } else {
@@ -38,19 +40,27 @@ async function validate(shapePath, filePath) {
       // See https://www.w3.org/TR/shacl/#results-validation-result for details
       // about each property
       /* eslint-disable no-console */
-      console.log(result.message)
-      console.log(result.path)
-      console.log(result.focusNode)
-      console.log(result.severity)
+      console.info("-----------Error--------------")
+
+      console.info("Message: ", result.message)
+      console.info("Path: ", result.path.value)
+      console.info("Node, where the error occured: ", result.focusNode.value)
+      console.info("Severity of error: ", result.severity.value)
       // console.log(result.sourceConstraintComponent)
       // console.log(result.sourceShape)
       /* eslint-enable no-console */
+      if (result.severity.value === "http://www.w3.org/ns/shacl#Violation")
+        violation = true
     }
 
     // Validation report as RDF dataset
     // console.log(report.dataset)
+    if (violation)
+      return Promise.reject(
+        new Error("Validation failed with Violations. See output above.")
+      )
 
-    return false
+    return true
   }
 }
 

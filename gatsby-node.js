@@ -105,8 +105,13 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
   console.info(`Found these turtle files:`)
   ttlFiles.forEach((e) => console.info(e))
   for (const f of ttlFiles) {
-    console.info("Validating: ", f)
-    await validate("shapes/skohub.shacl.ttl", f)
+    try {
+      console.info("Validating: ", f)
+      await validate("shapes/skohub.shacl.ttl", f)
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
     const compacted = await jsonld.compact(doc, context.jsonld)

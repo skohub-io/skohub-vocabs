@@ -9,11 +9,12 @@ describe("validate", () => {
     )
     expect(result).toBeTruthy()
   })
-  it("Returns false for an invalid SkoHub Turtle File", async () => {
-    const result = await validate(
-      "./shapes/skohub.shacl.ttl",
-      "./test/data/ttl/hashURIConceptScheme.ttl"
-    )
-    expect(result).toBeFalsy()
+  it("Throws error for an invalid SkoHub Turtle File", async () => {
+    await expect(() =>
+      validate(
+        "./shapes/skohub.shacl.ttl",
+        "./test/data/ttl/invalid_hashURIConceptScheme.ttl"
+      )
+    ).rejects.toThrowError()
   })
 })
