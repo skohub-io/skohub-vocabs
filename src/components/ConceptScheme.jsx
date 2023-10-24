@@ -3,6 +3,7 @@ import Markdown from "markdown-to-jsx"
 import Concept from "./Concept"
 import { i18n, getDomId, getFilePath } from "../common"
 import JsonLink from "./JsonLink"
+import ConceptURI from "./ConceptURI"
 
 const ConceptScheme = ({
   pageContext: { node: conceptScheme, embed, language, customDomain },
@@ -26,8 +27,8 @@ const ConceptScheme = ({
       }
       <div>
         <h1>{i18n(language)(conceptScheme.title)}</h1>
-        <h2>{conceptScheme.id}</h2>
-        <JsonLink to={getFilePath(conceptScheme.id, "json", customDomain)} />
+        <ConceptURI id={conceptScheme.id} />
+        <JsonLink to={getFilePath(conceptScheme.id, "json")} />
         {conceptScheme.description && (
           <div className="markdown">
             <Markdown>{i18n(language)(conceptScheme.description)}</Markdown>

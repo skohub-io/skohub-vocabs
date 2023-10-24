@@ -121,7 +121,7 @@ export const conceptStyle = (colors) => css`
 
     h2 {
       margin: 0;
-      padding: 0 0 15px 0;
+      padding: 0 0 0 0;
       font-size: 24px;
       line-height: 28px;
       font-weight: 700;
@@ -144,6 +144,69 @@ export const conceptStyle = (colors) => css`
 
   .markdown {
     padding-top: 10px;
+  }
+
+  .conceptURI {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    button {
+      border: 2px solid transparent;
+      border-radius: 5px;
+      padding: 5px;
+      margin: 5px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+    button:hover {
+      border: 2px solid ${colors.skoHubMiddleColor};
+    }
+  }
+  /* Tooltip container */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  /* Tooltip arrow */
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
   }
 `
 
