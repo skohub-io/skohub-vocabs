@@ -40,24 +40,50 @@ async function validate(shapePath, filePath) {
       // See https://www.w3.org/TR/shacl/#results-validation-result for details
       // about each property
       /* eslint-disable no-console */
-      console.info("-----------Error--------------")
-
-      console.info("Message: ", result.message)
-      console.info("Path: ", result.path.value)
-      console.info("Node, where the error occured: ", result.focusNode.value)
-      console.info("Severity of error: ", result.severity.value)
-      // console.log(result.sourceConstraintComponent)
-      // console.log(result.sourceShape)
-      /* eslint-enable no-console */
-      if (result.severity.value === "http://www.w3.org/ns/shacl#Violation")
+      if (result.severity.value === "http://www.w3.org/ns/shacl#Violation") {
         violation = true
+        console.error(
+          "-----------Violation--------------",
+          "\n",
+          "Message: ",
+          result.message,
+          "\n",
+          "Path: ",
+          result.path.value,
+          "\n",
+          "Node, where the error occured: ",
+          result.focusNode.value,
+          "\n",
+          "Severity of error: ",
+          result.severity.value
+        )
+      } else {
+        console.info(
+          "-----------Warning--------------",
+          "\n",
+          "Message: ",
+          result.message,
+          "\n",
+          "Path: ",
+          result.path.value,
+          "\n",
+          "Node, where the error occured: ",
+          result.focusNode.value,
+          "\n",
+          "Severity of error: ",
+          result.severity.value
+        )
+      }
+      /* eslint-enable no-console */
     }
 
     // Validation report as RDF dataset
     // console.log(report.dataset)
     if (violation)
       return Promise.reject(
-        new Error("Validation failed with Violations. See output above.")
+        new Error(
+          `${filePath} is not valid. \n Validation failed with Violations. See output above.`
+        )
       )
 
     return true
