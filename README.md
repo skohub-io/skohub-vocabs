@@ -117,6 +117,7 @@ To start configuring copy the default file `cp config.default.yaml config.yaml`.
 You can configure the following settings:
 
 - Tokenizer used for searching
+- Custom Domain
 - UI Configurations
     - Title
     - Logo
@@ -128,9 +129,17 @@ The settings are explained in the following sections.
 ### Tokenizer
 
 SkoHub Vocabs uses Flexsearch v0.6.32 for its searching capabilities.
-Flexsearch offers [different tokenizers](https://github.com/nextapps-de/flexsearch/tree/0.6.32#tokenizer) for indexing your vocabularies.
+Flexsearch offers [different tokenizers](https://github.com/nextapps-de/flexsearch#tokenizer-prefix-search) for indexing your vocabularies.
 The chosen tokenizer directly affects the required memory and size of your index file.
 SkoHub Vocabs defaults to `full` tokenizer.
+
+### Custom Domain
+
+If you want to host your vocabularies under a custom domain (so no W3 perma-id or purl.org redirect), you have to provide that domain in the config.
+Example:
+
+The base of your concept scheme is: `http://my-awesome-domain.org/my-vocab`
+Then provide `http://my-awesome-domain.org` as `custom_domain` in your `config.yaml`
 
 ### UI
 

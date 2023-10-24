@@ -148,6 +148,7 @@ export const collection = {
 export const CollectionPC = {
   node: collection,
   language: "de",
+  customDomain: "",
 }
 
 export const hashURIConceptScheme = {

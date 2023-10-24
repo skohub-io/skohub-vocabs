@@ -12,7 +12,12 @@ const path = require("path")
 const fs = require("fs-extra")
 const { Index, Document } = require("flexsearch")
 const omitEmpty = require("omit-empty")
-const { i18n, getFilePath, parseLanguages } = require("./src/common")
+const {
+  i18n,
+  getFilePath,
+  parseLanguages,
+  loadConfig,
+} = require("./src/common")
 const context = require("./src/context")
 const queries = require("./src/queries")
 const types = require("./src/types")
@@ -20,6 +25,7 @@ const types = require("./src/types")
 require("dotenv").config()
 require("graceful-fs").gracefulify(require("fs"))
 
+const config = loadConfig("./config.yaml", "./config.default.yaml")
 const languages = new Set()
 const languagesByCS = {}
 const inverses = {
@@ -84,7 +90,8 @@ const exportIndex = (index, conceptScheme, language) => {
       (conceptScheme.id.endsWith("/")
         ? conceptScheme.id.slice(0, -1)
         : conceptScheme.id) + `-cs/search/${language}/${key}`,
-      `json`
+      `json`,
+      config.customDomain
     )
     createData({
       path,
@@ -234,20 +241,25 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       const jsonld = omitEmpty(Object.assign({}, collection, context.jsonld))
       languages.forEach((language) =>
         createPage({
-          path: getFilePath(collection.id, `${language}.html`),
+          path: getFilePath(
+            collection.id,
+            `${language}.html`,
+            config.customDomain
+          ),
           component: path.resolve(`./src/components/Collection.jsx`),
           context: {
             language,
             node: collection,
+            customDomain: config.customDomain,
           },
         })
       )
       createData({
-        path: getFilePath(collection.id, "json"),
+        path: getFilePath(collection.id, "json", config.customDomain),
         data: JSON.stringify(json, null, 2),
       })
       createData({
-        path: getFilePath(collection.id, "jsonld"),
+        path: getFilePath(collection.id, "jsonld", config.customDomain),
         data: JSON.stringify(jsonld, null, 2),
       })
     })
@@ -313,7 +325,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             // create pages and data
             languagesOfCS.forEach((language) =>
               createPage({
-                path: getFilePath(concept.id, `${language}.html`),
+                path: getFilePath(
+                  concept.id,
+                  `${language}.html`,
+                  config.customDomain
+                ),
                 component: path.resolve(`./src/components/Concept.jsx`),
                 context: {
                   language,
@@ -321,15 +337,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
                   collections: memberOf.hasOwnProperty(concept.id)
                     ? memberOf[concept.id]
                     : [],
+                  customDomain: config.customDomain,
                 },
               })
             )
             createData({
-              path: getFilePath(concept.id, "json"),
+              path: getFilePath(concept.id, "json", config.customDomain),
               data: JSON.stringify(json, null, 2),
             })
             createData({
-              path: getFilePath(concept.id, "jsonld"),
+              path: getFilePath(concept.id, "jsonld", config.customDomain),
               data: JSON.stringify(jsonld, null, 2),
             })
           }
@@ -361,23 +378,28 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         })
         languagesOfCS.forEach((language) =>
           createPage({
-            path: getFilePath(conceptScheme.id, `${language}.html`),
+            path: getFilePath(
+              conceptScheme.id,
+              `${language}.html`,
+              config.customDomain
+            ),
             component: path.resolve(`./src/components/ConceptScheme.jsx`),
             context: {
               language,
               node: conceptScheme,
               embed: embeddedConcepts,
+              customDomain: config.customDomain,
             },
           })
         )
         createData({
-          path: getFilePath(conceptScheme.id, "json"),
+          path: getFilePath(conceptScheme.id, "json", config.customDomain),
           data: JSON.stringify(
             omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2)
           ),
         })
         createData({
-          path: getFilePath(conceptScheme.id, "jsonld"),
+          path: getFilePath(conceptScheme.id, "jsonld", config.customDomain),
           data: JSON.stringify(
             omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2)
           ),
@@ -405,6 +427,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             return [key, Array.from(value)]
           })
         ),
+        customDomain: config.customDomain,
       },
     })
   )

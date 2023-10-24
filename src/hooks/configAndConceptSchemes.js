@@ -35,6 +35,7 @@ export const getConfigAndConceptSchemes = () => {
             }
           }
           searchableAttributes
+          customDomain
         }
       }
       allConceptScheme {
