@@ -17,7 +17,7 @@ const Concept = ({
         {i18n(language)(concept.prefLabel)}
       </h1>
       <ConceptURI id={concept.id} />
-      <JsonLink to={getFilePath(concept.id, "json")} />
+      <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
       {concept.definition && (
         <div className="markdown">
           <h3>Definition</h3>

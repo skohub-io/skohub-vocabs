@@ -28,7 +28,7 @@ const ConceptScheme = ({
       <div>
         <h1>{i18n(language)(conceptScheme.title)}</h1>
         <ConceptURI id={conceptScheme.id} />
-        <JsonLink to={getFilePath(conceptScheme.id, "json")} />
+        <JsonLink to={getFilePath(conceptScheme.id, "json", customDomain)} />
         {conceptScheme.description && (
           <div className="markdown">
             <Markdown>{i18n(language)(conceptScheme.description)}</Markdown>
