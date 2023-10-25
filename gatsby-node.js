@@ -21,6 +21,7 @@ const {
 const context = require("./src/context")
 const queries = require("./src/queries")
 const types = require("./src/types")
+const { validate } = require("./src/validate.js")
 
 require("dotenv").config()
 require("graceful-fs").gracefulify(require("fs"))
@@ -111,6 +112,13 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
   console.info(`Found these turtle files:`)
   ttlFiles.forEach((e) => console.info(e))
   for (const f of ttlFiles) {
+    try {
+      console.info("Validating: ", f)
+      await validate("shapes/skohub.shacl.ttl", f)
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
     const compacted = await jsonld.compact(doc, context.jsonld)
