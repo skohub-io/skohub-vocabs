@@ -4,10 +4,15 @@ import Concept from "./Concept"
 import { i18n, getDomId, getFilePath } from "../common"
 import JsonLink from "./JsonLink"
 import ConceptURI from "./ConceptURI"
+import { getUserLang } from "../hooks/getUserLanguage"
+import { useSkoHubContext } from "../context/Context"
 
 const ConceptScheme = ({
-  pageContext: { node: conceptScheme, embed, language, customDomain },
+  pageContext: { node: conceptScheme, embed, customDomain, availableLanguages },
 }) => {
+  const { data, _ } = useSkoHubContext()
+  const language = getUserLang({availableLanguages, selectedLanguage: data?.selectedLanguage})
+
   return (
     <div
       className="content concept block main-block"

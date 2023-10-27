@@ -2,14 +2,17 @@ import Markdown from "markdown-to-jsx"
 import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
+import { getUserLang } from "../hooks/getUserLanguage.js"
+import { useSkoHubContext } from "../context/Context.jsx"
 import { i18n, getDomId, getFilePath } from "../common"
 import ConceptURI from "./ConceptURI.jsx"
 
 const Concept = ({
-  pageContext: { node: concept, language, collections, customDomain },
+  pageContext: { node: concept,  collections, customDomain, availableLanguages },
 }) => {
   const conceptSchemes = getConceptSchemes()
-
+  const { data, _ } = useSkoHubContext()
+  const language = getUserLang({availableLanguages, selectedLanguage: data?.selectedLanguage})
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
       <h1>
@@ -169,7 +172,7 @@ const Concept = ({
                 <Link
                   to={getFilePath(
                     collection.id,
-                    `${language}.html`,
+                    `html`,
                     customDomain
                   )}
                 >

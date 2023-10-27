@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { css } from "@emotion/react"
 import { i18n, getFilePath, getFragment } from "../common"
 import { Link as GatsbyLink } from "gatsby"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
+import { getUserLang } from "../hooks/getUserLanguage"
+import { useSkoHubContext } from "../context/Context"
 
 const getNestedItems = (item) => {
   let ids = [item.id]
@@ -36,6 +38,7 @@ const NestedList = ({
   customDomain,
 }) => {
   const { config } = getConfigAndConceptSchemes()
+
   const style = css`
     list-style-type: none;
     padding: 0;
@@ -267,7 +270,7 @@ const NestedList = ({
         "aria-current": item.id === current ? "true" : "false",
         ...(LinkTag === "a"
           ? { href: getFragment(item.id) }
-          : { to: getFilePath(item.id, `${language}.html`, customDomain) }),
+          : { to: getFilePath(item.id, `html`, customDomain) }),
       },
       children
     )
