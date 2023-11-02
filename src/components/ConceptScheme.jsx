@@ -11,7 +11,10 @@ const ConceptScheme = ({
   pageContext: { node: conceptScheme, embed, customDomain, availableLanguages },
 }) => {
   const { data, _ } = useSkoHubContext()
-  const language = getUserLang({availableLanguages, selectedLanguage: data?.selectedLanguage})
+  const language = getUserLang({
+    availableLanguages,
+    selectedLanguage: data?.selectedLanguage,
+  })
 
   return (
     <div

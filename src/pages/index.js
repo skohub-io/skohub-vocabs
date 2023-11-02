@@ -20,7 +20,9 @@ const IndexPage = () => {
       const res = await fetch("index.json")
       const csData = await res.json()
       setConceptSchemes(csData)
-      const languages = Array.from(new Set([...csData.flatMap(cs => cs.languages)]))
+      const languages = Array.from(
+        new Set([...csData.flatMap((cs) => cs.languages)])
+      )
       updateState({ ...data, languages: languages })
     }
     fetchConceptData()
@@ -28,8 +30,14 @@ const IndexPage = () => {
 
   // set language stuff
   useEffect(() => {
-    if (data?.languages) setLanguage(getUserLang({ availableLanguages: data.languages, selectedLanguage: data.selectedLanguage ?? null }))
-  }, [data?.selectedLanguage])
+    if (data?.languages)
+      setLanguage(
+        getUserLang({
+          availableLanguages: data.languages,
+          selectedLanguage: data?.selectedLanguage || null,
+        })
+      )
+  }, [data?.languages, data?.selectedLanguage])
 
   return (
     <Layout language={language}>
@@ -39,13 +47,20 @@ const IndexPage = () => {
           {conceptSchemes.map((conceptScheme) => (
             <li key={conceptScheme.id}>
               <Link
-                to={getFilePath(
-                  conceptScheme.id,
-                  `html`,
-                  customDomain
-                )}
+                onClick={() =>
+                  updateState({
+                    ...data,
+                    conceptSchemeLanguages: [...conceptScheme.languages],
+                    currentScheme: { id: conceptScheme.id },
+                    selectedLanguage: conceptScheme.languages.includes(language)
+                      ? language
+                      : conceptScheme.languages[0],
+                  })
+                }
+                to={getFilePath(conceptScheme.id, `html`, customDomain)}
               >
-                {conceptScheme.title && i18n(language)(conceptScheme.title) || conceptScheme.id}
+                {(conceptScheme.title && i18n(language)(conceptScheme.title)) ||
+                  conceptScheme.id}
               </Link>
             </li>
           ))}

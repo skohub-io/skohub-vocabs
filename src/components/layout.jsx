@@ -179,14 +179,10 @@ const Layout = ({ children, language }) => {
           }
         `}
       />
-      <Header
-        siteTitle={qdata.site.siteMetadata.title}
-      />
+      <Header siteTitle={qdata.site.siteMetadata.title} />
       <main>{children}</main>
 
-      <Footer
-        siteTitle={qdata.site.siteMetadata.title}
-      />
+      <Footer siteTitle={qdata.site.siteMetadata.title} />
     </div>
   )
 }

@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react"
 const defaultState = {
   currentScheme: {},
   selectedLanguage: "",
-  conceptSchemeLanguages: []
+  conceptSchemeLanguages: [],
 }
 const Context = createContext(defaultState)
 
