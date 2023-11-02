@@ -125,6 +125,7 @@ You can configure the following settings:
 
 - Tokenizer used for searching
 - Custom Domain
+- Fail on Validation
 - UI Configurations
     - Title
     - Logo
@@ -147,6 +148,10 @@ Example:
 
 The base of your concept scheme is: `http://my-awesome-domain.org/my-vocab`
 Then provide `http://my-awesome-domain.org` as `custom_domain` in your `config.yaml`
+
+### Fail on Validation
+
+If `true` (default) the build process will stop if a validation error occures.
 
 ### UI
 
