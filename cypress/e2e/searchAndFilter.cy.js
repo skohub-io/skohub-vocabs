@@ -1,7 +1,11 @@
 describe("search and filter", () => {
   // search and filter works
   it("search for top concept works", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
 
     cy.get("span").contains("Konzept 2").should("exist")
     cy.findByRole("textbox").type("Konzept 1")
@@ -10,7 +14,11 @@ describe("search and filter", () => {
   })
 
   it("search for nested concept works", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
 
     cy.get("span").contains("Konzept 2").should("exist")
     cy.findByRole("textbox").type("Konzept 2")
@@ -20,7 +28,11 @@ describe("search and filter", () => {
   })
 
   it("search works after switching language", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
 
     cy.contains("en").click().wait(0) // eslint-disable-line
 
@@ -34,18 +46,26 @@ describe("search and filter", () => {
   })
 
   it("search works after switching concept schemes", () => {
-    cy.visit("/w3id.org/kim/hochschulfaechersystematik/scheme.en.html")
+    cy.visit("/w3id.org/kim/hochschulfaechersystematik/scheme.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "en-EN" })
+      },
+    })
     cy.findByRole("textbox").type("Mathema")
 
     cy.get("span").contains("Mathematic").should("exist")
 
-    cy.visit("/w3id.org/cs-splitted-two-files/index.en.html")
+    cy.visit("/w3id.org/cs-splitted-two-files/index.html")
 
     cy.get("span").contains("Concept 1").should("exist")
   })
 
   it("turning on altLabel checkbox returns altLabel matches", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
     cy.findByRole("textbox").type("Alternat")
     cy.get("p").contains("Nothing found").should("exist")
     cy.get("#settings").click()
@@ -55,7 +75,11 @@ describe("search and filter", () => {
   })
 
   it("turning on hiddenLabel checkbox returns hiddenLabel matches", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
     cy.findByRole("textbox").type("Verstecktes")
     cy.get("p").contains("Nothing found").should("exist")
     cy.get("#settings").click()
@@ -64,7 +88,11 @@ describe("search and filter", () => {
   })
 
   it("turning on notation checkbox returns notation matches", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
     cy.findByRole("textbox").type("Notat")
     cy.get("p").contains("Nothing found").should("exist")
     cy.get("#settings").click()
@@ -74,7 +102,11 @@ describe("search and filter", () => {
   })
 
   it("turning on definition checkbox returns definition matches", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
     cy.findByRole("textbox").type("Meine Defi")
     cy.get("p").contains("Nothing found").should("exist")
     cy.get("#settings").click()
@@ -84,7 +116,11 @@ describe("search and filter", () => {
   })
 
   it("turning on example checkbox returns example matches", () => {
-    cy.visit("/w3id.org/index.de.html")
+    cy.visit("/w3id.org/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
     cy.findByRole("textbox").type("Beis")
     cy.get("p").contains("Nothing found").should("exist")
     cy.get("#settings").click()
