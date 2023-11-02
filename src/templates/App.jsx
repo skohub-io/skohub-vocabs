@@ -45,10 +45,18 @@ const App = ({ pageContext, children }) => {
     }
   }
 
+  // TODO fix the optional chaining stuff
   const [language, setLanguage] = useState("")
   useEffect(() => {
-    data?.conceptSchemeLanguages && setLanguage(getUserLang({availableLanguages: pageContext.availableLanguages, selectedLanguage: data.selectedLanguage ?? null}))
-  }, [data?.languages, data?.selectedLanguage])
+    data?.conceptSchemeLanguages &&
+      setLanguage(
+        getUserLang({
+          availableLanguages:
+            pageContext.availableLanguages || data.conceptSchemeLanguages,
+          selectedLanguage: data.selectedLanguage ?? null,
+        })
+      )
+  }, [data?.languages, data?.selectedLanguage, data?.conceptSchemeLanguages])
 
   // Fetch and load the serialized index
   useEffect(() => {

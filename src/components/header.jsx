@@ -106,17 +106,19 @@ const Header = ({ siteTitle }) => {
 
   // set page language
   useEffect(() => {
-    if (typeof(languages) !== "undefined" && languages.length) {
-      const userLang = getUserLang({availableLanguages: languages, selectedLanguage: data.selectedLanguage})
+    if (typeof languages !== "undefined" && languages.length) {
+      const userLang = getUserLang({
+        availableLanguages: languages,
+        selectedLanguage: data.selectedLanguage,
+      })
       setLanguage(userLang)
       // updateState({...data, selectedLanguage: userLang})
-      } 
+    }
   }, [data?.selectedLanguage, languages])
-  
+
   // Set Languages
   useEffect(() => {
     if (!data.currentScheme.id) {
-      console.log(data)
       setLanguages(data.languages)
     } else {
       setLanguages(conceptSchemesData[data.currentScheme.id].languages)
@@ -134,13 +136,21 @@ const Header = ({ siteTitle }) => {
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
-          updateState({ ...data, currentScheme: r, conceptSchemeLanguages: languages })
+          updateState({
+            ...data,
+            currentScheme: r,
+            conceptSchemeLanguages: languages,
+          })
         } else if (r.type === "Concept") {
           // FIXME how to handle inScheme as array? Currently we fetch the first scheme
           // this could also be cached in local storage but that might also be a bit overkill
           const cs = r.inScheme[0]
           Object.keys(data.currentScheme).length === 0 &&
-            updateState({ ...data, currentScheme: cs, conceptSchemeLanguages: languages })
+            updateState({
+              ...data,
+              currentScheme: cs,
+              conceptSchemeLanguages: languages,
+            })
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
           // so we need to check each member till we find a concept
@@ -155,7 +165,11 @@ const Header = ({ siteTitle }) => {
             const res = await (await fetch(path)).json()
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
-              updateState({ ...data, currentScheme: cs, conceptSchemeLanguages: languages })
+              updateState({
+                ...data,
+                currentScheme: cs,
+                conceptSchemeLanguages: languages,
+              })
               break
             }
           }
@@ -175,7 +189,10 @@ const Header = ({ siteTitle }) => {
     <header css={style}>
       <div className="headerContent">
         <div className="skohubLogo">
-          <Link to={`/`} onClick={() => updateState({...data, currentScheme: {}})}>
+          <Link
+            to={`/`}
+            onClick={() => updateState({ ...data, currentScheme: {} })}
+          >
             {config.logo && (
               <img
                 className="skohubImg"
@@ -215,7 +232,13 @@ const Header = ({ siteTitle }) => {
                 {l === language ? (
                   <button className="currentLanguage">{l}</button>
                 ) : (
-                  <button onClick={() => updateState({...data, selectedLanguage: l})}>{l}</button>
+                  <button
+                    onClick={() =>
+                      updateState({ ...data, selectedLanguage: l })
+                    }
+                  >
+                    {l}
+                  </button>
                 )}
               </li>
             ))}
