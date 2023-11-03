@@ -35,18 +35,7 @@ describe("Header", () => {
     const actual = await vi.importActual("../src/context/Context.jsx")
     return {
       ...actual,
-      useSkoHubContext: vi.fn().mockReturnValue({
-        data: {
-          currentScheme: {
-            id: "http://example.org/hashURIConceptScheme#scheme",
-            title: {
-              de: "Hash URI Konzept Schema",
-            },
-          },
-          selectedLanguage: "de",
-        },
-        updateState: vi.fn(),
-      }),
+      useSkoHubContext: vi.fn(),
     }
   })
 
