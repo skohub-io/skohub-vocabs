@@ -192,17 +192,7 @@ const Concept = ({
               otherwise link to first present language
               */}
                 {Object.keys(conceptSchemes).includes(inScheme.id) ? (
-                  <Link
-                    to={getFilePath(
-                      inScheme.id,
-                      `${
-                        conceptSchemes[inScheme.id].languages.includes(language)
-                          ? language
-                          : conceptSchemes[inScheme.id].languages[0]
-                      }.html`,
-                      customDomain
-                    )}
-                  >
+                  <Link to={getFilePath(inScheme.id, "html", customDomain)}>
                     {inScheme.id}
                   </Link>
                 ) : (

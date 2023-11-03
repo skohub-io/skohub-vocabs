@@ -49,7 +49,15 @@ describe.concurrent("Concept", () => {
   })
 
   it("renders no definition if not provided in language", () => {
-    render(<Concept pageContext={{ ...ConceptPC, language: "en" }} />)
+    render(
+      <Concept
+        pageContext={{
+          ...ConceptPC,
+          language: "en",
+          availableLanguages: ["de", "en"],
+        }}
+      />
+    )
     expect(screen.queryByText("Meine Definition")).toBeNull()
     expect(
       screen.getByText('No definition in language "en" provided.')
@@ -181,7 +189,7 @@ describe.concurrent("Concept", () => {
      */
     expect(
       screen.getByRole("link", { name: "http://w3id.org/cs2/" })
-    ).toHaveAttribute("href", "/w3id.org/cs2/index.en.html")
+    ).toHaveAttribute("href", "/w3id.org/cs2/index.html")
 
     expect(
       screen.getByRole("link", { name: /just-another-scheme/i })

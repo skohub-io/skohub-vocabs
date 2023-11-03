@@ -42,7 +42,7 @@ describe("App", () => {
   useStaticQuery.mockImplementation(() => mockConfig)
 
   it("renders App component with expand and collapse button", async () => {
-    const route = "/w3id.org/index.de.html"
+    const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       renderApp(history, ConceptSchemePC)
@@ -52,7 +52,7 @@ describe("App", () => {
   })
 
   it("renders App component **without** collapse and expand button", async () => {
-    const route = "/w3id.org/index.de.html"
+    const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
 
     // remove narrower from concept
@@ -74,7 +74,7 @@ describe("App", () => {
 
   it("correctly fetches tree when page context is a concept", async () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
-    const route = "/w3id.org/c1.de.html"
+    const route = "/w3id.org/c1.html"
     const history = createHistory(createMemorySource(route))
 
     await act(() => {
@@ -89,7 +89,7 @@ describe("App", () => {
 
   it("correctly fetches tree when page context is a collection", async () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
-    const route = "/w3id.org/collection.de.html"
+    const route = "/w3id.org/collection.html"
     const history = createHistory(createMemorySource(route))
 
     await act(() => {
@@ -105,7 +105,7 @@ describe("App", () => {
 
   it("search is working", async () => {
     const user = userEvent.setup()
-    const route = "/w3id.org/index.de.html"
+    const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
     await act(() => {
       renderApp(history, ConceptSchemePC)
