@@ -112,18 +112,17 @@ const Header = ({ siteTitle }) => {
         selectedLanguage: data.selectedLanguage,
       })
       setLanguage(userLang)
-      // updateState({...data, selectedLanguage: userLang})
     }
   }, [data?.selectedLanguage, languages])
 
   // Set Languages
   useEffect(() => {
-    if (!data.currentScheme.id) {
+    if (!data?.currentScheme?.id) {
       setLanguages(data.languages)
     } else {
       setLanguages(conceptSchemesData[data.currentScheme.id].languages)
     }
-  }, [data?.currentScheme.id, data?.languages])
+  }, [data?.currentScheme?.id, data?.languages])
 
   /**
    * To display the concept scheme title in the header
@@ -175,6 +174,9 @@ const Header = ({ siteTitle }) => {
           }
         } else {
           // TODO can this be made simpler? like setLangs(languages)?
+          if (data.languages) {
+            setLanguages(data.languages)
+          }
         }
       })
       .catch((err) => {
@@ -183,7 +185,7 @@ const Header = ({ siteTitle }) => {
          * index page so we need to set languages hard
          */
       })
-  }, [pathName, languages])
+  }, [pathName, languages, data.languages])
 
   return (
     <header css={style}>

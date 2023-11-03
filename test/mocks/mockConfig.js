@@ -68,6 +68,14 @@ export const mockConfig = {
           },
         },
       },
+      {
+        node: {
+          id: "http://no-in-scheme/w3id.org/",
+          fields: {
+            languages: ["de", "en", "uk"],
+          },
+        },
+      },
     ],
   },
 }
