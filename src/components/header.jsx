@@ -185,7 +185,7 @@ const Header = ({ siteTitle }) => {
          * index page so we need to set languages hard
          */
       })
-  }, [pathName, languages, data.languages])
+  }, [pathName, languages, data?.languages])
 
   return (
     <header css={style}>
