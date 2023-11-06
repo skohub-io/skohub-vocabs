@@ -13,4 +13,4 @@ cp test/data/ttl/hashURIConceptScheme.ttl \
  test/data/ttl/twoConceptSchemesOneFile.ttl \
    data/
 
-cp cypress/config.yaml ./config.yaml
+cp cypress/config.e2e.yaml ./config.yaml

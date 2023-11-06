@@ -5,7 +5,6 @@ describe("Concept Scheme and Concept", () => {
     cy.visit("/w3id.org/kim/hochschulfaechersystematik/n1.html")
     cy.findByRole("button", { name: "Expand" }).click()
     cy.get(".concepts").scrollTo("bottom")
-    cy.get("[id$=n1]").scrollTo("bottom")
   })
 
   it("Scrolling in Nested List and Concept on smaller screen", () => {
@@ -13,7 +12,7 @@ describe("Concept Scheme and Concept", () => {
     cy.viewport(1024, 768)
     cy.visit("/w3id.org/kim/hochschulfaechersystematik/n1.html")
     cy.findByRole("button", { name: "Expand" }).click()
-    cy.get(".concepts").scrollTo("bottom")
+    cy.scrollTo("bottom")
   })
 
   it("Scrolling in Nested List and Concept on small screen", () => {
