@@ -68,6 +68,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          headed: true
           start: npm run develop -- -p 8000
           wait-on: 'http://0.0.0.0:8000' # see https://github.com/cypress-io/github-action#wait-on-with-nodejs-18
           config: baseUrl=http://localhost:8000
