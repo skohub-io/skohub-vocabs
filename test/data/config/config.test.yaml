@@ -1,6 +1,5 @@
----
-# see https://github.com/nextapps-de/flexsearch/tree/0.6.32#tokenizer for options
 tokenizer: "full" # strict, forward, reverse, full
+fail_on_validation: true
 ui:
   title: "Hello World"
   logo: "my-logo.png" # Path

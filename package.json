@@ -36,13 +36,13 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@testing-library/cypress": "^9.0.0",
+    "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@vitejs/plugin-react": "^4.0.4",
     "@vitest/coverage-v8": "^0.34.2",
-    "cypress": "^12.3.0",
+    "cypress": "^13.4.0",
     "eslint": "^8.29.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-cypress": "^2.12.1",
@@ -50,7 +50,7 @@
     "husky": "^8.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jsdom": "^22.1.0",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^15.0.2",
     "prettier": "^3.0.2",
     "start-server-and-test": "^2.0.0",
     "vitest": "^0.34.1"
@@ -73,8 +73,8 @@
     "prepare": "husky install",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test:e2e": "cypress/prepare-cypress-test.sh && start-server-and-test develop http://localhost:8000/index.de.html cy:open",
-    "test:e2e:ci": "cypress/prepare-cypress-test.sh && start-server-and-test develop http://localhost:8000/index.de.html cy:run"
+    "test:e2e": "cypress/prepare-cypress-test.sh && start-server-and-test develop http://0.0.0.0:8000 cy:open",
+    "test:e2e:ci": "cypress/prepare-cypress-test.sh && start-server-and-test develop http://0.0.0.0:8000 cy:run"
   },
   "repository": {
     "type": "git",

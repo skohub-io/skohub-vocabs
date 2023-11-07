@@ -12,6 +12,7 @@ import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { withPrefix } from "gatsby"
 import { handleKeypresses, importIndex } from "./helpers"
+import { getUserLang } from "../hooks/getUserLanguage"
 
 const App = ({ pageContext, children }) => {
   const { data } = useSkoHubContext()
@@ -44,16 +45,29 @@ const App = ({ pageContext, children }) => {
     }
   }
 
+  // TODO fix the optional chaining stuff
+  const [language, setLanguage] = useState("")
+  useEffect(() => {
+    data?.conceptSchemeLanguages &&
+      setLanguage(
+        getUserLang({
+          availableLanguages:
+            pageContext.availableLanguages || data.conceptSchemeLanguages,
+          selectedLanguage: data.selectedLanguage ?? null,
+        })
+      )
+  }, [data?.languages, data?.selectedLanguage, data?.conceptSchemeLanguages])
+
   // Fetch and load the serialized index
   useEffect(() => {
     importIndex(
       data?.currentScheme?.id,
       labels,
-      pageContext.language,
+      language,
       setIndex,
       config.customDomain
     )
-  }, [data, pageContext.language, labels])
+  }, [data, language, labels])
 
   // Fetch and load the tree
   useEffect(() => {
@@ -83,7 +97,7 @@ const App = ({ pageContext, children }) => {
   const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
 
   return (
-    <Layout languages={pageContext.languages} language={pageContext.language}>
+    <Layout language={pageContext.language}>
       <SEO
         title={i18n(pageContext.language)(
           pageContext.node.prefLabel || pageContext.node.title
@@ -112,7 +126,7 @@ const App = ({ pageContext, children }) => {
                   query && index?.search ? index.search(query) : null
                 }
                 highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
-                language={pageContext.language}
+                language={language}
                 topLevel={true}
                 customDomain={config.customDomain}
               />

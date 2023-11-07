@@ -8,14 +8,16 @@ import React from "react"
 import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, withPrefix } from "gatsby"
+import { useSkoHubContext } from "../context/Context"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 import Header from "./header.jsx"
 import Footer from "./footer.jsx"
 
-const Layout = ({ children, languages, language }) => {
+const Layout = ({ children, language }) => {
   const { config } = getConfigAndConceptSchemes()
+  const { data, _ } = useSkoHubContext()
   const style = css`
     height: 100vh;
     display: flex;
@@ -51,7 +53,7 @@ const Layout = ({ children, languages, language }) => {
       box-shadow: 0 10px 20px ${config.colors.skoHubBlackColor};
     }
   `
-  const data = useStaticQuery(graphql`
+  const qdata = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
@@ -177,18 +179,10 @@ const Layout = ({ children, languages, language }) => {
           }
         `}
       />
-      <Header
-        siteTitle={data.site.siteMetadata.title}
-        languages={languages}
-        language={language}
-      />
+      <Header siteTitle={qdata.site.siteMetadata.title} />
       <main>{children}</main>
 
-      <Footer
-        siteTitle={data.site.siteMetadata.title}
-        languages={languages}
-        language={language}
-      />
+      <Footer siteTitle={qdata.site.siteMetadata.title} />
     </div>
   )
 }

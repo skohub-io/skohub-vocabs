@@ -2,7 +2,7 @@
 # see https://github.com/nextapps-de/flexsearch#tokenizer-prefix-search for options
 tokenizer: "full" # strict, forward, reverse, full
 custom_domain: ""
-fail_on_validation: true
+fail_on_validation: false
 searchableAttributes:
   - "prefLabel" # you should not delete this one
   - "notation"

@@ -5,8 +5,9 @@ import { Link, withPrefix } from "gatsby"
 import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
+import { getUserLang } from "../hooks/getUserLanguage"
 
-const Header = ({ siteTitle, languages, language }) => {
+const Header = ({ siteTitle }) => {
   const { config, conceptSchemes: conceptSchemesData } =
     getConfigAndConceptSchemes()
   const { data, updateState } = useSkoHubContext()
@@ -73,7 +74,8 @@ const Header = ({ siteTitle, languages, language }) => {
         margin: 0 0 0 5px;
         display: inline;
 
-        a {
+        button {
+          background: none;
           display: inline-block;
           padding: 5px;
           color: ${config.colors.skoHubMiddleGrey};
@@ -87,6 +89,7 @@ const Header = ({ siteTitle, languages, language }) => {
         }
 
         .currentLanguage {
+          color: black;
           font-weight: bold;
           display: inline-block;
           padding: 5px;
@@ -97,8 +100,29 @@ const Header = ({ siteTitle, languages, language }) => {
     }
   `
 
-  const [langs, setLangs] = useState(new Set())
-  const pathName = useLocation().pathname.slice(0, -8)
+  const [languages, setLanguages] = useState([])
+  const [language, setLanguage] = useState("")
+  const pathName = useLocation().pathname.slice(0, -5)
+
+  // set page language
+  useEffect(() => {
+    if (typeof languages !== "undefined" && languages.length) {
+      const userLang = getUserLang({
+        availableLanguages: languages,
+        selectedLanguage: data.selectedLanguage,
+      })
+      setLanguage(userLang)
+    }
+  }, [data?.selectedLanguage, languages])
+
+  // Set Languages
+  useEffect(() => {
+    if (!data?.currentScheme?.id) {
+      setLanguages(data.languages)
+    } else {
+      setLanguages(conceptSchemesData[data.currentScheme.id].languages)
+    }
+  }, [data?.currentScheme?.id, data?.languages])
 
   /**
    * To display the concept scheme title in the header
@@ -111,15 +135,21 @@ const Header = ({ siteTitle, languages, language }) => {
       .then((response) => response.json())
       .then(async (r) => {
         if (r.type === "ConceptScheme") {
-          updateState({ ...data, currentScheme: r })
-          setLangs(() => new Set(conceptSchemesData[r.id].languages))
+          updateState({
+            ...data,
+            currentScheme: r,
+            conceptSchemeLanguages: languages,
+          })
         } else if (r.type === "Concept") {
           // FIXME how to handle inScheme as array? Currently we fetch the first scheme
           // this could also be cached in local storage but that might also be a bit overkill
           const cs = r.inScheme[0]
           Object.keys(data.currentScheme).length === 0 &&
-            updateState({ ...data, currentScheme: cs })
-          setLangs(() => new Set(conceptSchemesData[cs.id].languages))
+            updateState({
+              ...data,
+              currentScheme: cs,
+              conceptSchemeLanguages: languages,
+            })
         } else if (r.type === "Collection") {
           // members of a collection can either be skos:Concepts or skos:Collection
           // so we need to check each member till we find a concept
@@ -134,13 +164,19 @@ const Header = ({ siteTitle, languages, language }) => {
             const res = await (await fetch(path)).json()
             const cs = res.inScheme[0]
             if (res.type === "Concept") {
-              updateState({ ...data, currentScheme: cs })
-              setLangs(() => new Set(conceptSchemesData[cs.id].languages))
+              updateState({
+                ...data,
+                currentScheme: cs,
+                conceptSchemeLanguages: languages,
+              })
               break
             }
           }
         } else {
-          languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
+          // TODO can this be made simpler? like setLangs(languages)?
+          if (data.languages) {
+            setLanguages(data.languages)
+          }
         }
       })
       .catch((err) => {
@@ -148,17 +184,17 @@ const Header = ({ siteTitle, languages, language }) => {
          * that we can use to retrieve languages when using header on the
          * index page so we need to set languages hard
          */
-        if (typeof languages !== "undefined") {
-          languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
-        }
       })
-  }, [pathName, languages])
+  }, [pathName, languages, data?.languages])
 
   return (
     <header css={style}>
       <div className="headerContent">
         <div className="skohubLogo">
-          <Link to={`/index.${language}.html`}>
+          <Link
+            to={`/`}
+            onClick={() => updateState({ ...data, currentScheme: {} })}
+          >
             {config.logo && (
               <img
                 className="skohubImg"
@@ -168,7 +204,7 @@ const Header = ({ siteTitle, languages, language }) => {
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {data?.currentScheme?.id && (
+          {data?.currentScheme?.id && pathName !== "" && (
             <div className="conceptSchemes">
               <div
                 key={data.currentScheme.id}
@@ -180,7 +216,7 @@ const Header = ({ siteTitle, languages, language }) => {
                 <Link
                   to={getFilePath(
                     data.currentScheme.id,
-                    `${language}.html`,
+                    `html`,
                     config.customDomain
                   )}
                 >
@@ -191,18 +227,20 @@ const Header = ({ siteTitle, languages, language }) => {
             </div>
           )}
         </div>
-        {langs && Array.from(langs).length > 1 && (
+        {languages && languages.length > 1 && (
           <ul className="language-menu">
-            {Array.from(langs).map((l) => (
+            {languages.map((l) => (
               <li key={l}>
                 {l === language ? (
-                  <span className="currentLanguage">{l}</span>
+                  <button className="currentLanguage">{l}</button>
                 ) : (
-                  <Link
-                    to={getLinkPath(pathName, `${l}.html`, config.customDomain)}
+                  <button
+                    onClick={() =>
+                      updateState({ ...data, selectedLanguage: l })
+                    }
                   >
                     {l}
-                  </Link>
+                  </button>
                 )}
               </li>
             ))}

@@ -36,6 +36,7 @@ export const getConfigAndConceptSchemes = () => {
           }
           searchableAttributes
           customDomain
+          failOnValidation
         }
       }
       allConceptScheme {

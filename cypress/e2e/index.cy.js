@@ -1,7 +1,10 @@
 describe("Main Vocab Index page", () => {
   it("Visits index page and test language switch", () => {
-    cy.visit("/index.de.html")
-
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
     // vocabs are found
     cy.get(".centerPage > ul li").should("have.length", 7)
 

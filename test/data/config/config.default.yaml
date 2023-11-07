@@ -3,6 +3,7 @@
 tokenizer: "full" # strict, forward, reverse, full
 searchableAttributes:
   - "prefLabel"
+fail_on_validation: true
 ui:
   colors:
     skoHubWhite: "rgb(255, 255, 255)"
