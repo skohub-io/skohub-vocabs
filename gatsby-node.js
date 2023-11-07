@@ -403,8 +403,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     )
   )
-  console.log(languagesByCS)
-  console.log(conceptSchemes.data.allConceptScheme.edges)
   const indexData = await Promise.all(
     conceptSchemes.data.allConceptScheme.edges.map(({ node: cs }) => ({
       id: cs.id,
