@@ -34,7 +34,7 @@ describe("search and filter", () => {
       },
     })
 
-    cy.contains("en").click().wait(1000) // eslint-disable-line
+    cy.contains("en").click()
 
     // cy.get(".currentLanguage").contains("en").should("exist")
     cy.get("span").contains("Konzept 1").should("not.exist")
