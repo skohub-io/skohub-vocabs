@@ -3,11 +3,13 @@ const fs = require("fs")
 
 const i18n = (lang) => (localized) => localized[lang] || ""
 
-const getFilePath = (url, extension) => {
-  let path = url
-    .replace(/^https?:\//, "")
-    .split("#")
-    .shift()
+const getFilePath = (url, extension, pattern) => {
+  if (!pattern) {
+    pattern = /^https?:\//
+  } else if (pattern.endsWith("/")) {
+    pattern = pattern.slice(0, -1)
+  }
+  let path = url.replace(pattern, "").split("#").shift()
   path.endsWith("/") && (path += "index")
   return extension ? `${path}.${extension}` : path
 }
@@ -21,8 +23,12 @@ Get File Path for Gatsby Link component
 // returns "../1.de.html"
 getLinkPath("http://w3id.org/class/hochschulfaecher/1", "de.html")
 **/
-const getLinkPath = (path, extension) => {
-  const linkPath = "../" + getFilePath(path).split("/").pop() + "." + extension
+const getLinkPath = (path, extension, customDomain) => {
+  const linkPath =
+    "../" +
+    getFilePath(path, "", customDomain).split("/").pop() +
+    "." +
+    extension
   return linkPath
 }
 
@@ -33,16 +39,17 @@ Replaces the last part (Filepath) of a given url with the last part (Filepath) o
 @param {string} [extension] - extension to be added
 @returns {string} path
 **/
-const replaceFilePathInUrl = (url, replaceId, extension) => {
+const replaceFilePathInUrl = (url, replaceId, extension, customDomain) => {
   // we use getFilePath function to add a missing "index" if necessary
   const path = getFilePath(url)
-    .replace(/\/[^\/]*$/, "/" + getFilePath(replaceId).split("/").pop())
+    .replace(
+      /\/[^\/]*$/,
+      "/" + getFilePath(replaceId, "", customDomain).split("/").pop()
+    )
     .split("#")
     .shift()
   return extension ? `${path}.${extension}` : path
 }
-
-const getPath = (url) => url.replace(/^https?:\/\//, "")
 
 const getFragment = (url) => new URL(url).hash
 
@@ -85,13 +92,22 @@ const parseLanguages = (graph) => {
 }
 
 /**
+ * @typedef {Object} Config
+ * @property {string} title
+ * @property {string} logo
+ * @property {string} tokenizer
+ * @property {Object} colors
+ * @property {string} customDomain
+ */
+
+/**
  * Loads and parses the config file.
  * If no configFile is provided it will use the default config file.
  * @param {string} configFile
  * @param {string} defaultFile
- * @returns {object} config
+ * @returns {Config} config
  */
-const loadConfig = (configFile, defaultFile) => {
+function loadConfig(configFile, defaultFile) {
   let userConfig
   const defaults = yaml.load(fs.readFileSync(defaultFile, "utf8"))
 
@@ -108,11 +124,14 @@ const loadConfig = (configFile, defaultFile) => {
     throw Error("A Title has to be provided! Please check your config.yaml")
   }
 
-  /* the values for these attributes are necessary
+  /**
+  the values for these attributes are necessary
   for SkoHub Vocabs to work correctly. Therefore we use
   default values from config.example.yaml if there are 
   no values provided
   */
+
+  /** @type Config */
   const config = {
     title: userConfig.ui.title,
     logo: userConfig.ui.logo || "",
@@ -121,6 +140,7 @@ const loadConfig = (configFile, defaultFile) => {
     fonts: userConfig.ui.fonts || defaults.ui.fonts,
     searchableAttributes:
       userConfig.searchableAttributes || defaults.searchableAttributes,
+    customDomain: userConfig.custom_domain || "",
   }
 
   // check if all relevant colors are contained, otherwise use default colors
@@ -175,7 +195,6 @@ const loadConfig = (configFile, defaultFile) => {
 
 module.exports = {
   i18n,
-  getPath,
   getFilePath,
   replaceFilePathInUrl,
   getFragment,
