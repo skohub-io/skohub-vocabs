@@ -28,13 +28,15 @@ describe("search and filter", () => {
   })
 
   it("search works after switching language", () => {
+    cy.intercept("GET", "/w3id.org-cs/search/en/*").as("prefLabel")
     cy.visit("/w3id.org/index.html", {
       onBeforeLoad(win) {
         Object.defineProperty(win.navigator, "language", { value: "de-DE" })
       },
     })
 
-    cy.contains("en").click().wait(0) // eslint-disable-line
+    cy.contains("en").click()
+    cy.wait("@prefLabel")
 
     // cy.get(".currentLanguage").contains("en").should("exist")
     cy.get("span").contains("Konzept 1").should("not.exist")
