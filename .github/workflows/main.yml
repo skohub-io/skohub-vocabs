@@ -74,7 +74,7 @@ jobs:
           config: baseUrl=http://localhost:8000
 
   docker:
-    needs: [build]
+    needs: [build, e2e]
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
