@@ -13,7 +13,8 @@ const Concept = ({
   const conceptSchemes = getConceptSchemes()
   const { data, _ } = useSkoHubContext()
   const language = getUserLang({
-    availableLanguages: availableLanguages ?? data.conceptSchemeLanguages ?? [],
+    availableLanguages:
+      availableLanguages ?? data?.conceptSchemeLanguages ?? [],
     selectedLanguage: data?.selectedLanguage,
   })
   return (
