@@ -51,7 +51,7 @@ const IndexPage = () => {
                   updateState({
                     ...data,
                     conceptSchemeLanguages: [...conceptScheme.languages],
-                    currentScheme: { id: conceptScheme.id },
+                    currentScheme: conceptScheme,
                     selectedLanguage: conceptScheme.languages.includes(language)
                       ? language
                       : conceptScheme.languages[0],

@@ -2,21 +2,31 @@ import Markdown from "markdown-to-jsx"
 import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
-import { getUserLang } from "../hooks/getUserLanguage.js"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { i18n, getDomId, getFilePath } from "../common"
 import ConceptURI from "./ConceptURI.jsx"
+import { useEffect, useState } from "react"
 
 const Concept = ({
-  pageContext: { node: concept, collections, customDomain, availableLanguages },
+  pageContext: { node: concept, collections, customDomain },
 }) => {
   const conceptSchemes = getConceptSchemes()
-  const { data, _ } = useSkoHubContext()
-  const language = getUserLang({
-    availableLanguages:
-      availableLanguages ?? data?.conceptSchemeLanguages ?? [],
-    selectedLanguage: data?.selectedLanguage,
-  })
+  const { data, updateState } = useSkoHubContext()
+  const [language, setLanguage] = useState("")
+
+  useEffect(() => {
+    setLanguage(data.selectedLanguage)
+  }, [data?.selectedLanguage])
+
+  useEffect(() => {
+    if (!Object.keys(data.currentScheme).length) {
+      updateState({
+        ...data,
+        currentScheme: concept.inScheme[0],
+      })
+    }
+  }, [])
+
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
       <h1>

@@ -54,7 +54,6 @@ describe.concurrent("Concept", () => {
         pageContext={{
           ...ConceptPC,
           language: "en",
-          availableLanguages: ["de", "en"],
         }}
       />
     )

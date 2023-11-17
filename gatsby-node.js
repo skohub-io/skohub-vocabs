@@ -335,7 +335,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
                   ? memberOf[concept.id]
                   : [],
                 customDomain: config.customDomain,
-                availableLanguages: Array.from(languagesOfCS),
               },
             })
             createData({
@@ -380,7 +379,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             node: conceptScheme,
             embed: embeddedConcepts,
             customDomain: config.customDomain,
-            availableLanguages: Array.from(languagesOfCS),
           },
         })
 

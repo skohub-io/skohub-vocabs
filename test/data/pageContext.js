@@ -96,7 +96,6 @@ export const ConceptPC = {
       member: [topConcept, concept2],
     },
   ],
-  availableLanguages: ["de"],
 }
 
 export const ConceptScheme = {
@@ -112,7 +111,6 @@ export const ConceptScheme = {
 export const ConceptSchemePC = {
   node: ConceptScheme,
   language: "de",
-  availableLanguages: ["de"],
 }
 
 export const ConceptScheme2 = {
@@ -151,7 +149,6 @@ export const CollectionPC = {
   node: collection,
   language: "de",
   customDomain: "",
-  availableLanguages: ["de"],
 }
 
 export const hashURIConceptScheme = {

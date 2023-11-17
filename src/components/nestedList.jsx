@@ -4,7 +4,6 @@ import { i18n, getFilePath, getFragment } from "../common"
 import { Link as GatsbyLink } from "gatsby"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
-import { getUserLang } from "../hooks/getUserLanguage"
 import { useSkoHubContext } from "../context/Context"
 
 const getNestedItems = (item) => {
@@ -126,6 +125,13 @@ const NestedList = ({
       }
     }
   `
+  const { data, _ } = useSkoHubContext()
+  useEffect(() => {
+    if (!language) {
+      language = data.selectedLanguage
+    }
+  }, [data?.selectedLanguage])
+
   const filteredIds =
     queryFilter && queryFilter.length
       ? queryFilter.flatMap((f) => f.result)

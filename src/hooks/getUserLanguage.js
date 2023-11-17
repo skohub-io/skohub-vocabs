@@ -1,5 +1,3 @@
-import { useSkoHubContext } from "../context/Context"
-
 /**
  * @param {object} concept
  * @param {object} conceptSchemes
@@ -16,14 +14,6 @@ export const getUserLang = ({ availableLanguages = [], selectedLanguage }) => {
     else if (availableLanguages.includes(userLang)) return userLang
     else {
       const language = availableLanguages[0]
-      const alertedAboutLanguage =
-        localStorage.getItem("alertedAboutLanguage") ?? false
-      if (alertedAboutLanguage === false) {
-        alert(
-          `Did not find your user language ("${userLang}"). Setting default language: "${language}"`
-        )
-        localStorage.setItem("alertedAboutLanguage", true)
-      }
       return language
     }
   }
