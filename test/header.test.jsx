@@ -5,25 +5,9 @@ import { render, screen, act } from "@testing-library/react"
 import Header from "../src/components/header.jsx"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig.js"
-
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from "@gatsbyjs/reach-router"
-import { ContextProvider, useSkoHubContext } from "../src/context/Context.jsx"
+import { useSkoHubContext } from "../src/context/Context.jsx"
 
 const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
-
-function renderHeader(history, siteTitle) {
-  return render(
-    <ContextProvider>
-      <LocationProvider history={history}>
-        <Header siteTitle={siteTitle}></Header>
-      </LocationProvider>
-    </ContextProvider>
-  )
-}
 
 describe("Header", () => {
   afterEach(() => {
@@ -42,8 +26,6 @@ describe("Header", () => {
   const siteTitle = "Test Title"
 
   it("renders header component without language tags", async () => {
-    const route = "/one-lang/w3id.org/index.html"
-    const history = createHistory(createMemorySource(route))
     useSkoHubContext.mockReturnValue({
       data: {
         languages: ["de"],
@@ -58,7 +40,7 @@ describe("Header", () => {
       updateState: vi.fn(),
     })
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     expect(screen.getByRole("banner")).toBeInTheDocument()
     // skohub logo
@@ -78,8 +60,6 @@ describe("Header", () => {
   })
 
   it(`renders header component with link to concept scheme (slash URIs)`, async () => {
-    const route = "/w3id.org/index.html"
-    const history = createHistory(createMemorySource(route))
     useSkoHubContext.mockReturnValue({
       data: {
         languages: ["de"],
@@ -94,7 +74,7 @@ describe("Header", () => {
       updateState: vi.fn(),
     })
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // skohub concept scheme link
     expect(
@@ -105,8 +85,6 @@ describe("Header", () => {
   })
 
   it(`renders header component with multiple language tags (slash URIs)`, async () => {
-    const route = "/w3id.org/index.de.html"
-    const history = createHistory(createMemorySource(route))
     useSkoHubContext.mockReturnValue({
       data: {
         languages: ["de", "en"],
@@ -121,7 +99,7 @@ describe("Header", () => {
       updateState: vi.fn(),
     })
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -132,8 +110,6 @@ describe("Header", () => {
   it("renders header component with multiple language tags (hash URIs)", async () => {
     // setting three languages here, but we only have two in the cs
     // so test should return only two
-    const route = "/example.org/hashURIConceptScheme.html"
-    const history = createHistory(createMemorySource(route))
     useSkoHubContext.mockReturnValue({
       data: {
         currentScheme: {
@@ -148,7 +124,7 @@ describe("Header", () => {
     })
 
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // skohub concept scheme link
     expect(
@@ -163,9 +139,6 @@ describe("Header", () => {
   })
 
   it("renders header, shows concept id if title in language is not present", async () => {
-    const route = "/no-title-in-en/w3id.org/index.html"
-    const history = createHistory(createMemorySource(route))
-
     useSkoHubContext.mockReturnValue({
       data: {
         currentScheme: {
@@ -176,7 +149,7 @@ describe("Header", () => {
       updateState: vi.fn(),
     })
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // skohub concept scheme link
     expect(
@@ -188,10 +161,8 @@ describe("Header", () => {
 
   it("render component with concept data", async () => {
     // we reduce language array here artifically, because two languages should be found
-    const route = "/w3id.org/c1.html"
-    const history = createHistory(createMemorySource(route))
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -201,12 +172,8 @@ describe("Header", () => {
 
   it("render component with collection data", async () => {
     // we reduce language array here artifically, because two languages should be found
-    const languages = ["de"]
-    const language = "de"
-    const route = "/w3id.org/collection.html"
-    const history = createHistory(createMemorySource(route))
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -217,7 +184,6 @@ describe("Header", () => {
   it("render languages if type is neither ConceptScheme, Concept or Collection", async () => {
     const languages = ["de", "en", "uk"]
     const language = "de"
-    const route = "/no-in-scheme/w3id.org/collection.html"
     useSkoHubContext.mockReturnValue({
       data: {
         languages,
@@ -231,9 +197,8 @@ describe("Header", () => {
       },
       updateState: vi.fn(),
     })
-    const history = createHistory(createMemorySource(route))
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -249,10 +214,8 @@ describe("Header", () => {
       },
       updateState: vi.fn(),
     })
-    const route = "/"
-    const history = createHistory(createMemorySource(route))
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // check for language menu
     expect(screen.getByRole("list")).toBeInTheDocument()
@@ -276,10 +239,8 @@ describe("Header", () => {
       updateState: vi.fn(),
     })
 
-    const route = "/w3id.org/c1.html"
-    const history = createHistory(createMemorySource(route))
     await act(() => {
-      renderHeader(history, siteTitle)
+      render(<Header siteTitle={siteTitle}></Header>)
     })
     // skohub concept scheme link
     expect(

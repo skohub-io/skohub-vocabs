@@ -12,7 +12,15 @@ import { ConceptPC, ConceptSchemePC, CollectionPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
 import userEvent from "@testing-library/user-event"
-import { ContextProvider } from "../src/context/Context"
+import { ContextProvider, useSkoHubContext } from "../src/context/Context"
+
+vi.mock("../src/context/Context.jsx", async () => {
+  const actual = await vi.importActual("../src/context/Context.jsx")
+  return {
+    ...actual,
+    useSkoHubContext: vi.fn(),
+  }
+})
 
 vi.mock("flexsearch/dist/module/document.js", async () => {
   const { Document } = await vi.importActual("flexsearch")
@@ -41,6 +49,19 @@ describe("App", () => {
   })
   useStaticQuery.mockImplementation(() => mockConfig)
 
+  useSkoHubContext.mockReturnValue({
+    data: {
+      conceptSchemeLanguages: ["de", "en"],
+      currentScheme: {
+        id: "http://w3id.org/",
+        title: {
+          de: "Test Vokabular",
+        },
+      },
+      selectedLanguage: "de",
+    },
+    updateState: vi.fn(),
+  })
   it("renders App component with expand and collapse button", async () => {
     const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
