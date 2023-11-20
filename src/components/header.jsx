@@ -107,15 +107,17 @@ const Header = ({ siteTitle }) => {
   // set page language
   useEffect(() => {
     if (typeof languages !== "undefined" && languages.length) {
-      if (!language) {
+      if (!data.selectedLanguage) {
         const userLang = getUserLang({
           availableLanguages: languages,
         })
         setLanguage(userLang)
         updateState({ ...data, selectedLanguage: userLang })
+      } else {
+        setLanguage(data.selectedLanguage)
       }
     }
-  }, [languages, language])
+  }, [languages])
 
   // Set Languages
   useEffect(() => {
