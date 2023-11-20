@@ -96,10 +96,7 @@ export const importIndex = async (
     let data
     try {
       const path =
-        (conceptSchemeId.endsWith("/")
-          ? conceptSchemeId.slice(0, -1)
-          : conceptSchemeId) + `-cs/search/${language}/${key}`
-
+        getFilePath(conceptSchemeId) + `-cs/search/${language}/${key}`
       data = await fetch(withPrefix(getFilePath(path, `json`, customDomain)))
       const jsonData = await data.json()
       idx.import(key, jsonData ?? null)

@@ -87,15 +87,9 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
  **/
 const exportIndex = (index, conceptScheme, language) => {
   index.export(function (key, data) {
-    const path = getFilePath(
-      (conceptScheme.id.endsWith("/")
-        ? conceptScheme.id.slice(0, -1)
-        : conceptScheme.id) + `-cs/search/${language}/${key}`,
-      `json`,
-      config.customDomain
-    )
+    const path = getFilePath(conceptScheme.id) + `-cs/search/${language}/${key}`
     createData({
-      path,
+      path: getFilePath(path, "json", config.customDomain),
       data: data !== undefined ? data : "",
     })
   })
