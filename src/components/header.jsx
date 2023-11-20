@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { css } from "@emotion/react"
-import { useLocation } from "@gatsbyjs/reach-router"
 import { Link, withPrefix } from "gatsby"
 import { getFilePath } from "../common"
 import { useSkoHubContext } from "../context/Context.jsx"
@@ -102,7 +101,6 @@ const Header = ({ siteTitle }) => {
 
   const [languages, setLanguages] = useState([])
   const [language, setLanguage] = useState("")
-  const pathName = useLocation().pathname.slice(0, -5)
 
   // set page language
   useEffect(() => {
@@ -145,7 +143,7 @@ const Header = ({ siteTitle }) => {
             )}
             <span className="skohubTitle">{siteTitle}</span>
           </Link>
-          {data?.currentScheme?.id && pathName !== "" && (
+          {data?.currentScheme?.id && (
             <div className="conceptSchemes">
               <div
                 key={data.currentScheme.id}
