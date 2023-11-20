@@ -72,14 +72,6 @@ export const conceptStyle = (colors) => css`
     }
   }
 
-  .concept .content:not(:target) {
-    display: none;
-  }
-
-  .concept .content:target ~ div {
-    display: none;
-  }
-
   .content {
     position: relative;
     overflow: auto;

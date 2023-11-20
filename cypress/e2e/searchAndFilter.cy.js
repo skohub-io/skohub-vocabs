@@ -14,12 +14,14 @@ describe("search and filter", () => {
   })
 
   it("search for nested concept works", () => {
+    cy.intercept("GET", "/w3id.org/index-cs/search/**").as("getSearchIndices")
     cy.visit("/w3id.org/index.html", {
       onBeforeLoad(win) {
         Object.defineProperty(win.navigator, "language", { value: "de-DE" })
       },
     })
 
+    cy.wait("@getSearchIndices")
     cy.get("span").contains("Konzept 2").should("exist")
     cy.findByRole("textbox").type("Konzept 2")
     cy.get("span").contains("Konzept 1").should("exist")
@@ -28,7 +30,7 @@ describe("search and filter", () => {
   })
 
   it("search works after switching language", () => {
-    cy.intercept("GET", "/w3id.org-cs/search/**").as("getSearchIndices")
+    cy.intercept("GET", "/w3id.org/index-cs/search/**").as("getSearchIndices")
     cy.visit("/w3id.org/index.html", {
       onBeforeLoad(win) {
         Object.defineProperty(win.navigator, "language", { value: "de-DE" })

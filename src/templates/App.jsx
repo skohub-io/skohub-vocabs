@@ -12,10 +12,9 @@ import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { withPrefix } from "gatsby"
 import { handleKeypresses, importIndex } from "./helpers"
-import { getUserLang } from "../hooks/getUserLanguage"
 
 const App = ({ pageContext, children }) => {
-  const { data } = useSkoHubContext()
+  const { data, _ } = useSkoHubContext()
   const { config } = getConfigAndConceptSchemes()
   const style = conceptStyle(config.colors)
   const [index, setIndex] = useState({})
@@ -45,25 +44,17 @@ const App = ({ pageContext, children }) => {
     }
   }
 
-  // TODO fix the optional chaining stuff
   const [language, setLanguage] = useState("")
   useEffect(() => {
-    data?.conceptSchemeLanguages &&
-      setLanguage(
-        getUserLang({
-          availableLanguages:
-            pageContext.availableLanguages || data.conceptSchemeLanguages,
-          selectedLanguage: data.selectedLanguage ?? null,
-        })
-      )
-  }, [data?.languages, data?.selectedLanguage, data?.conceptSchemeLanguages])
+    data?.conceptSchemeLanguages && setLanguage(data.selectedLanguage)
+  }, [data?.selectedLanguage])
 
   // Fetch and load the serialized index
   useEffect(() => {
     importIndex(
       data?.currentScheme?.id,
       labels,
-      language,
+      data.selectedLanguage,
       setIndex,
       config.customDomain
     )

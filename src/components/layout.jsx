@@ -8,16 +8,14 @@ import React from "react"
 import { Global, css } from "@emotion/react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, withPrefix } from "gatsby"
-import { useSkoHubContext } from "../context/Context"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 import Header from "./header.jsx"
 import Footer from "./footer.jsx"
 
-const Layout = ({ children, language }) => {
+const Layout = ({ children }) => {
   const { config } = getConfigAndConceptSchemes()
-  const { data, _ } = useSkoHubContext()
   const style = css`
     height: 100vh;
     display: flex;
