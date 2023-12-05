@@ -88,7 +88,7 @@ const App = ({ pageContext, children }) => {
   const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
 
   return (
-    <Layout language={pageContext.language}>
+    <Layout>
       <SEO
         title={i18n(pageContext.language)(
           pageContext.node.prefLabel || pageContext.node.title
