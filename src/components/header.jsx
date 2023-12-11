@@ -98,7 +98,6 @@ const Header = ({ siteTitle }) => {
       }
     }
   `
-
   const [languages, setLanguages] = useState([])
   const [language, setLanguage] = useState("")
 
@@ -125,6 +124,20 @@ const Header = ({ siteTitle }) => {
       setLanguages(conceptSchemesData[data.currentScheme.id].languages)
     }
   }, [data?.currentScheme?.id, data?.languages])
+
+  // we check if we are on the root i.e. index page.
+  // if so we set the concept scheme to an empty object
+  useEffect(() => {
+    const handleNavigation = () => {
+      if (window.location.pathname === "/") {
+        updateState({ ...data, currentScheme: {} })
+      }
+    }
+    window.addEventListener("popstate", handleNavigation)
+    return () => {
+      window.removeEventListener("popstate", handleNavigation)
+    }
+  }, [])
 
   return (
     <header css={style}>

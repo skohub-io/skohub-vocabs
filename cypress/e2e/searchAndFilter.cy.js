@@ -13,7 +13,25 @@ describe("search and filter", () => {
     cy.get("span").contains("Konzept 2").should("not.exist")
   })
 
-  it("search for nested concept works", () => {
+  it("search for nested concept works (hash URIs)", () => {
+    cy.intercept("GET", "/example.org/hashURIConceptScheme-cs/search/**").as(
+      "getSearchIndices"
+    )
+    cy.visit("/example.org/hashURIConceptScheme.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
+
+    cy.wait("@getSearchIndices")
+    cy.get("span").contains("Konzept 2").should("exist")
+    cy.findByRole("textbox").type("Konzept 4")
+    cy.get("span").contains("Konzept 1").should("exist")
+    cy.get("span").contains("Konzept 2").should("not.exist")
+    cy.get("span").contains("Konzept 3").should("not.exist")
+  })
+
+  it("search for nested concept works (slash URIs)", () => {
     cy.intercept("GET", "/w3id.org/index-cs/search/**").as("getSearchIndices")
     cy.visit("/w3id.org/index.html", {
       onBeforeLoad(win) {

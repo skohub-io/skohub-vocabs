@@ -54,4 +54,18 @@ describe("Main Vocab Index page", () => {
       name: "Test Vokabular",
     }).should("exist")
   })
+
+  it("shows no concept scheme in header if going back to index page from concept", () => {
+    cy.visit("/", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
+    cy.contains("Destatis-Systematik").click()
+    cy.findByRole("link", {
+      name: "Destatis-Systematik der Fächergruppen, Studienbereiche und Studienfächer",
+    }).should("exist")
+    cy.go("back")
+    cy.get(".conceptScheme > a").should("not.exist")
+  })
 })
