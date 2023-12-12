@@ -128,16 +128,10 @@ const Header = ({ siteTitle }) => {
   // we check if we are on the root i.e. index page.
   // if so we set the concept scheme to an empty object
   useEffect(() => {
-    const handleNavigation = () => {
-      if (window.location.pathname === "/") {
-        updateState({ ...data, currentScheme: {} })
-      }
+    if (data.indexPage === true) {
+      updateState({ ...data, currentScheme: {} })
     }
-    window.addEventListener("popstate", handleNavigation)
-    return () => {
-      window.removeEventListener("popstate", handleNavigation)
-    }
-  }, [])
+  }, [data?.indexPage])
 
   return (
     <header css={style}>

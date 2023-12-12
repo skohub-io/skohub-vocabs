@@ -23,6 +23,13 @@ const Concept = ({
       updateState({
         ...data,
         currentScheme: concept.inScheme[0],
+        indexPage: false,
+      })
+    }
+    if (data.indexPage) {
+      updateState({
+        ...data,
+        indexPage: false,
       })
     }
   }, [])
