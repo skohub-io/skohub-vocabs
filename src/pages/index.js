@@ -23,7 +23,7 @@ const IndexPage = () => {
       const languages = Array.from(
         new Set([...csData.flatMap((cs) => cs.languages)])
       )
-      updateState({ ...data, languages: languages })
+      updateState({ ...data, languages: languages, indexPage: true })
     }
     fetchConceptData()
   }, [])
