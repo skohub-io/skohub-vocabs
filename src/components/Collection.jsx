@@ -3,36 +3,12 @@ import { i18n, getFilePath } from "../common"
 import JsonLink from "./JsonLink"
 import { useSkoHubContext } from "../context/Context"
 import { useEffect, useState } from "react"
-import { replaceFilePathInUrl } from "../common"
-import { useLocation } from "@gatsbyjs/reach-router"
-import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 
 const Collection = ({ pageContext: { node: collection, customDomain } }) => {
-  const { data, updateState } = useSkoHubContext()
+  const { data } = useSkoHubContext()
   const [language, setLanguage] = useState("")
-  const pathName = useLocation().pathname.slice(0, -5)
-  const { config } = getConfigAndConceptSchemes()
 
   useEffect(() => {
-    ;(async function () {
-      for await (const member of collection.member) {
-        const path = replaceFilePathInUrl(
-          pathName,
-          member.id,
-          "json",
-          config.customDomain
-        )
-        const res = await (await fetch(path)).json()
-        const cs = res.inScheme[0]
-        if (res.type === "Concept") {
-          updateState({
-            ...data,
-            currentScheme: cs,
-          })
-          break
-        }
-      }
-    })()
     if (data.selectedLanguage !== "") {
       setLanguage(data.selectedLanguage)
     }

@@ -10,27 +10,11 @@ import { useLocation } from "@gatsbyjs/reach-router"
 const ConceptScheme = ({
   pageContext: { node: conceptScheme, embed, customDomain },
 }) => {
-  const { data, updateState } = useSkoHubContext()
+  const { data } = useSkoHubContext()
   const [language, setLanguage] = useState("")
   useEffect(() => {
     setLanguage(data.selectedLanguage)
   }, [data?.selectedLanguage])
-
-  useEffect(() => {
-    if (!Object.keys(data.currentScheme).length) {
-      updateState({
-        ...data,
-        currentScheme: conceptScheme,
-        indexPage: false,
-      })
-    }
-    if (data.indexPage) {
-      updateState({
-        ...data,
-        indexPage: false,
-      })
-    }
-  }, [])
 
   const pathname = useLocation()
 

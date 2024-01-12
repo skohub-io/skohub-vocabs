@@ -30,11 +30,15 @@ vi.mock("flexsearch/dist/module/document.js", async () => {
 })
 const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
-function renderApp(history, pageContext, children = null) {
+function renderApp(history, pageContext, location, children = null) {
   return render(
     <ContextProvider>
       <LocationProvider history={history}>
-        <App pageContext={pageContext} children={children} />
+        <App
+          pageContext={pageContext}
+          children={children}
+          location={location}
+        />
       </LocationProvider>
     </ContextProvider>
   )
@@ -65,8 +69,9 @@ describe("App", () => {
   it("renders App component with expand and collapse button", async () => {
     const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
     await act(() => {
-      renderApp(history, ConceptSchemePC)
+      renderApp(history, ConceptSchemePC, location)
     })
     expect(screen.getByRole("button", { name: "Collapse" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Expand" })).toBeInTheDocument()
@@ -75,6 +80,7 @@ describe("App", () => {
   it("renders App component **without** collapse and expand button", async () => {
     const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
 
     // remove narrower from concept
     const topConcept = ConceptSchemePC.node.hasTopConcept[0]
@@ -87,7 +93,7 @@ describe("App", () => {
     }
 
     await act(() => {
-      renderApp(history, pageContext)
+      renderApp(history, pageContext, location)
     })
     expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull()
     expect(screen.queryByRole("button", { name: "Expand" })).toBeNull()
@@ -97,9 +103,10 @@ describe("App", () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
     const route = "/w3id.org/c1.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
 
     await act(() => {
-      renderApp(history, ConceptPC)
+      renderApp(history, ConceptPC, location)
     })
     // we render the concept with notation therefore the "1"
     expect(
@@ -112,9 +119,10 @@ describe("App", () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
     const route = "/w3id.org/collection.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "", pathname: route }
 
     await act(() => {
-      renderApp(history, CollectionPC)
+      renderApp(history, CollectionPC, location)
     })
     // we render the concept with notation therefore the "1"
     expect(
@@ -128,8 +136,10 @@ describe("App", () => {
     const user = userEvent.setup()
     const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+
     await act(() => {
-      renderApp(history, ConceptSchemePC)
+      renderApp(history, ConceptSchemePC, location)
     })
     expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
     expect(screen.queryByText("Konzept 2")).toBeInTheDocument()

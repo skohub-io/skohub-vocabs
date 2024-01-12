@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
-import { i18n, getFilePath } from "../common"
+import { i18n, getFilePath, getLanguageFromUrl } from "../common"
 import { useSkoHubContext } from "../context/Context"
 import { getUserLang } from "../hooks/getUserLanguage"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes.js"
@@ -8,7 +8,7 @@ import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes.js"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const IndexPage = () => {
+const IndexPage = ({ location }) => {
   const [conceptSchemes, setConceptSchemes] = useState([])
   const [language, setLanguage] = useState("")
   const { data, updateState } = useSkoHubContext()
@@ -30,13 +30,33 @@ const IndexPage = () => {
 
   // set language stuff
   useEffect(() => {
-    if (data?.languages)
-      setLanguage(
-        getUserLang({
-          availableLanguages: data.languages,
-          selectedLanguage: data?.selectedLanguage || null,
-        })
-      )
+    const languageFromUrl = getLanguageFromUrl(location)
+    if (languageFromUrl && !data.selectedLanguage) {
+      const userLang = getUserLang({
+        availableLanguages: data.languages,
+        selectedLanguage: languageFromUrl,
+      })
+
+      setLanguage(userLang)
+      updateState({
+        ...data,
+        selectedLanguage: userLang,
+        indexPage: true,
+        currentScheme: {},
+      })
+    } else {
+      const userLang = getUserLang({
+        availableLanguages: data.languages,
+        selectedLanguage: data?.selectedLanguage || null,
+      })
+      setLanguage(userLang)
+      updateState({
+        ...data,
+        selectedLanguage: userLang,
+        indexPage: true,
+        currentScheme: {},
+      })
+    }
   }, [data?.languages, data?.selectedLanguage])
 
   return (
