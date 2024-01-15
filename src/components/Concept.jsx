@@ -11,28 +11,12 @@ const Concept = ({
   pageContext: { node: concept, collections, customDomain },
 }) => {
   const conceptSchemes = getConceptSchemes()
-  const { data, updateState } = useSkoHubContext()
+  const { data } = useSkoHubContext()
   const [language, setLanguage] = useState("")
 
   useEffect(() => {
     setLanguage(data.selectedLanguage)
   }, [data?.selectedLanguage])
-
-  useEffect(() => {
-    if (!Object.keys(data.currentScheme).length) {
-      updateState({
-        ...data,
-        currentScheme: concept.inScheme[0],
-        indexPage: false,
-      })
-    }
-    if (data.indexPage) {
-      updateState({
-        ...data,
-        indexPage: false,
-      })
-    }
-  }, [])
 
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>

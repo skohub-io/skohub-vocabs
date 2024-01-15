@@ -109,12 +109,12 @@ const Header = ({ siteTitle }) => {
           availableLanguages: languages,
         })
         setLanguage(userLang)
-        updateState({ ...data, selectedLanguage: userLang })
+        // updateState({ ...data, selectedLanguage: userLang })
       } else {
         setLanguage(data.selectedLanguage)
       }
     }
-  }, [languages])
+  }, [data])
 
   // Set Languages
   useEffect(() => {
@@ -123,15 +123,7 @@ const Header = ({ siteTitle }) => {
     } else {
       setLanguages(conceptSchemesData[data.currentScheme.id].languages)
     }
-  }, [data?.currentScheme?.id, data?.languages])
-
-  // we check if we are on the root i.e. index page.
-  // if so we set the concept scheme to an empty object
-  useEffect(() => {
-    if (data.indexPage === true) {
-      updateState({ ...data, currentScheme: {} })
-    }
-  }, [data?.indexPage])
+  }, [data])
 
   return (
     <header css={style}>
@@ -166,7 +158,7 @@ const Header = ({ siteTitle }) => {
                     config.customDomain
                   )}
                 >
-                  {data.currentScheme?.title?.[language] ||
+                  {data.currentScheme?.title?.[data.selectedLanguage] ||
                     data.currentScheme.id}
                 </Link>
               </div>

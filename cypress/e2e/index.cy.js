@@ -68,4 +68,37 @@ describe("Main Vocab Index page", () => {
     cy.go("back")
     cy.get(".conceptScheme > a").should("not.exist")
   })
+
+  it("German language is selected, when lang=de param is given in url", () => {
+    cy.visit("/?lang=de", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "en-EN" })
+      },
+    })
+    cy.findByRole("link", {
+      name: "Test Vokabular",
+    }).should("exist")
+  })
+
+  it("The navigator language is used as fallback language, when the language from url param 'lang' is not found", () => {
+    cy.visit("/?lang=bla", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "en-EN" })
+      },
+    })
+    cy.findByRole("link", {
+      name: "Test Vocabulary",
+    }).should("exist")
+  })
+
+  it("A fallback language is used, when neither navigator language nor language from url param 'lang' is found", () => {
+    cy.visit("/?lang=bla", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "fr-FR" })
+      },
+    })
+    cy.findByRole("link", {
+      name: "Test Vokabular",
+    }).should("exist")
+  })
 })
