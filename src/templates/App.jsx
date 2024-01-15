@@ -91,7 +91,7 @@ const App = ({ pageContext, children, location }) => {
 
       if (languageFromUrl && !data.selectedLanguage) {
         const userLang = getUserLang({
-          availableLanguages: data?.conceptSchemeLanguages,
+          availableLanguages: conceptSchemes[currentScheme.id].languages,
           selectedLanguage: languageFromUrl,
         })
         setLanguage(userLang)
