@@ -17,6 +17,12 @@ In general we advise the use of slash URIs for SKOS vocabularies.
 
 If you would like more support of hash URIs for SkoHub Vocabs, [please open an issue](https://github.com/skohub-io/skohub-vocabs/issues/new/choose).
 
+## Internationalization
+
+To determine the language displayed of the vocabulary the browser language is used.
+If the browser language is not present in the vocabulary a default language is chosen.
+If you want to link to a specific language, you can use a URL parameter: `?lang=de`.
+
 ## Set up
 
 ### Install Node.js
