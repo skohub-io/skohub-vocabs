@@ -74,3 +74,28 @@ describe("Concept Scheme and Concept", () => {
     cy.get("h1").should("have.text", "Konzept 1")
   })
 })
+
+describe("Parsing language from URL on Concept Schemes and Concepts", () => {
+  it("Visting a Concept Scheme directly with a language url param shows correct language", () => {
+    cy.visit("/w3id.org/kim/hochschulfaechersystematik/scheme.html?lang=de", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "en-EN" })
+      },
+    })
+    cy.get(".conceptScheme > a").should(
+      "have.text",
+      "Destatis-Systematik der Fächergruppen, Studienbereiche und Studienfächer"
+    )
+  })
+  it("Visting a Concept directly with a language url param shows correct language", () => {
+    cy.visit("/w3id.org/kim/hochschulfaechersystematik/n1.html?lang=de", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "en-EN" })
+      },
+    })
+    cy.get(".conceptScheme > a").should(
+      "have.text",
+      "Destatis-Systematik der Fächergruppen, Studienbereiche und Studienfächer"
+    )
+  })
+})
