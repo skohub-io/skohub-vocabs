@@ -2,6 +2,9 @@ import React, { createContext, useContext, useState } from "react"
 
 const defaultState = {
   currentScheme: {},
+  selectedLanguage: "",
+  conceptSchemeLanguages: [],
+  indexPage: false,
 }
 const Context = createContext(defaultState)
 

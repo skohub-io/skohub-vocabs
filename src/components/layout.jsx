@@ -14,7 +14,7 @@ import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 import Header from "./header.jsx"
 import Footer from "./footer.jsx"
 
-const Layout = ({ children, languages, language }) => {
+const Layout = ({ children }) => {
   const { config } = getConfigAndConceptSchemes()
   const style = css`
     height: 100vh;
@@ -51,7 +51,7 @@ const Layout = ({ children, languages, language }) => {
       box-shadow: 0 10px 20px ${config.colors.skoHubBlackColor};
     }
   `
-  const data = useStaticQuery(graphql`
+  const qdata = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
@@ -177,18 +177,10 @@ const Layout = ({ children, languages, language }) => {
           }
         `}
       />
-      <Header
-        siteTitle={data.site.siteMetadata.title}
-        languages={languages}
-        language={language}
-      />
+      <Header siteTitle={qdata.site.siteMetadata.title} />
       <main>{children}</main>
 
-      <Footer
-        siteTitle={data.site.siteMetadata.title}
-        languages={languages}
-        language={language}
-      />
+      <Footer siteTitle={qdata.site.siteMetadata.title} />
     </div>
   )
 }

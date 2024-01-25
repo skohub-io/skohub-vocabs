@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { css } from "@emotion/react"
-import { useLocation } from "@gatsbyjs/reach-router"
 import { Link, withPrefix } from "gatsby"
-import { getFilePath, getLinkPath, replaceFilePathInUrl } from "../common"
+import { getFilePath } from "../common"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
+import { getUserLang } from "../hooks/getUserLanguage"
 
-const Header = ({ siteTitle, languages, language }) => {
+const Header = ({ siteTitle }) => {
   const { config, conceptSchemes: conceptSchemesData } =
     getConfigAndConceptSchemes()
   const { data, updateState } = useSkoHubContext()
@@ -73,7 +73,8 @@ const Header = ({ siteTitle, languages, language }) => {
         margin: 0 0 0 5px;
         display: inline;
 
-        a {
+        button {
+          background: none;
           display: inline-block;
           padding: 5px;
           color: ${config.colors.skoHubMiddleGrey};
@@ -87,6 +88,7 @@ const Header = ({ siteTitle, languages, language }) => {
         }
 
         .currentLanguage {
+          color: black;
           font-weight: bold;
           display: inline-block;
           padding: 5px;
@@ -96,69 +98,41 @@ const Header = ({ siteTitle, languages, language }) => {
       }
     }
   `
+  const [languages, setLanguages] = useState([])
+  const [language, setLanguage] = useState("")
 
-  const [langs, setLangs] = useState(new Set())
-  const pathName = useLocation().pathname.slice(0, -8)
-
-  /**
-   * To display the concept scheme title in the header
-   * we have to retrieve concept scheme info in this component.
-   * We do this by getting the path of the component and looking up
-   * its information in the JSON data
-   * */
+  // set page language
   useEffect(() => {
-    fetch(pathName + ".json")
-      .then((response) => response.json())
-      .then(async (r) => {
-        if (r.type === "ConceptScheme") {
-          updateState({ ...data, currentScheme: r })
-          setLangs(() => new Set(conceptSchemesData[r.id].languages))
-        } else if (r.type === "Concept") {
-          // FIXME how to handle inScheme as array? Currently we fetch the first scheme
-          // this could also be cached in local storage but that might also be a bit overkill
-          const cs = r.inScheme[0]
-          Object.keys(data.currentScheme).length === 0 &&
-            updateState({ ...data, currentScheme: cs })
-          setLangs(() => new Set(conceptSchemesData[cs.id].languages))
-        } else if (r.type === "Collection") {
-          // members of a collection can either be skos:Concepts or skos:Collection
-          // so we need to check each member till we find a concept
-          // from which we can derive the languages of the concept scheme
-          for (const member of r.member) {
-            const path = replaceFilePathInUrl(
-              pathName,
-              member.id,
-              "json",
-              config.customDomain
-            )
-            const res = await (await fetch(path)).json()
-            const cs = res.inScheme[0]
-            if (res.type === "Concept") {
-              updateState({ ...data, currentScheme: cs })
-              setLangs(() => new Set(conceptSchemesData[cs.id].languages))
-              break
-            }
-          }
-        } else {
-          languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
-        }
-      })
-      .catch((err) => {
-        /* FIXME Currently there is no general index.json
-         * that we can use to retrieve languages when using header on the
-         * index page so we need to set languages hard
-         */
-        if (typeof languages !== "undefined") {
-          languages.forEach((l) => setLangs((prev) => new Set(prev.add(l))))
-        }
-      })
-  }, [pathName, languages])
+    if (typeof languages !== "undefined" && languages.length) {
+      if (!data.selectedLanguage) {
+        const userLang = getUserLang({
+          availableLanguages: languages,
+        })
+        setLanguage(userLang)
+        // updateState({ ...data, selectedLanguage: userLang })
+      } else {
+        setLanguage(data.selectedLanguage)
+      }
+    }
+  }, [data])
+
+  // Set Languages
+  useEffect(() => {
+    if (!data?.currentScheme?.id) {
+      setLanguages(data.languages)
+    } else {
+      setLanguages(conceptSchemesData[data.currentScheme.id].languages)
+    }
+  }, [data])
 
   return (
     <header css={style}>
       <div className="headerContent">
         <div className="skohubLogo">
-          <Link to={`/index.${language}.html`}>
+          <Link
+            to={`/`}
+            onClick={() => updateState({ ...data, currentScheme: {} })}
+          >
             {config.logo && (
               <img
                 className="skohubImg"
@@ -180,29 +154,32 @@ const Header = ({ siteTitle, languages, language }) => {
                 <Link
                   to={getFilePath(
                     data.currentScheme.id,
-                    `${language}.html`,
+                    `html`,
                     config.customDomain
                   )}
                 >
-                  {data.currentScheme?.title?.[language] ||
+                  {data.currentScheme?.title?.[data.selectedLanguage] ||
                     data.currentScheme.id}
                 </Link>
               </div>
             </div>
           )}
         </div>
-        {langs && Array.from(langs).length > 1 && (
+        {languages && languages.length > 1 && (
           <ul className="language-menu">
-            {Array.from(langs).map((l) => (
+            {languages.map((l) => (
               <li key={l}>
-                {l === language ? (
-                  <span className="currentLanguage">{l}</span>
+                {l === data.selectedLanguage ? (
+                  <button className="currentLanguage">{l}</button>
                 ) : (
-                  <Link
-                    to={getLinkPath(pathName, `${l}.html`, config.customDomain)}
+                  <button
+                    onClick={() => {
+                      updateState({ ...data, selectedLanguage: l })
+                      setLanguage(l)
+                    }}
                   >
                     {l}
-                  </Link>
+                  </button>
                 )}
               </li>
             ))}

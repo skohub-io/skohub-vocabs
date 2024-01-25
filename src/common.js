@@ -141,6 +141,7 @@ function loadConfig(configFile, defaultFile) {
     searchableAttributes:
       userConfig.searchableAttributes || defaults.searchableAttributes,
     customDomain: userConfig.custom_domain || "",
+    failOnValidation: userConfig.fail_on_validation,
   }
 
   // check if all relevant colors are contained, otherwise use default colors
@@ -193,6 +194,26 @@ function loadConfig(configFile, defaultFile) {
   return config
 }
 
+/**
+ * Location object from reach router, see https://www.gatsbyjs.com/docs/location-data-from-props/
+ * @typedef {Object} Location
+ * @property {string} key
+ * @property {string} pathname
+ * @property {string} search
+ */
+
+/**
+ * Parses the location object for an URL parameter "lang".
+ * If multiple "lang" params are given, the first one is taken.
+ * @param {Location} location
+ * @returns {string|null} parsed language or null if none is given
+ */
+const getLanguageFromUrl = (location) => {
+  const params = new URLSearchParams(location.search)
+  const language = params.get("lang")
+  return language
+}
+
 module.exports = {
   i18n,
   getFilePath,
@@ -202,4 +223,5 @@ module.exports = {
   getLinkPath,
   parseLanguages,
   loadConfig,
+  getLanguageFromUrl,
 }

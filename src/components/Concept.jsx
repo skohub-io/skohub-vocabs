@@ -2,13 +2,21 @@ import Markdown from "markdown-to-jsx"
 import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
 import { getConceptSchemes } from "../hooks/getConceptSchemes"
+import { useSkoHubContext } from "../context/Context.jsx"
 import { i18n, getDomId, getFilePath } from "../common"
 import ConceptURI from "./ConceptURI.jsx"
+import { useEffect, useState } from "react"
 
 const Concept = ({
-  pageContext: { node: concept, language, collections, customDomain },
+  pageContext: { node: concept, collections, customDomain },
 }) => {
   const conceptSchemes = getConceptSchemes()
+  const { data } = useSkoHubContext()
+  const [language, setLanguage] = useState("")
+
+  useEffect(() => {
+    setLanguage(data.selectedLanguage)
+  }, [data?.selectedLanguage])
 
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
@@ -166,13 +174,7 @@ const Concept = ({
           <ul>
             {collections.map((collection) => (
               <li key={collection.id}>
-                <Link
-                  to={getFilePath(
-                    collection.id,
-                    `${language}.html`,
-                    customDomain
-                  )}
-                >
+                <Link to={getFilePath(collection.id, `html`, customDomain)}>
                   {i18n(language)(collection.prefLabel) ||
                     `*No label in language "${language}" provided.*`}
                 </Link>
@@ -192,17 +194,7 @@ const Concept = ({
               otherwise link to first present language
               */}
                 {Object.keys(conceptSchemes).includes(inScheme.id) ? (
-                  <Link
-                    to={getFilePath(
-                      inScheme.id,
-                      `${
-                        conceptSchemes[inScheme.id].languages.includes(language)
-                          ? language
-                          : conceptSchemes[inScheme.id].languages[0]
-                      }.html`,
-                      customDomain
-                    )}
-                  >
+                  <Link to={getFilePath(inScheme.id, "html", customDomain)}>
                     {inScheme.id}
                   </Link>
                 ) : (

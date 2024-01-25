@@ -7,15 +7,33 @@ import Concept from "../src/components/Concept.jsx"
 import { ConceptPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
+import { useSkoHubContext } from "../src/context/Context.jsx"
 
 const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
 describe.concurrent("Concept", () => {
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
   vi.spyOn(window, "fetch").mockImplementation(mockFetch)
   useStaticQuery.mockImplementation(() => mockConfig)
+  vi.mock("../src/context/Context.jsx", async () => {
+    const actual = await vi.importActual("../src/context/Context.jsx")
+    return {
+      ...actual,
+      useSkoHubContext: vi.fn(),
+    }
+  })
 
   it("renders concept component", () => {
-    render(<Concept pageContext={ConceptPC}></Concept>)
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
+    render(<Concept pageContext={ConceptPC} />)
     expect(
       screen.getByRole("heading", { name: /Konzept 1/i })
     ).toBeInTheDocument()
@@ -49,7 +67,21 @@ describe.concurrent("Concept", () => {
   })
 
   it("renders no definition if not provided in language", () => {
-    render(<Concept pageContext={{ ...ConceptPC, language: "en" }} />)
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "en",
+      },
+      updateState: vi.fn(),
+    })
+    render(
+      <Concept
+        pageContext={{
+          ...ConceptPC,
+          language: "en",
+        }}
+      />
+    )
     expect(screen.queryByText("Meine Definition")).toBeNull()
     expect(
       screen.getByText('No definition in language "en" provided.')
@@ -57,6 +89,13 @@ describe.concurrent("Concept", () => {
   })
 
   it("renders altLabels", () => {
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
     render(<Concept pageContext={ConceptPC} />)
     const list = screen.getByRole("list", {
       name: /alt label/i,
@@ -181,7 +220,7 @@ describe.concurrent("Concept", () => {
      */
     expect(
       screen.getByRole("link", { name: "http://w3id.org/cs2/" })
-    ).toHaveAttribute("href", "/w3id.org/cs2/index.en.html")
+    ).toHaveAttribute("href", "/w3id.org/cs2/index.html")
 
     expect(
       screen.getByRole("link", { name: /just-another-scheme/i })

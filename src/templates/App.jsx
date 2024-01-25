@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react"
 import escapeRegExp from "lodash.escaperegexp"
-import { i18n, getFilePath } from "../common"
+import {
+  i18n,
+  getFilePath,
+  getLanguageFromUrl,
+  replaceFilePathInUrl,
+} from "../common"
 import NestedList from "../components/nestedList"
 import TreeControls from "../components/TreeControls"
 import Layout from "../components/layout"
@@ -9,13 +14,14 @@ import Search from "../components/Search"
 
 import { conceptStyle } from "../styles/concepts.css.js"
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
+import { getUserLang } from "../hooks/getUserLanguage"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { withPrefix } from "gatsby"
 import { handleKeypresses, importIndex } from "./helpers"
 
-const App = ({ pageContext, children }) => {
-  const { data } = useSkoHubContext()
-  const { config } = getConfigAndConceptSchemes()
+const App = ({ pageContext, children, location }) => {
+  const { data, updateState } = useSkoHubContext()
+  const { config, conceptSchemes } = getConfigAndConceptSchemes()
   const style = conceptStyle(config.colors)
   const [index, setIndex] = useState({})
   const [query, setQuery] = useState(null)
@@ -44,16 +50,89 @@ const App = ({ pageContext, children }) => {
     }
   }
 
+  const [language, setLanguage] = useState("")
+  const [currentScheme, setCurrentScheme] = useState(null)
+
+  // get current scheme
+  useEffect(() => {
+    const fetchConceptSchemeForCollection = async (collection) => {
+      for (const member of collection.member) {
+        const path = replaceFilePathInUrl(
+          location.pathname,
+          member.id,
+          "json",
+          config.customDomain
+        )
+        const res = await (await fetch(path)).json()
+        const cs = res.inScheme[0]
+        if (res.type === "Concept") {
+          return cs
+        }
+      }
+    }
+
+    const getCurrentScheme = async () => {
+      if (pageContext.node.type === "ConceptScheme")
+        setCurrentScheme(pageContext.node)
+      else if (pageContext.node.type === "Concept")
+        setCurrentScheme(pageContext.node.inScheme[0])
+      else if (pageContext.node.type === "Collection") {
+        const cs = await fetchConceptSchemeForCollection(pageContext.node)
+        setCurrentScheme(cs)
+      } else return {}
+    }
+    getCurrentScheme()
+  }, [])
+
+  // set language stuff
+  useEffect(() => {
+    if (currentScheme) {
+      const languageFromUrl = getLanguageFromUrl(location)
+
+      if (languageFromUrl && !data.selectedLanguage) {
+        const userLang = getUserLang({
+          availableLanguages: conceptSchemes[currentScheme.id].languages,
+          selectedLanguage: languageFromUrl,
+        })
+        setLanguage(userLang)
+        updateState({
+          ...data,
+          currentScheme,
+          indexPage: false,
+          selectedLanguage: userLang,
+          availableLanguages: conceptSchemes[currentScheme.id].languages,
+        })
+      } else {
+        const userLang = getUserLang({
+          availableLanguages: conceptSchemes[currentScheme.id].languages,
+          selectedLanguage: data?.selectedLanguage || null,
+        })
+        setLanguage(userLang)
+        updateState({
+          ...data,
+          currentScheme,
+          indexPage: false,
+          selectedLanguage: userLang,
+          availableLanguages: conceptSchemes[currentScheme.id].languages,
+        })
+      }
+    }
+  }, [data?.languages, data?.selectedLanguage, currentScheme])
+
+  // useEffect(() => {
+  //   data?.conceptSchemeLanguages && setLanguage(data.selectedLanguage)
+  // }, [data?.selectedLanguage])
+
   // Fetch and load the serialized index
   useEffect(() => {
     importIndex(
       data?.currentScheme?.id,
       labels,
-      pageContext.language,
+      data.selectedLanguage,
       setIndex,
       config.customDomain
     )
-  }, [data, pageContext.language, labels])
+  }, [data, language, labels])
 
   // Fetch and load the tree
   useEffect(() => {
@@ -83,7 +162,7 @@ const App = ({ pageContext, children }) => {
   const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
 
   return (
-    <Layout languages={pageContext.languages} language={pageContext.language}>
+    <Layout>
       <SEO
         title={i18n(pageContext.language)(
           pageContext.node.prefLabel || pageContext.node.title
@@ -112,7 +191,7 @@ const App = ({ pageContext, children }) => {
                   query && index?.search ? index.search(query) : null
                 }
                 highlight={query ? RegExp(escapeRegExp(query), "gi") : null}
-                language={pageContext.language}
+                language={language}
                 topLevel={true}
                 customDomain={config.customDomain}
               />

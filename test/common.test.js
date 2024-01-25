@@ -5,6 +5,7 @@ const {
   getFilePath,
   replaceFilePathInUrl,
   getLinkPath,
+  getLanguageFromUrl,
 } = require("../src/common")
 
 describe("Translate", () => {
@@ -73,5 +74,20 @@ describe("getLinkPath", () => {
     expect(
       getLinkPath("http://w3id.org/class/hochschulfaecher/1", "de.html")
     ).toBe("../1.de.html")
+  })
+})
+
+describe("getLanguageFromUrl", () => {
+  it("parses language if lang param in location.search is given", () => {
+    const location = {
+      search: "?lang=de",
+    }
+    expect(getLanguageFromUrl(location)).toBe("de")
+  })
+  it("returns null, if no lang param is present in location.search", () => {
+    const location = {
+      search: "",
+    }
+    expect(getLanguageFromUrl(location)).toBeNull()
   })
 })

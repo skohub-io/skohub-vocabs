@@ -87,15 +87,9 @@ const getTurtleFiles = function (dirPath, arrayOfFiles) {
  **/
 const exportIndex = (index, conceptScheme, language) => {
   index.export(function (key, data) {
-    const path = getFilePath(
-      (conceptScheme.id.endsWith("/")
-        ? conceptScheme.id.slice(0, -1)
-        : conceptScheme.id) + `-cs/search/${language}/${key}`,
-      `json`,
-      config.customDomain
-    )
+    const path = getFilePath(conceptScheme.id) + `-cs/search/${language}/${key}`
     createData({
-      path,
+      path: getFilePath(path, "json", config.customDomain),
       data: data !== undefined ? data : "",
     })
   })
@@ -112,12 +106,14 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
   console.info(`Found these turtle files:`)
   ttlFiles.forEach((e) => console.info(e))
   for (const f of ttlFiles) {
-    try {
-      console.info("Validating: ", f)
-      await validate("shapes/skohub.shacl.ttl", f)
-    } catch (e) {
-      console.error(e)
-      throw e
+    if (config.failOnValidation) {
+      try {
+        console.info("Validating: ", f)
+        await validate("shapes/skohub.shacl.ttl", f)
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
     }
     const ttlString = fs.readFileSync(f).toString()
     const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
@@ -247,21 +243,14 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
       const json = omitEmpty(Object.assign({}, collection, context.jsonld))
       const jsonld = omitEmpty(Object.assign({}, collection, context.jsonld))
-      languages.forEach((language) =>
-        createPage({
-          path: getFilePath(
-            collection.id,
-            `${language}.html`,
-            config.customDomain
-          ),
-          component: path.resolve(`./src/components/Collection.jsx`),
-          context: {
-            language,
-            node: collection,
-            customDomain: config.customDomain,
-          },
-        })
-      )
+      createPage({
+        path: getFilePath(collection.id, `html`, config.customDomain),
+        component: path.resolve(`./src/components/Collection.jsx`),
+        context: {
+          node: collection,
+          customDomain: config.customDomain,
+        },
+      })
       createData({
         path: getFilePath(collection.id, "json", config.customDomain),
         data: JSON.stringify(json, null, 2),
@@ -331,24 +320,17 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             embeddedConcepts.push({ json, jsonld })
           } else {
             // create pages and data
-            languagesOfCS.forEach((language) =>
-              createPage({
-                path: getFilePath(
-                  concept.id,
-                  `${language}.html`,
-                  config.customDomain
-                ),
-                component: path.resolve(`./src/components/Concept.jsx`),
-                context: {
-                  language,
-                  node: concept,
-                  collections: memberOf.hasOwnProperty(concept.id)
-                    ? memberOf[concept.id]
-                    : [],
-                  customDomain: config.customDomain,
-                },
-              })
-            )
+            createPage({
+              path: getFilePath(concept.id, `html`, config.customDomain),
+              component: path.resolve(`./src/components/Concept.jsx`),
+              context: {
+                node: concept,
+                collections: memberOf.hasOwnProperty(concept.id)
+                  ? memberOf[concept.id]
+                  : [],
+                customDomain: config.customDomain,
+              },
+            })
             createData({
               path: getFilePath(concept.id, "json", config.customDomain),
               data: JSON.stringify(json, null, 2),
@@ -384,22 +366,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             indexes[language].add(document)
           })
         })
-        languagesOfCS.forEach((language) =>
-          createPage({
-            path: getFilePath(
-              conceptScheme.id,
-              `${language}.html`,
-              config.customDomain
-            ),
-            component: path.resolve(`./src/components/ConceptScheme.jsx`),
-            context: {
-              language,
-              node: conceptScheme,
-              embed: embeddedConcepts,
-              customDomain: config.customDomain,
-            },
-          })
-        )
+        createPage({
+          path: getFilePath(conceptScheme.id, `html`, config.customDomain),
+          component: path.resolve(`./src/components/ConceptScheme.jsx`),
+          context: {
+            node: conceptScheme,
+            embed: embeddedConcepts,
+            customDomain: config.customDomain,
+          },
+        })
+
         createData({
           path: getFilePath(conceptScheme.id, "json", config.customDomain),
           data: JSON.stringify(
@@ -419,26 +395,18 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     )
   )
-
-  // Build index pages
-  languages.forEach((language) =>
-    createPage({
-      path: `/index.${language}.html`,
-      component: path.resolve(`./src/components/index.jsx`),
-      context: {
-        language,
-        conceptSchemes: conceptSchemes.data.allConceptScheme.edges.map(
-          (node) => node.node
-        ),
-        languagesByCS: Object.fromEntries(
-          Object.entries(languagesByCS).map(([key, value]) => {
-            return [key, Array.from(value)]
-          })
-        ),
-        customDomain: config.customDomain,
-      },
-    })
+  const indexData = await Promise.all(
+    conceptSchemes.data.allConceptScheme.edges.map(({ node: cs }) => ({
+      id: cs.id,
+      title: cs.title,
+      description: cs.description,
+      languages: Array.from(languagesByCS[cs.id]),
+    }))
   )
+  createData({
+    path: getFilePath("/index", "json", config.customDomain),
+    data: JSON.stringify(indexData),
+  })
 }
 
 exports.onCreateWebpackConfig = ({ actions }) => {

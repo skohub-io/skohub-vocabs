@@ -48,32 +48,33 @@ jobs:
     - run: npm run test
 
   # disables because the action fails on github action but tests works locally
-  # e2e:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [18.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - run: echo Using node version $(node --version)
-  #     - run: echo Using npm version $(npm --version)
-  #     - run: cypress/prepare-cypress-test.sh
-  #     - name: Cypress run
-  #       uses: cypress-io/github-action@v5
-  #       with:
-  #         browser: chrome
-  #         headed: true
-  #         start: npm run develop -- -p 8000
-  #         wait-on: http://localhost:8000/index.de.html
-  #         config: baseUrl=http://localhost:8000
+  e2e:
+    runs-on: ubuntu-22.04
+    container:
+      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: echo Using node version $(node --version)
+      - run: echo Using npm version $(npm --version)
+      - run: cypress/prepare-cypress-test.sh
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          headed: true
+          start: npm run develop -- -p 8000
+          wait-on: 'http://0.0.0.0:8000' # see https://github.com/cypress-io/github-action#wait-on-with-nodejs-18
+          config: baseUrl=http://localhost:8000
 
   docker:
-    needs: [build]
+    needs: [build, e2e]
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:

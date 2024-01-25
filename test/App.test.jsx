@@ -12,7 +12,15 @@ import { ConceptPC, ConceptSchemePC, CollectionPC } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
 import userEvent from "@testing-library/user-event"
-import { ContextProvider } from "../src/context/Context"
+import { ContextProvider, useSkoHubContext } from "../src/context/Context"
+
+vi.mock("../src/context/Context.jsx", async () => {
+  const actual = await vi.importActual("../src/context/Context.jsx")
+  return {
+    ...actual,
+    useSkoHubContext: vi.fn(),
+  }
+})
 
 vi.mock("flexsearch/dist/module/document.js", async () => {
   const { Document } = await vi.importActual("flexsearch")
@@ -22,11 +30,15 @@ vi.mock("flexsearch/dist/module/document.js", async () => {
 })
 const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
-function renderApp(history, pageContext, children = null) {
+function renderApp(history, pageContext, location, children = null) {
   return render(
     <ContextProvider>
       <LocationProvider history={history}>
-        <App pageContext={pageContext} children={children} />
+        <App
+          pageContext={pageContext}
+          children={children}
+          location={location}
+        />
       </LocationProvider>
     </ContextProvider>
   )
@@ -41,19 +53,34 @@ describe("App", () => {
   })
   useStaticQuery.mockImplementation(() => mockConfig)
 
+  useSkoHubContext.mockReturnValue({
+    data: {
+      conceptSchemeLanguages: ["de", "en"],
+      currentScheme: {
+        id: "http://w3id.org/",
+        title: {
+          de: "Test Vokabular",
+        },
+      },
+      selectedLanguage: "de",
+    },
+    updateState: vi.fn(),
+  })
   it("renders App component with expand and collapse button", async () => {
-    const route = "/w3id.org/index.de.html"
+    const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
     await act(() => {
-      renderApp(history, ConceptSchemePC)
+      renderApp(history, ConceptSchemePC, location)
     })
     expect(screen.getByRole("button", { name: "Collapse" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Expand" })).toBeInTheDocument()
   })
 
   it("renders App component **without** collapse and expand button", async () => {
-    const route = "/w3id.org/index.de.html"
+    const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
 
     // remove narrower from concept
     const topConcept = ConceptSchemePC.node.hasTopConcept[0]
@@ -66,7 +93,7 @@ describe("App", () => {
     }
 
     await act(() => {
-      renderApp(history, pageContext)
+      renderApp(history, pageContext, location)
     })
     expect(screen.queryByRole("button", { name: "Collapse" })).toBeNull()
     expect(screen.queryByRole("button", { name: "Expand" })).toBeNull()
@@ -74,11 +101,12 @@ describe("App", () => {
 
   it("correctly fetches tree when page context is a concept", async () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
-    const route = "/w3id.org/c1.de.html"
+    const route = "/w3id.org/c1.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
 
     await act(() => {
-      renderApp(history, ConceptPC)
+      renderApp(history, ConceptPC, location)
     })
     // we render the concept with notation therefore the "1"
     expect(
@@ -89,11 +117,12 @@ describe("App", () => {
 
   it("correctly fetches tree when page context is a collection", async () => {
     window.HTMLElement.prototype.scrollIntoView = function () {}
-    const route = "/w3id.org/collection.de.html"
+    const route = "/w3id.org/collection.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "", pathname: route }
 
     await act(() => {
-      renderApp(history, CollectionPC)
+      renderApp(history, CollectionPC, location)
     })
     // we render the concept with notation therefore the "1"
     expect(
@@ -105,10 +134,12 @@ describe("App", () => {
 
   it("search is working", async () => {
     const user = userEvent.setup()
-    const route = "/w3id.org/index.de.html"
+    const route = "/w3id.org/index.html"
     const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+
     await act(() => {
-      renderApp(history, ConceptSchemePC)
+      renderApp(history, ConceptSchemePC, location)
     })
     expect(screen.queryByText("Konzept 1")).toBeInTheDocument()
     expect(screen.queryByText("Konzept 2")).toBeInTheDocument()
