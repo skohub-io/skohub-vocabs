@@ -4,7 +4,7 @@ import * as Gatsby from "gatsby"
 
 import React from "react"
 import Concept from "../src/components/Concept.jsx"
-import { ConceptPC } from "./data/pageContext"
+import { ConceptPC, ConceptPCDeprecated } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
 import { useSkoHubContext } from "../src/context/Context.jsx"
@@ -225,5 +225,12 @@ describe.concurrent("Concept", () => {
     expect(
       screen.getByRole("link", { name: /just-another-scheme/i })
     ).toHaveAttribute("href", "http://just-another-scheme.org/")
+  })
+
+  it("renders deprecated notice, if concept is deprecaed", () => {
+    render(<Concept pageContext={ConceptPCDeprecated} />)
+    expect(
+      screen.getByRole("heading", { name: /Deprecated/i })
+    ).toBeInTheDocument()
   })
 })

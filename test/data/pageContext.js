@@ -14,6 +14,19 @@ const concept2 = {
   inScheme: [{ id: "http://w3id.org/" }],
 }
 
+const topConceptDeprecated = {
+  id: "http://w3id.org/c1",
+  type: "Concept",
+  deprecated: true,
+  hub: "https://test.skohub.io/hub",
+  prefLabel: {
+    de: "Konzept 1",
+    en: "Concept 1",
+  },
+  narrower: [concept2],
+  topConceptOf: null,
+}
+
 export const topConcept = {
   id: "http://w3id.org/c1",
   type: "Concept",
@@ -96,6 +109,28 @@ export const ConceptPC = {
       member: [topConcept, concept2],
     },
   ],
+}
+
+export const ConceptPCDeprecated = {
+  node: topConceptDeprecated,
+  language: "de",
+  collections: [
+    {
+      id: "http://w3id.org/collection",
+      prefLabel: { de: "Meine Collection", en: "My Collection" },
+      member: [topConcept, concept2],
+    },
+  ],
+}
+
+export const ConceptSchemeDeprecated = {
+  id: "http://w3id.org/",
+  type: "ConceptScheme",
+  title: {
+    de: "Test Vokabular",
+    en: "Test Vocabulary",
+  },
+  hasTopConcept: [topConceptDeprecated],
 }
 
 export const ConceptScheme = {
