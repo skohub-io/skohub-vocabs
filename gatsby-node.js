@@ -143,6 +143,7 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
         topConceptOf,
         hasTopConcept,
         member,
+        deprecated,
         ...properties
       } = graph
       const type = Array.isArray(properties.type)
@@ -173,6 +174,7 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
          * a concept scheme not present in the graphql data layer would not be found and not
          * be shown on the concepts page.
          */
+        deprecated: Boolean(deprecated) || null,
         inSchemeAll:
           inSchemeFiltered.map((inScheme) => ({ id: inScheme.id })) || null,
         // topConceptOf nodes are also set to inScheme to facilitate parsing and filtering later
