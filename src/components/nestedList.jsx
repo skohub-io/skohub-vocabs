@@ -191,6 +191,9 @@ const NestedList = ({
     const renderPrefLabel = () => {
       // Function for handling highlighting
       function handleHighlight(text, highlight) {
+        text = item.deprecated
+          ? `<span style="color: red">(DEPRECATED)</span> ${text}`
+          : text
         if (highlight) {
           return text.replace(highlight, (str) => `<strong>${str}</strong>`)
         } else {

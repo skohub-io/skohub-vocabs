@@ -20,6 +20,7 @@ const Concept = ({
 
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
+      <h1 style={{ color: "red" }}>{concept.deprecated ? "Deprecated" : ""}</h1>
       <h1>
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
         {i18n(language)(concept.prefLabel)}

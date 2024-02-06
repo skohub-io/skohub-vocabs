@@ -179,6 +179,7 @@ module.exports.allConceptScheme = (languages) => `
     example {
       ${[...languages].join(" ")}
     }
+    deprecated
   }
 `
 module.exports.tokenizer = `{
