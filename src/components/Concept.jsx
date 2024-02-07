@@ -1,7 +1,7 @@
 import Markdown from "markdown-to-jsx"
 import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
-import { getConceptSchemes } from "../hooks/getConceptSchemes"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes.js"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { i18n, getDomId, getFilePath } from "../common"
 import ConceptURI from "./ConceptURI.jsx"
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 const Concept = ({
   pageContext: { node: concept, collections, customDomain },
 }) => {
-  const conceptSchemes = getConceptSchemes()
+  const { config, conceptSchemes } = getConfigAndConceptSchemes()
   const { data } = useSkoHubContext()
   const [language, setLanguage] = useState("")
 
@@ -20,7 +20,9 @@ const Concept = ({
 
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
-      <h1 style={{ color: "red" }}>{concept.deprecated ? "Deprecated" : ""}</h1>
+      <h1 style={{ color: config.colors.skoHubAction }}>
+        {concept.deprecated ? "Deprecated" : ""}
+      </h1>
       <h1>
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
         {i18n(language)(concept.prefLabel)}
