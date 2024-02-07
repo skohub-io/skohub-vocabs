@@ -23,6 +23,12 @@ To determine the language displayed of the vocabulary the browser language is us
 If the browser language is not present in the vocabulary a default language is chosen.
 If you want to link to a specific language, you can use a URL parameter: `?lang=de`.
 
+## Deprecation of Concepts
+
+To mark a concept as deprecated you can mark it with `owl:deprecated true`.
+To point to a successor add `dct:isReplacedBy`.
+The information will be available in the machine readable version as well as in the html page.
+
 ## Set up
 
 ### Install Node.js

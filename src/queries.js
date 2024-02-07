@@ -119,6 +119,10 @@ module.exports.allConcept = (inScheme, languages) => `
               ${[...languages].join(" ")}
             }
           }
+          deprecated
+          isReplacedBy {
+            id
+          }
         }
       }
     }
@@ -178,6 +182,7 @@ module.exports.allConceptScheme = (languages) => `
     example {
       ${[...languages].join(" ")}
     }
+    deprecated
   }
 `
 module.exports.tokenizer = `{

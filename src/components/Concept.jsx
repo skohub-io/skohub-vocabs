@@ -1,7 +1,7 @@
 import Markdown from "markdown-to-jsx"
 import { Link } from "gatsby"
 import JsonLink from "./JsonLink.jsx"
-import { getConceptSchemes } from "../hooks/getConceptSchemes"
+import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes.js"
 import { useSkoHubContext } from "../context/Context.jsx"
 import { i18n, getDomId, getFilePath } from "../common"
 import ConceptURI from "./ConceptURI.jsx"
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 const Concept = ({
   pageContext: { node: concept, collections, customDomain },
 }) => {
-  const conceptSchemes = getConceptSchemes()
+  const { config, conceptSchemes } = getConfigAndConceptSchemes()
   const { data } = useSkoHubContext()
   const [language, setLanguage] = useState("")
 
@@ -20,12 +20,29 @@ const Concept = ({
 
   return (
     <div className="content block main-block" id={getDomId(concept.id)}>
+      <h1 style={{ color: config.colors.skoHubAction }}>
+        {concept.deprecated ? "Deprecated" : ""}
+      </h1>
       <h1>
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
         {i18n(language)(concept.prefLabel)}
       </h1>
       <ConceptURI id={concept.id} />
       <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
+      {concept.isReplacedBy && concept.isReplacedBy.length > 0 && (
+        <div>
+          <h3>Is replaced by</h3>
+          <ul>
+            {concept.isReplacedBy.map((isReplacedBy) => (
+              <li key={isReplacedBy.id}>
+                <Link to={getFilePath(isReplacedBy.id, `html`, customDomain)}>
+                  {isReplacedBy.id}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {concept.definition && (
         <div className="markdown">
           <h3>Definition</h3>
@@ -88,9 +105,7 @@ const Concept = ({
           <ul>
             {concept.related.map((related) => (
               <li key={related.id}>
-                <Link
-                  to={getFilePath(related.id, `${language}.html`, customDomain)}
-                >
+                <Link to={getFilePath(related.id, `html`, customDomain)}>
                   {i18n(language)(related.prefLabel) || related.id}
                 </Link>
               </li>

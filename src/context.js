@@ -9,6 +9,7 @@ const jsonld = {
     schema: "https://schema.org/",
     vann: "http://purl.org/vocab/vann/",
     ldp: "http://www.w3.org/ns/ldp#",
+    owl: "http://www.w3.org/2002/07/owl#",
     title: {
       "@id": "dct:title",
       "@container": "@language",
@@ -93,6 +94,14 @@ const jsonld = {
       "@container": "@set",
     },
     topConceptOf: {
+      "@container": "@set",
+    },
+    deprecated: {
+      "@id": "owl:deprecated",
+      "@type": "xsd:boolean",
+    },
+    isReplacedBy: {
+      "@id": "dct:isReplacedBy",
       "@container": "@set",
     },
   },

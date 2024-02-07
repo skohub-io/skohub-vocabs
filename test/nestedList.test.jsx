@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { render, screen } from "@testing-library/react"
 import React from "react"
 import NestedList from "../src/components/nestedList"
-import { ConceptScheme } from "./data/pageContext"
+import { ConceptScheme, ConceptSchemeDeprecated } from "./data/pageContext"
 import userEvent from "@testing-library/user-event"
 import * as Gatsby from "gatsby"
 import { mockConfig } from "./mocks/mockConfig"
@@ -58,5 +58,20 @@ describe("Nested List", () => {
     expect(screen.getByRole("button", { expanded: true }))
     await user.click(screen.getByRole("button", { expanded: true }))
     expect(screen.getByRole("button", { expanded: false }))
+  })
+
+  it("shows deprecation notice for deprecated concepts", () => {
+    render(
+      <NestedList
+        items={ConceptSchemeDeprecated.hasTopConcept}
+        current={"http://w3id.org/c1"}
+        filter={null}
+        highlight={null}
+        language={"de"}
+      />
+    )
+    expect(
+      screen.getByRole("link", { name: "(DEPRECATED) Konzept 1" })
+    ).toBeInTheDocument()
   })
 })

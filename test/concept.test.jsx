@@ -4,7 +4,7 @@ import * as Gatsby from "gatsby"
 
 import React from "react"
 import Concept from "../src/components/Concept.jsx"
-import { ConceptPC } from "./data/pageContext"
+import { ConceptPC, ConceptPCDeprecated } from "./data/pageContext"
 import mockFetch from "./mocks/mockFetch"
 import { mockConfig } from "./mocks/mockConfig"
 import { useSkoHubContext } from "../src/context/Context.jsx"
@@ -130,7 +130,10 @@ describe.concurrent("Concept", () => {
     expect(
       screen.getByRole("heading", { name: /^related$/i })
     ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /konzept 4/i })).toBeInTheDocument()
+    const href = screen.getByRole("link", { name: /konzept 4/i })
+    expect(href).toBeInTheDocument()
+    // ensure there is no language tag in the link
+    expect(href.getAttribute("href")).not.toMatch(/\..{2}\.html$/)
   })
 
   it("renders narrow matches", () => {
@@ -225,5 +228,27 @@ describe.concurrent("Concept", () => {
     expect(
       screen.getByRole("link", { name: /just-another-scheme/i })
     ).toHaveAttribute("href", "http://just-another-scheme.org/")
+  })
+
+  it("renders deprecated notice, if concept is deprecaed", () => {
+    render(<Concept pageContext={ConceptPCDeprecated} />)
+    expect(
+      screen.getByRole("heading", { name: /Deprecated/i })
+    ).toBeInTheDocument()
+  })
+
+  it("adds a isReplacedBy notice if concept is replaced", () => {
+    render(<Concept pageContext={ConceptPCDeprecated} />)
+    expect(
+      screen.getByRole("heading", { name: /is replaced by/i })
+    ).toBeInTheDocument()
+    const linkElement = screen.getByRole("link", {
+      name: "http://w3id.org/replacement",
+    }) // Adjust the query to match your link
+    const href = linkElement.getAttribute("href")
+
+    // Assert the URL ends with .html but not .xx.html
+    expect(href).toMatch(/\.html$/)
+    expect(href).not.toMatch(/\..{2}\.html$/)
   })
 })
