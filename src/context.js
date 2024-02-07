@@ -100,6 +100,10 @@ const jsonld = {
       "@id": "owl:deprecated",
       "@type": "xsd:boolean",
     },
+    isReplacedBy: {
+      "@id": "dct:isReplacedBy",
+      "@container": "@set",
+    },
   },
 }
 

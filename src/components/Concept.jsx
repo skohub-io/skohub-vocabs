@@ -27,6 +27,20 @@ const Concept = ({
       </h1>
       <ConceptURI id={concept.id} />
       <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
+      {concept.isReplacedBy && concept.isReplacedBy.length > 0 && (
+        <div>
+          <h3>isReplacedBy</h3>
+          <ul>
+            {concept.isReplacedBy.map((isReplacedBy) => (
+              <li key={isReplacedBy.id}>
+                <Link to={getFilePath(isReplacedBy.id, `html`, customDomain)}>
+                  {isReplacedBy.id}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {concept.definition && (
         <div className="markdown">
           <h3>Definition</h3>

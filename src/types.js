@@ -38,7 +38,8 @@ module.exports = (languages) => `
     inScheme: [ConceptScheme] @link(from: "inScheme___NODE"),
     inSchemeAll: [ConceptScheme],
     hub: String,
-    deprecated: Boolean
+    deprecated: Boolean,
+    isReplacedBy: [Concept]
   }
 
   type LanguageMap {

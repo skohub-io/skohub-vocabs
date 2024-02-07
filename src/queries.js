@@ -120,6 +120,9 @@ module.exports.allConcept = (inScheme, languages) => `
             }
           }
           deprecated
+          isReplacedBy {
+            id
+          }
         }
       }
     }
