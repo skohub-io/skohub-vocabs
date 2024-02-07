@@ -29,7 +29,7 @@ const Concept = ({
       <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
       {concept.isReplacedBy && concept.isReplacedBy.length > 0 && (
         <div>
-          <h3>isReplacedBy</h3>
+          <h3>Is replaced by</h3>
           <ul>
             {concept.isReplacedBy.map((isReplacedBy) => (
               <li key={isReplacedBy.id}>
