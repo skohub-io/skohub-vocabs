@@ -240,7 +240,7 @@ describe.concurrent("Concept", () => {
   it("adds a isReplacedBy notice if concept is replaced", () => {
     render(<Concept pageContext={ConceptPCDeprecated} />)
     expect(
-      screen.getByRole("heading", { name: /isReplacedBy/i })
+      screen.getByRole("heading", { name: /is replaced by/i })
     ).toBeInTheDocument()
     const linkElement = screen.getByRole("link", {
       name: "http://w3id.org/replacement",
