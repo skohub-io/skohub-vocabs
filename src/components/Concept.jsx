@@ -103,9 +103,7 @@ const Concept = ({
           <ul>
             {concept.related.map((related) => (
               <li key={related.id}>
-                <Link
-                  to={getFilePath(related.id, `${language}.html`, customDomain)}
-                >
+                <Link to={getFilePath(related.id, `html`, customDomain)}>
                   {i18n(language)(related.prefLabel) || related.id}
                 </Link>
               </li>

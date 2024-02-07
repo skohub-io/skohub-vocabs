@@ -18,6 +18,7 @@ const topConceptDeprecated = {
   id: "http://w3id.org/c1",
   type: "Concept",
   deprecated: true,
+  isReplacedBy: [{ id: "http://w3id.org/replacement" }],
   hub: "https://test.skohub.io/hub",
   prefLabel: {
     de: "Konzept 1",
