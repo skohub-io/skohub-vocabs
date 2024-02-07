@@ -70,7 +70,6 @@ describe("Nested List", () => {
         language={"de"}
       />
     )
-    screen.debug()
     expect(
       screen.getByRole("link", { name: "(DEPRECATED) Konzept 1" })
     ).toBeInTheDocument()
