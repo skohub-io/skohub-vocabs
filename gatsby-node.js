@@ -106,18 +106,19 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
   console.info(`Found these turtle files:`)
   ttlFiles.forEach((e) => console.info(e))
   for (const f of ttlFiles) {
+    const ttlString = fs.readFileSync(f).toString()
+    const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
+    const compacted = await jsonld.compact(doc, context.jsonld)
+
     if (config.failOnValidation) {
       try {
         console.info("Validating: ", f)
-        await validate("shapes/skohub.shacl.ttl", f)
+        await validate("shapes/skohub.shacl.ttl", f, doc)
       } catch (e) {
         console.error(e)
         throw e
       }
     }
-    const ttlString = fs.readFileSync(f).toString()
-    const doc = await jsonld.fromRDF(ttlString, { format: "text/turtle" })
-    const compacted = await jsonld.compact(doc, context.jsonld)
 
     const conceptSchemeIds = compacted["@graph"]
       .filter((node) => node.type === "ConceptScheme")
