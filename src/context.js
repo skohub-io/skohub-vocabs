@@ -104,6 +104,10 @@ const jsonld = {
       "@id": "dct:isReplacedBy",
       "@container": "@set",
     },
+    url: {
+      "@id": "schema:url",
+      "@container": "@set",
+    },
   },
 }
 

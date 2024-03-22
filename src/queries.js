@@ -123,6 +123,9 @@ module.exports.allConcept = (inScheme, languages) => `
           isReplacedBy {
             id
           }
+          url {
+            id
+          }
         }
       }
     }
@@ -183,6 +186,18 @@ module.exports.allConceptScheme = (languages) => `
       ${[...languages].join(" ")}
     }
     deprecated
+    url {
+      id
+    }
+    exactMatch {
+      id
+    }
+    relatedMatch {
+      id
+    }
+    broadMatch {
+      id
+    }
   }
 `
 module.exports.tokenizer = `{
