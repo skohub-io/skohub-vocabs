@@ -49,10 +49,10 @@ const jsonld = {
       "@container": "@language",
     },
     scopeNote: {
-      "@container": "@language",
+      "@container": ["@language", "@set"],
     },
     note: {
-      "@container": "@language",
+      "@container": ["@language", "@set"],
     },
     notation: {
       "@container": "@set",

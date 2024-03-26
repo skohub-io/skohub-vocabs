@@ -52,22 +52,24 @@ const Concept = ({
           </Markdown>
         </div>
       )}
-      {concept.scopeNote && (
+      {concept.scopeNote && i18n(language)(concept.scopeNote) !== "" && (
         <div className="markdown">
-          <h3>Scope Note</h3>
-          <Markdown>
-            {i18n(language)(concept.scopeNote) ||
-              `*No scope note in language "${language}" provided.*`}
-          </Markdown>
+          <h3>ScopeNote</h3>
+          <ul aria-labelledby="scopeNote">
+            {i18n(language)(concept.scopeNote).map((scopeNote, i) => (
+              <li key={i}>{scopeNote}</li>
+            ))}
+          </ul>
         </div>
       )}
-      {concept.note && (
+      {concept.note && i18n(language)(concept.note) !== "" && (
         <div className="markdown">
           <h3>Note</h3>
-          <Markdown>
-            {i18n(language)(concept.note) ||
-              `*No note in language "${language}" provided.*`}
-          </Markdown>
+          <ul aria-labelledby="note">
+            {i18n(language)(concept.note).map((note, i) => (
+              <li key={i}>{note}</li>
+            ))}
+          </ul>
         </div>
       )}
       {concept.altLabel && i18n(language)(concept.altLabel) !== "" && (

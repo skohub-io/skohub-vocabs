@@ -50,10 +50,10 @@ export const topConcept = {
     de: "Ein Beispiel",
   },
   scopeNote: {
-    de: "Meine Scope Note",
+    de: ["Meine Scope Note"],
   },
   note: {
-    de: "Meine Anmerkung",
+    de: ["Meine Anmerkung"],
   },
   notation: ["1"],
   narrower: [concept2],
