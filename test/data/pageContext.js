@@ -49,11 +49,20 @@ export const topConcept = {
   example: {
     de: "Ein Beispiel",
   },
-  scopeNote: {
-    de: ["Meine Scope Note"],
-  },
   note: {
-    de: ["Meine Anmerkung"],
+    de: ["Meine Anmerkung", "Noch eine Anmerkung"],
+  },
+  changeNote: {
+    de: ["Meine Change Note", "Noch eine Change Note"],
+  },
+  editorialNote: {
+    de: ["Meine Editorial Note", "Noch eine Editorial Note"],
+  },
+  historyNote: {
+    de: ["Meine History Note", "Noch eine History Note"],
+  },
+  scopeNote: {
+    de: ["Meine Scope Note", "Noch eine Scope Note"],
   },
   notation: ["1"],
   narrower: [concept2],
