@@ -43,6 +43,10 @@ export const handleKeypresses = (labels, setLabels) => {
         e.preventDefault()
         Object.keys(labels).includes("hiddenLabel") &&
           setLabels({ ...labels, ["hiddenLabel"]: !labels["hiddenLabel"] })
+      } else if (e.altKey && e.which === 83) {
+        e.preventDefault()
+        Object.keys(labels).includes("scopeNote") &&
+          setLabels({ ...labels, ["scopeNote"]: !labels["scopeNote"] })
       }
     }
     document.addEventListener("keydown", handleKeyDown)
@@ -75,6 +79,7 @@ export const importIndex = async (
         "hiddenLabel",
         "definition",
         "example",
+        "scopeNote"
       ],
     },
   })
