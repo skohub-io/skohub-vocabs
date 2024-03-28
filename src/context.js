@@ -48,11 +48,20 @@ const jsonld = {
     definition: {
       "@container": "@language",
     },
-    scopeNote: {
-      "@container": "@language",
-    },
     note: {
-      "@container": "@language",
+      "@container": ["@language", "@set"],
+    },
+    changeNote: {
+      "@container": ["@language", "@set"],
+    },
+    editorialNote: {
+      "@container": ["@language", "@set"],
+    },
+    historyNote: {
+      "@container": ["@language", "@set"],
+    },
+    scopeNote: {
+      "@container": ["@language", "@set"],
     },
     notation: {
       "@container": "@set",

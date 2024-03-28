@@ -125,6 +125,71 @@ describe.concurrent("Concept", () => {
     ).toBeInTheDocument()
   })
 
+  it("renders notes", () => {
+    render(<Concept pageContext={ConceptPC} />)
+
+    expect(screen.getByText(/Meine Anmerkung/i)).toBeInTheDocument()
+
+    const list = screen.getByRole("list", {
+      name: "Note",
+    })
+    const { getAllByRole } = within(list)
+    const items = getAllByRole("listitem")
+    expect(items.length).toBe(2)
+  })
+
+  it("renders changeNotes", () => {
+    render(<Concept pageContext={ConceptPC} />)
+
+    expect(screen.getByText(/Meine Change Note/i)).toBeInTheDocument()
+
+    const list = screen.getByRole("list", {
+      name: /changenote/i,
+    })
+    const { getAllByRole } = within(list)
+    const items = getAllByRole("listitem")
+    expect(items.length).toBe(2)
+  })
+
+  it("renders editorialNotes", () => {
+    render(<Concept pageContext={ConceptPC} />)
+
+    expect(screen.getByText(/Meine Editorial Note/i)).toBeInTheDocument()
+
+    const list = screen.getByRole("list", {
+      name: /editorialnote/i,
+    })
+    const { getAllByRole } = within(list)
+    const items = getAllByRole("listitem")
+    expect(items.length).toBe(2)
+  })
+
+  it("renders historyNotes", () => {
+    render(<Concept pageContext={ConceptPC} />)
+
+    expect(screen.getByText(/Meine History Note/i)).toBeInTheDocument()
+
+    const list = screen.getByRole("list", {
+      name: /historynote/i,
+    })
+    const { getAllByRole } = within(list)
+    const items = getAllByRole("listitem")
+    expect(items.length).toBe(2)
+  })
+
+  it("renders scopeNotes", () => {
+    render(<Concept pageContext={ConceptPC} />)
+
+    expect(screen.getByText(/Meine Scope Note/i)).toBeInTheDocument()
+
+    const list = screen.getByRole("list", {
+      name: /scopenote/i,
+    })
+    const { getAllByRole } = within(list)
+    const items = getAllByRole("listitem")
+    expect(items.length).toBe(2)
+  })
+
   it("renders related Concepts", () => {
     render(<Concept pageContext={ConceptPC} />)
     expect(

@@ -53,7 +53,7 @@ const Search = ({ handleQueryInput, labels, onLabelClick }) => {
           closeModal={() => setModal(false)}
           id="settingsModal"
         >
-          <p>Which labels do you want to include in the search?</p>
+          <p>Which fields do you want to include in the search?</p>
           <LabelFilter labels={labels} toggleClick={onLabelClick} />
         </Modal>
       </div>
