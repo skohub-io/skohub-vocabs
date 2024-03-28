@@ -192,7 +192,7 @@ const NestedList = ({
       // Function for handling highlighting
       function handleHighlight(text, highlight) {
         text = item.deprecated
-          ? `<span style="color: red">(DEPRECATED)</span> ${text}`
+          ? `<span style="color: ${config.colors.skoHubAction} ">(DEPRECATED)</span> ${text}`
           : text
         if (highlight) {
           return text.replace(highlight, (str) => `<strong>${str}</strong>`)

@@ -49,10 +49,19 @@ module.exports.allConcept = (inScheme, languages) => `
           definition {
             ${[...languages].join(" ")}
           }
-          scopeNote {
+          note {
             ${[...languages].join(" ")}
           }
-          note {
+          changeNote {
+            ${[...languages].join(" ")}
+          }
+          editorialNote {
+            ${[...languages].join(" ")}
+          }
+          historyNote {
+            ${[...languages].join(" ")}
+          }
+          scopeNote {
             ${[...languages].join(" ")}
           }
           notation
