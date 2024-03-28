@@ -289,15 +289,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               document: {
                 id: "id",
                 // store: ["prefLabel", "altLabel"], /*  not working when importing, bug in flexsearch */
-                index: [
-                  "notation",
-                  "prefLabel",
-                  "altLabel",
-                  "hiddenLabel",
-                  "definition",
-                  "example",
-                  "scopeNote"
-                ],
+                index: [...config.searchableAttributes],
               },
             })
             return [l, index]

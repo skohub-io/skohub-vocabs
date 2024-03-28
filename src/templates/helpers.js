@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import Document from "flexsearch/dist/module/document.js"
-import { i18n, getFilePath } from "../common"
+import { getFilePath } from "../common"
 import { withPrefix } from "gatsby"
 
 export const handleKeypresses = (labels, setLabels) => {
@@ -62,7 +62,7 @@ export const importIndex = async (
   labels,
   language,
   setIndex,
-  customDomain
+  config
 ) => {
   if (!conceptSchemeId) return
   const idx = new Document({
@@ -72,15 +72,7 @@ export const importIndex = async (
     document: {
       id: "id",
       // store: ["prefLabel", "altLabel"], /* not working flexsearchside  */
-      index: [
-        "notation",
-        "prefLabel",
-        "altLabel",
-        "hiddenLabel",
-        "definition",
-        "example",
-        "scopeNote"
-      ],
+      index: [...config.searchableAttributes],
     },
   })
   // filter from labels object the selected entries
@@ -102,7 +94,9 @@ export const importIndex = async (
     try {
       const path =
         getFilePath(conceptSchemeId) + `-cs/search/${language}/${key}`
-      data = await fetch(withPrefix(getFilePath(path, `json`, customDomain)))
+      data = await fetch(
+        withPrefix(getFilePath(path, `json`, config.customDomain))
+      )
       const jsonData = await data.json()
       idx.import(key, jsonData ?? null)
     } catch (e) {
