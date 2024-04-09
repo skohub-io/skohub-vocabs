@@ -306,7 +306,14 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         const conceptsInScheme = await graphql(
           queries.allConcept(conceptScheme.id, languages)
         )
-        const embeddedConcepts = []
+        // embed concept scheme data
+        const embeddedConcepts = [
+          {
+            json: omitEmpty(Object.assign({}, conceptScheme, context.jsonld)),
+            jsonld: omitEmpty(Object.assign({}, conceptScheme, context.jsonld)),
+          },
+        ]
+
         conceptsInScheme.data.allConcept.edges.forEach(({ node: concept }) => {
           const json = omitEmpty(Object.assign({}, concept, context.jsonld))
           const jsonld = omitEmpty(Object.assign({}, concept, context.jsonld))
