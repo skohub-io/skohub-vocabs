@@ -36,7 +36,12 @@ const ConceptScheme = ({
         id={getDomId(conceptScheme.id)}
       >
         <div>
-          <h1>{i18n(language)(conceptScheme.title)}</h1>
+          <h1>
+            {(conceptScheme?.title && i18n(language)(conceptScheme.title)) ||
+              (conceptScheme?.prefLabel &&
+                i18n(language)(conceptScheme.prefLabel)) ||
+              (conceptScheme?.dctitle && i18n(language)(conceptScheme.dctitle))}
+          </h1>
           <ConceptURI id={conceptScheme.id} />
           <JsonLink to={getFilePath(conceptScheme.id, "json", customDomain)} />
           {conceptScheme.description && (

@@ -7,6 +7,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix sdo: <https://schema.org> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 
@@ -17,14 +18,33 @@
 :ConceptSchemeShape
   a sh:NodeShape ;
   sh:targetClass skos:ConceptScheme ;
-  sh:property [
-    sh:path dct:title ;
-    sh:minCount 1;
-    sh:datatype rdf:langString ;
-    sh:message "Concept Scheme has no dct:title with a language tag!" ;
-    sh:severity sh:Violation ;
-    rdfs:comment "Tested with 01_cs_no_title.ttl" ;
-  ] ;
+  sh:or (
+    [
+      sh:path dct:title ;
+      sh:minCount 1;
+      sh:datatype rdf:langString ;
+      sh:message "Concept Scheme has no dct:title with a language tag!" ;
+      sh:severity sh:Violation ;
+      rdfs:comment "Tested with 01_cs_no_title.ttl" ;
+    ] 
+    [
+      sh:path skos:prefLabel ;
+      sh:minCount 1;
+      sh:datatype rdf:langString ;
+      sh:message "Concept Scheme has no skos:prefLabel with a language tag!" ;
+      sh:severity sh:Violation ;
+      rdfs:comment "Tested with 01_cs_no_title.ttl" ;
+    ] 
+    [
+      sh:path dc:title ;
+      sh:minCount 1;
+      sh:datatype rdf:langString ;
+      sh:message "Concept Scheme has no dc:title with a language tag!" ;
+      sh:severity sh:Violation ;
+      rdfs:comment "Tested with 01_cs_no_title.ttl" ;
+    ] 
+
+  );
   sh:property [
     sh:path skos:hasTopConcept ;
     sh:minCount 1 ;

@@ -139,6 +139,12 @@ module.exports.allConceptScheme = (languages) => `
           title {
             ${[...languages].join(" ")}
           }
+          prefLabel {
+            ${[...languages].join(" ")}
+          }
+          dctitle {
+            ${[...languages].join(" ")}
+          }
           description {
             ${[...languages].join(" ")}
           }

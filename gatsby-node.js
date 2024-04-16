@@ -402,6 +402,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     conceptSchemes.data.allConceptScheme.edges.map(({ node: cs }) => ({
       id: cs.id,
       title: cs.title,
+      dctitle: cs.dctitle,
+      prefLabel: cs.prefLabel,
       description: cs.description,
       languages: Array.from(languagesByCS[cs.id]),
     }))
