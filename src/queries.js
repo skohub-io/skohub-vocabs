@@ -191,6 +191,9 @@ module.exports.allConceptScheme = (languages) => `
     example {
       ${[...languages].join(" ")}
     }
+    scopeNote {
+      ${[...languages].join(" ")}
+    }
     deprecated
   }
 `
