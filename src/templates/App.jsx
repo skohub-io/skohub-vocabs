@@ -130,7 +130,7 @@ const App = ({ pageContext, children, location }) => {
       labels,
       data.selectedLanguage,
       setIndex,
-      config.customDomain
+      config
     )
   }, [data, language, labels])
 
