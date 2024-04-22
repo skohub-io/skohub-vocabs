@@ -64,6 +64,16 @@ describe("Concept Scheme and Concept", () => {
     cy.get("h1").should("have.text", "Hash URI Konzept Schema")
   })
 
+  it("Visting a hash URI Concept Scheme with hash uri in URL works", () => {
+    cy.visit("/example.org/hashURIConceptScheme.html#scheme", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
+    cy.get(".conceptScheme > a").should("have.text", "Hash URI Konzept Schema")
+    cy.get("h1").should("have.text", "Hash URI Konzept Schema")
+  })
+
   it("Visting a hash URI Concept works", () => {
     cy.visit("/example.org/hashURIConceptScheme.html#concept1", {
       onBeforeLoad(win) {
