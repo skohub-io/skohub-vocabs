@@ -98,6 +98,7 @@ const parseLanguages = (graph) => {
  * @property {string} tokenizer
  * @property {Object} colors
  * @property {string} customDomain
+ * @property {string[]} searchableAttributes
  */
 
 /**
