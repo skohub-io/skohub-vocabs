@@ -19,7 +19,7 @@ const Concept = ({
   }, [data?.selectedLanguage])
 
   return (
-    <div className="content block main-block" id={getDomId(concept.id)}>
+    <div id={getDomId(concept.id)}>
       <h1 style={{ color: config.colors.skoHubAction }}>
         {concept.deprecated ? "Deprecated" : ""}
       </h1>
