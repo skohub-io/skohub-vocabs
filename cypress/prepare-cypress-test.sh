@@ -9,6 +9,7 @@ cp test/data/ttl/hashURIConceptScheme.ttl \
   test/data/ttl/oneConceptSchemeTwoFiles_1.ttl \
    test/data/ttl/oneConceptSchemeTwoFiles_2.ttl \
  test/data/ttl/slashURIConceptScheme.ttl \
+ test/data/ttl/slashURIConceptSchemeDCproperties.ttl \
  test/data/ttl/systematik.ttl \
  test/data/ttl/twoConceptSchemesOneFile.ttl \
    data/

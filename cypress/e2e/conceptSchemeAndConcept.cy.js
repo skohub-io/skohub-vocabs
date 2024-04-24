@@ -109,3 +109,25 @@ describe("Parsing language from URL on Concept Schemes and Concepts", () => {
     )
   })
 })
+
+describe("DC properties for describing concept scheme are working", () => {
+  it("Title is present", () => {
+    cy.visit("/w3id.org/dc/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
+    //header
+    cy.get(".conceptScheme > a").should("have.text", "Test Vokabular DC")
+    // concept content block
+    cy.get("h1").should("include.text", "Test Vokabular DC")
+  })
+  it("Description is present", () => {
+    cy.visit("/w3id.org/dc/index.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
+    cy.get(".markdown").should("have.text", "Test Beschreibung DC")
+  })
+})

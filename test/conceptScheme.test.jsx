@@ -100,7 +100,7 @@ describe.concurrent("Concept", () => {
       ...ConceptSchemePC,
       node: {
         ...ConceptSchemePC.node,
-        dctitle: {
+        dc_title: {
           de: "dctitle DE",
         },
       },

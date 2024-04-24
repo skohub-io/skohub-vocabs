@@ -17,6 +17,7 @@ const {
   getFilePath,
   parseLanguages,
   loadConfig,
+  replaceMultipleKeysInObject,
 } = require("./src/common")
 const context = require("./src/context")
 const queries = require("./src/queries")
@@ -145,6 +146,8 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
         hasTopConcept,
         member,
         deprecated,
+        "dc:title": dc_title,
+        "dc:description": dc_description,
         ...properties
       } = graph
       const type = Array.isArray(properties.type)
@@ -204,6 +207,8 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
           type,
         },
         member___NODE: (member || []).map((member) => member.id),
+        dc_title,
+        dc_description,
       }
       if (type === "Concept") {
         Object.assign(node, {})
@@ -382,17 +387,29 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             customDomain: config.customDomain,
           },
         })
+        const jsonldConceptScheme = replaceMultipleKeysInObject(conceptScheme, [
+          ["dc_title", "dc:title"],
+          ["dc_description", "dc:description"],
+        ])
 
         createData({
           path: getFilePath(conceptScheme.id, "json", config.customDomain),
           data: JSON.stringify(
-            omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2)
+            omitEmpty(
+              Object.assign({}, jsonldConceptScheme, context.jsonld),
+              null,
+              2
+            )
           ),
         })
         createData({
           path: getFilePath(conceptScheme.id, "jsonld", config.customDomain),
           data: JSON.stringify(
-            omitEmpty(Object.assign({}, conceptScheme, context.jsonld), null, 2)
+            omitEmpty(
+              Object.assign({}, jsonldConceptScheme, context.jsonld),
+              null,
+              2
+            )
           ),
         })
         // create index files
@@ -406,9 +423,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     conceptSchemes.data.allConceptScheme.edges.map(({ node: cs }) => ({
       id: cs.id,
       title: cs.title,
-      dctitle: cs.dctitle,
+      dc_title: cs.dc_title,
       prefLabel: cs.prefLabel,
       description: cs.description,
+      dc_description: cs.dc_description,
       languages: Array.from(languagesByCS[cs.id]),
     }))
   )
