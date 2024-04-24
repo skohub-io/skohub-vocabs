@@ -159,6 +159,8 @@ const Header = ({ siteTitle }) => {
                   )}
                 >
                   {data.currentScheme?.title?.[data.selectedLanguage] ||
+                    data.currentScheme?.prefLabel?.[data.selectedLanguage] ||
+                    data.currentScheme?.dctitle?.[data.selectedLanguage] ||
                     data.currentScheme.id}
                 </Link>
               </div>

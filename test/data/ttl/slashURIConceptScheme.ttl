@@ -27,7 +27,7 @@
 <c2> a skos:Concept ;
   skos:prefLabel "Konzept 2"@de, "Concept 2"@en ;
   skos:narrower <c3> ;
-  skos:broader <n1> ;
+  skos:broader <c1> ;
   skos:inScheme <> .
 
 <c3> a skos:Concept ;

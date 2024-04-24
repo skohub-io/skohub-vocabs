@@ -9,6 +9,8 @@ module.exports = (languages) => `
   type ConceptScheme implements Node {
     type: String,
     title: LanguageMap,
+    dctitle: LanguageMap,
+    prefLabel: LanguageMap,
     description: LanguageMap,
     hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE"),
     languages: [String]
