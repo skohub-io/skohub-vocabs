@@ -158,12 +158,11 @@ const App = ({ pageContext, children, location }) => {
         inline: "nearest",
       })
   })
-
   const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
   const title =
     pageContext.node?.prefLabel ||
     pageContext.node?.title ||
-    pageContext.node?.dctitle
+    pageContext.node?.dc_title
 
   return (
     <Layout>

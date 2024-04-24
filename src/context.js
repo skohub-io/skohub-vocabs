@@ -6,6 +6,7 @@ const jsonld = {
     "@vocab": "http://www.w3.org/2004/02/skos/core#",
     xsd: "http://www.w3.org/2001/XMLSchema#",
     dct: "http://purl.org/dc/terms/",
+    dc: "http://purl.org/dc/elements/1.1/",
     schema: "https://schema.org/",
     vann: "http://purl.org/vocab/vann/",
     ldp: "http://www.w3.org/ns/ldp#",
@@ -14,12 +15,12 @@ const jsonld = {
       "@id": "dct:title",
       "@container": "@language",
     },
-    dctitle: {
-      "@id": "http://purl.org/dc/elements/1.1/title",
+    "dc:title": {
+      "@id": "dc:title",
       "@container": "@language",
     },
-    dcdescription: {
-      "@id": "http://purl.org/dc/elements/1.1/description",
+    "dc:description": {
+      "@id": "dc:description",
       "@container": "@language",
     },
     description: {

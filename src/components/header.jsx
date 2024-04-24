@@ -100,6 +100,7 @@ const Header = ({ siteTitle }) => {
   `
   const [languages, setLanguages] = useState([])
   const [language, setLanguage] = useState("")
+  const [title, setTitle] = useState("")
 
   // set page language
   useEffect(() => {
@@ -123,6 +124,16 @@ const Header = ({ siteTitle }) => {
     } else {
       setLanguages(conceptSchemesData[data.currentScheme.id].languages)
     }
+  }, [data])
+
+  // set title
+  useEffect(() => {
+    const title =
+      data.currentScheme?.title?.[data.selectedLanguage] ||
+      data.currentScheme?.prefLabel?.[data.selectedLanguage] ||
+      data.currentScheme?.dc_title?.[data.selectedLanguage] ||
+      data.currentScheme?.id
+    setTitle(title)
   }, [data])
 
   return (
@@ -158,10 +169,7 @@ const Header = ({ siteTitle }) => {
                     config.customDomain
                   )}
                 >
-                  {data.currentScheme?.title?.[data.selectedLanguage] ||
-                    data.currentScheme?.prefLabel?.[data.selectedLanguage] ||
-                    data.currentScheme?.dctitle?.[data.selectedLanguage] ||
-                    data.currentScheme.id}
+                  {title}
                 </Link>
               </div>
             </div>

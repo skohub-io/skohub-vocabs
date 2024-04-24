@@ -17,9 +17,10 @@ const ConceptScheme = ({
   }, [data?.selectedLanguage])
 
   const pathname = useLocation()
-  const description = conceptScheme?.description || conceptScheme?.dcdescription
+  const description =
+    conceptScheme?.description || conceptScheme?.dc_description
   const title =
-    conceptScheme?.title || conceptScheme?.dctitle || conceptScheme?.prefLabel
+    conceptScheme?.title || conceptScheme?.dc_title || conceptScheme?.prefLabel
   // got some hash uri to show
   if (pathname.hash) {
     const filtered = embed.find((c) => c.json.id.endsWith(pathname.hash))

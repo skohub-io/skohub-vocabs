@@ -151,13 +151,13 @@ module.exports.allConceptScheme = (languages) => `
           prefLabel {
             ${[...languages].join(" ")}
           }
-          dctitle {
+          dc_title {
             ${[...languages].join(" ")}
           }
           description {
             ${[...languages].join(" ")}
           }
-          dcdescription {
+          dc_description {
             ${[...languages].join(" ")}
           }
           hasTopConcept {
