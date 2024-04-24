@@ -198,7 +198,7 @@ const App = ({ pageContext, children, location }) => {
             )}
           </div>
         </nav>
-        {children}
+        <div className="content concept block main-block">{children}</div>
       </div>
     </Layout>
   )

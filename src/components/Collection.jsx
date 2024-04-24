@@ -15,7 +15,7 @@ const Collection = ({ pageContext: { node: collection, customDomain } }) => {
   }, [data?.selectedLanguage])
 
   return (
-    <div className="content block main-block">
+    <div>
       <h1>{i18n(language)(collection.prefLabel)}</h1>
       <h2>{collection.id}</h2>
       <JsonLink to={getFilePath(collection.id, "json", customDomain)} />

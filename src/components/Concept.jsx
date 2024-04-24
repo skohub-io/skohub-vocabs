@@ -19,13 +19,14 @@ const Concept = ({
   }, [data?.selectedLanguage])
 
   return (
-    <div className="content block main-block" id={getDomId(concept.id)}>
+    <div id={getDomId(concept.id)}>
       <h1 style={{ color: config.colors.skoHubAction }}>
         {concept.deprecated ? "Deprecated" : ""}
       </h1>
       <h1>
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
-        {i18n(language)(concept.prefLabel)}
+        {(concept?.prefLabel && i18n(language)(concept.prefLabel)) ||
+          (concept?.title && i18n(language)(concept.title))}
       </h1>
       <ConceptURI id={concept.id} />
       <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
