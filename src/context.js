@@ -18,6 +18,10 @@ const jsonld = {
       "@id": "http://purl.org/dc/elements/1.1/title",
       "@container": "@language",
     },
+    dcdescription: {
+      "@id": "http://purl.org/dc/elements/1.1/description",
+      "@container": "@language",
+    },
     description: {
       "@id": "dct:description",
       "@container": "@language",

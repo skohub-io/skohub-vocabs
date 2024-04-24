@@ -12,6 +12,7 @@ module.exports = (languages) => `
     dctitle: LanguageMap,
     prefLabel: LanguageMap,
     description: LanguageMap,
+    dcdescription: LanguageMap,
     hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE"),
     languages: [String]
   }

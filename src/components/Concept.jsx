@@ -13,6 +13,9 @@ const Concept = ({
   const { config, conceptSchemes } = getConfigAndConceptSchemes()
   const { data } = useSkoHubContext()
   const [language, setLanguage] = useState("")
+  const definition =
+    concept?.definition || concept?.description || concept?.dcdescription
+  const title = concept?.prefLabel || concept?.title || concept?.dctitle
 
   useEffect(() => {
     setLanguage(data.selectedLanguage)
@@ -25,8 +28,7 @@ const Concept = ({
       </h1>
       <h1>
         {concept.notation && <span>{concept.notation.join(",")}&nbsp;</span>}
-        {(concept?.prefLabel && i18n(language)(concept.prefLabel)) ||
-          (concept?.title && i18n(language)(concept.title))}
+        {title && i18n(language)(title)}
       </h1>
       <ConceptURI id={concept.id} />
       <JsonLink to={getFilePath(concept.id, "json", customDomain)} />
@@ -44,11 +46,11 @@ const Concept = ({
           </ul>
         </div>
       )}
-      {concept.definition && (
+      {definition && (
         <div className="markdown">
           <h3>Definition</h3>
           <Markdown>
-            {i18n(language)(concept.definition) ||
+            {i18n(language)(definition) ||
               `*No definition in language "${language}" provided.*`}
           </Markdown>
         </div>
