@@ -22,19 +22,13 @@ const ConceptScheme = ({
   if (pathname.hash) {
     const filtered = embed.filter((c) => c.json.id.endsWith(pathname.hash))
     return (
-      <div
-        className="content concept block main-block"
-        id={getDomId(conceptScheme.id)}
-      >
+      <div id={getDomId(conceptScheme.id)}>
         <Concept pageContext={{ node: filtered[0].json, language }} />
       </div>
     )
   } else {
     return (
-      <div
-        className="content concept block main-block"
-        id={getDomId(conceptScheme.id)}
-      >
+      <div id={getDomId(conceptScheme.id)}>
         <div>
           <h1>
             {(conceptScheme?.title && i18n(language)(conceptScheme.title)) ||

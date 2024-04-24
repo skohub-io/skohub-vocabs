@@ -130,7 +130,7 @@ const App = ({ pageContext, children, location }) => {
       labels,
       data.selectedLanguage,
       setIndex,
-      config.customDomain
+      config
     )
   }, [data, language, labels])
 
@@ -198,7 +198,7 @@ const App = ({ pageContext, children, location }) => {
             )}
           </div>
         </nav>
-        {children}
+        <div className="content concept block main-block">{children}</div>
       </div>
     </Layout>
   )

@@ -143,6 +143,7 @@ You can configure the following settings:
     - Logo
     - Colors
     - Fonts
+- Searchable Fields
 
 The settings are explained in the following sections.
 
@@ -274,6 +275,25 @@ url: [String]
 
 This will add the `url` field, being an array of strings.
 For other types, compare with already existing properties and just copy as you need.
+
+## Adding Searchable Fields
+
+To add a field to be searchable you have to make the following adjustments:
+
+- Add the field in the `config.yaml` file to `searchableAttributes`, e.g. `editorialNote`
+- In `src/queries.js` add it to `ConceptFields` (around line 176):
+```graphql
+editorialNote {
+  ${[...languages].join(" ")}
+}
+```
+- Add it to the labels to be indexed. Go to `gatsby-node.js` and add it the document object around line 341. For fields being *single* language tagged labels (e.g. `skos:prefLabel`) use `prefLabel` as an example. For fields being arrays of language tagged labels (e.g. `skos:altLabel`) use `altLabel` as an example. For `skos:editorialNote` it would be:
+```js
+...(concept.editorialNote &&
+Object.hasOwn(concept.editorialNote, language) && {
+  editorialNote: i18n(language)(concept.editorialNote),
+}),
+```
 
 ## Troubleshooting
 

@@ -43,7 +43,6 @@
       sh:severity sh:Violation ;
       rdfs:comment "Tested with 01_cs_no_title.ttl" ;
     ] 
-
   );
   sh:property [
     sh:path skos:hasTopConcept ;
@@ -60,15 +59,26 @@
     sh:message "The target class for hasTopConcept should be skos:Concept" ;
     rdfs:comment "Tested with 03_cs_target_class_hasTopConcept.ttl" ;
   ] ;
-  sh:property [
-    sh:path dct:description ;
-    sh:datatype rdf:langString ;
-    sh:severity sh:Warning ;
-    sh:minCount 1 ;
-    sh:message: "A description of the Concept Scheme should be provided." ;
-    rdfs:comment "Tested with 04_cs_no_description.ttl" ;
-    rdfs:comment "Tested with 05_cs_description_no_langstring.ttl" ;
-  ] ;
+  sh:or (
+    [
+      sh:path dct:description ;
+      sh:datatype rdf:langString ;
+      sh:severity sh:Warning ;
+      sh:minCount 1 ;
+      sh:message: "A description of the Concept Scheme should be provided." ;
+      rdfs:comment "Tested with 04_cs_no_description.ttl" ;
+      rdfs:comment "Tested with 05_cs_description_no_langstring.ttl" ;
+    ]
+    [
+      sh:path dc:description ;
+      sh:datatype rdf:langString ;
+      sh:severity sh:Warning ;
+      sh:minCount 1 ;
+      sh:message: "A description of the Concept Scheme should be provided." ;
+      rdfs:comment "Tested with 04_cs_no_description.ttl" ;
+      rdfs:comment "Tested with 05_cs_description_no_langstring.ttl" ;
+    ]
+  ) ;
   sh:property [
     sh:path dct:license ;
     sh:minCount 1 ;

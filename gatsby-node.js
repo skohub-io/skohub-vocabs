@@ -289,14 +289,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               document: {
                 id: "id",
                 // store: ["prefLabel", "altLabel"], /*  not working when importing, bug in flexsearch */
-                index: [
-                  "notation",
-                  "prefLabel",
-                  "altLabel",
-                  "hiddenLabel",
-                  "definition",
-                  "example",
-                ],
+                index: [...config.searchableAttributes],
               },
             })
             return [l, index]
@@ -306,7 +299,14 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         const conceptsInScheme = await graphql(
           queries.allConcept(conceptScheme.id, languages)
         )
-        const embeddedConcepts = []
+        // embed concept scheme data
+        const embeddedConcepts = [
+          {
+            json: omitEmpty(Object.assign({}, conceptScheme, context.jsonld)),
+            jsonld: omitEmpty(Object.assign({}, conceptScheme, context.jsonld)),
+          },
+        ]
+
         conceptsInScheme.data.allConcept.edges.forEach(({ node: concept }) => {
           const json = omitEmpty(Object.assign({}, concept, context.jsonld))
           const jsonld = omitEmpty(Object.assign({}, concept, context.jsonld))
@@ -363,6 +363,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               ...(concept.example &&
                 Object.hasOwn(concept.example, language) && {
                   example: i18n(language)(concept.example),
+                }),
+              ...(concept.scopeNote &&
+                Object.hasOwn(concept.scopeNote, language) && {
+                  scopeNote: i18n(language)(concept.scopeNote),
                 }),
               notation: concept.notation,
             }
