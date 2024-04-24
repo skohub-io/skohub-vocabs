@@ -157,6 +157,9 @@ module.exports.allConceptScheme = (languages) => `
           description {
             ${[...languages].join(" ")}
           }
+          dcdescription {
+            ${[...languages].join(" ")}
+          }
           hasTopConcept {
             ...ConceptFields
             narrower {
