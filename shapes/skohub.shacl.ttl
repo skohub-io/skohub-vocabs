@@ -7,9 +7,9 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix sdo: <https://schema.org> .
 @prefix vann: <http://purl.org/vocab/vann/> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
 
 # rdfs:comment holds info with what file under ./tests/invalid/skohub.shacl.ttl
 # the constraint is tested

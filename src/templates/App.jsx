@@ -158,21 +158,17 @@ const App = ({ pageContext, children, location }) => {
         inline: "nearest",
       })
   })
-
   const toggleClick = (e) => setLabels({ ...labels, [e]: !labels[e] })
+  const title =
+    pageContext.node?.prefLabel ||
+    pageContext.node?.title ||
+    pageContext.node?.dc_title
 
   return (
     <Layout>
       <SEO
-        title={i18n(pageContext.language)(
-          pageContext.node.prefLabel || pageContext.node.title
-        )}
-        keywords={[
-          "Concept",
-          i18n(pageContext.language)(
-            pageContext.node.prefLabel || pageContext.node.title
-          ),
-        ]}
+        title={i18n(language)(title)}
+        keywords={["Concept", i18n(language)(title)]}
       />
       <div className="Concept" css={style}>
         <nav className="block nav-block">

@@ -6,7 +6,7 @@ describe("Main Vocab Index page", () => {
       },
     })
     // vocabs are found
-    cy.get(".centerPage > ul li").should("have.length", 7)
+    cy.get(".centerPage > ul li").should("have.length", 8)
 
     /**
      * What is tested by the existence of these links:
@@ -34,6 +34,9 @@ describe("Main Vocab Index page", () => {
     }).should("exist")
     cy.findByRole("link", {
       name: "Test Vokabular in zwei Dateien",
+    }).should("exist")
+    cy.findByRole("link", {
+      name: "Test Vokabular DC",
     }).should("exist")
 
     // switch language

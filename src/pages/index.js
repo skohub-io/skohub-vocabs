@@ -59,6 +59,19 @@ const IndexPage = ({ location }) => {
     }
   }, [data?.languages, data?.selectedLanguage])
 
+  const getTitle = (conceptScheme) => {
+    const title =
+      i18n(language)(
+        conceptScheme?.title ||
+          conceptScheme?.prefLabel ||
+          conceptScheme?.dc_title
+      ) || conceptScheme.id
+    if (title) {
+      return title
+    }
+    return conceptScheme.id
+  }
+
   return (
     <Layout language={language}>
       <SEO title="Concept Schemes" keywords={["conceptSchemes"]} />
@@ -79,8 +92,7 @@ const IndexPage = ({ location }) => {
                 }
                 to={getFilePath(conceptScheme.id, `html`, customDomain)}
               >
-                {(conceptScheme.title && i18n(language)(conceptScheme.title)) ||
-                  conceptScheme.id}
+                {getTitle(conceptScheme)}
               </Link>
             </li>
           ))}

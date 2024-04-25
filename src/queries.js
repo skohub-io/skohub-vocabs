@@ -148,7 +148,16 @@ module.exports.allConceptScheme = (languages) => `
           title {
             ${[...languages].join(" ")}
           }
+          prefLabel {
+            ${[...languages].join(" ")}
+          }
+          dc_title {
+            ${[...languages].join(" ")}
+          }
           description {
+            ${[...languages].join(" ")}
+          }
+          dc_description {
             ${[...languages].join(" ")}
           }
           hasTopConcept {

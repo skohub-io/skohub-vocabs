@@ -17,25 +17,28 @@ const ConceptScheme = ({
   }, [data?.selectedLanguage])
 
   const pathname = useLocation()
-
+  const description =
+    conceptScheme?.description || conceptScheme?.dc_description
+  const title =
+    conceptScheme?.title || conceptScheme?.dc_title || conceptScheme?.prefLabel
   // got some hash uri to show
   if (pathname.hash) {
-    const filtered = embed.filter((c) => c.json.id.endsWith(pathname.hash))
+    const filtered = embed.find((c) => c.json.id.endsWith(pathname.hash))
     return (
       <div id={getDomId(conceptScheme.id)}>
-        <Concept pageContext={{ node: filtered[0].json, language }} />
+        <Concept pageContext={{ node: filtered.json, language }} />
       </div>
     )
   } else {
     return (
       <div id={getDomId(conceptScheme.id)}>
         <div>
-          <h1>{i18n(language)(conceptScheme.title)}</h1>
+          <h1>{title && i18n(language)(title)}</h1>
           <ConceptURI id={conceptScheme.id} />
           <JsonLink to={getFilePath(conceptScheme.id, "json", customDomain)} />
-          {conceptScheme.description && (
+          {description && (
             <div className="markdown">
-              <Markdown>{i18n(language)(conceptScheme.description)}</Markdown>
+              <Markdown>{i18n(language)(description)}</Markdown>
             </div>
           )}
         </div>

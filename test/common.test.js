@@ -6,6 +6,8 @@ const {
   replaceFilePathInUrl,
   getLinkPath,
   getLanguageFromUrl,
+  replaceKeyInObject,
+  replaceMultipleKeysInObject,
 } = require("../src/common")
 
 describe("Translate", () => {
@@ -89,5 +91,30 @@ describe("getLanguageFromUrl", () => {
       search: "",
     }
     expect(getLanguageFromUrl(location)).toBeNull()
+  })
+})
+
+describe("replaceKeysInObject", () => {
+  it("replaces key in an object", () => {
+    const obj = { a: 1, b: 2 }
+    const newObj = replaceKeyInObject(obj, "a", "c")
+    expect(newObj).toStrictEqual({ c: 1, b: 2 })
+  })
+
+  it("also works if the key is not present", () => {
+    const obj = { a: 1, b: 2 }
+    const newObj = replaceKeyInObject(obj, "x", "c")
+    expect(newObj).toStrictEqual({ a: 1, b: 2 })
+  })
+})
+
+describe("replaceMultipleKeysInObject", () => {
+  it("replaces multiple keys in an object", () => {
+    const obj = { a: 1, b: 2 }
+    const newObj = replaceMultipleKeysInObject(obj, [
+      ["a", "c"],
+      ["b", "d"],
+    ])
+    expect(newObj).toStrictEqual({ c: 1, d: 2 })
   })
 })
