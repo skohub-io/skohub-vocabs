@@ -63,7 +63,11 @@ describe.concurrent("Concept", () => {
     expect(
       screen.getByRole("heading", { name: "Definition" })
     ).toBeInTheDocument()
-    expect(screen.getByText("Meine Definition")).toBeInTheDocument()
+    const definition = screen.getByText("Meine Definition")
+    expect(definition).toBeInTheDocument()
+
+    const linkElement = within(definition).getByRole("link", { name: /link/i })
+    expect(linkElement).toBeInTheDocument()
   })
 
   it("renders no definition if not provided in language", () => {

@@ -44,7 +44,7 @@ export const topConcept = {
     de: ["Verstecktes Label 1", "Verstecktes Label 2"],
   },
   definition: {
-    de: "Meine Definition",
+    de: "Meine Definition [Link](https://w3c.org)",
   },
   example: {
     de: "Ein Beispiel [Link](https://w3c.org)",
