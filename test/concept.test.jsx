@@ -120,15 +120,25 @@ describe.concurrent("Concept", () => {
 
   it("renders examples", () => {
     render(<Concept pageContext={ConceptPC} />)
-    expect(
-      screen.getByRole("heading", { name: /^example$/i })
-    ).toBeInTheDocument()
+
+    const exampleHeading = screen.getByRole("heading", { name: /^example$/i })
+    expect(exampleHeading).toBeInTheDocument()
+
+    const example = screen.getByText(/Ein Beispiel/i)
+    expect(example).toBeInTheDocument()
+
+    const linkElement = within(example).getByRole("link", { name: /link/i })
+    expect(linkElement).toBeInTheDocument()
   })
 
   it("renders notes", () => {
     render(<Concept pageContext={ConceptPC} />)
 
-    expect(screen.getByText(/Meine Anmerkung/i)).toBeInTheDocument()
+    const note = screen.getByText(/Meine Anmerkung/i)
+    expect(note).toBeInTheDocument()
+
+    const linkElement = within(note).getByRole("link", { name: /link/i })
+    expect(linkElement).toBeInTheDocument()
 
     const list = screen.getByRole("list", {
       name: "Note",
@@ -141,7 +151,11 @@ describe.concurrent("Concept", () => {
   it("renders changeNotes", () => {
     render(<Concept pageContext={ConceptPC} />)
 
-    expect(screen.getByText(/Meine Change Note/i)).toBeInTheDocument()
+    const changeNote = screen.getByText(/Meine Change Note/i)
+    expect(changeNote).toBeInTheDocument()
+
+    const linkElement = within(changeNote).getByRole("link", { name: /link/i })
+    expect(linkElement).toBeInTheDocument()
 
     const list = screen.getByRole("list", {
       name: /changenote/i,
@@ -154,7 +168,13 @@ describe.concurrent("Concept", () => {
   it("renders editorialNotes", () => {
     render(<Concept pageContext={ConceptPC} />)
 
-    expect(screen.getByText(/Meine Editorial Note/i)).toBeInTheDocument()
+    const editorialNote = screen.getByText(/Meine Editorial Note/i)
+    expect(editorialNote).toBeInTheDocument()
+
+    const linkElement = within(editorialNote).getByRole("link", {
+      name: /link/i,
+    })
+    expect(linkElement).toBeInTheDocument()
 
     const list = screen.getByRole("list", {
       name: /editorialnote/i,
@@ -167,7 +187,11 @@ describe.concurrent("Concept", () => {
   it("renders historyNotes", () => {
     render(<Concept pageContext={ConceptPC} />)
 
-    expect(screen.getByText(/Meine History Note/i)).toBeInTheDocument()
+    const historyNote = screen.getByText(/Meine History Note/i)
+    expect(historyNote).toBeInTheDocument()
+
+    const linkElement = within(historyNote).getByRole("link", { name: /link/i })
+    expect(linkElement).toBeInTheDocument()
 
     const list = screen.getByRole("list", {
       name: /historynote/i,
@@ -180,7 +204,11 @@ describe.concurrent("Concept", () => {
   it("renders scopeNotes", () => {
     render(<Concept pageContext={ConceptPC} />)
 
-    expect(screen.getByText(/Meine Scope Note/i)).toBeInTheDocument()
+    const scopeNote = screen.getByText(/Meine Scope Note/i)
+    expect(scopeNote).toBeInTheDocument()
+
+    const linkElement = within(scopeNote).getByRole("link", { name: /link/i })
+    expect(linkElement).toBeInTheDocument()
 
     const list = screen.getByRole("list", {
       name: /scopenote/i,
