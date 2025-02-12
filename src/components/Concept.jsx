@@ -60,7 +60,9 @@ const Concept = ({
           <h3 id="note">Note</h3>
           <ul aria-labelledby="note">
             {i18n(language)(concept.note).map((note, i) => (
-              <li key={i}>{note}</li>
+              <li key={i}>
+                <Markdown>{note}</Markdown>
+              </li>
             ))}
           </ul>
         </div>
@@ -70,7 +72,9 @@ const Concept = ({
           <h3 id="changenote">ChangeNote</h3>
           <ul aria-labelledby="changenote">
             {i18n(language)(concept.changeNote).map((changeNote, i) => (
-              <li key={i}>{changeNote}</li>
+              <li key={i}>
+                <Markdown>{changeNote}</Markdown>
+              </li>
             ))}
           </ul>
         </div>
@@ -81,7 +85,9 @@ const Concept = ({
             <h3 id="editorialnote">EditorialNote</h3>
             <ul aria-labelledby="editorialnote">
               {i18n(language)(concept.editorialNote).map((editorialNote, i) => (
-                <li key={i}>{editorialNote}</li>
+                <li key={i}>
+                  <Markdown>{editorialNote}</Markdown>
+                </li>
               ))}
             </ul>
           </div>
@@ -91,7 +97,9 @@ const Concept = ({
           <h3 id="historynote">HistoryNote</h3>
           <ul aria-labelledby="historynote">
             {i18n(language)(concept.historyNote).map((historyNote, i) => (
-              <li key={i}>{historyNote}</li>
+              <li key={i}>
+                <Markdown>{historyNote}</Markdown>
+              </li>
             ))}
           </ul>
         </div>
@@ -101,7 +109,9 @@ const Concept = ({
           <h3 id="scopenote">ScopeNote</h3>
           <ul aria-labelledby="scopenote">
             {i18n(language)(concept.scopeNote).map((scopeNote, i) => (
-              <li key={i}>{scopeNote}</li>
+              <li key={i}>
+                <Markdown>{scopeNote}</Markdown>
+              </li>
             ))}
           </ul>
         </div>
