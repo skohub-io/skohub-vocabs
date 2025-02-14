@@ -44,25 +44,31 @@ export const topConcept = {
     de: ["Verstecktes Label 1", "Verstecktes Label 2"],
   },
   definition: {
-    de: "Meine Definition",
+    de: "Meine Definition [Link](https://w3c.org)",
   },
   example: {
-    de: "Ein Beispiel",
+    de: "Ein Beispiel [Link](https://w3c.org)",
   },
   note: {
-    de: ["Meine Anmerkung", "Noch eine Anmerkung"],
+    de: ["Meine Anmerkung mit [Link](https://w3c.org)", "Noch eine Anmerkung"],
   },
   changeNote: {
-    de: ["Meine Change Note", "Noch eine Change Note"],
+    de: ["Meine Change Note [Link](https://w3c.org)", "Noch eine Change Note"],
   },
   editorialNote: {
-    de: ["Meine Editorial Note", "Noch eine Editorial Note"],
+    de: [
+      "Meine Editorial Note [Link](https://w3c.org)",
+      "Noch eine Editorial Note",
+    ],
   },
   historyNote: {
-    de: ["Meine History Note", "Noch eine History Note"],
+    de: [
+      "Meine History Note [Link](https://w3c.org)",
+      "Noch eine History Note",
+    ],
   },
   scopeNote: {
-    de: ["Meine Scope Note", "Noch eine Scope Note"],
+    de: ["Meine Scope Note [Link](https://w3c.org)", "Noch eine Scope Note"],
   },
   notation: ["1"],
   narrower: [concept2],
