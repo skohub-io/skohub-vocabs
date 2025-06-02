@@ -27,6 +27,10 @@ const jsonld = {
       "@id": "dct:description",
       "@container": "@language",
     },
+    license: {
+      "@id": "dct:license",
+      "@container": "@language",
+    },
     issued: {
       "@id": "dct:issued",
       "@type": "xsd:date",
