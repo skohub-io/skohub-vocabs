@@ -7,6 +7,8 @@ import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 const Footer = () => {
   const { config } = getConfigAndConceptSchemes()
 
+  //console.log("CONFIG:", config)
+
   const style = css`
     background: ${config.colors.skoHubMiddleColor};
     color: ${config.colors.skoHubWhite};
@@ -46,6 +48,10 @@ const Footer = () => {
       }
     }
   `
+
+  // Get links from config.yaml, if available
+  const links = config?.footer?.links || []
+
   return (
     <footer css={style}>
       <div className="footerContent">
@@ -61,25 +67,17 @@ const Footer = () => {
               </a>
             </li>
           )}
-          <li className="push-right">
-            <a
-              href="https://www.hbz-nrw.de/impressum"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Impressum
-            </a>
-          </li>
-          <li>
-            &copy;{" "}
-            <a
-              href="https://skohub.io"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SkoHub
-            </a>
-          </li>
+          {links.map((link, idx) => (
+            <li key={idx} className={idx === 0 ? "push-right" : ""}>
+              <a
+                href={link.url}
+                target={link.target || undefined}
+                rel={link.rel || undefined}
+              >
+                {link.title}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </footer>
