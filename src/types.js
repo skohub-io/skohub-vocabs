@@ -18,7 +18,7 @@ module.exports = (languages) => `
     issued: String,
     preferredNamespaceUri: String,
     preferredNamespacePrefix: String,
-    publisher: [Concept]
+    publisher: Concept
   }
 
   type Concept implements Node {
