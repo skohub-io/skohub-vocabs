@@ -56,7 +56,7 @@ describe("Config Parsing", () => {
             rel: "noopener noreferrer",
           },
           {
-            title: "SkoHub",
+            title: "© SkoHub",
             url: "https://skohub.io",
             target: "_blank",
             rel: "noopener noreferrer",
