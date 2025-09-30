@@ -41,6 +41,28 @@ describe("Config Parsing", () => {
           name: "alegreya-sans-v24-latin-700",
         },
       },
+      footer: {
+        links: [
+          {
+            title: "Impressum",
+            url: "https://www.hbz-nrw.de/impressum",
+            target: "_blank",
+            rel: "noopener noreferrer",
+          },
+          {
+            title: "Datenschutz",
+            url: "https://www.hbz-nrw.de/datenschutz",
+            target: "_blank",
+            rel: "noopener noreferrer",
+          },
+          {
+            title: "SkoHub",
+            url: "https://skohub.io",
+            target: "_blank",
+            rel: "noopener noreferrer",
+          },
+        ],
+      },
     })
   })
 
