@@ -160,6 +160,15 @@ module.exports.allConceptScheme = (languages) => `
           dc_description {
             ${[...languages].join(" ")}
           }
+          publisher {
+            id
+          }
+          issued
+          license {
+            id
+          }
+          preferredNamespaceUri
+          preferredNamespacePrefix
           hasTopConcept {
             ...ConceptFields
             narrower {

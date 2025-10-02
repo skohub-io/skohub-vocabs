@@ -41,6 +41,38 @@ const ConceptScheme = ({
               <Markdown>{i18n(language)(description)}</Markdown>
             </div>
           )}
+          {conceptScheme.publisher && (
+            <div>
+              <h3>Publisher</h3>
+              <a href={conceptScheme.publisher.id}>
+                {conceptScheme.publisher.id}
+              </a>
+            </div>
+          )}
+          {conceptScheme.issued && (
+            <div>
+              <h3>Issued</h3>
+              <p>{conceptScheme.issued}</p>
+            </div>
+          )}
+          {conceptScheme.license && (
+            <div>
+              <h3>License</h3>
+              <a href={conceptScheme.license.id}>{conceptScheme.license.id}</a>
+            </div>
+          )}
+          {conceptScheme.preferredNamespaceUri && (
+            <div>
+              <h3>Preferred Namespace URI</h3>
+              <p>{conceptScheme.preferredNamespaceUri}</p>
+            </div>
+          )}
+          {conceptScheme.preferredNamespacePrefix && (
+            <div>
+              <h3>Preferred Namespace Prefix</h3>
+              <p>{conceptScheme.preferredNamespacePrefix}</p>
+            </div>
+          )}
         </div>
       </div>
     )
