@@ -151,6 +151,28 @@ const Layout = ({ children }) => {
             }
           }
 
+          table {
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            color: #212529;
+            width: 100%;
+          }
+
+          table :is(td, th) {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6ff;
+          }
+            
+          table :is(thead) :is(th) {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6ff;
+            background-color: #f8f9faff;
+          }
+          table :is(tbody) {
+            border-top: 2px solid #dee2e6ff;
+          }
+
           .inputStyle {
             background-color: ${config.colors.skoHubWhite};
             cursor: pointer;
