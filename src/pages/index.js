@@ -78,21 +78,23 @@ const IndexPage = ({ location }) => {
       <SEO title="Concept Schemes" keywords={["conceptSchemes"]} />
 
       <div className="centerPage block">
-        <div style={{ marginBottom: "20px" }}>
-          <input
-            type="text"
-            placeholder="Search concept schemes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px",
-              fontSize: "16px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
-        </div>
+        {conceptSchemes.length > 4 && (
+          <div style={{ marginBottom: "20px" }}>
+            <input
+              type="text"
+              placeholder="Search concept schemes..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                fontSize: "16px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+        )}
         <ul>
           {conceptSchemes
             .filter((conceptScheme) => {
