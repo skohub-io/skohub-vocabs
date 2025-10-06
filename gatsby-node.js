@@ -148,6 +148,10 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
         deprecated,
         "dc:title": dc_title,
         "dc:description": dc_description,
+        "dct:issued": issued,
+        "dct:license": license,
+        // "vann:preferredNamespaceUri": preferredNamespaceUri,
+        // "vann:preferredNamespacePrefix": preferredNamespacePrefix,
         ...properties
       } = graph
       const type = Array.isArray(properties.type)
@@ -209,6 +213,8 @@ exports.onPreBootstrap = async ({ createContentDigest, actions, getNode }) => {
         member___NODE: (member || []).map((member) => member.id),
         dc_title,
         dc_description,
+        issued,
+        license,
       }
       if (type === "Concept") {
         Object.assign(node, {})

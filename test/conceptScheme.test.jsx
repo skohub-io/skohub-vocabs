@@ -114,4 +114,92 @@ describe.concurrent("Concept", () => {
       screen.getByRole("heading", { name: /dctitle DE/i })
     ).toBeInTheDocument()
   })
+
+  it("renders conceptScheme component with publisher", () => {
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
+
+    const route = "/w3id.org/index.html"
+    const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+    renderConceptScheme(history, ConceptSchemePC, location)
+    expect(
+      screen.getByRole("heading", { name: /Publisher/i })
+    ).toBeInTheDocument()
+  })
+
+  it("renders conceptScheme component with issued", () => {
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
+
+    const route = "/w3id.org/index.html"
+    const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+    renderConceptScheme(history, ConceptSchemePC, location)
+    expect(screen.getByRole("heading", { name: /Issued/i })).toBeInTheDocument()
+  })
+
+  it("renders conceptScheme component with license", () => {
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
+
+    const route = "/w3id.org/index.html"
+    const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+    renderConceptScheme(history, ConceptSchemePC, location)
+    expect(
+      screen.getByRole("heading", { name: /License/i })
+    ).toBeInTheDocument()
+  })
+
+  it("renders conceptScheme component with preferredNamespaceUri", () => {
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
+
+    const route = "/w3id.org/index.html"
+    const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+    renderConceptScheme(history, ConceptSchemePC, location)
+    expect(
+      screen.getByRole("heading", { name: /Preferred Namespace URI/i })
+    ).toBeInTheDocument()
+  })
+
+  it("renders conceptScheme component with preferredNamespace Prefix", () => {
+    useSkoHubContext.mockReturnValue({
+      data: {
+        currentScheme: {},
+        selectedLanguage: "de",
+      },
+      updateState: vi.fn(),
+    })
+
+    const route = "/w3id.org/index.html"
+    const history = createHistory(createMemorySource(route))
+    const location = { search: "?lang=de" }
+    renderConceptScheme(history, ConceptSchemePC, location)
+    expect(
+      screen.getByRole("heading", { name: /Preferred Namespace Prefix/i })
+    ).toBeInTheDocument()
+  })
 })
