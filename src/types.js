@@ -14,7 +14,11 @@ module.exports = (languages) => `
     description: LanguageMap,
     dc_description: LanguageMap,
     hasTopConcept: [Concept] @link(from: "hasTopConcept___NODE"),
-    languages: [String]
+    languages: [String],
+    issued: String,
+    preferredNamespaceUri: String,
+    preferredNamespacePrefix: String,
+    publisher: Concept
   }
 
   type Concept implements Node {

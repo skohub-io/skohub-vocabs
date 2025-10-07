@@ -156,6 +156,15 @@ export const ConceptScheme = {
     de: "Test Vokabular",
     en: "Test Vocabulary",
   },
+  license: {
+    id: "http://creativecommons.org/publicdomain/zero/1.0/",
+  },
+  publisher: {
+    id: "https://oerworldmap.org/resource/urn:uuid:fd06253e-fe67-4910-b923-51db9d27e59f",
+  },
+  issued: "2019-12-11",
+  preferredNamespaceUri: "https://w3id.org/kim/hcrt/",
+  preferredNamespacePrefix: "hcrt",
   hasTopConcept: [topConcept],
 }
 
