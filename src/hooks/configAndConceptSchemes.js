@@ -74,6 +74,14 @@ export const getConfigAndConceptSchemes = () => {
               name
             }
           }
+          footer {
+            links {
+              title
+              url
+              target
+              rel
+            }
+          }
           searchableAttributes
           customDomain
           failOnValidation

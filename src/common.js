@@ -139,6 +139,7 @@ function loadConfig(configFile, defaultFile) {
     tokenizer: userConfig.tokenizer || defaults.tokenizer,
     colors: userConfig.ui.colors || defaults.ui.colors,
     fonts: userConfig.ui.fonts || defaults.ui.fonts,
+    footer: userConfig.ui.footer || defaults.ui.footer,
     searchableAttributes:
       userConfig.searchableAttributes || defaults.searchableAttributes,
     customDomain: userConfig.custom_domain || "",

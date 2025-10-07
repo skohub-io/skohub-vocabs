@@ -12,6 +12,7 @@ module.exports = {
     colors: config.colors,
     logo: config.logo,
     fonts: config.fonts,
+    footer: config.footer,
     searchableAttributes: config.searchableAttributes,
     customDomain: config.customDomain,
     failOnValidation: config.failOnValidation,
