@@ -7,8 +7,6 @@ import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 const Footer = () => {
   const { config } = getConfigAndConceptSchemes()
 
-  //console.log("CONFIG:", config)
-
   const style = css`
     background: ${config.colors.skoHubMiddleColor};
     color: ${config.colors.skoHubWhite};
