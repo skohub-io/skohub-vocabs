@@ -174,6 +174,7 @@ The following customizations can be made:
 1. Changing the Logo
 1. Changing the Colors
 1. Changing the Fonts
+1. Changing the Footer Links
 
 #### Changing the Title
 
@@ -221,6 +222,18 @@ After that you have to adjust the config with the appropriate settings for `font
 
 You need to provide all settings for `regular` as well as `bold`.
 Otherwise SkoHub Vocabs will use the default fonts.
+
+#### Changing the Footer Links
+
+You can - and probably should - change the following links 
+
+- "Impressum" (Imprint)
+- "Datenschutz" (Privacy) 
+
+in the footer section of your Skohub website by adding a custom `footer` object to your `config.yaml`. See `config.default.yaml` for how the default links are defined. You can also add more links as desired.
+
+Currently, only the "Source" link cannot not be changed by configuration. 
+
 
 ## Adding additional properties to SkoHub Vocabs
 
