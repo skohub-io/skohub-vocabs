@@ -188,7 +188,7 @@ The concrete process for functional review at https://test.skohub.io looks like 
 
 1. We merge the feature branches into the `dev` branch.
 2. This triggers a rebuild of test.skohub.io based on the `dev` branch.
-3. If needed, the reviewer adds or adjusts some vocabs in the [testing-skohub-vocabs repo](https://github.com/skohub-io/testing-skohub-vocabs) or otherwise only triggers a re-build with an empty commit like `$ git Commit --allow-empty -m "Trigger webhook"'.
+3. If needed, the reviewer adds or adjusts some vocabs in the [testing-skohub-vocabs repo](https://github.com/skohub-io/testing-skohub-vocabs) or otherwise only triggers a re-build with an empty commit (`$ git commit --allow-empty -m "Trigger webhook"').
 4. The reviewer does the functional review on the resulting test build at build]https://test.skohub.io/skohub-io/testing-skohub-vocabs/heads/main/.
 5. If needed, adustments are made in the feature branch and back to 1.).
 6. If the changes are functionally approved, the code review can follow.
