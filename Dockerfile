@@ -1,4 +1,4 @@
-FROM node:18.13.0-buster-slim
+FROM node:22-bookworm-slim
 
 ENV NODE_ENV production
 
