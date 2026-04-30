@@ -28,7 +28,7 @@ const App = ({ pageContext, children, location }) => {
   const [tree, setTree] = useState(
     pageContext.node.type === "ConceptScheme" ? pageContext.node : null
   )
-  let showTreeControls = false
+  let hasNesting = false
 
   const [labels, setLabels] = useState(
     Object.fromEntries(
@@ -41,14 +41,18 @@ const App = ({ pageContext, children, location }) => {
 
   handleKeypresses(labels, setLabels)
 
-  if (!showTreeControls && tree && tree.hasTopConcept) {
+  if (!hasNesting && tree && tree.hasTopConcept) {
     for (const topConcept of tree.hasTopConcept) {
       if (topConcept.narrower?.length > 0) {
-        showTreeControls = true
+        hasNesting = true
         break
       }
     }
   }
+  // Render controls (sort selector + optionally collapse/expand) whenever a
+  // tree of top concepts exists, so users can sort even flat schemes.
+  const showTreeControls =
+    tree && tree.hasTopConcept && tree.hasTopConcept.length > 0
 
   const [language, setLanguage] = useState("")
   const [currentScheme, setCurrentScheme] = useState(null)
@@ -177,7 +181,7 @@ const App = ({ pageContext, children, location }) => {
             labels={labels}
             onLabelClick={(e) => toggleClick(e)}
           />
-          {showTreeControls && <TreeControls />}
+          {showTreeControls && <TreeControls hasNesting={hasNesting} />}
           <div className="concepts">
             {tree && (
               <NestedList

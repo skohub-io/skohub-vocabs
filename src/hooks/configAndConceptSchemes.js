@@ -85,6 +85,7 @@ export const getConfigAndConceptSchemes = () => {
           searchableAttributes
           customDomain
           failOnValidation
+          sortBy
         }
       }
       allConceptScheme {

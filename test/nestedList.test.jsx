@@ -6,6 +6,8 @@ import { ConceptScheme, ConceptSchemeDeprecated } from "./data/pageContext"
 import userEvent from "@testing-library/user-event"
 import * as Gatsby from "gatsby"
 import { mockConfig } from "./mocks/mockConfig"
+import { ContextProvider, useSkoHubContext } from "../src/context/Context"
+import { useEffect } from "react"
 
 const useStaticQuery = vi.spyOn(Gatsby, `useStaticQuery`)
 
@@ -58,6 +60,71 @@ describe("Nested List", () => {
     expect(screen.getByRole("button", { expanded: true }))
     await user.click(screen.getByRole("button", { expanded: true }))
     expect(screen.getByRole("button", { expanded: false }))
+  })
+
+  describe("sorting", () => {
+    const unsorted = [
+      { id: "http://x/c", prefLabel: { en: "Charlie" }, notation: ["3"] },
+      { id: "http://x/a", prefLabel: { en: "Alpha" }, notation: ["1"] },
+      { id: "http://x/b", prefLabel: { en: "Bravo" }, notation: ["2"] },
+    ]
+
+    // Helper component that seeds context state for a test
+    const SetSort = ({ sortBy }) => {
+      const { data, updateState } = useSkoHubContext()
+      useEffect(() => {
+        updateState({ ...data, sortBy })
+      }, [sortBy])
+      return null
+    }
+
+    const renderWithSort = (sortBy) =>
+      render(
+        <ContextProvider>
+          <SetSort sortBy={sortBy} />
+          <NestedList
+            items={unsorted}
+            current={null}
+            queryFilter={null}
+            highlight={null}
+            language={"en"}
+          />
+        </ContextProvider>
+      )
+
+    it("sortBy='prefLabel' reorders entries alphabetically", () => {
+      renderWithSort("prefLabel")
+      const links = screen.getAllByRole("link")
+      const labels = links.map((l) => l.textContent.trim())
+      expect(labels).toEqual([
+        expect.stringMatching(/Alpha/),
+        expect.stringMatching(/Bravo/),
+        expect.stringMatching(/Charlie/),
+      ])
+    })
+
+    it("sortBy='notation' reorders by notation", () => {
+      renderWithSort("notation")
+      const links = screen.getAllByRole("link")
+      const labels = links.map((l) => l.textContent.trim())
+      // notations are 1 (Alpha), 2 (Bravo), 3 (Charlie)
+      expect(labels).toEqual([
+        expect.stringMatching(/Alpha/),
+        expect.stringMatching(/Bravo/),
+        expect.stringMatching(/Charlie/),
+      ])
+    })
+
+    it("sortBy='none' preserves source order", () => {
+      renderWithSort("none")
+      const links = screen.getAllByRole("link")
+      const labels = links.map((l) => l.textContent.trim())
+      expect(labels).toEqual([
+        expect.stringMatching(/Charlie/),
+        expect.stringMatching(/Alpha/),
+        expect.stringMatching(/Bravo/),
+      ])
+    })
   })
 
   it("shows deprecation notice for deprecated concepts", () => {
