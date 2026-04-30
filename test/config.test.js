@@ -27,6 +27,7 @@ describe("Config Parsing", () => {
       },
       customDomain: "",
       failOnValidation: true,
+      sortBy: "prefLabel",
       fonts: {
         regular: {
           font_family: "Aladin",
