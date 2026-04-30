@@ -3,9 +3,15 @@ import PropTypes from "prop-types"
 import React from "react"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
+import { commitUrl, formatBuildTime, shortSha } from "../buildInfo"
 
 const Footer = () => {
-  const { config } = getConfigAndConceptSchemes()
+  const { config, buildTime } = getConfigAndConceptSchemes()
+  const { repositoryUrl, gitCommit } = config
+
+  const formattedTime = formatBuildTime(buildTime)
+  const sha = shortSha(gitCommit)
+  const href = commitUrl(repositoryUrl, gitCommit)
 
   const style = css`
     background: ${config.colors.skoHubMiddleColor};
@@ -54,15 +60,26 @@ const Footer = () => {
     <footer css={style}>
       <div className="footerContent">
         <ul>
-          {process.env.GATSBY_RESPOSITORY_URL && (
+          {repositoryUrl && (
             <li>
-              <a
-                href={process.env.GATSBY_RESPOSITORY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">
                 Source
               </a>
+            </li>
+          )}
+          {formattedTime && (
+            <li>
+              Last built: {formattedTime}
+              {sha && href && (
+                <>
+                  {" ("}
+                  <a href={href} target="_blank" rel="noopener noreferrer">
+                    {sha}
+                  </a>
+                  {")"}
+                </>
+              )}
+              {sha && !href && ` (${sha})`}
             </li>
           )}
           {links.map((link, idx) => (
