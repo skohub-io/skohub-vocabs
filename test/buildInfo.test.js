@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { formatBuildTime, shortSha } from "../src/buildInfo"
+import { commitUrl, formatBuildTime, shortSha } from "../src/buildInfo"
 
 describe("formatBuildTime", () => {
   it("formats an ISO timestamp as 'YYYY-MM-DD HH:mm UTC'", () => {
@@ -34,5 +34,25 @@ describe("shortSha", () => {
     expect(shortSha("")).toBe("")
     expect(shortSha(null)).toBe("")
     expect(shortSha(undefined)).toBe("")
+  })
+})
+
+describe("commitUrl", () => {
+  it("joins repo URL and SHA with /commit/", () => {
+    expect(
+      commitUrl("https://github.com/skohub-io/skohub-vocabs", "a1b2c3d")
+    ).toBe("https://github.com/skohub-io/skohub-vocabs/commit/a1b2c3d")
+  })
+
+  it("strips a single trailing slash from the repo URL", () => {
+    expect(
+      commitUrl("https://github.com/skohub-io/skohub-vocabs/", "a1b2c3d")
+    ).toBe("https://github.com/skohub-io/skohub-vocabs/commit/a1b2c3d")
+  })
+
+  it("returns empty string when either input is missing", () => {
+    expect(commitUrl("", "a1b2c3d")).toBe("")
+    expect(commitUrl("https://example.com/r", "")).toBe("")
+    expect(commitUrl(null, null)).toBe("")
   })
 })
