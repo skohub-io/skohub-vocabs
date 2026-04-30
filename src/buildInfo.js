@@ -8,4 +8,9 @@ function shortSha(sha) {
   return sha.slice(0, 7)
 }
 
-module.exports = { formatBuildTime, shortSha }
+function commitUrl(repositoryUrl, sha) {
+  if (!repositoryUrl || !sha) return ""
+  return `${repositoryUrl.replace(/\/$/, "")}/commit/${sha}`
+}
+
+module.exports = { formatBuildTime, shortSha, commitUrl }
