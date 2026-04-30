@@ -35,12 +35,12 @@ const TreeControls = ({ hasNesting = true }) => {
 
   // Initialise sortBy from config on first render if it hasn't been set yet.
   useEffect(() => {
-    if (data.sortBy == null) {
+    if (data && data.sortBy == null) {
       updateState({ ...data, sortBy: config?.sortBy || "prefLabel" })
     }
-  }, [data.sortBy, config?.sortBy])
+  }, [data?.sortBy, config?.sortBy])
 
-  const currentSort = data.sortBy ?? config?.sortBy ?? "prefLabel"
+  const currentSort = data?.sortBy ?? config?.sortBy ?? "prefLabel"
 
   return (
     <div className="TreeControls" css={style}>
@@ -75,7 +75,10 @@ const TreeControls = ({ hasNesting = true }) => {
         <select
           aria-label="Sort entries by"
           value={currentSort}
-          onChange={(e) => updateState({ ...data, sortBy: e.target.value })}
+          onChange={(e) =>
+            updateState &&
+            updateState({ ...(data || {}), sortBy: e.target.value })
+          }
         >
           <option value="prefLabel">Label</option>
           <option value="notation">Notation</option>
