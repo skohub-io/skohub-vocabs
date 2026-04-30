@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { formatBuildTime } from "../src/buildInfo"
+import { formatBuildTime, shortSha } from "../src/buildInfo"
 
 describe("formatBuildTime", () => {
   it("formats an ISO timestamp as 'YYYY-MM-DD HH:mm UTC'", () => {
@@ -18,5 +18,21 @@ describe("formatBuildTime", () => {
     expect(formatBuildTime("")).toBe("")
     expect(formatBuildTime(null)).toBe("")
     expect(formatBuildTime(undefined)).toBe("")
+  })
+})
+
+describe("shortSha", () => {
+  it("truncates a full git SHA to 7 chars", () => {
+    expect(shortSha("a1b2c3d4e5f67890abcdef1234567890abcdef12")).toBe("a1b2c3d")
+  })
+
+  it("returns the input unchanged when shorter than 7 chars", () => {
+    expect(shortSha("abc")).toBe("abc")
+  })
+
+  it("returns empty string for falsy input", () => {
+    expect(shortSha("")).toBe("")
+    expect(shortSha(null)).toBe("")
+    expect(shortSha(undefined)).toBe("")
   })
 })
