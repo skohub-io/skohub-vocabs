@@ -5,6 +5,7 @@ const defaultState = {
   selectedLanguage: "",
   conceptSchemeLanguages: [],
   indexPage: false,
+  sortBy: null,
 }
 const Context = createContext(defaultState)
 

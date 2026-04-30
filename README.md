@@ -144,6 +144,7 @@ You can configure the following settings:
     - Colors
     - Fonts
 - Searchable Fields
+- Sort order
 
 The settings are explained in the following sections.
 
@@ -165,6 +166,26 @@ Then provide `http://my-awesome-domain.org` as `custom_domain` in your `config.y
 ### Fail on Validation
 
 If `true` (default) the build process will stop if a validation error occures.
+
+### Sort order
+
+Concept entries inside a ConceptScheme tree (and members of a `skos:Collection`)
+can be sorted at display time. Set the initial default in `config.yaml`:
+
+```yaml
+sortBy: "prefLabel"   # one of: "prefLabel" | "notation" | "none"
+```
+
+- `"prefLabel"` (default) — alphabetical by `skos:prefLabel` in the currently
+  selected language. Locale-aware via `Intl.Collator` and numerically aware
+  (so `Item 2` comes before `Item 10`).
+- `"notation"` — sorted by `skos:notation`. Numeric and dotted numeric
+  notations sort naturally (`1.1`, `1.2`, `1.10`). Items without a notation
+  fall to the bottom and are tie-broken by `prefLabel`.
+- `"none"` — preserves the order in which entries appear in the source TTL.
+
+Visitors can switch between these options at runtime via the **Sort** selector
+that lives next to the Collapse / Expand controls in the tree sidebar.
 
 ### UI
 

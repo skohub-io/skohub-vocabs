@@ -3,6 +3,7 @@ export const mockConfig = {
     siteMetadata: {
       searchableAttributes: ["prefLabel"],
       customDomain: "",
+      sortBy: "prefLabel",
       colors: {
         skoHubWhite: "rgb(255, 255, 255)",
         skoHubDarkColor: "rgb(15, 85, 75)",
