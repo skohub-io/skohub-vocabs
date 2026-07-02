@@ -65,24 +65,21 @@ const getDomId = (url) => {
  */
 const parseLanguages = (graph) => {
   const languages = new Set()
+  // JSON-LD's @container: "@language" places untagged literals under the
+  // "@none" key. That isn't a language and must not appear in the UI (#335).
+  const addFrom = (langMap) => {
+    Object.keys(langMap).forEach(
+      (l) => l !== "@none" && langMap[l] && languages.add(l)
+    )
+  }
   const parse = (arrayOfObj) => {
     for (let obj of arrayOfObj) {
       // Concept Schemes
-      obj?.title &&
-        Object.keys(obj.title).forEach((l) => obj.title[l] && languages.add(l))
+      obj?.title && addFrom(obj.title)
       // Concepts
-      obj?.prefLabel &&
-        Object.keys(obj.prefLabel).forEach(
-          (l) => obj.prefLabel[l] && languages.add(l)
-        )
-      obj?.altLabel &&
-        Object.keys(obj.altLabel).forEach(
-          (l) => obj.altLabel[l] && languages.add(l)
-        )
-      obj?.hiddenLabel &&
-        Object.keys(obj.hiddenLabel).forEach(
-          (l) => obj.hiddenLabel[l] && languages.add(l)
-        )
+      obj?.prefLabel && addFrom(obj.prefLabel)
+      obj?.altLabel && addFrom(obj.altLabel)
+      obj?.hiddenLabel && addFrom(obj.hiddenLabel)
       obj?.hasTopConcept && parse(obj.hasTopConcept)
       obj?.narrower && parse(obj.narrower)
     }
