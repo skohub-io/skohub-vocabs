@@ -33,7 +33,7 @@ The information will be available in the machine readable version as well as in 
 
 ### Install Node.js
 
-We currently support Node >= 18.
+We currently support Node >= 22.
 #### Windows
 
 Download and install the latest Node.js version from [the official Node.js website]( https://nodejs.org/en/).
@@ -46,8 +46,8 @@ Set default Node.js version. When nvm is installed, it does not default to a par
 See [here](https://github.com/nvm-sh/nvm#bash) to automatically switch to the correct node version (not necessary, but handy).
 
 ```
-nvm install 18
-nvm use 18
+nvm install 22
+nvm use 22
 ```
 
 ### Clone repo and install node packages

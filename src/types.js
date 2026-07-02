@@ -1,5 +1,9 @@
 module.exports = (languages) => `
 
+  type License {
+    id: String
+  }
+
   type Collection implements Node {
     type: String,
     prefLabel: LanguageMap,
@@ -18,7 +22,8 @@ module.exports = (languages) => `
     issued: String,
     preferredNamespaceUri: String,
     preferredNamespacePrefix: String,
-    publisher: Concept
+    publisher: Concept,
+    license: License
   }
 
   type Concept implements Node {
