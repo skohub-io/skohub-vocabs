@@ -72,4 +72,58 @@ describe("Collection", () => {
       "/w3id.org/collection.json"
     )
   })
+
+  it("sorts collection members alphabetically by prefLabel by default", () => {
+    useSkoHubContext.mockReturnValue({
+      data: { selectedLanguage: "en", sortBy: "prefLabel" },
+      updateState: vi.fn(),
+    })
+    const unsortedCollection = {
+      node: {
+        id: "http://w3id.org/collection",
+        type: "Collection",
+        prefLabel: { en: "Unsorted" },
+        member: [
+          { id: "http://x/c", prefLabel: { en: "Charlie" } },
+          { id: "http://x/a", prefLabel: { en: "Alpha" } },
+          { id: "http://x/b", prefLabel: { en: "Bravo" } },
+        ],
+      },
+      language: "en",
+      customDomain: "",
+    }
+    renderCollection(history, unsortedCollection)
+    const links = screen
+      .getAllByRole("link")
+      .map((l) => l.textContent.trim())
+      .filter((t) => /^(Alpha|Bravo|Charlie)$/.test(t))
+    expect(links).toEqual(["Alpha", "Bravo", "Charlie"])
+  })
+
+  it("preserves source order when sortBy='none'", () => {
+    useSkoHubContext.mockReturnValue({
+      data: { selectedLanguage: "en", sortBy: "none" },
+      updateState: vi.fn(),
+    })
+    const unsortedCollection = {
+      node: {
+        id: "http://w3id.org/collection",
+        type: "Collection",
+        prefLabel: { en: "Unsorted" },
+        member: [
+          { id: "http://x/c", prefLabel: { en: "Charlie" } },
+          { id: "http://x/a", prefLabel: { en: "Alpha" } },
+          { id: "http://x/b", prefLabel: { en: "Bravo" } },
+        ],
+      },
+      language: "en",
+      customDomain: "",
+    }
+    renderCollection(history, unsortedCollection)
+    const links = screen
+      .getAllByRole("link")
+      .map((l) => l.textContent.trim())
+      .filter((t) => /^(Alpha|Bravo|Charlie)$/.test(t))
+    expect(links).toEqual(["Charlie", "Alpha", "Bravo"])
+  })
 })

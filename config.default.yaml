@@ -3,6 +3,7 @@
 tokenizer: "full" # strict, forward, reverse, full
 custom_domain: ""
 fail_on_validation: true
+sortBy: "prefLabel" # one of: "prefLabel" | "notation" | "none" — initial default for the tree/collection sort selector
 searchableAttributes:
   - "prefLabel" # you should not delete this one
   - "notation"
