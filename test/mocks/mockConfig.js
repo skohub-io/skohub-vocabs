@@ -1,8 +1,11 @@
 export const mockConfig = {
   site: {
+    buildTime: "2026-04-30T14:30:00.000Z",
     siteMetadata: {
       searchableAttributes: ["prefLabel"],
       customDomain: "",
+      gitCommit: "",
+      repositoryUrl: "",
       colors: {
         skoHubWhite: "rgb(255, 255, 255)",
         skoHubDarkColor: "rgb(15, 85, 75)",

@@ -1,7 +1,10 @@
 require("dotenv").config()
 const { loadConfig } = require("./src/common")
+const { resolveGitCommit } = require("./src/resolveGitCommit")
 
 const config = loadConfig("./config.yaml", "./config.default.yaml")
+const gitCommit = resolveGitCommit() || ""
+const repositoryUrl = process.env.GATSBY_RESPOSITORY_URL || ""
 
 module.exports = {
   siteMetadata: {
@@ -16,6 +19,8 @@ module.exports = {
     searchableAttributes: config.searchableAttributes,
     customDomain: config.customDomain,
     failOnValidation: config.failOnValidation,
+    gitCommit,
+    repositoryUrl,
   },
   pathPrefix: `${process.env.BASEURL || ""}`,
   plugins: [
