@@ -5,6 +5,7 @@ import { Link as GatsbyLink } from "gatsby"
 
 import { getConfigAndConceptSchemes } from "../hooks/configAndConceptSchemes"
 import { useSkoHubContext } from "../context/Context"
+import { sortConcepts } from "../sortConcepts"
 
 const getNestedItems = (item) => {
   let ids = [item.id]
@@ -151,7 +152,8 @@ const NestedList = ({
     }
   }
 
-  const filteredItems = getFilteredItems()
+  const sortBy = data?.sortBy ?? config?.sortBy ?? "prefLabel"
+  const filteredItems = sortConcepts(getFilteredItems(), sortBy, language)
   const t = i18n(language)
 
   const isExpanded = (item, truthy, falsy) => {
