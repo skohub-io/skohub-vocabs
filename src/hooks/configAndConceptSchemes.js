@@ -34,16 +34,20 @@ import { useStaticQuery, graphql } from "gatsby"
  *     },
  *     searchableAttributes: string[],
  *     customDomain: string,
- *     failOnValidation: boolean
+ *     failOnValidation: boolean,
+ *     gitCommit: string,
+ *     repositoryUrl: string
  *   },
+ *   buildTime: string,
  *   conceptSchemes: Object<string, { languages: string[] }>
- * }} An object containing `config` and `conceptSchemes`
+ * }} An object containing `config`, `buildTime` and `conceptSchemes`
  *
  */
 export const getConfigAndConceptSchemes = () => {
   const { site, allConceptScheme } = useStaticQuery(graphql`
     query Colors {
       site {
+        buildTime
         siteMetadata {
           colors {
             skoHubWhite
@@ -85,6 +89,8 @@ export const getConfigAndConceptSchemes = () => {
           searchableAttributes
           customDomain
           failOnValidation
+          gitCommit
+          repositoryUrl
         }
       }
       allConceptScheme {
@@ -104,5 +110,9 @@ export const getConfigAndConceptSchemes = () => {
       [node.id]: { languages: node.fields.languages },
     }))
     .reduce((prev, curr) => ({ ...prev, ...curr }), {})
-  return { config: site.siteMetadata, conceptSchemes }
+  return {
+    config: site.siteMetadata,
+    buildTime: site.buildTime,
+    conceptSchemes,
+  }
 }
