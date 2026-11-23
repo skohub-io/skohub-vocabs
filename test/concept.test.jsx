@@ -128,10 +128,10 @@ describe.concurrent("Concept", () => {
     const exampleHeading = screen.getByRole("heading", { name: /^example$/i })
     expect(exampleHeading).toBeInTheDocument()
 
-    const example = screen.getByText(/Ein Beispiel/i)
-    expect(example).toBeInTheDocument()
+    const list = screen.getByRole("list", { name: /^example$/i })
+    expect(within(list).getAllByRole("listitem").length).toBe(2)
 
-    const linkElement = within(example).getByRole("link", { name: /link/i })
+    const linkElement = within(list).getByRole("link", { name: /link/i })
     expect(linkElement).toBeInTheDocument()
   })
 

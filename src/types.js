@@ -38,7 +38,7 @@ module.exports = (languages) => `
     historyNote: LanguageMapArray,
     scopeNote: LanguageMapArray,
     notation: [String],
-    example: LanguageMap,
+    example: LanguageMapArray,
     topConceptOf: [ConceptScheme] @link(from: "topConceptOf___NODE"),
     narrower: [Concept] @link(from: "narrower___NODE"),
     narrowerTransitive: [Concept] @link(from: "narrowerTransitive___NODE"),

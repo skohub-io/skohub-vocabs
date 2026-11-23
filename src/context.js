@@ -80,7 +80,7 @@ const jsonld = {
       "@container": "@set",
     },
     example: {
-      "@container": "@language",
+      "@container": ["@language", "@set"],
     },
     narrower: {
       "@container": "@set",
