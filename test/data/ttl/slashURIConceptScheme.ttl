@@ -19,7 +19,7 @@
   skos:altLabel "Alternativbezeichnung 1"@de, "Alternativbezeichnung 2"@de, "Alt Label 1"@en ;
   skos:hiddenLabel "Verstecktes Label 1"@de, "Verstecktes Label 2"@de ;
   skos:definition "Meine Definition"@de ;
-  skos:example "Ein Beispiel"@de ;
+  skos:example "Ein Beispiel"@de, "Noch ein Beispiel"@de ;
   skos:scopeNote "Meine Scope Note"@de ;
   skos:note "Meine Anmerkung"@de ;
   skos:relatedMatch <c4> ;

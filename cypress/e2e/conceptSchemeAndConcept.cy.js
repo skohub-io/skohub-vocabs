@@ -54,6 +54,19 @@ describe("Concept Scheme and Concept", () => {
     cy.get("h1").should("include.text", "Konzept 1")
   })
 
+  it("shows multiple skos:example values of one language as a list", () => {
+    cy.visit("/w3id.org/c1.html", {
+      onBeforeLoad(win) {
+        Object.defineProperty(win.navigator, "language", { value: "de-DE" })
+      },
+    })
+    cy.findByRole("list", { name: "Example" })
+      .findAllByRole("listitem")
+      .should("have.length", 2)
+    cy.contains("li", "Ein Beispiel").should("exist")
+    cy.contains("li", "Noch ein Beispiel").should("exist")
+  })
+
   it("Visting a hash URI Concept Scheme works", () => {
     cy.visit("/example.org/hashURIConceptScheme.html", {
       onBeforeLoad(win) {

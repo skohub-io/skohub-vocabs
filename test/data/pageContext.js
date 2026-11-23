@@ -47,7 +47,7 @@ export const topConcept = {
     de: "Meine Definition [Link](https://w3c.org)",
   },
   example: {
-    de: "Ein Beispiel [Link](https://w3c.org)",
+    de: ["Ein Beispiel [Link](https://w3c.org)", "Noch ein Beispiel"],
   },
   note: {
     de: ["Meine Anmerkung mit [Link](https://w3c.org)", "Noch eine Anmerkung"],

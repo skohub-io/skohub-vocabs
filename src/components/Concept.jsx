@@ -136,13 +136,16 @@ const Concept = ({
           </ul>
         </div>
       )}
-      {concept.example && (
+      {concept.example && i18n(language)(concept.example) !== "" && (
         <div className="markdown">
-          <h3>Example</h3>
-          <Markdown>
-            {i18n(language)(concept.example) ||
-              `*No example in language "${language}" provided.*`}
-          </Markdown>
+          <h3 id="example">Example</h3>
+          <ul aria-labelledby="example">
+            {i18n(language)(concept.example).map((example, i) => (
+              <li key={i}>
+                <Markdown>{example}</Markdown>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       {concept.related && concept.related.length > 0 && (
